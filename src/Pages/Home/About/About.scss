@@ -183,30 +183,7 @@
     font-family: 'Content', serif;
 }
 
-/* BUTTON */
-.about-btn {
-    background: #5e2690;
-    color: #fff;
-    padding: 12px 12px 12px 25px;
-    border-radius: 50px;
-    border: none;
-    font-size: 18px;
-    display: inline-flex; 
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-}
 
-.about-btn .arrow {
-    width: 30px;
-    height: 30px;
-    background: #fff;
-    color: #5e2690;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 /* =========================
    RESPONSIVE: TABLET (768px - 1024px)
@@ -424,40 +401,7 @@
    ANIMATIONS
 ========================= */
 
-/* Button gradient animation */
-.about-btn {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    border: 2px solid transparent !important;
-    transition: all 0.4s ease !important;
-}
 
-.about-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: white;
-    transition: left 0.4s ease;
-    z-index: -1;
-    border-radius: 50px;
-}
-
-.about-btn:hover::before {
-    left: 0;
-}
-
-.about-btn:hover {
-    border: 2px solid #5e2690 !important;
-    box-shadow: 0 8px 25px rgba(94, 38, 144, 0.25);
-}
-
-.about-btn .button-text {
-    transition: color 0.3s ease;
-}
 
 /* Arrow animation */
 .about-btn .arrow {
@@ -580,5 +524,117 @@
     
     .about-btn:hover {
         transform: none !important;
+    }
+}
+
+/* =========================
+   ABOUT BUTTON ONLY
+========================= */
+
+/* Button - Same pattern as CTA & Services */
+.about-btn {
+    background: #5e2690;
+    color: #fff;
+    padding: 12px 12px 12px 25px;
+    border-radius: 50px;
+    border: none;
+    font-size: 18px;
+    display: inline-flex; 
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
+    font-family: 'Content', serif;
+}
+
+/* Background slide effect - Same as CTA */
+.about-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: white;
+    transition: left 0.4s ease;
+    z-index: -1;
+    border-radius: 50px;
+}
+
+/* Hover state - Same as other buttons */
+.about-btn:hover::before {
+    left: 0;
+}
+
+.about-btn:hover {
+    color: #5e2690;
+    border: 2px solid #5e2690;
+    box-shadow: 0 8px 25px rgba(94, 38, 144, 0.25);
+}
+
+/* Arrow circle - Same pattern */
+.about-btn .arrow {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    color: #5e2690;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+/* Arrow hover - Same color swap */
+.about-btn:hover .arrow {
+    background: #5e2690;
+    color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-btn {
+        font-size: 16px;
+        padding: 10px 10px 10px 20px;
+    }
+    
+    .about-btn .arrow {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-btn {
+        font-size: 15px;
+        padding: 9px 8px 9px 18px;
+    }
+    
+    .about-btn .arrow {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* Reduce motion support */
+@media (prefers-reduced-motion: reduce) {
+    .about-btn {
+        transition: none !important;
+    }
+    
+    .about-btn:hover {
+        background: white !important;
+        color: #5e2690 !important;
+        border: 2px solid #5e2690 !important;
+    }
+    
+    .about-btn:hover .arrow {
+        background: #5e2690 !important;
+        color: white !important;
     }
 }
