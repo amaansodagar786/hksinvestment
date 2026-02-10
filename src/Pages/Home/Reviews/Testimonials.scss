@@ -1,0 +1,421 @@
+@import "../../../Componenents/Fonts/fonts.scss";
+
+.testimonial-section {
+    padding: 100px 80px;
+    background: #ffffff;
+}
+
+/* HEADER */
+.testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.pill {
+    padding: 6px 18px;
+    background: #efe8fb;
+    border: 2px solid #7a3db8;
+    border-radius: 50px;
+    color: #7a3db8;
+    display: inline-block;
+    margin-bottom: 14px;
+    font-family: 'SubHeading', serif;
+    font-size: 15px;
+}
+
+.testimonial-header h2 {
+    font-size: 46px;
+    font-family: 'Heading', serif;
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin-top: 0;
+}
+
+.testimonial-header h2 span {
+    color: #7a3db8;
+}
+
+/* BUTTON */
+.review-btn {
+    background: #5e2690;
+    color: #fff;
+    padding: 12px 12px 12px 24px;
+    border-radius: 50px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-family: 'Content', serif;
+    font-size: 16px;
+}
+
+.review-btn span {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    color: #5e2690;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* GRID */
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* CARD - CHANGED TO BLACK BACKGROUND */
+.review-card {
+    background: #0f0f0f; /* BLACK background */
+    color: #ffffff; /* White text */
+    border-radius: 20px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(122, 61, 184, 0.2);
+}
+
+.review-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #e0e0e0; /* Light gray text */
+    font-family: 'Content', serif;
+    margin-top: 12px;
+}
+
+/* USER */
+.user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #7a3db8;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user strong {
+    font-size: 16px;
+    font-family: 'SubHeading', serif;
+    color: #ffffff;
+}
+
+/* MOBILE */
+.testimonial-mobile {
+    display: none;
+}
+
+.mobile-card {
+    min-height: auto; /* Remove fixed height */
+}
+
+/* ARROWS */
+.slider-arrows {
+    display: flex;
+    justify-content: flex-end; /* Right side on mobile */
+    gap: 12px;
+    margin: 24px 0 30px;
+}
+
+.slider-arrows button {
+    width: 44px;
+    height: 44px;
+    background: #5e2690;
+    color: #fff;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slider-arrows button:hover {
+    background: #7a3db8;
+}
+
+/* =========================
+   RESPONSIVE: MOBILE (up to 768px)
+========================= */
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .testimonial-grid {
+        display: none;
+    }
+
+    .testimonial-mobile {
+        display: block;
+    }
+
+    .testimonial-section {
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .testimonial-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .pill {
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
+    .testimonial-header h2 {
+        font-size: 32px;
+        margin-bottom: 24px;
+    }
+
+    .review-card {
+        padding: 20px;
+        margin: 0 10px;
+    }
+
+    .review-card p {
+        font-size: 14px;
+        text-align: left;
+    }
+
+    /* ARROWS ON RIGHT SIDE FOR MOBILE */
+    .slider-arrows {
+        justify-content: flex-end; /* Right side */
+        margin: 20px 0 24px;
+    }
+
+    /* CENTER BUTTON WITH ARROW IN SAME ROW */
+    .mobile-only {
+        width: fit-content;
+        margin: 0 auto;
+        display: flex; /* Ensure flex display */
+        align-items: center;
+    }
+    
+    /* Ensure arrow is in same row */
+    .review-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .review-btn span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* =========================
+   RESPONSIVE: SMALL MOBILE (up to 480px)
+========================= */
+@media (max-width: 480px) {
+    .testimonial-section {
+        padding: 60px 16px;
+    }
+
+    .testimonial-header h2 {
+        font-size: 28px;
+    }
+
+    .review-card {
+        padding: 18px;
+    }
+
+    .avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .user strong {
+        font-size: 15px;
+    }
+
+    .review-card p {
+        font-size: 13px;
+    }
+
+    .slider-arrows button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .review-btn {
+        font-size: 15px;
+        padding: 10px 10px 10px 20px;
+    }
+
+    .review-btn span {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+
+
+
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+/* Button hover effect */
+.review-btn {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.review-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: -1;
+    transition: left 0.4s ease;
+    border-radius: 50px;
+}
+
+.review-btn:hover::after {
+    left: 0;
+}
+
+.review-btn:hover {
+    box-shadow: 0 10px 30px rgba(94, 38, 144, 0.3);
+}
+
+/* Highlighted text animation */
+.testimonial-header h2 span {
+    position: relative;
+    display: inline-block;
+}
+
+.testimonial-header h2 span::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #7a3db8;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.testimonial-header h2:hover span::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Avatar animation */
+.avatar {
+    transition: all 0.3s ease;
+}
+
+/* Slider arrow animation */
+.slider-arrows button {
+    transform-origin: center;
+    transition: all 0.3s ease;
+}
+
+/* Card text hover effect */
+.review-card:hover p {
+    color: #ffffff !important;
+}
+
+/* Grid stagger animation */
+.col:nth-child(1) .review-card {
+    transition-delay: 0.1s;
+}
+
+.col:nth-child(2) .review-card {
+    transition-delay: 0.2s;
+}
+
+.col:nth-child(3) .review-card {
+    transition-delay: 0.3s;
+}
+
+/* Reduce motion support */
+@media (prefers-reduced-motion: reduce) {
+    .review-btn,
+    .review-card,
+    .slider-arrows button,
+    .avatar,
+    .testimonial-header h2 span {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .review-btn:hover {
+        background: white !important;
+        color: #5e2690 !important;
+        border: 2px solid #5e2690 !important;
+    }
+    
+    .review-btn:hover span {
+        background: #5e2690 !important;
+        color: white !important;
+    }
+    
+    .slider-arrows button:hover {
+        background: #7a3db8 !important;
+    }
+    
+    .testimonial-header h2 span {
+        opacity: 1 !important;
+    }
+}
+
+/* Responsive animation adjustments */
+@media (max-width: 768px) {
+    .review-btn,
+    .slider-arrows button {
+        transition: none !important;
+    }
+    
+    .review-btn:hover {
+        transform: none !important;
+    }
+    
+    .slider-arrows button:hover {
+        transform: none !important;
+    }
+}

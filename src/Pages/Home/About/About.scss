@@ -1,0 +1,584 @@
+@import "../../../Componenents/Fonts/fonts.scss";
+
+/* =========================
+   SECTION
+========================= */
+.about-section {
+    padding: 100px 80px 100px 60px;
+    background: #f7f5fb;
+}
+
+/* =========================
+   HEADER
+========================= */
+.about-header {
+    text-align: center;
+    margin-bottom: 80px;
+    margin-top: 10px;
+}
+
+.about-pill {
+    display: inline-block;
+    padding: 6px 18px;
+    background: #efe8fb;
+    border: 2px solid #7a3db8;
+    border-radius: 50px;
+    color: #7a3db8;
+    margin-bottom: 16px;
+    font-family: 'SubHeading', serif;
+}
+
+.about-header h2 {
+    font-size: 42px;
+    font-family: 'Heading', serif;
+    margin-top: 10px;
+}
+
+/* =========================
+   CONTENT LAYOUT
+========================= */
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+/* =========================
+   LEFT VISUAL
+========================= */
+.about-visual {
+    display: flex;
+    justify-content: center;
+}
+
+/* =========================
+   CIRCLES
+========================= */
+.circle-wrap {
+    position: relative;
+    width: 420px;
+    height: 420px;
+}
+
+/* OUTER CIRCLE */
+.circle-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #efe8fb;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* SECOND CIRCLE */
+.circle-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 30px;
+    background: #e6dcf7;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+/* THIRD CIRCLE */
+.circle-mid {
+    position: absolute;
+    inset: 60px;
+    background: #ddd1f3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+/* INNER CIRCLE (IMAGE HOLDER) */
+.circle-inner {
+    position: absolute;
+    inset: 60px;
+    background: #d9ccf3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+}
+
+.circle-inner img {
+    width: 200px;
+    height: 240px;
+    object-fit: cover;
+    z-index: 5;
+}
+
+/* =========================
+   TAGS
+========================= */
+.tag {
+    position: absolute;
+    background: #efe8fb;
+    border: 2px solid #7a3db8;
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 14px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-family: 'Heading', serif;
+    color: #7a3db8;
+    z-index: 6;
+}
+
+/* TAG POSITIONS */
+.shares {
+    left: -40px;
+    top: 28%;
+}
+
+.sell {
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.yield {
+    left: -48px;
+    bottom: 30%;
+}
+
+.trends {
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.finance {
+    right: -50px;
+    top: 30%;
+}
+
+.invest {
+    right: -50px;
+    bottom: 28%;
+}
+
+/* =========================
+   RIGHT CONTENT
+========================= */
+.about-text {
+    text-align: right;
+}
+
+.shield-icon {
+    font-size: 40px;
+    color: #7a3db8;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    font-family: 'Content', serif;
+}
+
+/* BUTTON */
+.about-btn {
+    background: #5e2690;
+    color: #fff;
+    padding: 12px 12px 12px 25px;
+    border-radius: 50px;
+    border: none;
+    font-size: 18px;
+    display: inline-flex; 
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.about-btn .arrow {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    color: #5e2690;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================
+   RESPONSIVE: TABLET (768px - 1024px)
+========================= */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .about-section {
+        padding: 80px 40px;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        text-align: center;
+    }
+
+    .about-text {
+        text-align: center;
+    }
+
+    /* Justify text for tablet view */
+    .about-text p {
+        text-align: justify;
+        text-align-last: center;
+    }
+
+    .circle-wrap {
+        width: 380px;
+        height: 380px;
+        margin: 0 auto;
+    }
+
+    /* Adjust tag positions for smaller circle */
+    .shares {
+        left: -30px;
+    }
+
+    .yield {
+        left: -38px;
+    }
+
+    .finance {
+        right: -40px;
+    }
+
+    .invest {
+        right: -40px;
+    }
+
+    .about-header {
+        margin-bottom: 60px;
+    }
+
+    .about-header h2 {
+        font-size: 36px;
+    }
+}
+
+/* =========================
+   RESPONSIVE: MOBILE (up to 768px)
+========================= */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 60px 20px;
+    }
+
+    .about-header {
+        margin-bottom: 50px;
+    }
+
+    .about-header h2 {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .about-visual {
+        order: 2;
+    }
+
+    .about-text {
+        order: 3;
+        text-align: center;
+    }
+
+    /* Justify text for mobile view */
+    .about-text p {
+        text-align: justify;
+        text-align-last: center;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .circle-wrap {
+        width: 280px;
+        height: 280px;
+        margin: 0 auto;
+    }
+
+    .circle-inner img {
+        width: 140px;
+        height: 170px;
+    }
+
+    /* Adjust tag positions for mobile */
+    .tag {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+
+    .shares {
+        left: -25px;
+        top: 25%;
+    }
+
+    .sell {
+        top: -20px;
+    }
+
+    .yield {
+        left: -28px;
+        bottom: 25%;
+    }
+
+    .trends {
+        bottom: -18px;
+    }
+
+    .finance {
+        right: -30px;
+        top: 25%;
+    }
+
+    .invest {
+        right: -30px;
+        bottom: 25%;
+    }
+
+    .shield-icon {
+        font-size: 32px;
+        margin-bottom: 16px;
+    }
+
+    .about-btn {
+        font-size: 16px;
+        padding: 10px 10px 10px 20px;
+    }
+
+    .about-btn .arrow {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+/* =========================
+   RESPONSIVE: SMALL MOBILE (up to 480px)
+========================= */
+@media (max-width: 480px) {
+    .about-section {
+        padding: 50px 16px;
+    }
+
+    .about-header h2 {
+        font-size: 24px;
+    }
+
+    .about-pill {
+        padding: 5px 14px;
+        font-size: 14px;
+    }
+
+    .circle-wrap {
+        width: 240px;
+        height: 240px;
+    }
+
+    .circle-inner img {
+        width: 120px;
+        height: 150px;
+    }
+
+    /* Further adjust tag positions for very small screens */
+    .tag {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+
+    .shares {
+        left: -20px;
+    }
+
+    .yield {
+        left: -22px;
+    }
+
+    .finance {
+        right: -24px;
+    }
+
+    .invest {
+        right: -24px;
+    }
+
+    .about-text p {
+        font-size: 15px;
+    }
+}
+
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+/* Button gradient animation */
+.about-btn {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid transparent !important;
+    transition: all 0.4s ease !important;
+}
+
+.about-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: white;
+    transition: left 0.4s ease;
+    z-index: -1;
+    border-radius: 50px;
+}
+
+.about-btn:hover::before {
+    left: 0;
+}
+
+.about-btn:hover {
+    border: 2px solid #5e2690 !important;
+    box-shadow: 0 8px 25px rgba(94, 38, 144, 0.25);
+}
+
+.about-btn .button-text {
+    transition: color 0.3s ease;
+}
+
+/* Arrow animation */
+.about-btn .arrow {
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+/* Shield icon animation */
+.shield-icon {
+    transition: all 0.3s ease;
+}
+
+.about-text:hover .shield-icon {
+    transform: scale(1.1) rotate(5deg);
+    color: #5e2690;
+}
+
+/* Circle pulse effect */
+.circle-wrap::before,
+.circle-wrap::after,
+.circle-mid,
+.circle-inner {
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.circle-wrap::before {
+    animation-name: pulseOuter;
+    animation-delay: 0s;
+}
+
+.circle-wrap::after {
+    animation-name: pulseMiddle;
+    animation-delay: 0.2s;
+}
+
+.circle-mid {
+    animation-name: pulseInner;
+    animation-delay: 0.4s;
+}
+
+@keyframes pulseOuter {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulseMiddle {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulseInner {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+/* Tag animations */
+.tag {
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+/* Image animation */
+.circle-inner img {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Reduce motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .circle-wrap::before,
+    .circle-wrap::after,
+    .circle-mid,
+    .circle-inner,
+    .tag,
+    .about-btn,
+    .circle-inner img {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .about-btn:hover {
+        background: white !important;
+        color: #5e2690 !important;
+        border: 2px solid #5e2690 !important;
+    }
+    
+    .about-btn:hover .button-text {
+        color: #5e2690 !important;
+    }
+    
+    .about-btn:hover .arrow {
+        background: #5e2690 !important;
+        color: white !important;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .circle-wrap::before,
+    .circle-wrap::after,
+    .circle-mid,
+    .circle-inner {
+        animation: none !important;
+    }
+    
+    .tag {
+        transition: none !important;
+    }
+    
+    .about-btn:hover {
+        transform: none !important;
+    }
+}
