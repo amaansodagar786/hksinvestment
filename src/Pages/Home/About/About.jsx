@@ -8,7 +8,8 @@ import {
 } from "react-icons/fi";
 import { FiArrowRight } from "react-icons/fi";
 import "./About.scss";
-import { BsShieldFillCheck } from "react-icons/bs";
+import { BsShieldFillCheck, BsBank2 } from "react-icons/bs";
+import { MdOutlineSell } from "react-icons/md";
 import { motion } from "framer-motion";
 import roboimag from "../../../assets/images/home/about/robo.png"
 
@@ -37,65 +38,83 @@ const About = () => {
         }
     };
 
-    // Animation for tags
+    // DIFFERENT ANIMATIONS FOR EACH TAG
     const tagVariants = {
-        initial: { opacity: 0, y: 20 },
+        initial: { opacity: 0, y: 20, scale: 0.8 },
         animate: (i) => ({
             opacity: 1,
             y: 0,
+            scale: 1,
             transition: {
                 duration: 0.6,
                 delay: i * 0.1 + 0.5,
                 ease: "backOut"
             }
         }),
-        hover: {
-            scale: 1.1,
-            backgroundColor: "#e6dcf7",
-            borderColor: "#5e2690",
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
+        hover: (i) => {
+            // Different hover animations for each tag
+            const animations = {
+                0: { // Shares
+                    scale: 1.15,
+                    backgroundColor: "#e6dcf7",
+                    borderColor: "#5e2690",
+                    rotate: [0, 5, -5, 0],
+                    transition: { duration: 0.4 }
+                },
+                1: { // Sell
+                    scale: 1.15,
+                    backgroundColor: "#e6dcf7",
+                    borderColor: "#5e2690",
+                    y: [0, -8, 0],
+                    transition: { duration: 0.4 }
+                },
+                2: { // Yield
+                    scale: 1.15,
+                    backgroundColor: "#e6dcf7",
+                    borderColor: "#5e2690",
+                    x: [0, 8, -8, 0],
+                    transition: { duration: 0.5 }
+                },
+                3: { // Finance
+                    scale: 1.15,
+                    backgroundColor: "#e6dcf7",
+                    borderColor: "#5e2690",
+                    rotate: [0, 360],
+                    transition: { duration: 0.5 }
+                },
+                4: { // Trends
+                    scale: 1.15,
+                    backgroundColor: "#e6dcf7",
+                    borderColor: "#5e2690",
+                    skewX: [0, 10, -10, 0],
+                    transition: { duration: 0.4 }
+                },
+                5: { // Investment
+                    scale: 1.15,
+                    backgroundColor: "#e6dcf7",
+                    borderColor: "#5e2690",
+                    rotate: [0, -8, 8, 0],
+                    transition: { duration: 0.4 }
+                }
+            };
+            return animations[i] || { scale: 1.1 };
         }
     };
 
-    // Button animation
-    const buttonVariants = {
-        initial: { 
-            background: "linear-gradient(to right, #5e2690 90%, #fff 10%)"
+    // Shield SVG animation variant
+    const shieldVariants = {
+        initial: { scale: 1, rotate: 0 },
+        hover: {
+            scale: 1.15,
+            rotate: [0, 8, -8, 0],
+            transition: {
+                duration: 0.5,
+                ease: "easeInOut"
+            }
         },
-        hover: {
-            background: "linear-gradient(to right, #fff 0%, #fff 100%)",
-            border: "2px solid #5e2690",
-            transition: {
-                duration: 0.4,
-                ease: "easeInOut"
-            }
-        }
-    };
-
-    const arrowVariants = {
-        initial: { color: "#5e2690", scale: 1 },
-        hover: {
-            color: "#5e2690",
-            scale: 1.2,
-            rotate: 45,
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
-        }
-    };
-
-    const buttonTextVariants = {
-        initial: { color: "#fff" },
-        hover: {
-            color: "#5e2690",
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
+        tap: {
+            scale: 0.95,
+            transition: { duration: 0.2 }
         }
     };
 
@@ -147,17 +166,18 @@ const About = () => {
         }
     };
 
+    // UPDATED TAGS WITH NEW ICONS
     const tags = [
         { className: "shares", icon: <FiPieChart />, text: "Shares" },
-        { className: "sell", icon: <FiTrendingUp />, text: "Sell" },
+        { className: "sell", icon: <MdOutlineSell />, text: "Sell" },      // UPDATED ICON
         { className: "yield", icon: <FiBarChart2 />, text: "Yield" },
         { className: "finance", icon: <FiDollarSign />, text: "Finance" },
         { className: "trends", icon: <FiTrendingUp />, text: "Trends" },
-        { className: "invest", icon: <FiShield />, text: "Investment" }
+        { className: "invest", icon: <BsBank2 />, text: "Investment" }     // UPDATED ICON
     ];
 
     return (
-        <motion.section 
+        <motion.section
             className="about-section"
             initial="hidden"
             whileInView="visible"
@@ -165,11 +185,11 @@ const About = () => {
             variants={containerVariants}
         >
             {/* HEADER */}
-            <motion.div 
+            <motion.div
                 className="about-header"
                 variants={headerVariants}
             >
-                <motion.span 
+                <motion.span
                     className="about-pill"
                     variants={pillVariants}
                 >
@@ -185,25 +205,25 @@ const About = () => {
 
             <div className="about-content">
                 {/* LEFT VISUAL */}
-                <motion.div 
+                <motion.div
                     className="about-visual"
                     variants={contentVariants}
                 >
                     <div className="circle-wrap">
                         {/* Animated circles */}
-                        <motion.div 
+                        <motion.div
                             className="circle-mid"
                             variants={circleVariants}
                             animate="animate"
                         >
-                            <motion.div 
+                            <motion.div
                                 className="circle-inner"
                                 variants={circleInnerVariants}
                                 animate="animate"
                             >
-                                <motion.img 
-                                    src={roboimag} 
-                                    alt="Finance AI" 
+                                <motion.img
+                                    src={roboimag}
+                                    alt="Finance AI"
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     viewport={{ once: true }}
@@ -212,9 +232,9 @@ const About = () => {
                             </motion.div>
                         </motion.div>
 
-                        {/* Animated Tags */}
+                        {/* Animated Tags - EACH WITH DIFFERENT ANIMATION */}
                         {tags.map((tag, index) => (
-                            <motion.span 
+                            <motion.span
                                 key={index}
                                 className={`tag ${tag.className}`}
                                 custom={index}
@@ -231,17 +251,50 @@ const About = () => {
                 </motion.div>
 
                 {/* RIGHT TEXT */}
-                <motion.div 
+                <motion.div
                     className="about-text"
                     variants={contentVariants}
                 >
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="about-icon-wrapper"
+                        initial="initial"
+                        whileHover="hover"
+                        whileTap="tap"
+                        variants={shieldVariants}
                     >
-                        <BsShieldFillCheck className="shield-icon" />
+                        <svg
+                            className="about-shield-svg"
+                            width="50"
+                            height="50"
+                            viewBox="0 0 64 64"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            {/* Outer Shield */}
+                            <path
+                                d="M32 4L56 12V28C56 42 45 52 32 58C19 52 8 42 8 28V12L32 4Z"
+                                stroke="#6D28D9"
+                                strokeWidth="4"
+                                fill="#EDE9FE"
+                            />
+
+                            {/* Inner Shield */}
+                            <path
+                                d="M32 14L46 19V28C46 37 39 44 32 48C25 44 18 37 18 28V19L32 14Z"
+                                stroke="#6D28D9"
+                                strokeWidth="2"
+                                fill="none"
+                            />
+
+                            {/* Check Mark */}
+                            <path
+                                d="M26 30L30 34L38 26"
+                                stroke="#6D28D9"
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
                     </motion.div>
 
                     <motion.p
@@ -266,29 +319,18 @@ const About = () => {
                         around your goals, income, and risk profile.
                     </motion.p>
 
-                    <motion.button 
+                    {/* BUTTON - PRESERVED RIGHT TO LEFT ANIMATION */}
+                    <motion.button
                         className="about-btn"
-                        variants={buttonVariants}
-                        initial="initial"
-                        whileHover="hover"
+                        initial={{ scale: 1 }}
+                        whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        style={{
-                            background: "linear-gradient(to right, #5e2690 90%, #fff 10%)",
-                            border: "2px solid transparent"
-                        }}
                     >
-                        <motion.span 
-                            className="button-text"
-                            variants={buttonTextVariants}
-                        >
-                            Schedule
-                        </motion.span>
-                        <motion.span 
-                            className="arrow"
-                            variants={arrowVariants}
-                        >
+                        <span className="about-btn-fill"></span>
+                        <span className="about-btn-text">Schedule</span>
+                        <span className="about-btn-arrow">
                             <FiArrowRight />
-                        </motion.span>
+                        </span>
                     </motion.button>
                 </motion.div>
             </div>

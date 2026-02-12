@@ -1,12 +1,13 @@
 import React from "react";
 import { FiArrowRight } from "react-icons/fi";
+import { FaQuoteLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 import "./HeroSection.scss";
-import coin from "../../../assets/images/home/hero/coin.png"
-import bar from "../../../assets/images/home/hero/bar.png"
+import coin from "../../../assets/images/home/hero/coin.png";
+import bar from "../../../assets/images/home/hero/bar.png";
 
 const HeroSection = () => {
-    // Animation variants
+    // Animation variants - YOUR EXACT VARIANTS
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -42,37 +43,6 @@ const HeroSection = () => {
         }
     };
 
-    const financialTextVariants = {
-        hidden: { 
-            opacity: 0, 
-            scale: 0.8,
-            rotateX: 90 
-        },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            rotateX: 0,
-            transition: {
-                duration: 0.8,
-                ease: "backOut",
-                delay: 0.5
-            }
-        },
-        pulse: {
-            scale: [1, 1.03, 1],
-            boxShadow: [
-                "0 0 0 0 rgba(122, 61, 184, 0)",
-                "0 0 0 10px rgba(122, 61, 184, 0.3)",
-                "0 0 0 0 rgba(122, 61, 184, 0)"
-            ],
-            transition: {
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 2
-            }
-        }
-    };
-
     const buttonVariants = {
         initial: {
             background: "#5e2690",
@@ -95,9 +65,9 @@ const HeroSection = () => {
     };
 
     const arrowVariants = {
-        initial: { 
+        initial: {
             rotate: 0,
-            background: "#ffffff" 
+            background: "#ffffff"
         },
         hover: {
             rotate: 45,
@@ -161,34 +131,37 @@ const HeroSection = () => {
     };
 
     return (
-        <motion.section 
+        <motion.section
             className="hero-wrapper"
             initial="hidden"
             animate="visible"
             variants={containerVariants}
         >
-            {/* ===== TOP HERO (75vh) ===== */}
+            {/* ===== TOP HERO ===== */}
             <div className="hero-top">
-                <motion.div 
+                <motion.div
                     className="hero-content"
                     variants={containerVariants}
                 >
-                    <motion.h1 
+                    <motion.h1
                         className="hero-title"
                         variants={titleVariants}
                     >
                         Clarity for every <br />
-                        <motion.span 
-                            className="financial-highlight"
-                            variants={financialTextVariants}
-                            initial="hidden"
-                            animate={["visible", "pulse"]}
-                        >
-                            Financial
-                        </motion.span> move
+                        {/* CHANGE 1: REPLACED financial-highlight WITH WORD SLIDER - SAME STYLE */}
+                        <span className="financial-highlight word-slider-wrapper">
+                            <span className="loader">
+                                <span className="words">
+                                    <span className="word">Financial</span>
+                                    <span className="word">Wealth</span>
+                                    <span className="word">Portfolio</span>
+                                    <span className="word">Financial</span>
+                                </span>
+                            </span>
+                        </span> move
                     </motion.h1>
 
-                    <motion.p 
+                    <motion.p
                         className="hero-subtitle"
                         variants={itemVariants}
                     >
@@ -197,16 +170,15 @@ const HeroSection = () => {
                         Smart financial support for steady growth and peace of mind.
                     </motion.p>
 
-                    <motion.button 
+                    <motion.button
                         className="hero-btn"
                         variants={itemVariants}
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
-                        variants={buttonVariants}
                     >
                         Let's start
-                        <motion.span 
+                        <motion.span
                             className="arrow-circle"
                             variants={arrowVariants}
                         >
@@ -217,7 +189,7 @@ const HeroSection = () => {
             </div>
 
             {/* ===== BOTTOM SECTION ===== */}
-            <motion.div 
+            <motion.div
                 className="hero-bottom-section"
                 initial="hidden"
                 whileInView="visible"
@@ -227,20 +199,41 @@ const HeroSection = () => {
                 <div className="hero-bottom-bg">
                     <div className="hero-bottom-grid">
 
-                        {/* COLUMN 1 */}
+                        {/* ===== COLUMN 1 - COIN IMAGE MOVED HERE + TEXT ===== */}
                         <div className="hero-bottom-col hero-bottom-col-text">
-                            <motion.div 
+                            <motion.div
                                 className="hero-bottom-text-content"
                                 whileHover={{ scale: 1.02 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <motion.div 
+                                {/* CHANGE 2: COIN IMAGE MOVED FROM COLUMN 3 TO COLUMN 1 */}
+                                <motion.div
+                                    className="hero-bottom-right-top coin-in-column1"
+                                    whileHover={{ scale: 1.05 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <motion.img
+                                        src={coin}
+                                        alt="coins"
+                                        animate={{
+                                            rotate: [0, 5, -5, 0]
+                                        }}
+                                        transition={{
+                                            duration: 6,
+                                            repeat: Infinity,
+                                            ease: "easeInOut"
+                                        }}
+                                    />
+                                </motion.div>
+
+                                {/* QUOTE ICON - CHANGED TO FaQuoteLeft */}
+                                <motion.div
                                     className="quote-mark"
                                     variants={quoteVariants}
                                     initial="hidden"
                                     animate="visible"
                                 >
-                                    ❝
+                                    <FaQuoteLeft />
                                 </motion.div>
                                 <motion.p
                                     initial={{ opacity: 0, x: -20 }}
@@ -255,9 +248,9 @@ const HeroSection = () => {
                             </motion.div>
                         </div>
 
-                        {/* COLUMN 2 */}
+                        {/* ===== COLUMN 2 - BAR IMAGE (NO CHANGE) ===== */}
                         <div className="hero-bottom-col hero-bottom-col-image">
-                            <motion.div 
+                            <motion.div
                                 className="hero-bottom-fixed-image"
                                 variants={imageFloatVariants}
                                 initial="initial"
@@ -274,36 +267,18 @@ const HeroSection = () => {
                             </motion.div>
                         </div>
 
-                        {/* COLUMN 3 */}
+                        {/* ===== COLUMN 3 - ONLY BAR CHART (FULL HEIGHT) ===== */}
                         <div className="hero-bottom-col hero-bottom-col-right">
-                            <motion.div 
-                                className="hero-bottom-right-top"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                <motion.img
-                                    src={coin}
-                                    alt="coins"
-                                    animate={{
-                                        rotate: [0, 5, -5, 0]
-                                    }}
-                                    transition={{
-                                        duration: 6,
-                                        repeat: Infinity,
-                                        ease: "easeInOut"
-                                    }}
-                                />
-                            </motion.div>
-
-                            <motion.div 
-                                className="hero-bottom-right-bottom"
+                            {/* CHANGE 3: REMOVED coin image, only bar chart remains - FULL HEIGHT */}
+                            <motion.div
+                                className="hero-bottom-right-bottom full-height"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6, delay: 0.4 }}
                             >
                                 <div className="hero-bottom-bar-chart">
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar1"
                                         custom={30}
                                         initial="hidden"
@@ -311,7 +286,7 @@ const HeroSection = () => {
                                         viewport={{ once: true }}
                                         variants={barChartVariants}
                                     >8</motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar2"
                                         custom={45}
                                         initial="hidden"
@@ -319,7 +294,7 @@ const HeroSection = () => {
                                         viewport={{ once: true }}
                                         variants={barChartVariants}
                                     >12</motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar3"
                                         custom={60}
                                         initial="hidden"
@@ -327,7 +302,7 @@ const HeroSection = () => {
                                         viewport={{ once: true }}
                                         variants={barChartVariants}
                                     >16</motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar4"
                                         custom={75}
                                         initial="hidden"
@@ -335,7 +310,7 @@ const HeroSection = () => {
                                         viewport={{ once: true }}
                                         variants={barChartVariants}
                                     >20</motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar5"
                                         custom={90}
                                         initial="hidden"

@@ -77,64 +77,83 @@
     line-height: 1.6;
 }
 
+/* =========================
+   BUTTON - DESKTOP (PERFECT)
+   RIGHT TO LEFT ANIMATION
+   right: 2px
+========================= */
 .contact-hero-btn {
-    margin-top: 28px;
-    background: #5e2690;
-    color: #fff;
-    padding: 12px 10px 12px 22px;
-    border-radius: 50px;
-    border: none;
-    font-size: 22px;
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    width: 240px;
+    height: 64px;
+    background: #5e2690;
+    border: 2px solid #5e2690;
+    border-radius: 999px;
     cursor: pointer;
-    font-family: 'Content', serif;
-    transition: all 0.3s ease;
-    position: relative;
+    text-decoration: none;
+    padding: 0;
     overflow: hidden;
+    font-family: 'Content', serif;
+    margin-top: 28px;
+}
+
+/* WHITE FILL - STARTS AT ARROW (RIGHT SIDE) */
+.contact-hero-btn-fill {
+    position: absolute;
+    right: 2px;                /* PERFECT - 2px from right */
+    top: 50%;                  
+    transform: translateY(-50%);
+    height: 57px;             
+    width: 55px;             
+    background: #ffffff;
+    border-radius: 999px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1;
 }
 
-.contact-hero-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: white;
-    z-index: -1;
-    transition: left 0.4s ease;
-    border-radius: 50px;
+.contact-hero-btn:hover .contact-hero-btn-fill {
+    width: calc(100% - 4px);  /* 2px left + 2px right = 4px total spacing */
+    right: 2px;               /* STAYS at right - DOES NOT CHANGE */
 }
 
-.contact-hero-btn:hover::after {
-    left: 0;
+.contact-hero-btn-text {
+    position: relative;
+    z-index: 2;
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    transition: color 0.4s ease 0.25s;
+    white-space: nowrap;
 }
 
-.contact-hero-btn:hover {
+.contact-hero-btn:hover .contact-hero-btn-text {
     color: #5e2690;
-    border: 2px solid #5e2690;
-    box-shadow: 0 10px 30px rgba(94, 38, 144, 0.3);
 }
 
-.contact-arrow-circle {
-    width: 36px;
-    height: 36px;
-    background: #fff;
-    color: #5e2690;
+.contact-hero-btn-arrow {
+    position: relative;
+    z-index: 3;
+    width: 46px;        
+    height: 46px;       
     border-radius: 50%;
+    background: #ffffff;
+    color: #5e2690;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    font-size: 22px;    
+    margin-left: auto;
+    margin-right: 2px;  /* MATCHES fill right spacing (2px) */
+    transition: transform 0.2s ease;
 }
 
-.contact-hero-btn:hover .contact-arrow-circle {
-    background: #5e2690;
-    color: #fff;
-    transform: rotate(45deg);
+.contact-hero-btn:hover .contact-hero-btn-arrow {
+    background: #ffffff;  /* STAYS WHITE */
+    color: #5e2690;       /* PURPLE ARROW ICON */
+    transform: rotate(-45deg);
 }
 
 /* =========================
@@ -357,35 +376,9 @@
     animation: pulse 2s ease-in-out infinite;
 }
 
-/* Reduce motion */
-@media (prefers-reduced-motion: reduce) {
-    .contact-hero-title,
-    .contact-hero-subtitle,
-    .contact-hero-btn,
-    .contact-hero-bottom-bg,
-    .contact-financial-highlight,
-    .contact-hero-bottom-fixed-image,
-    .contact-hero-bottom-right-top,
-    .contact-hero-bottom-right-bottom,
-    .contact-hero-bottom-bar {
-        animation: none !important;
-        transition: none !important;
-    }
-    
-    .contact-hero-btn:hover {
-        background: white !important;
-        color: #5e2690 !important;
-        border: 2px solid #5e2690 !important;
-    }
-    
-    .contact-hero-btn:hover .contact-arrow-circle {
-        background: #5e2690 !important;
-        color: white !important;
-    }
-}
-
 /* =========================
    TABLET RESPONSIVE (769px - 1024px)
+   UPDATED - MATCHES DESKTOP PATTERN
 ========================= */
 @media (max-width: 1024px) and (min-width: 769px) {
     .contact-hero-top {
@@ -412,15 +405,34 @@
         margin-top: 16px;
     }
 
+    /* BUTTON - TABLET */
     .contact-hero-btn {
-        font-size: 20px;
-        padding: 10px 8px 10px 20px;
+        width: 200px;
+        height: 56px;
         margin-top: 24px;
     }
 
-    .contact-arrow-circle {
-        width: 32px;
-        height: 32px;
+    .contact-hero-btn-text {
+        font-size: 16px;
+        padding-left: 18px;
+    }
+
+    .contact-hero-btn-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        margin-right: 2px;  /* MATCHES fill right spacing */
+    }
+    
+    .contact-hero-btn-fill {
+        height: 49px;
+        width: 48px;
+        right: 2px;        /* SAME PATTERN - 2px from right */
+    }
+    
+    .contact-hero-btn:hover .contact-hero-btn-fill {
+        width: calc(100% - 4px);  /* 2px left + 2px right */
+        right: 2px;              /* STAYS at right */
     }
 
     /* Bottom section adjustments */
@@ -473,6 +485,7 @@
 
 /* =========================
    MOBILE RESPONSIVE (up to 768px)
+   UPDATED - MATCHES DESKTOP PATTERN
 ========================= */
 @media (max-width: 768px) {
     .contact-hero-wrapper {
@@ -514,15 +527,34 @@
         line-height: 1.5;
     }
 
+    /* BUTTON - MOBILE */
     .contact-hero-btn {
-        font-size: 18px;
-        padding: 10px 8px 10px 18px;
+        width: 200px;
+        height: 52px;
         margin-top: 22px;
     }
 
-    .contact-arrow-circle {
-        width: 30px;
-        height: 30px;
+    .contact-hero-btn-text {
+        font-size: 15px;
+        padding-left: 16px;
+    }
+
+    .contact-hero-btn-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+        margin-right: 2px;  /* MATCHES fill right spacing */
+    }
+    
+    .contact-hero-btn-fill {
+        height: 45px;
+        width: 45px;
+        right: 2px;        /* SAME PATTERN - 2px from right */
+    }
+    
+    .contact-hero-btn:hover .contact-hero-btn-fill {
+        width: calc(100% - 4px);  /* 2px left + 2px right */
+        right: 2px;              /* STAYS at right */
     }
 
     /* Bottom section for mobile */
@@ -599,6 +631,7 @@
 
 /* =========================
    SMALL MOBILE RESPONSIVE (up to 480px)
+   UPDATED - MATCHES DESKTOP PATTERN
 ========================= */
 @media (max-width: 480px) {
     .contact-hero-top {
@@ -613,14 +646,34 @@
         font-size: 16px;
     }
 
+    /* BUTTON - SMALL MOBILE */
     .contact-hero-btn {
-        font-size: 16px;
-        padding: 9px 6px 9px 16px;
+        width: 180px;
+        height: 48px;
+        margin-top: 20px;
     }
 
-    .contact-arrow-circle {
-        width: 28px;
-        height: 28px;
+    .contact-hero-btn-text {
+        font-size: 14px;
+        padding-left: 14px;
+    }
+
+    .contact-hero-btn-arrow {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+        margin-right: 2px;  /* MATCHES fill right spacing */
+    }
+    
+    .contact-hero-btn-fill {
+        height: 41px;
+        width: 41px;
+        right: 2px;        /* SAME PATTERN - 2px from right */
+    }
+    
+    .contact-hero-btn:hover .contact-hero-btn-fill {
+        width: calc(100% - 4px);  /* 2px left + 2px right */
+        right: 2px;              /* STAYS at right */
     }
 
     /* Bottom section adjustments */
@@ -662,5 +715,42 @@
 
     .contact-hero-bottom-bar {
         font-size: 10px;
+    }
+}
+
+/* =========================
+   REDUCE MOTION PREFERENCES
+   UPDATED - MATCHES NEW RIGHT VALUES
+========================= */
+@media (prefers-reduced-motion: reduce) {
+    .contact-hero-title,
+    .contact-hero-subtitle,
+    .contact-hero-btn,
+    .contact-hero-bottom-bg,
+    .contact-financial-highlight,
+    .contact-hero-bottom-fixed-image,
+    .contact-hero-bottom-right-top,
+    .contact-hero-bottom-right-bottom,
+    .contact-hero-bottom-bar,
+    .contact-hero-btn-fill,
+    .contact-hero-btn-text,
+    .contact-hero-btn-arrow {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .contact-hero-btn:hover .contact-hero-btn-fill {
+        width: 55px !important;  /* Desktop */
+        right: 2px !important;
+    }
+
+    .contact-hero-btn:hover .contact-hero-btn-text {
+        color: #ffffff !important;
+    }
+
+    .contact-hero-btn:hover .contact-hero-btn-arrow {
+        background: #ffffff !important;
+        color: #5e2690 !important;
+        transform: none !important;
     }
 }

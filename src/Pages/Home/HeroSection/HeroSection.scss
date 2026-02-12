@@ -185,7 +185,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: 
+    background-image:
         radial-gradient(circle at 20% 80%, rgba(94, 38, 144, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(122, 61, 184, 0.05) 0%, transparent 50%);
     pointer-events: none;
@@ -390,6 +390,7 @@
 
 /* Reduce motion support */
 @media (prefers-reduced-motion: reduce) {
+
     .hero-btn,
     .hero-bottom-col-text .hero-bottom-text-content,
     .hero-bottom-fixed-image,
@@ -401,11 +402,11 @@
         animation: none !important;
         transition: none !important;
     }
-    
+
     .hero-btn:hover {
         background: #4a1f73 !important;
     }
-    
+
     .hero-btn:hover .arrow-circle {
         background: #5e2690 !important;
         color: white !important;
@@ -690,5 +691,162 @@
 
     .hero-bottom-bar {
         font-size: 10px;
+    }
+}
+
+
+
+/* ===== ADD THIS FOR WORD SLIDER - KEEPS YOUR EXACT financial-highlight STYLES ===== */
+.word-slider-wrapper {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 1.45;
+}
+
+.word-slider-wrapper .loader {
+    color: rgb(124, 124, 124);
+    font-family: "Heading", sans-serif;
+    font-weight: 700;
+    font-size: inherit;
+    box-sizing: content-box;
+    height: 90px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.word-slider-wrapper .words {
+    overflow: hidden;
+    position: relative;
+    height: 90px;
+}
+
+.word-slider-wrapper .word {
+    display: block;
+    height: 90px;
+    color: #5e2690;
+    animation: spin_words 8s infinite;
+    font-size: inherit;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+@keyframes spin_words {
+    0% {
+        transform: translateY(0%);
+    }
+
+    20% {
+        transform: translateY(-100%);
+    }
+
+    40% {
+        transform: translateY(-200%);
+    }
+
+    60% {
+        transform: translateY(-300%);
+    }
+
+    80% {
+        transform: translateY(-400%);
+    }
+
+    100% {
+        transform: translateY(-500%);
+    }
+}
+
+/* ===== COIN IN COLUMN 1 ===== */
+.coin-in-column1 {
+    width: 100%;
+    height: 80px;
+    background: #ccbee7;
+    border-radius: 26px;
+    padding: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.coin-in-column1:hover {
+    background: #c0b0e0;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(94, 38, 144, 0.15);
+}
+
+.coin-in-column1 img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+/* ===== FULL HEIGHT BAR CHART IN COLUMN 3 ===== */
+.hero-bottom-col-right .full-height {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    background: #ccbee7;
+    border-radius: 30px 30px 0 0;
+    padding: 14px 20px 0 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-bottom-col-right .full-height:hover {
+    background: #c0b0e0;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(94, 38, 144, 0.15);
+}
+
+/* ===== FaQuoteLeft ICON STYLES ===== */
+.quote-mark svg {
+    font-size: 200px;
+    color: #5d1d95;
+}
+
+/* ===== MAKE ALL COLUMNS SAME HEIGHT ===== */
+.hero-bottom-grid {
+    align-items: stretch;
+}
+
+.hero-bottom-col {
+    display: flex;
+    align-items: stretch;
+}
+
+.hero-bottom-col-text .hero-bottom-text-content,
+.hero-bottom-col-image .hero-bottom-fixed-image,
+.hero-bottom-col-right .full-height {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== MOBILE: HIDE COIN IN COLUMN 1 AND BAR IMAGE ===== */
+@media (max-width: 768px) {
+    .coin-in-column1 {
+        display: none !important;
+    }
+
+    .hero-bottom-col-image {
+        display: none !important;
+    }
+
+    .quote-mark svg {
+        font-size: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .quote-mark svg {
+        font-size: 120px;
     }
 }

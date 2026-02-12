@@ -1,22 +1,20 @@
 import React, { useRef } from "react";
 import "./Services.scss";
 import { FiUser, FiSettings, FiArrowRight, FiTrendingUp, FiShield, FiPieChart, FiDollarSign } from "react-icons/fi";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const Services = () => {
-    const containerRef = useRef(null);
     const timelineRef = useRef(null);
-    
-    // Scroll animation for timeline line
+    const leftRef = useRef(null);
+
+    // Scroll animation for timeline line – fills as you scroll
     const { scrollYProgress } = useScroll({
         target: timelineRef,
-        offset: ["start start", "end end"]
+        offset: ["start center", "end center"]
     });
-    
     const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-    
-    const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
+    // UPDATED SERVICES DATA
     const services = [
         {
             id: 1,
@@ -33,20 +31,20 @@ const Services = () => {
         {
             id: 3,
             icon: <FiTrendingUp />,
-            title: "Portfolio Management",
-            description: "Professional management of your investment portfolio with regular rebalancing and optimization based on market conditions and your financial objectives."
+            title: "Market-Based Research Plan",
+            description: "Data-driven investment strategies backed by deep market research and analysis. We identify opportunities for both short-term gains and long-term wealth creation. Our insights help you invest with clarity and reduced risk."
         },
         {
             id: 4,
             icon: <FiShield />,
-            title: "Risk Management",
-            description: "Comprehensive risk assessment and protection strategies to safeguard your assets and investments against market volatility and unforeseen circumstances."
+            title: "Registered Retirement Saving Plan",
+            description: "Structured retirement planning to secure your future lifestyle. We help you build a reliable savings strategy with tax-efficient investment options. Designed to provide financial independence after retirement."
         },
         {
             id: 5,
             icon: <FiPieChart />,
-            title: "Retirement Planning",
-            description: "Strategic planning for your retirement years, ensuring financial security, steady income streams, and proper distribution of assets for long-term comfort."
+            title: "Wealth Account Management",
+            description: "Comprehensive management of your investment portfolio under expert supervision. We monitor, optimize, and rebalance your assets for consistent growth. Focused on protecting and maximizing your wealth."
         },
         {
             id: 6,
@@ -56,158 +54,123 @@ const Services = () => {
         }
     ];
 
-    // Animation variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.2
-            }
-        }
-    };
-
+    // LEFT CONTENT ANIMATION – appears when in view
     const leftContentVariants = {
         hidden: { opacity: 0, x: -30 },
         visible: {
             opacity: 1,
             x: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
+            transition: { duration: 0.6, ease: "easeOut" }
         }
     };
 
+    // SERVICE ITEM – appears one by one on scroll
     const serviceItemVariants = {
-        hidden: { opacity: 0, y: 20 },
+        hidden: { opacity: 0, y: 50 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: {
-                duration: 0.5,
-                ease: "easeOut"
-            }
+            transition: { duration: 0.6, ease: "easeOut" }
         }
     };
 
+    // ICON – inactive (light) → active (dark purple) when in view
     const iconVariants = {
-        hidden: { scale: 0 },
+        hidden: {
+            scale: 0.8,
+            backgroundColor: "#efe8fb",
+            color: "#7a3db8",
+            borderColor: "#7a3db8"
+        },
         visible: {
             scale: 1,
-            transition: {
-                duration: 0.5,
-                ease: "backOut"
-            }
+            backgroundColor: "#7a3db8",
+            color: "#ffffff",
+            borderColor: "#5e2690",
+            transition: { duration: 0.4, ease: "backOut" }
         },
         hover: {
             scale: 1.2,
             rotate: 360,
-            backgroundColor: "#7a3db8",
+            backgroundColor: "#5e2690",
             color: "#fff",
-            transition: {
-                duration: 0.4,
-                ease: "easeInOut"
-            }
+            transition: { duration: 0.4, ease: "easeInOut" }
         }
     };
 
+    // BUTTON – same as About section
     const buttonVariants = {
-        initial: { 
-            background: "#5e2690",
-            color: "#fff"
-        },
-        hover: { 
-            background: "#fff",
-            color: "#5e2690",
-            border: "2px solid #5e2690",
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
-        },
+        initial: { scale: 1 },
+        hover: { scale: 1.02 },
         tap: { scale: 0.98 }
     };
 
-    const arrowVariants = {
-        hover: {
-            rotate: 45,
-            scale: 1.1,
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
-        }
-    };
-
     return (
-        <motion.section 
-            className="services-wrapper"
-            ref={containerRef}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={containerVariants}
-        >
+        <section className="services-wrapper">
             <div className="services-container">
-                {/* LEFT SIDE */}
-                <motion.div 
+                {/* LEFT SIDE – VERTICALLY CENTERED */}
+                <motion.div
                     className="services-left"
+                    ref={leftRef}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
                     variants={leftContentVariants}
                 >
-                    <motion.span 
-                        className="services-tag"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.4, ease: "backOut" }}
-                    >
-                        Services
-                    </motion.span>
-
-                    <motion.h2
-                        variants={leftContentVariants}
-                    >
-                        Clear Strategies. <br />
-                        Strong Investments. <br />
-                        Real Growth.
-                    </motion.h2>
-
-                    <motion.p 
-                        className="subtitle"
-                        variants={leftContentVariants}
-                    >
-                        Financial guidance for every <br />
-                        stage of life.
-                    </motion.p>
-
-                    <motion.button 
-                        className="start-btn"
-                        variants={buttonVariants}
-                        initial="initial"
-                        whileHover="hover"
-                        whileTap="tap"
-                    >
-                        Let's start
+                    <div className="services-left-content">
                         <motion.span
-                            variants={arrowVariants}
+                            className="services-tag"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, ease: "backOut" }}
                         >
-                            <FiArrowRight />
+                            Services
                         </motion.span>
-                    </motion.button>
+
+                        <motion.h2 variants={leftContentVariants}>
+                            Clear Strategies. <br />
+                            Strong Investments. <br />
+                            Real Growth.
+                        </motion.h2>
+
+                        <motion.p
+                            className="subtitle"
+                            variants={leftContentVariants}
+                        >
+                            Financial guidance for every <br />
+                            stage of life.
+                        </motion.p>
+
+                        {/* BUTTON – RIGHT TO LEFT HOVER ANIMATION */}
+                        <motion.button
+                            className="services-btn"
+                            variants={buttonVariants}
+                            initial="initial"
+                            whileHover="hover"
+                            whileTap="tap"
+                        >
+                            <span className="services-btn-fill"></span>
+                            <span className="services-btn-text">Let's start</span>
+                            <span className="services-btn-arrow">
+                                <FiArrowRight />
+                            </span>
+                        </motion.button>
+                    </div>
                 </motion.div>
 
-                {/* RIGHT SIDE - TIMELINE */}
+                {/* RIGHT SIDE – TIMELINE */}
                 <div className="services-right" ref={timelineRef}>
                     <div className="timeline">
-                        {/* ANIMATED VERTICAL LINE - YOUR SCROLL EFFECT PRESERVED */}
+                        {/* VERTICAL LINE – FILLS ON SCROLL */}
                         <div className="timeline-line">
-                            <motion.div 
+                            <motion.div
                                 className="timeline-fill"
                                 style={{ height: lineHeight }}
                             />
                         </div>
-                        
-                        {/* SERVICE ITEMS */}
+
+                        {/* SERVICE ITEMS – APPEAR ONE BY ONE ON SCROLL */}
                         {services.map((service, index) => (
                             <motion.div
                                 key={service.id}
@@ -215,16 +178,19 @@ const Services = () => {
                                 variants={serviceItemVariants}
                                 initial="hidden"
                                 whileInView="visible"
-                                viewport={{ once: true, margin: "-50px" }}
+                                viewport={{ once: false, margin: "-80px", amount: 0.2 }}
                             >
-                                <motion.div 
+                                <motion.div
                                     className="icon"
                                     variants={iconVariants}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: false, margin: "-80px", amount: 0.2 }}
                                     whileHover="hover"
                                 >
                                     {service.icon}
                                 </motion.div>
-                                
+
                                 <div className="content">
                                     <h3>{service.title}</h3>
                                     <p>{service.description}</p>
@@ -234,7 +200,7 @@ const Services = () => {
                     </div>
                 </div>
             </div>
-        </motion.section>
+        </section>
     );
 };
 

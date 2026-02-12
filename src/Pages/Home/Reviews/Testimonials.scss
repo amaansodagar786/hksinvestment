@@ -1,11 +1,12 @@
 @import "../../../Componenents/Fonts/fonts.scss";
 
+/* ===== SECTION ===== */
 .testimonial-section {
     padding: 100px 80px;
     background: #ffffff;
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 .testimonial-header {
     display: flex;
     justify-content: space-between;
@@ -37,33 +38,81 @@
     color: #7a3db8;
 }
 
-/* BUTTON */
+/* ===== BUTTON – SAME AS ABOUT/SERVICES (RIGHT TO LEFT ANIMATION) ===== */
 .review-btn {
-    background: #5e2690;
-    color: #fff;
-    padding: 12px 12px 12px 24px;
-    border-radius: 50px;
-    border: none;
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    width: 200px;
+    height: 56px;
+    background: #5e2690;
+    border: 2px solid #5e2690;
+    border-radius: 999px;
     cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    overflow: hidden;
     font-family: 'Content', serif;
-    font-size: 16px;
+    outline: none;
 }
 
-.review-btn span {
-    width: 30px;
-    height: 30px;
-    background: #fff;
+.review-btn-fill {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 49px;
+    width: 46px;
+    background: #ffffff;
+    border-radius: 999px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.review-btn:hover .review-btn-fill {
+    width: calc(100% - 4px);
+    right: 2px;
+}
+
+.review-btn-text {
+    position: relative;
+    z-index: 2;
+    padding-left: 26px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    transition: color 0.4s ease 0.25s;
+    white-space: nowrap;
+}
+
+.review-btn:hover .review-btn-text {
     color: #5e2690;
+}
+
+.review-btn-arrow {
+    position: relative;
+    z-index: 3;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
+    background: #ffffff;
+    color: #5e2690;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: 2px;
+    transition: transform 0.2s ease;
 }
 
-/* GRID */
+.review-btn:hover .review-btn-arrow {
+    background: #ffffff;
+    color: #5e2690;
+    transform: rotate(-45deg);
+}
+
+/* ===== GRID – DESKTOP LAYOUT UNCHANGED ===== */
 .testimonial-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -76,29 +125,33 @@
     gap: 24px;
 }
 
-/* CARD - CHANGED TO BLACK BACKGROUND */
-.review-card {
-    background: #0f0f0f; /* BLACK background */
-    color: #ffffff; /* White text */
+/* ===== REVIEW CARD – LIGHT PURPLE THEME ===== */
+.review-card-testimonial {
+    background: #E7DDFA; 
+    color: #000; 
     border-radius: 20px;
     padding: 24px;
     transition: all 0.3s ease;
+    outline: none;
+    overflow: hidden; 
 }
 
-.review-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(122, 61, 184, 0.2);
+.review-card-testimonial:hover {
+    transform: translateY(-4px);   
+    box-shadow: 0 10px 30px rgba(122, 61, 184, 0);  
+     
+    border-radius: 20px;
 }
 
-.review-card p {
+.review-card-testimonial p {
     font-size: 15px;
     line-height: 1.6;
-    color: #e0e0e0; /* Light gray text */
+    color: #000 !important;
     font-family: 'Content', serif;
     margin-top: 12px;
 }
 
-/* USER */
+/* ===== USER ===== */
 .user {
     display: flex;
     align-items: center;
@@ -111,6 +164,7 @@
     border-radius: 50%;
     overflow: hidden;
     border: 2px solid #7a3db8;
+    transition: all 0.3s ease;
 }
 
 .avatar img {
@@ -122,22 +176,22 @@
 .user strong {
     font-size: 16px;
     font-family: 'SubHeading', serif;
-    color: #ffffff;
+    color: #000; /* Black text to match card */
 }
 
-/* MOBILE */
+/* ===== MOBILE ===== */
 .testimonial-mobile {
     display: none;
 }
 
 .mobile-card {
-    min-height: auto; /* Remove fixed height */
+    min-height: auto;
 }
 
-/* ARROWS */
+/* ===== SLIDER ARROWS – FaArrowLeft / FaArrowRight ===== */
 .slider-arrows {
     display: flex;
-    justify-content: flex-end; /* Right side on mobile */
+    justify-content: flex-end;
     gap: 12px;
     margin: 24px 0 30px;
 }
@@ -154,15 +208,14 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    outline: none;
 }
 
 .slider-arrows button:hover {
     background: #7a3db8;
 }
 
-/* =========================
-   RESPONSIVE: MOBILE (up to 768px)
-========================= */
+/* ===== RESPONSIVE: MOBILE (up to 768px) ===== */
 @media (max-width: 768px) {
     .desktop-only {
         display: none;
@@ -198,47 +251,32 @@
         margin-bottom: 24px;
     }
 
-    .review-card {
+    .review-card-testimonial {
         padding: 20px;
         margin: 0 10px;
     }
 
-    .review-card p {
+    .review-card-testimonial p {
         font-size: 14px;
         text-align: left;
     }
 
-    /* ARROWS ON RIGHT SIDE FOR MOBILE */
     .slider-arrows {
-        justify-content: flex-end; /* Right side */
+        justify-content: flex-end;
         margin: 20px 0 24px;
     }
 
-    /* CENTER BUTTON WITH ARROW IN SAME ROW */
-    .mobile-only {
-        width: fit-content;
+    /* MOBILE BUTTON – EXACT SAME STYLE AS DESKTOP */
+    .review-btn.mobile-only {
+        width: 200px;
+        height: 56px;
         margin: 0 auto;
-        display: flex; /* Ensure flex display */
-        align-items: center;
     }
-    
-    /* Ensure arrow is in same row */
-    .review-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-    }
-    
-    .review-btn span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+
+    /* REMOVED all size overrides – now identical to desktop */
 }
 
-/* =========================
-   RESPONSIVE: SMALL MOBILE (up to 480px)
-========================= */
+/* ===== RESPONSIVE: SMALL MOBILE (up to 480px) ===== */
 @media (max-width: 480px) {
     .testimonial-section {
         padding: 60px 16px;
@@ -248,7 +286,7 @@
         font-size: 28px;
     }
 
-    .review-card {
+    .review-card-testimonial {
         padding: 18px;
     }
 
@@ -261,7 +299,7 @@
         font-size: 15px;
     }
 
-    .review-card p {
+    .review-card-testimonial p {
         font-size: 13px;
     }
 
@@ -270,57 +308,15 @@
         height: 40px;
     }
 
-    .review-btn {
-        font-size: 15px;
-        padding: 10px 10px 10px 20px;
-    }
-
-    .review-btn span {
-        width: 26px;
-        height: 26px;
+    /* SMALL MOBILE BUTTON – SAME STYLE, AUTO WIDTH */
+    .review-btn.mobile-only {
+        width: 200px; /* Keep consistent */
+        height: 56px;
+        margin: 0 auto;
     }
 }
 
-
-
-
-
-
-/* =========================
-   ANIMATIONS
-========================= */
-
-/* Button hover effect */
-.review-btn {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.review-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: white;
-    z-index: -1;
-    transition: left 0.4s ease;
-    border-radius: 50px;
-}
-
-.review-btn:hover::after {
-    left: 0;
-}
-
-.review-btn:hover {
-    box-shadow: 0 10px 30px rgba(94, 38, 144, 0.3);
-}
-
-/* Highlighted text animation */
+/* ===== ANIMATIONS ===== */
 .testimonial-header h2 span {
     position: relative;
     display: inline-block;
@@ -344,78 +340,46 @@
     transform-origin: left;
 }
 
-/* Avatar animation */
-.avatar {
-    transition: all 0.3s ease;
-}
-
-/* Slider arrow animation */
-.slider-arrows button {
-    transform-origin: center;
-    transition: all 0.3s ease;
-}
-
-/* Card text hover effect */
-.review-card:hover p {
-    color: #ffffff !important;
-}
-
-/* Grid stagger animation */
-.col:nth-child(1) .review-card {
-    transition-delay: 0.1s;
-}
-
-.col:nth-child(2) .review-card {
-    transition-delay: 0.2s;
-}
-
-.col:nth-child(3) .review-card {
-    transition-delay: 0.3s;
-}
-
-/* Reduce motion support */
+/* ===== REDUCE MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
     .review-btn,
-    .review-card,
+    .review-btn-fill,
+    .review-btn-text,
+    .review-btn-arrow,
+    .review-card-testimonial,
     .slider-arrows button,
     .avatar,
     .testimonial-header h2 span {
-        transition: none !important;
         animation: none !important;
-    }
-    
-    .review-btn:hover {
-        background: white !important;
-        color: #5e2690 !important;
-        border: 2px solid #5e2690 !important;
-    }
-    
-    .review-btn:hover span {
-        background: #5e2690 !important;
-        color: white !important;
-    }
-    
-    .slider-arrows button:hover {
-        background: #7a3db8 !important;
-    }
-    
-    .testimonial-header h2 span {
-        opacity: 1 !important;
-    }
-}
-
-/* Responsive animation adjustments */
-@media (max-width: 768px) {
-    .review-btn,
-    .slider-arrows button {
         transition: none !important;
     }
-    
+
     .review-btn:hover {
         transform: none !important;
     }
-    
-    .slider-arrows button:hover {
+
+    .review-btn:hover .review-btn-fill {
+        width: 46px !important;
+        right: 2px !important;
+    }
+
+    .review-btn:hover .review-btn-text {
+        color: #ffffff !important;
+    }
+
+    .review-btn:hover .review-btn-arrow {
+        background: #ffffff !important;
+        color: #5e2690 !important;
         transform: none !important;
+    }
+
+    .slider-arrows button:hover {
+        background: #5e2690 !important;
+        transform: none !important;
+    }
+
+    .review-card-testimonial:hover {
+        transform: none !important;
+        background: #E7DDFA !important; /* Keep original */
     }
 }

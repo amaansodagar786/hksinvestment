@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import { FiArrowRight, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi";
+import { FaArrowLeft, FaArrowRight as FaArrowRightIcon } from "react-icons/fa6"; // NEW ICONS
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { motion } from "framer-motion";
@@ -68,10 +69,7 @@ const Testimonials = () => {
         visible: {
             opacity: 1,
             y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
+            transition: { duration: 0.6, ease: "easeOut" }
         }
     };
 
@@ -80,10 +78,7 @@ const Testimonials = () => {
         visible: {
             opacity: 1,
             scale: 1,
-            transition: {
-                duration: 0.4,
-                ease: "backOut"
-            }
+            transition: { duration: 0.4, ease: "backOut" }
         }
     };
 
@@ -92,77 +87,44 @@ const Testimonials = () => {
         visible: {
             opacity: 1,
             y: 0,
-            transition: {
-                duration: 0.5,
-                ease: "easeOut"
-            }
+            transition: { duration: 0.5, ease: "easeOut" }
         },
+        
+    };
+
+    // BUTTON VARIANTS – SAME AS ABOUT SECTION
+    const buttonVariants = {
+        initial: { scale: 1 },
+        hover: { scale: 1.02 },
+        tap: { scale: 0.98 }
+    };
+
+    const avatarVariants = {
         hover: {
-            y: -8,
-            backgroundColor: "#1a1a1a",
-            boxShadow: "0 15px 35px rgba(122, 61, 184, 0.25)",
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
+            scale: 1.1,
+            borderColor: "#7a3db8",
+            transition: { duration: 0.3, ease: "easeInOut" }
         }
     };
 
-    const buttonVariants = {
+    // ARROW VARIANTS FOR SLIDER BUTTONS (FaArrowLeft / FaArrowRight)
+    const sliderArrowVariants = {
         initial: {
             background: "#5e2690",
-            color: "#fff"
-        },
-        hover: {
-            background: "#fff",
-            color: "#5e2690",
-            border: "2px solid #5e2690",
-            scale: 1.05,
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
-        },
-        tap: {
-            scale: 0.98,
-            transition: {
-                duration: 0.1
-            }
-        }
-    };
-
-    const arrowVariants = {
-        hover: {
-            background: "#5e2690",
-            color: "#fff",
-            rotate: 45,
-            scale: 1.1,
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
-        }
-    };
-
-    const sliderArrowVariants = {
-        initial: { 
-            background: "#5e2690",
-            scale: 1 
+            scale: 1,
+            rotate: 0
         },
         hover: {
             background: "#7a3db8",
             scale: 1.1,
-            rotate: 180,
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
+            rotate: 360, // full spin for fun
+            transition: { duration: 0.4, ease: "easeInOut" }
         },
         tap: { scale: 0.9 }
     };
 
     return (
-        <motion.section 
+        <motion.section
             className="testimonial-section"
             initial="hidden"
             whileInView="visible"
@@ -170,20 +132,18 @@ const Testimonials = () => {
             variants={containerVariants}
         >
             {/* HEADER */}
-            <motion.div 
+            <motion.div
                 className="testimonial-header"
                 variants={headerVariants}
             >
                 <div>
-                    <motion.span 
+                    <motion.span
                         className="pill"
                         variants={pillVariants}
                     >
                         Testimonial
                     </motion.span>
-                    <motion.h2
-                        variants={headerVariants}
-                    >
+                    <motion.h2 variants={headerVariants}>
                         Reviews that <br />
                         <motion.span
                             initial={{ opacity: 0.8 }}
@@ -199,23 +159,23 @@ const Testimonials = () => {
                     </motion.h2>
                 </div>
 
-                <motion.button 
+                {/* DESKTOP BUTTON – hidden on mobile via CSS */}
+                <motion.button
                     className="review-btn desktop-only"
                     variants={buttonVariants}
                     initial="initial"
                     whileHover="hover"
                     whileTap="tap"
                 >
-                    Leave a review
-                    <motion.span
-                        variants={arrowVariants}
-                    >
+                    <span className="review-btn-fill"></span>
+                    <span className="review-btn-text">Leave a review</span>
+                    <span className="review-btn-arrow">
                         <FiArrowRight />
-                    </motion.span>
+                    </span>
                 </motion.button>
             </motion.div>
 
-            {/* DESKTOP GRID */}
+            {/* DESKTOP GRID – LAYOUT UNCHANGED */}
             <div className="testimonial-grid desktop-only">
                 <div className="col">
                     <motion.div
@@ -223,7 +183,7 @@ const Testimonials = () => {
                         whileInView="visible"
                         viewport={{ once: true, margin: "-50px" }}
                         variants={cardVariants}
-                        whileHover="hover"
+                        // whileHover="hover" 
                     >
                         <ReviewCard {...reviews[0]} avatar={avatars[0]} />
                     </motion.div>
@@ -294,7 +254,7 @@ const Testimonials = () => {
                 </div>
             </div>
 
-            {/* MOBILE SLIDER */}
+            {/* MOBILE SLIDER – LAYOUT UNCHANGED */}
             <div className="testimonial-mobile">
                 <Swiper
                     modules={[Autoplay]}
@@ -317,42 +277,41 @@ const Testimonials = () => {
                     ))}
                 </Swiper>
 
-                {/* ARROWS */}
+                {/* SLIDER ARROWS – UPDATED WITH FaArrowLeft / FaArrowRight */}
                 <div className="slider-arrows">
-                    <motion.button 
+                    <motion.button
                         onClick={() => swiperRef.current.slidePrev()}
                         variants={sliderArrowVariants}
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
                     >
-                        <FiChevronLeft />
+                        <FaArrowLeft />
                     </motion.button>
-                    <motion.button 
+                    <motion.button
                         onClick={() => swiperRef.current.slideNext()}
                         variants={sliderArrowVariants}
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
                     >
-                        <FiChevronRight />
+                        <FaArrowRightIcon />
                     </motion.button>
                 </div>
 
-                {/* MOBILE CTA */}
-                <motion.button 
+                {/* MOBILE CTA BUTTON – ONLY BUTTON IN MOBILE VIEW */}
+                <motion.button
                     className="review-btn mobile-only"
                     variants={buttonVariants}
                     initial="initial"
                     whileHover="hover"
                     whileTap="tap"
                 >
-                    Leave a review
-                    <motion.span
-                        variants={arrowVariants}
-                    >
+                    <span className="review-btn-fill"></span>
+                    <span className="review-btn-text">Leave a review</span>
+                    <span className="review-btn-arrow">
                         <FiArrowRight />
-                    </motion.span>
+                    </span>
                 </motion.button>
             </div>
         </motion.section>
@@ -364,17 +323,14 @@ const ReviewCard = ({ name, text, avatar, mobile }) => {
         hover: {
             scale: 1.1,
             borderColor: "#7a3db8",
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
+            transition: { duration: 0.3, ease: "easeInOut" }
         }
     };
 
     return (
-        <div className={`review-card ${mobile ? "mobile-card" : ""}`}>
+        <div className={`review-card-testimonial ${mobile ? "mobile-card" : ""}`}>
             <div className="user">
-                <motion.div 
+                <motion.div
                     className="avatar"
                     whileHover="hover"
                     variants={avatarVariants}
@@ -383,7 +339,7 @@ const ReviewCard = ({ name, text, avatar, mobile }) => {
                 </motion.div>
                 <motion.strong
                     initial={{ opacity: 0.8 }}
-                    whileHover={{ 
+                    whileHover={{
                         opacity: 1,
                         color: "#7a3db8",
                         transition: { duration: 0.2 }
@@ -394,7 +350,7 @@ const ReviewCard = ({ name, text, avatar, mobile }) => {
             </div>
             <motion.p
                 initial={{ opacity: 0.9 }}
-                whileHover={{ 
+                whileHover={{
                     opacity: 1,
                     color: "#f0f0f0",
                     transition: { duration: 0.2 }

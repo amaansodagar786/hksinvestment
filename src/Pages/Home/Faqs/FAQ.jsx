@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiPlus, FiMinus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import "./FAQ.scss";
 
@@ -99,20 +99,8 @@ const FAQ = () => {
     }
   };
 
-  const iconVariants = {
-    rest: { scale: 1, rotate: 0 },
-    hover: {
-      scale: 1.1,
-      rotate: 90,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    }
-  };
-
   const answerVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
       height: 0,
       marginTop: 0
@@ -138,7 +126,7 @@ const FAQ = () => {
   };
 
   return (
-    <motion.section 
+    <motion.section
       className="faq-section"
       initial="hidden"
       whileInView="visible"
@@ -146,11 +134,11 @@ const FAQ = () => {
       variants={containerVariants}
     >
       {/* HEADER */}
-      <motion.div 
+      <motion.div
         className="faq-header"
         variants={headerVariants}
       >
-        <motion.span 
+        <motion.span
           className="faq-pill"
           variants={pillVariants}
         >
@@ -164,12 +152,12 @@ const FAQ = () => {
         <motion.p
           variants={headerVariants}
         >
-          Let us walk you through it. <strong>Schedule your demo now.</strong>
+          Let us walk you through it. <strong>Schedule</strong> your demo now.
         </motion.p>
       </motion.div>
 
       {/* FAQ LIST */}
-      <motion.div 
+      <motion.div
         className="faq-list"
         variants={containerVariants}
       >
@@ -197,14 +185,36 @@ const FAQ = () => {
                   {item.question}
                 </span>
 
-                <motion.span 
-                  className="faq-icon"
-                  variants={iconVariants}
-                  animate={activeIndex === index ? "hover" : "rest"}
-                  whileHover="hover"
-                >
-                  {activeIndex === index ? <FiMinus /> : <FiPlus />}
-                </motion.span>
+                {/* === PREMIUM SPIN: Circle NO animation, Only PLUS spins === */}
+                <span className="faq-icon">
+                  <motion.div
+                    key={activeIndex === index ? "active" : "inactive"}
+                    initial={{ rotate: 0 }}
+                    animate={{
+                      rotate: activeIndex === index ? [0, 360, 405, 405] : [405, 360, 0, 0]
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      times: [0, 0.6, 0.8, 1],
+                      ease: [0.25, 0.1, 0.25, 1],
+                    }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      height: "100%"
+                    }}
+                  >
+                    <FiPlus
+                      style={{
+                        display: "block",
+                        width: "1em",
+                        height: "1em"
+                      }}
+                    />
+                  </motion.div>
+                </span>
               </motion.div>
 
               <AnimatePresence>

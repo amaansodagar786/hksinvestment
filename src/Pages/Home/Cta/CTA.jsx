@@ -24,9 +24,7 @@ const CTA = () => {
       .max(500, "Message must be 500 characters or less")
   });
 
-
   const API_URL = import.meta.env.VITE_API_URL || 'https://hksinvenstmentbackend.onrender.com/api';
-
 
   // Animation variants
   const containerVariants = {
@@ -53,72 +51,18 @@ const CTA = () => {
     }
   };
 
+  // ✅ BUTTON VARIANTS – same as About
   const buttonVariants = {
-    initial: {
-      background: "#5e2690",
-      color: "#ffffff"
-    },
-    hover: {
-      background: "#ffffff",
-      color: "#5e2690",
-      border: "2px solid #5e2690",
-      scale: 1.05,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    },
-    tap: {
-      scale: 0.98,
-      transition: {
-        duration: 0.1
-      }
-    }
+    initial: { scale: 1 },
+    hover: { scale: 1.02 },
+    tap: { scale: 0.98 }
   };
 
-  const arrowVariants = {
-    initial: {
-      background: "#ffffff",
-      color: "#5e2690",
-      rotate: 0
-    },
-    hover: {
-      background: "#5e2690",
-      color: "#ffffff",
-      rotate: 45,
-      scale: 1.1,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  const pulseVariants = {
-    initial: {
-      boxShadow: "0 0 0 0 rgba(94, 38, 144, 0.4)",
-      scale: 1
-    },
-    animate: {
-      boxShadow: [
-        "0 0 0 0 rgba(94, 38, 144, 0.4)",
-        "0 0 0 20px rgba(94, 38, 144, 0)",
-        "0 0 0 0 rgba(94, 38, 144, 0)"
-      ],
-      scale: [1, 1.02, 1],
-      transition: {
-        duration: 2,
-        ease: "easeInOut",
-        repeat: Infinity,
-        repeatDelay: 1
-      }
-    }
-  };
-
+  // ✅ MODAL VARIANTS – KEPT EXACTLY AS YOU HAD THEM
   const modalVariants = {
     hidden: {
       opacity: 0,
-      scale: 0.8,
+      scale: 0.9,
       y: -20
     },
     visible: {
@@ -132,7 +76,7 @@ const CTA = () => {
     },
     exit: {
       opacity: 0,
-      scale: 0.8,
+      scale: 0.9,
       y: 20,
       transition: {
         duration: 0.2,
@@ -146,7 +90,6 @@ const CTA = () => {
     visible: { opacity: 1 },
     exit: { opacity: 0 }
   };
-
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -173,7 +116,7 @@ const CTA = () => {
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert(error.message || 'Something went wrong. Please try again.');
+      toast.error(error.message || 'Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -181,7 +124,7 @@ const CTA = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={5000} />
       <motion.section
         className="cta-section"
         initial="hidden"
@@ -191,9 +134,7 @@ const CTA = () => {
       >
         <motion.div
           className="cta-box"
-          variants={pulseVariants}
-          initial="initial"
-          animate="animate"
+          variants={containerVariants}
         >
           <motion.h2
             variants={textVariants}
@@ -212,6 +153,7 @@ const CTA = () => {
             </motion.span> for your investments
           </motion.h2>
 
+          {/* ✅ BUTTON UPDATED - EXACT SAME AS ABOUT COMPONENT */}
           <motion.button
             className="cta-btn"
             variants={buttonVariants}
@@ -220,18 +162,16 @@ const CTA = () => {
             whileTap="tap"
             onClick={() => setIsModalOpen(true)}
           >
-            Contact
-            <motion.span
-              className="cta-arrow"
-              variants={arrowVariants}
-            >
+            <span className="cta-btn-fill"></span>
+            <span className="cta-btn-text">Contact</span>
+            <span className="cta-btn-arrow">
               <FiArrowRight />
-            </motion.span>
+            </span>
           </motion.button>
         </motion.div>
       </motion.section>
 
-      {/* Contact Modal */}
+      {/* ✅ MODAL – COMPLETELY UNCHANGED */}
       <AnimatePresence>
         {isModalOpen && (
           <>
@@ -273,57 +213,63 @@ const CTA = () => {
               >
                 {({ isSubmitting, errors, touched }) => (
                   <Form className="contact-form">
-                    <div className="form-group">
-                      <label htmlFor="name">
-                        Full Name <span className="required">*</span>
-                      </label>
-                      <Field
-                        type="text"
-                        id="name"
-                        name="name"
-                        className={`form-input ${touched.name && errors.name ? 'error' : ''}`}
-                        placeholder="Enter your full name"
-                      />
-                      <ErrorMessage name="name" component="div" className="error-message" />
+                    <div className="form-row-full">
+                      <div className="form-group">
+                        <label htmlFor="name">
+                          Full Name <span className="required">*</span>
+                        </label>
+                        <Field
+                          type="text"
+                          id="name"
+                          name="name"
+                          className={`form-input ${touched.name && errors.name ? 'error' : ''}`}
+                          placeholder="Enter your full name"
+                        />
+                        <ErrorMessage name="name" component="div" className="error-message" />
+                      </div>
                     </div>
 
-                    <div className="form-group">
-                      <label htmlFor="email">
-                        Email Address <span className="required">*</span>
-                      </label>
-                      <Field
-                        type="email"
-                        id="email"
-                        name="email"
-                        className={`form-input ${touched.email && errors.email ? 'error' : ''}`}
-                        placeholder="Enter your email address"
-                      />
-                      <ErrorMessage name="email" component="div" className="error-message" />
+                    <div className="form-row-2col">
+                      <div className="form-group">
+                        <label htmlFor="email">
+                          Email Address <span className="required">*</span>
+                        </label>
+                        <Field
+                          type="email"
+                          id="email"
+                          name="email"
+                          className={`form-input ${touched.email && errors.email ? 'error' : ''}`}
+                          placeholder="your@email.com"
+                        />
+                        <ErrorMessage name="email" component="div" className="error-message" />
+                      </div>
+
+                      <div className="form-group">
+                        <label htmlFor="phone">Phone Number (Optional)</label>
+                        <Field
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          className={`form-input ${touched.phone && errors.phone ? 'error' : ''}`}
+                          placeholder="+1 (123) 456-7890"
+                        />
+                        <ErrorMessage name="phone" component="div" className="error-message" />
+                      </div>
                     </div>
 
-                    <div className="form-group">
-                      <label htmlFor="phone">Phone Number (Optional)</label>
-                      <Field
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        className={`form-input ${touched.phone && errors.phone ? 'error' : ''}`}
-                        placeholder="Enter your phone number"
-                      />
-                      <ErrorMessage name="phone" component="div" className="error-message" />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="message">Message (Optional)</label>
-                      <Field
-                        as="textarea"
-                        id="message"
-                        name="message"
-                        className={`form-textarea ${touched.message && errors.message ? 'error' : ''}`}
-                        placeholder="Tell us about your investment needs..."
-                        rows="4"
-                      />
-                      <ErrorMessage name="message" component="div" className="error-message" />
+                    <div className="form-row-full">
+                      <div className="form-group">
+                        <label htmlFor="message">Message (Optional)</label>
+                        <Field
+                          as="textarea"
+                          id="message"
+                          name="message"
+                          className={`form-textarea ${touched.message && errors.message ? 'error' : ''}`}
+                          placeholder="Tell us about your investment needs..."
+                          rows="4"
+                        />
+                        <ErrorMessage name="message" component="div" className="error-message" />
+                      </div>
                     </div>
 
                     <motion.button

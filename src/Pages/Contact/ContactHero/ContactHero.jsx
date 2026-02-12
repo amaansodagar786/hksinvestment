@@ -5,7 +5,7 @@ import "./ContactHero.scss";
 const ContactHero = () => {
     return (
         <section className="contact-hero-wrapper">
-            {/* ===== TOP HERO (75vh) ===== */}
+            {/* ===== TOP HERO (95vh) ===== */}
             <div className="contact-hero-top">
                 <div className="contact-hero-content">
                     <h1 className="contact-hero-title">
@@ -19,17 +19,18 @@ const ContactHero = () => {
                         Our expert advisors are ready to help you achieve your goals.
                     </p>
 
+                    {/* UPDATED BUTTON - EXACT CTA PATTERN WITH YOUR COLORS */}
                     <button className="contact-hero-btn">
-                        Schedule a Call
-                        <span className="contact-arrow-circle">
+                        <span className="contact-hero-btn-fill"></span>
+                        <span className="contact-hero-btn-text">Schedule a Call</span>
+                        <span className="contact-hero-btn-arrow">
                             <FiArrowRight />
                         </span>
                     </button>
                 </div>
             </div>
 
-            
-
+            {/* Bottom section can be added here later */}
         </section>
     );
 };

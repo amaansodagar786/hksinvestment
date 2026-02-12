@@ -24,14 +24,14 @@
     border: 2px solid #7a3db8;
     border-radius: 50px;
     color: #7a3db8;
-    margin-bottom: 16px;
+    margin-bottom: 15px;
     font-family: 'SubHeading', serif;
 }
 
 .about-header h2 {
     font-size: 42px;
     font-family: 'Heading', serif;
-    margin-top: 10px;
+    margin-top: 00px;
 }
 
 /* =========================
@@ -170,12 +170,6 @@
     text-align: right;
 }
 
-.shield-icon {
-    font-size: 40px;
-    color: #7a3db8;
-    margin-bottom: 20px;
-}
-
 .about-text p {
     font-size: 18px;
     line-height: 1.7;
@@ -183,7 +177,183 @@
     font-family: 'Content', serif;
 }
 
+.about-icon-wrapper {
+    display: inline-block;
+    margin-bottom: 20px;
+}
 
+.about-shield-svg {
+    transition: all 0.3s ease;
+}
+
+/* =========================
+   BUTTON - DESKTOP
+   RIGHT TO LEFT ANIMATION - PERFECT SPACING
+   SAME HEIGHT/WIDTH AS CURRENT
+========================= */
+.about-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 170px;
+    height: 56px;
+    background: #5e2690;
+    border: 2px solid #5e2690;
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Content', serif;
+}
+
+/* WHITE FILL - STARTS AT ARROW (RIGHT SIDE) */
+.about-btn-fill {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 49px;
+    width: 46px;
+    background: #ffffff;
+    border-radius: 999px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.about-btn:hover .about-btn-fill {
+    width: calc(100% - 4px);
+    right: 2px;
+}
+
+.about-btn-text {
+    position: relative;
+    z-index: 2;
+    padding-left: 26px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    transition: color 0.4s ease 0.25s;
+    white-space: nowrap;
+}
+
+.about-btn:hover .about-btn-text {
+    color: #5e2690;
+}
+
+.about-btn-arrow {
+    position: relative;
+    z-index: 3;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #5e2690;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: 2px;
+    transition: transform 0.2s ease;
+}
+
+.about-btn:hover .about-btn-arrow {
+    background: #ffffff;
+    color: #5e2690;
+    transform: rotate(-45deg);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+/* Circle pulse effect */
+.circle-wrap::before,
+.circle-wrap::after,
+.circle-mid,
+.circle-inner {
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.circle-wrap::before {
+    animation-name: pulseOuter;
+    animation-delay: 0s;
+}
+
+.circle-wrap::after {
+    animation-name: pulseMiddle;
+    animation-delay: 0.2s;
+}
+
+.circle-mid {
+    animation-name: pulseInner;
+    animation-delay: 0.4s;
+}
+
+@keyframes pulseOuter {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pulseMiddle {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pulseInner {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.04);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Image animation */
+.circle-inner img {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
 
 /* =========================
    RESPONSIVE: TABLET (768px - 1024px)
@@ -203,7 +373,6 @@
         text-align: center;
     }
 
-    /* Justify text for tablet view */
     .about-text p {
         text-align: justify;
         text-align-last: center;
@@ -215,7 +384,6 @@
         margin: 0 auto;
     }
 
-    /* Adjust tag positions for smaller circle */
     .shares {
         left: -30px;
     }
@@ -239,10 +407,41 @@
     .about-header h2 {
         font-size: 36px;
     }
+
+    /* BUTTON - TABLET */
+    .about-btn {
+        width: 170px;
+        height: 52px;
+        margin: 0 auto;
+    }
+
+    .about-btn-text {
+        font-size: 15px;
+        padding-left: 22px;
+    }
+
+    .about-btn-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+        margin-right: 2px;
+    }
+
+    .about-btn-fill {
+        height: 42px;
+        width: 42px;
+        right: 2px;
+    }
+
+    .about-btn:hover .about-btn-fill {
+        width: calc(100% - 4px);
+        right: 2px;
+    }
 }
 
 /* =========================
    RESPONSIVE: MOBILE (up to 768px)
+   SHIELD ICON ALIGNED TO LEFT
 ========================= */
 @media (max-width: 768px) {
     .about-section {
@@ -269,15 +468,24 @@
 
     .about-text {
         order: 3;
-        text-align: center;
+        text-align: left;
+        /* CHANGED: Align left for mobile */
     }
 
-    /* Justify text for mobile view */
     .about-text p {
-        text-align: justify;
-        text-align-last: center;
+        text-align: left;
+        /* CHANGED: Left align text */
         font-size: 16px;
         line-height: 1.6;
+    }
+
+    /* SHIELD ICON - LEFT ALIGNED */
+    .about-icon-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        /* CHANGED: Align to left */
+        margin-bottom: 16px;
+        width: 100%;
     }
 
     .circle-wrap {
@@ -286,15 +494,22 @@
         margin: 0 auto;
     }
 
+    .circle-wrap::before,
+    .circle-wrap::after,
+    .circle-mid,
+    .circle-inner {
+        animation: none !important;
+    }
+
     .circle-inner img {
         width: 140px;
         height: 170px;
     }
 
-    /* Adjust tag positions for mobile */
     .tag {
         padding: 4px 10px;
         font-size: 12px;
+        transition: none !important;
     }
 
     .shares {
@@ -325,24 +540,41 @@
         bottom: 25%;
     }
 
-    .shield-icon {
-        font-size: 32px;
-        margin-bottom: 16px;
-    }
-
+    /* BUTTON - MOBILE */
     .about-btn {
-        font-size: 16px;
-        padding: 10px 10px 10px 20px;
+        width: 160px;
+        height: 48px;
+        margin: 0;
+        /* CHANGED: No auto margin, left aligned */
     }
 
-    .about-btn .arrow {
-        width: 26px;
-        height: 26px;
+    .about-btn-text {
+        font-size: 14px;
+        padding-left: 20px;
+    }
+
+    .about-btn-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+        margin-right: 2px;
+    }
+
+    .about-btn-fill {
+        height: 38px;
+        width: 38px;
+        right: 2px;
+    }
+
+    .about-btn:hover .about-btn-fill {
+        width: calc(100% - 4px);
+        right: 2px;
     }
 }
 
 /* =========================
    RESPONSIVE: SMALL MOBILE (up to 480px)
+   SHIELD ICON ALIGNED TO LEFT
 ========================= */
 @media (max-width: 480px) {
     .about-section {
@@ -368,14 +600,14 @@
         height: 150px;
     }
 
-    /* Further adjust tag positions for very small screens */
     .tag {
         font-size: 10px;
         padding: 3px 8px;
     }
 
     .shares {
-        left: -20px;
+        left: -35px;
+
     }
 
     .yield {
@@ -387,254 +619,105 @@
     }
 
     .invest {
-        right: -24px;
+        right: -50px;
+    }
+
+
+    .trends {
+        bottom: -10px;
+        left: 30%;
+
     }
 
     .about-text p {
         font-size: 15px;
+        text-align: left;
+        /* CHANGED: Left align */
+    }
+
+    /* SHIELD ICON - LEFT ALIGNED */
+    .about-icon-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        /* CHANGED: Align to left */
+        margin-bottom: 14px;
+    }
+
+    /* BUTTON - SMALL MOBILE */
+    .about-btn {
+        width: 140px;
+        height: 44px;
+        margin: 0;
+        /* CHANGED: No auto margin, left aligned */
+    }
+
+    .about-btn-text {
+        font-size: 13px;
+        padding-left: 18px;
+    }
+
+    .about-btn-arrow {
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+        margin-right: 2px;
+    }
+
+    .about-btn-fill {
+        height: 34px;
+        width: 34px;
+        right: 2px;
+    }
+
+    .about-btn:hover .about-btn-fill {
+        width: calc(100% - 4px);
+        right: 2px;
     }
 }
 
-
-
 /* =========================
-   ANIMATIONS
+   REDUCE MOTION PREFERENCES
 ========================= */
-
-
-
-/* Arrow animation */
-.about-btn .arrow {
-    transition: all 0.3s ease;
-    z-index: 2;
-}
-
-/* Shield icon animation */
-.shield-icon {
-    transition: all 0.3s ease;
-}
-
-.about-text:hover .shield-icon {
-    transform: scale(1.1) rotate(5deg);
-    color: #5e2690;
-}
-
-/* Circle pulse effect */
-.circle-wrap::before,
-.circle-wrap::after,
-.circle-mid,
-.circle-inner {
-    animation-duration: 3s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-.circle-wrap::before {
-    animation-name: pulseOuter;
-    animation-delay: 0s;
-}
-
-.circle-wrap::after {
-    animation-name: pulseMiddle;
-    animation-delay: 0.2s;
-}
-
-.circle-mid {
-    animation-name: pulseInner;
-    animation-delay: 0.4s;
-}
-
-@keyframes pulseOuter {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
-
-@keyframes pulseMiddle {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-}
-
-@keyframes pulseInner {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.04); }
-    100% { transform: scale(1); }
-}
-
-/* Tag animations */
-.tag {
-    transition: all 0.3s ease;
-    transform-origin: center;
-}
-
-/* Image animation */
-.circle-inner img {
-    animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-}
-
-/* Reduce motion preferences */
 @media (prefers-reduced-motion: reduce) {
+
     .circle-wrap::before,
     .circle-wrap::after,
     .circle-mid,
     .circle-inner,
     .tag,
+    .circle-inner img,
     .about-btn,
-    .circle-inner img {
+    .about-btn-fill,
+    .about-btn-text,
+    .about-btn-arrow,
+    .about-shield-svg,
+    .about-icon-wrapper {
         animation: none !important;
         transition: none !important;
     }
-    
-    .about-btn:hover {
-        background: white !important;
-        color: #5e2690 !important;
-        border: 2px solid #5e2690 !important;
-    }
-    
-    .about-btn:hover .button-text {
-        color: #5e2690 !important;
-    }
-    
-    .about-btn:hover .arrow {
-        background: #5e2690 !important;
-        color: white !important;
-    }
-}
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .circle-wrap::before,
-    .circle-wrap::after,
-    .circle-mid,
-    .circle-inner {
-        animation: none !important;
-    }
-    
-    .tag {
-        transition: none !important;
-    }
-    
     .about-btn:hover {
         transform: none !important;
     }
-}
 
-/* =========================
-   ABOUT BUTTON ONLY
-========================= */
-
-/* Button - Same pattern as CTA & Services */
-.about-btn {
-    background: #5e2690;
-    color: #fff;
-    padding: 12px 12px 12px 25px;
-    border-radius: 50px;
-    border: none;
-    font-size: 18px;
-    display: inline-flex; 
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    border: 2px solid transparent;
-    transition: all 0.4s ease;
-    font-family: 'Content', serif;
-}
-
-/* Background slide effect - Same as CTA */
-.about-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: white;
-    transition: left 0.4s ease;
-    z-index: -1;
-    border-radius: 50px;
-}
-
-/* Hover state - Same as other buttons */
-.about-btn:hover::before {
-    left: 0;
-}
-
-.about-btn:hover {
-    color: #5e2690;
-    border: 2px solid #5e2690;
-    box-shadow: 0 8px 25px rgba(94, 38, 144, 0.25);
-}
-
-/* Arrow circle - Same pattern */
-.about-btn .arrow {
-    width: 30px;
-    height: 30px;
-    background: #fff;
-    color: #5e2690;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    z-index: 2;
-}
-
-/* Arrow hover - Same color swap */
-.about-btn:hover .arrow {
-    background: #5e2690;
-    color: #fff;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .about-btn {
-        font-size: 16px;
-        padding: 10px 10px 10px 20px;
+    .about-btn:hover .about-btn-fill {
+        width: 46px !important;
+        right: 2px !important;
     }
-    
-    .about-btn .arrow {
-        width: 26px;
-        height: 26px;
-    }
-}
 
-@media (max-width: 480px) {
-    .about-btn {
-        font-size: 15px;
-        padding: 9px 8px 9px 18px;
+    .about-btn:hover .about-btn-text {
+        color: #ffffff !important;
     }
-    
-    .about-btn .arrow {
-        width: 24px;
-        height: 24px;
-    }
-}
 
-/* Reduce motion support */
-@media (prefers-reduced-motion: reduce) {
-    .about-btn {
-        transition: none !important;
-    }
-    
-    .about-btn:hover {
-        background: white !important;
+    .about-btn:hover .about-btn-arrow {
+        background: #ffffff !important;
         color: #5e2690 !important;
-        border: 2px solid #5e2690 !important;
+        transform: none !important;
     }
-    
-    .about-btn:hover .arrow {
-        background: #5e2690 !important;
-        color: white !important;
+
+    .tag:hover {
+        transform: none !important;
+        background: #efe8fb !important;
+        border-color: #7a3db8 !important;
     }
 }
