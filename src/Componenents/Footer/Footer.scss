@@ -4,36 +4,50 @@
     background: #4a2775;
     color: #ffffff;
     padding: 30px 60px 0px;
-    /* Reduced padding for more width */
     overflow-x: hidden;
     width: 100%;
     box-sizing: border-box;
 }
 
 /* =========================
-   TOP - 4 COLUMN GRID
+   TOP - 4 COLUMN LAYOUT
+   FEEDBACK ALONE, OTHERS GROUPED
 ========================= */
 .footer-top {
-    display: grid;
-    grid-template-columns: 1.2fr 1.2fr 0.9fr 1.2fr;
-    /* FEEDBACK | BRAND | GUIDE | CONTACT */
+    display: flex;
     gap: 30px;
-    margin-bottom: 40px;
     max-width: 1400px;
-    /* INCREASED from 1200px */
     margin-left: auto;
     margin-right: auto;
     width: 100%;
     box-sizing: border-box;
 }
 
-/* =========================
-   COLUMN 1: FEEDBACK FORM - NEW
-========================= */
+/* COLUMN 1: FEEDBACK - STANDALONE */
 .footer-col.feedback {
+    flex: 1.2;
     padding-right: 15px;
 }
 
+/* GROUP: BRAND + GUIDE + CONTACT + COPYRIGHT */
+.footer-group {
+    flex: 1.2 + 0.9 + 1.2; /* sum of 3 columns */
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+}
+
+/* 3-COLUMN GRID INSIDE GROUP */
+.footer-group-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.9fr 1.2fr;
+    gap: 30px;
+    width: 100%;
+}
+
+/* =========================
+   FEEDBACK FORM - NO LABELS, COMPACT
+========================= */
 .footer-col.feedback h4 {
     font-size: 14px;
     letter-spacing: 1px;
@@ -45,33 +59,20 @@
 .feedback-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px; /* REDUCED GAP */
     width: 100%;
-}
-
-.feedback-form .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.feedback-form label {
-    font-size: 12px;
-    font-family: 'Content', serif;
-    color: #d9ccf3;
-    letter-spacing: 0.5px;
 }
 
 .feedback-input,
 .feedback-textarea {
-    padding: 12px 16px;
+    padding: 10px 14px; /* REDUCED PADDING */
     background: rgba(255, 255, 255, 0.08);
     border: 1.5px solid rgba(217, 204, 243, 0.3);
-    border-radius: 12px;
+    border-radius: 10px; /* SLIGHTLY SMALLER */
     font-family: 'Content', serif;
     font-size: 14px;
     color: #ffffff;
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease, background 0.3s ease;
     width: 100%;
     box-sizing: border-box;
 }
@@ -91,14 +92,14 @@
 
 .feedback-textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 70px; /* REDUCED HEIGHT */
 }
 
 .feedback-btn {
     background: linear-gradient(90deg, #5e2690, #7a3db8);
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 10px 18px; /* REDUCED PADDING */
     border-radius: 50px;
     font-family: 'Content', serif;
     font-size: 14px;
@@ -108,19 +109,13 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: 4px;
+    margin-top: 2px; /* REDUCED */
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .feedback-btn:hover:not(:disabled) {
     background: linear-gradient(90deg, #6d30a5, #8e4ac7);
-    color: white;
-}
-
-.feedback-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
 }
 
 .send-icon {
@@ -165,7 +160,6 @@
 
 .socials svg {
     font-size: 20px;
-    cursor: pointer;
     color: #d9ccf3;
     transition: color 0.3s ease;
 }
@@ -221,7 +215,7 @@
 }
 
 /* =========================
-   COLUMN 4: CONTACT
+   COLUMN 4: CONTACT - CLICKABLE, CANADA
 ========================= */
 .footer-col.contact p {
     display: flex;
@@ -239,6 +233,19 @@
     padding-left: 5px;
 }
 
+.footer-col.contact a {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.3s ease;
+}
+
+.footer-col.contact a:hover {
+    color: #d9ccf3;
+}
+
 .footer-col.contact svg {
     color: #d9ccf3;
     font-size: 16px;
@@ -253,25 +260,28 @@
 }
 
 /* =========================
-   COPYRIGHT ROW - ALIGNED WITH BRAND
+   COPYRIGHT ROW - INSIDE GROUP, BORDER ONLY UNDER 3 COLUMNS
 ========================= */
 .copyright-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 13px;
     opacity: 0.85;
     margin-top: 30px;
     font-family: 'Content', serif;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 20px;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
     width: 100%;
     box-sizing: border-box;
-    /* Start from Brand column position */
-    padding-left: calc(1.2fr + 30px);
-    /* Feedback column width + gap */
+}
+
+.copyright-brand {
+    text-align: left;
+}
+
+.developer-text {
+    text-align: right;
 }
 
 .developer-text strong {
@@ -299,7 +309,7 @@
 }
 
 /* =========================
-   BOTTOM BIG TEXT
+   BOTTOM BIG TEXT - FULL WIDTH
 ========================= */
 .footer-bottom {
     font-size: 72px;
@@ -314,7 +324,6 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    position: relative;
     background: linear-gradient(90deg, #4a2775, #5e2690, #7a3db8);
     background-size: 200% 100%;
     background-clip: text;
@@ -324,19 +333,12 @@
 }
 
 @keyframes gradientShift {
-
-    0%,
-    100% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 /* =========================
-   RESPONSIVE: TABLET (769px - 1024px)
+   RESPONSIVE: TABLET
 ========================= */
 @media (max-width: 1024px) and (min-width: 769px) {
     .footer {
@@ -344,10 +346,13 @@
     }
 
     .footer-top {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 20px;
         max-width: 100%;
         padding: 0 10px;
+    }
+
+    .footer-group-grid {
+        gap: 20px;
     }
 
     .footer-bottom {
@@ -355,15 +360,10 @@
         max-width: 100%;
         padding: 0 20px;
     }
-
-    .copyright-row {
-        max-width: 100%;
-        padding-left: calc(25% + 15px);
-    }
 }
 
 /* =========================
-   RESPONSIVE: MOBILE (up to 768px)
+   RESPONSIVE: MOBILE
 ========================= */
 @media (max-width: 768px) {
     .footer {
@@ -374,108 +374,63 @@
     }
 
     .footer-top {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: 40px;
         text-align: center;
-        margin-bottom: 30px;
         max-width: 100%;
         width: 100%;
-        display: flex;
-        flex-direction: column;
     }
 
-    /* MOBILE ORDER: 1. Brand, 2. Feedback, 3. Guide, 4. Contact */
-    .footer-col.brand {
-        order: 1;
+    .footer-group {
         width: 100%;
+    }
+
+    .footer-group-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
     }
 
     .footer-col.feedback {
-        order: 2;
-        width: 100%;
         padding-right: 0;
     }
 
-    .footer-col:nth-child(3) {
-        order: 3;
-        width: 100%;
-    }
-
-    .footer-col.contact {
-        order: 4;
-        width: 100%;
-    }
-
-    /* Center align feedback form on mobile */
     .feedback-form {
         align-items: center;
         max-width: 400px;
         margin: 0 auto;
     }
 
-    .feedback-input,
-    .feedback-textarea {
-        text-align: left;
-    }
-
     .feedback-btn {
         width: 100%;
     }
 
-    /* Center align contact items */
-    .footer-col.contact p {
+    .footer-col.contact p,
+    .footer-col.contact a {
         justify-content: center;
         text-align: center;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
     }
 
-    .footer-col.contact p .location-icon {
-        margin-bottom: 20px;
-    }
-
-    .footer-col.contact svg {
-        margin-bottom: 5px;
-    }
-
-    /* Center social icons */
     .socials {
         justify-content: center;
     }
 
-    /* COPYRIGHT ROW - STACKED ON MOBILE */
     .copyright-row {
         flex-direction: column;
         text-align: center;
         gap: 10px;
-        margin-top: 20px;
-        order: 5;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 20px;
-        max-width: 100%;
-        width: 100%;
-        display: flex !important;
-        padding-left: 0 !important;
-        /* Reset for mobile */
     }
 
-    /* BOTTOM TEXT ON MOBILE */
+    .copyright-brand,
+    .developer-text {
+        text-align: center;
+    }
+
     .footer-bottom {
         font-size: 28px;
         white-space: normal;
         line-height: 1.2;
         margin-top: 30px;
-        text-align: center;
         word-break: break-word;
-        order: 6;
-        max-width: 100%;
-        width: 100%;
-        display: block !important;
-    }
-
-    /* Remove animations on mobile */
-    .footer-bottom {
         animation: none !important;
         background: transparent !important;
         -webkit-text-fill-color: #ffffff !important;
@@ -495,7 +450,7 @@
 }
 
 /* =========================
-   RESPONSIVE: SMALL MOBILE (up to 480px)
+   SMALL MOBILE
 ========================= */
 @media (max-width: 480px) {
     .footer {
@@ -522,7 +477,8 @@
         font-size: 13px;
     }
 
-    .footer-col.contact p {
+    .footer-col.contact p,
+    .footer-col.contact a {
         font-size: 13px;
     }
 
@@ -537,12 +493,12 @@
 
     .feedback-input,
     .feedback-textarea {
-        padding: 10px 14px;
+        padding: 8px 12px;
         font-size: 13px;
     }
 
     .feedback-btn {
-        padding: 10px 18px;
+        padding: 8px 16px;
         font-size: 13px;
     }
 }
@@ -551,7 +507,6 @@
    REDUCED MOTION
 ========================= */
 @media (prefers-reduced-motion: reduce) {
-
     .footer-bottom,
     .socials div,
     .footer-col ul li,
@@ -571,7 +526,8 @@
 
     .socials svg:hover,
     .footer-col ul li:hover,
-    .footer-col.contact p:hover {
+    .footer-col.contact p:hover,
+    .footer-col.contact a:hover {
         color: #d9ccf3 !important;
         transform: none !important;
     }

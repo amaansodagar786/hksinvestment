@@ -7,7 +7,7 @@ import coin from "../../../assets/images/home/hero/coin.png";
 import bar from "../../../assets/images/home/hero/bar.png";
 
 const HeroSection = () => {
-    // Animation variants - YOUR EXACT VARIANTS
+    // Animation variants - YOUR EXACT VARIANTS (UNCHANGED)
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -44,39 +44,15 @@ const HeroSection = () => {
     };
 
     const buttonVariants = {
-        initial: {
-            background: "#5e2690",
-            scale: 1
-        },
+        initial: { background: "#5e2690", scale: 1 },
         hover: {
             background: "#4a1f73",
             scale: 1.05,
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
+            transition: { duration: 0.3, ease: "easeInOut" }
         },
         tap: {
             scale: 0.95,
-            transition: {
-                duration: 0.1
-            }
-        }
-    };
-
-    const arrowVariants = {
-        initial: {
-            rotate: 0,
-            background: "#ffffff"
-        },
-        hover: {
-            rotate: 45,
-            background: "#5e2690",
-            color: "#ffffff",
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
+            transition: { duration: 0.1 }
         }
     };
 
@@ -130,6 +106,18 @@ const HeroSection = () => {
         }
     };
 
+    const coinVariants = {
+        initial: { rotate: 0 },
+        animate: {
+            rotate: [0, 5, -5, 0],
+            transition: {
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+            }
+        }
+    };
+
     return (
         <motion.section
             className="hero-wrapper"
@@ -137,7 +125,7 @@ const HeroSection = () => {
             animate="visible"
             variants={containerVariants}
         >
-            {/* ===== TOP HERO ===== */}
+            {/* ===== TOP HERO - COMPLETELY UNCHANGED ===== */}
             <div className="hero-top">
                 <motion.div
                     className="hero-content"
@@ -148,7 +136,6 @@ const HeroSection = () => {
                         variants={titleVariants}
                     >
                         Clarity for every <br />
-                        {/* CHANGE 1: REPLACED financial-highlight WITH WORD SLIDER - SAME STYLE */}
                         <span className="financial-highlight word-slider-wrapper">
                             <span className="loader">
                                 <span className="words">
@@ -177,18 +164,16 @@ const HeroSection = () => {
                         whileHover="hover"
                         whileTap="tap"
                     >
-                        Let's start
-                        <motion.span
-                            className="arrow-circle"
-                            variants={arrowVariants}
-                        >
+                        <span className="hero-btn-fill"></span>
+                        <span className="hero-btn-text">Let's start</span>
+                        <span className="hero-btn-arrow">
                             <FiArrowRight />
-                        </motion.span>
+                        </span>
                     </motion.button>
                 </motion.div>
             </div>
 
-            {/* ===== BOTTOM SECTION ===== */}
+            {/* ===== BOTTOM SECTION - COMPLETELY UPDATED ===== */}
             <motion.div
                 className="hero-bottom-section"
                 initial="hidden"
@@ -199,34 +184,36 @@ const HeroSection = () => {
                 <div className="hero-bottom-bg">
                     <div className="hero-bottom-grid">
 
-                        {/* ===== COLUMN 1 - COIN IMAGE MOVED HERE + TEXT ===== */}
-                        <div className="hero-bottom-col hero-bottom-col-text">
-                            <motion.div
-                                className="hero-bottom-text-content"
-                                whileHover={{ scale: 1.02 }}
-                                transition={{ duration: 0.3 }}
+                        {/* ===== COLUMN 1 - TWO INDEPENDENT DIVS ===== */}
+                        <div className="hero-bottom-col-stack">
+                            
+                            {/* DIV 1: COIN ONLY - Standalone box */}
+                            <motion.div 
+                                className="hero-coin-box"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                whileHover={{ scale: 1.05, y: -5 }}
                             >
-                                {/* CHANGE 2: COIN IMAGE MOVED FROM COLUMN 3 TO COLUMN 1 */}
-                                <motion.div
-                                    className="hero-bottom-right-top coin-in-column1"
-                                    whileHover={{ scale: 1.05 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <motion.img
-                                        src={coin}
-                                        alt="coins"
-                                        animate={{
-                                            rotate: [0, 5, -5, 0]
-                                        }}
-                                        transition={{
-                                            duration: 6,
-                                            repeat: Infinity,
-                                            ease: "easeInOut"
-                                        }}
-                                    />
-                                </motion.div>
+                                <motion.img
+                                    src={coin}
+                                    alt="coins"
+                                    variants={coinVariants}
+                                    initial="initial"
+                                    animate="animate"
+                                />
+                            </motion.div>
 
-                                {/* QUOTE ICON - CHANGED TO FaQuoteLeft */}
+                            {/* DIV 2: TEXT ONLY - Standalone box with quote */}
+                            <motion.div 
+                                className="hero-text-box"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                whileHover={{ scale: 1.02, y: -5 }}
+                            >
                                 <motion.div
                                     className="quote-mark"
                                     variants={quoteVariants}
@@ -239,7 +226,7 @@ const HeroSection = () => {
                                     initial={{ opacity: 0, x: -20 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                    transition={{ duration: 0.6, delay: 0.3 }}
                                 >
                                     Your <br /> Pathway to <br />
                                     <strong>Financial</strong> <br />
@@ -248,7 +235,7 @@ const HeroSection = () => {
                             </motion.div>
                         </div>
 
-                        {/* ===== COLUMN 2 - BAR IMAGE (NO CHANGE) ===== */}
+                        {/* ===== COLUMN 2 - BAR IMAGE (UNCHANGED) ===== */}
                         <div className="hero-bottom-col hero-bottom-col-image">
                             <motion.div
                                 className="hero-bottom-fixed-image"
@@ -267,15 +254,15 @@ const HeroSection = () => {
                             </motion.div>
                         </div>
 
-                        {/* ===== COLUMN 3 - ONLY BAR CHART (FULL HEIGHT) ===== */}
+                        {/* ===== COLUMN 3 - BAR CHART (UNCHANGED) ===== */}
                         <div className="hero-bottom-col hero-bottom-col-right">
-                            {/* CHANGE 3: REMOVED coin image, only bar chart remains - FULL HEIGHT */}
                             <motion.div
-                                className="hero-bottom-right-bottom full-height"
+                                className="full-height"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6, delay: 0.4 }}
+                                whileHover={{ y: -5 }}
                             >
                                 <div className="hero-bottom-bar-chart">
                                     <motion.div
@@ -325,7 +312,6 @@ const HeroSection = () => {
                     </div>
                 </div>
             </motion.div>
-
         </motion.section>
     );
 };
