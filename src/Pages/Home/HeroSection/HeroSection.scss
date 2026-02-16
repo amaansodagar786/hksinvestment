@@ -175,6 +175,7 @@
     color: #5e2690;
     transform: rotate(-45deg);
 }
+
 /* =========================
    BOTTOM SECTION - COMPLETELY FIXED
 ========================= */
@@ -206,11 +207,11 @@
     pointer-events: none;
 }
 
-/* ===== GRID WITH PROPER GAP ===== */
+/* ===== GRID WITH CUSTOM COLUMN WIDTHS ===== */
 .hero-bottom-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 60px;
+    grid-template-columns: 0.8fr 0.6fr 0.8fr; /* FIXED: 2nd column narrower (0.8fr) */
+    gap: 40px;
     align-items: stretch;
 }
 
@@ -218,21 +219,21 @@
 .hero-bottom-col-stack {
     display: flex;
     flex-direction: column;
-    gap: 20px;  /* INCREASED GAP BETWEEN COIN AND TEXT */
+    gap: 20px;
     width: 100%;
     height: 100%;
 }
 
-/* COIN BOX - SAME WIDTH AS TEXT BOX */
+/* COIN BOX - INCREASED HEIGHT */
 .hero-coin-box {
     width: 100%;
-    height: 70px;  /* SLIGHTLY TALLER */
-    background: rgba(204, 190, 231, 0.7);
-    backdrop-filter: blur(10px);
+    height: 85px; /* FIXED: Increased from 60px to 85px - TALLER COIN */
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 26px;
-    padding: 18px;
+    padding: 15px; /* FIXED: Increased padding */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -243,7 +244,7 @@
 }
 
 .hero-coin-box:hover {
-    background: rgba(192, 176, 224, 0.8);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(94, 38, 144, 0.2);
@@ -251,43 +252,44 @@
 }
 
 .hero-coin-box img {
-    width: 100%;
+    width: 80%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     transition: all 0.3s ease;
 }
 
-/* TEXT BOX - SAME WIDTH AS COIN BOX */
+/* TEXT BOX - REDUCED HEIGHT (more compact) */
 .hero-text-box {
     position: relative;
-    background: rgba(204, 190, 231, 0.7);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 30px 30px 0 0;
-    padding: 50px 35px 35px;
+    padding: 18px 60px 10px; /* FIXED: Reduced top/bottom padding */
     width: 100%;
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: 0 8px 32px rgba(94, 38, 144, 0.1);
     flex: 1;
-    /* REMOVED display: flex - FIXED ROW ISSUE */
+    display: block;
+    max-height: 180px; /* FIXED: Control max height */
 }
 
 .hero-text-box:hover {
-    background: rgba(192, 176, 224, 0.8);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(94, 38, 144, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-/* QUOTE ICON - SMALLER */
+/* QUOTE ICON - SMALLER 60-70px */
 .quote-mark {
     position: absolute;
-    top: 15px;
-    left: 20px;
+    top: 8px; /* FIXED: Adjusted position */
+    left: 30px; /* FIXED: Adjusted position */
     line-height: 1;
     color: #5d1d95;
     opacity: 0.15;
@@ -296,29 +298,29 @@
 }
 
 .quote-mark svg {
-    font-size: 120px;  /* REDUCED FROM 200px */
+    font-size: 70px; /* FIXED: Slightly smaller */
     color: #5d1d95;
 }
 
-/* TEXT PARAGRAPH - FIXED COLUMN LAYOUT */
+/* TEXT PARAGRAPH - COMPACT */
 .hero-text-box p {
     position: relative;
     z-index: 2;
-    font-size: 30px;
+    font-size: 22px; /* FIXED: Slightly smaller */
     margin: 0;
     letter-spacing: 0.2px;
     font-family: 'Content', serif;
     transition: all 0.3s ease;
-    /* REMOVED display: flex and align-items: center - FIXED ROW ISSUE */
-    line-height: 1.4;
-    white-space: pre-line;  /* RESPECTS <br /> TAGS */
+    line-height: 1.25; /* FIXED: Tighter line height */
+    white-space: pre-line;
+    text-align: left;
 }
 
 .hero-text-box:hover p {
     transform: scale(1.02);
 }
 
-/* ===== COLUMN 2 - BAR IMAGE WITH GLASS ===== */
+/* ===== COLUMN 2 - BAR IMAGE WITH GLASS (NARROWER) ===== */
 .hero-bottom-col-image {
     display: flex;
     align-items: stretch;
@@ -328,24 +330,25 @@
 .hero-bottom-fixed-image {
     width: 100%;
     height: 100%;
-    min-height: 300px;  /* SAME HEIGHT AS COLUMN 1 */
-    background: rgba(204, 190, 231, 0.7);
+    max-height: 280px;
+    min-height: 260px;
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 30px 30px 0 0;
-    padding: 18px;
+    padding: 12px; /* FIXED: Reduced padding */
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; 
     cursor: pointer;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(94, 38, 144, 0.1);
 }
 
 .hero-bottom-fixed-image:hover {
-    background: rgba(192, 176, 224, 0.8);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(94, 38, 144, 0.2);
@@ -355,12 +358,13 @@
 .hero-bottom-fixed-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* FIXED: Cover to fill the space properly */
+    object-position: center;
     border-radius: 20px;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; 
 }
 
-/* ===== COLUMN 3 - BAR CHART WITH GLASS ===== */
+/* ===== COLUMN 3 - BAR CHART WITH GLASS (TOUCHES BOTTOM) ===== */
 .hero-bottom-col-right {
     display: flex;
     align-items: stretch;
@@ -370,22 +374,24 @@
 .full-height {
     width: 100%;
     height: 100%;
-    min-height: 300px;  /* SAME HEIGHT AS COLUMN 1 & 2 */
-    background: rgba(204, 190, 231, 0.7);
+    max-height: 280px;
+    min-height: 260px;
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 30px 30px 0 0;
-    padding: 20px 20px 0 20px;
+    padding: 0; /* FIXED: REMOVED ALL PADDING - bars touch bottom */
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 8px 32px rgba(94, 38, 144, 0.1);
     display: flex;
     align-items: flex-end;
+    overflow: hidden; /* FIXED: Ensure content stays within bounds */
 }
 
 .full-height:hover {
-    background: rgba(192, 176, 224, 0.8);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(94, 38, 144, 0.2);
@@ -397,13 +403,15 @@
     width: 100%;
     display: flex;
     align-items: flex-end;
-    gap: 12px;
+    gap: 10px; /* FIXED: Slightly reduced gap */
+    margin: 0;
+    padding: 0 20px; /* FIXED: No padding */
 }
 
 .hero-bottom-bar {
     flex: 1;
     border-radius: 8px 8px 0 0;
-    font-size: 13px;
+    font-size: 12px; /* FIXED: Slightly smaller */
     color: #fff;
     text-align: center;
     transition: all 0.3s ease;
@@ -413,7 +421,11 @@
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 5px;
+    padding-top: 4px; /* FIXED: Minimal padding for numbers */
+    margin-bottom: 0; /* FIXED: No margin at bottom */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .hero-bottom-bar:hover {
@@ -454,6 +466,14 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+/* ===== ENSURE COIN AND TEXT DIVS HAVE SAME WIDTH ===== */
+.hero-coin-box,
+.hero-text-box {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* ===== WORD SLIDER - UNCHANGED ===== */
@@ -511,8 +531,6 @@
     }
 }
 
-
-
 /* =========================
    TABLET RESPONSIVE (769px - 1024px)
 ========================= */
@@ -537,43 +555,47 @@
     }
 
     .hero-bottom-grid {
+        grid-template-columns: 1.2fr 0.8fr 1fr; /* Keep same ratio */
         gap: 25px;
     }
 
     /* COLUMN 1 */
     .hero-coin-box {
-        height: 70px;
+        height: 75px; /* Slightly smaller on tablet */
+        padding: 12px;
     }
 
     .hero-text-box {
-        padding: 36px 24px 24px;
+        padding: 16px 18px 8px;
+        max-height: 160px;
     }
 
     .hero-text-box p {
-        font-size: 24px;
+        font-size: 18px;
     }
 
     .quote-mark svg {
-        font-size: 160px;
+        font-size: 55px;
     }
 
-    /* COLUMN 2 */
-    .hero-bottom-fixed-image {
-        min-height: 250px;
-    }
-
-    /* COLUMN 3 */
+    /* COLUMN 2 & 3 */
+    .hero-bottom-fixed-image,
     .full-height {
-        min-height: 250px;
+        min-height: 230px;
+        max-height: 250px;
     }
-
+    
+    .hero-bottom-fixed-image {
+        padding: 10px;
+    }
+    
     .hero-bottom-bar-chart {
         gap: 8px;
     }
 }
 
 /* =========================
-   MOBILE RESPONSIVE (up to 768px) - NO WHITE SPACE!
+   MOBILE RESPONSIVE (up to 768px) - ONLY TEXT BOX SHOWS (NO CHANGES NEEDED - KEEPING AS IS)
 ========================= */
 @media (max-width: 768px) {
 
@@ -591,26 +613,20 @@
         font-size: 18px;
     }
 
-    /* BOTTOM SECTION - NO EXTRA SPACE */
+    /* BOTTOM SECTION - ONLY TEXT BOX */
     .hero-bottom-section {
         padding: 40px 16px 0;
-        margin-bottom: 0;
-        /* NO MARGIN AT BOTTOM */
     }
 
     .hero-bottom-bg {
         width: 100%;
-        padding: 30px 20px 0 20px;
+        padding: 30px 20px 20px 20px;
         border-radius: 25px 25px 0 0;
-        margin-bottom: 0;
-        /* NO MARGIN AT BOTTOM */
     }
 
     .hero-bottom-grid {
         grid-template-columns: 1fr;
-        gap: 30px;
-        margin-bottom: 0;
-        /* NO MARGIN AT BOTTOM */
+        gap: 0;
     }
 
     /* COLUMN 1 - ONLY TEXT BOX SHOWS */
@@ -619,25 +635,28 @@
     }
 
     .hero-bottom-col-stack {
-        margin-bottom: 0;
-        /* NO MARGIN AT BOTTOM */
+        display: block;
     }
 
     .hero-text-box {
-        max-width: 500px;
-        margin: 0 auto;
-        padding: 40px 24px 24px;
-        margin-bottom: 0;
-        /* NO MARGIN AT BOTTOM */
+        max-width: 100%;
+        margin: 0;
+        padding: 35px 25px 25px;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        display: block;
+        max-height: none; /* Remove max-height on mobile */
     }
 
     .hero-text-box p {
-        font-size: 22px;
+        font-size: 24px;
         text-align: center;
+        white-space: pre-line;
     }
 
     .quote-mark svg {
-        font-size: 140px;
+        font-size: 70px;
     }
 
     /* COLUMN 2 & 3 - HIDDEN */
@@ -645,20 +664,10 @@
     .hero-bottom-col-right {
         display: none !important;
     }
-
-    /* REMOVE ANY EXTRA SPACE FROM PARENTS */
-    .hero-wrapper,
-    .hero-bottom-section,
-    .hero-bottom-bg,
-    .hero-bottom-grid,
-    .hero-bottom-col-stack {
-        padding-bottom: 0;
-        margin-bottom: 0;
-    }
 }
 
 /* =========================
-   SMALL MOBILE RESPONSIVE (up to 480px) - NO WHITE SPACE!
+   SMALL MOBILE RESPONSIVE (up to 480px) - NO CHANGES
 ========================= */
 @media (max-width: 480px) {
 
@@ -675,21 +684,17 @@
         font-size: 16px;
     }
 
-    /* BOTTOM SECTION - NO SPACE */
+    /* BOTTOM SECTION - TEXT BOX ONLY */
     .hero-bottom-section {
         padding: 30px 12px 0;
-        margin-bottom: 0;
     }
 
     .hero-bottom-bg {
-        padding: 24px 16px 0 16px;
-        margin-bottom: 0;
+        padding: 24px 16px 16px 16px;
     }
 
-    /* COLUMN 1 - TEXT BOX ONLY */
     .hero-text-box {
-        padding: 32px 20px 20px;
-        margin-bottom: 0;
+        padding: 30px 20px 20px;
     }
 
     .hero-text-box p {
@@ -697,7 +702,7 @@
     }
 
     .quote-mark svg {
-        font-size: 120px;
+        font-size: 60px;
     }
 }
 

@@ -186,9 +186,9 @@ const HeroSection = () => {
 
                         {/* ===== COLUMN 1 - TWO INDEPENDENT DIVS ===== */}
                         <div className="hero-bottom-col-stack">
-                            
+
                             {/* DIV 1: COIN ONLY - Standalone box */}
-                            <motion.div 
+                            <motion.div
                                 className="hero-coin-box"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -206,7 +206,7 @@ const HeroSection = () => {
                             </motion.div>
 
                             {/* DIV 2: TEXT ONLY - Standalone box with quote */}
-                            <motion.div 
+                            <motion.div
                                 className="hero-text-box"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -235,7 +235,7 @@ const HeroSection = () => {
                             </motion.div>
                         </div>
 
-                        {/* ===== COLUMN 2 - BAR IMAGE (UNCHANGED) ===== */}
+                        {/* ===== COLUMN 2 - BAR IMAGE ===== */}
                         <div className="hero-bottom-col hero-bottom-col-image">
                             <motion.div
                                 className="hero-bottom-fixed-image"
@@ -254,7 +254,7 @@ const HeroSection = () => {
                             </motion.div>
                         </div>
 
-                        {/* ===== COLUMN 3 - BAR CHART (UNCHANGED) ===== */}
+                        {/* ===== COLUMN 3 - BAR CHART ===== */}
                         <div className="hero-bottom-col hero-bottom-col-right">
                             <motion.div
                                 className="full-height"
