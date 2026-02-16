@@ -11,7 +11,12 @@
             #e9dff7,
             #ffffff,
             #ffffff);
-    overflow-x: hidden;
+    overflow-x: hidden;    
+
+    @media (max-width: 768px) { 
+
+        min-height: 94vh;
+    }
 }
 
 /* =========================
@@ -42,12 +47,14 @@
     position: relative;
     padding: 2px 22px;
     border: 2px solid #7a3db8;
+    border: none;
     border-radius: 16px;
     color: #5e2690;
     display: inline-block;
     transform-style: preserve-3d;
     perspective: 1000px;
-    background: rgba(122, 61, 184, 0.1);
+    background: rgba(122, 61, 184, 0.1); 
+    background: none;
 }
 
 .financial-highlight::before,
@@ -177,7 +184,7 @@
 }
 
 /* =========================
-   BOTTOM SECTION - COMPLETELY FIXED
+   BOTTOM SECTION - COMPLETELY FIXED WITH ALL CHANGES
 ========================= */
 .hero-bottom-section {
     padding: 40px 0 0;
@@ -186,7 +193,7 @@
 }
 
 .hero-bottom-bg {
-    width: 70%;
+    width: 65%;
     background: #e7ddf6;
     border-radius: 40px 40px 0 0;
     padding: 40px 40px 0 40px;
@@ -207,11 +214,13 @@
     pointer-events: none;
 }
 
-/* ===== GRID WITH CUSTOM COLUMN WIDTHS ===== */
+/* ===== GRID WITH EQUAL GAP BETWEEN ALL COLUMNS ===== */
 .hero-bottom-grid {
     display: grid;
-    grid-template-columns: 0.8fr 0.6fr 0.8fr; /* FIXED: 2nd column narrower (0.8fr) */
+    grid-template-columns: 0.4fr 0.3fr 0.5fr;
+    /* CHANGED: Col1 & Col2 both 0.5fr for equal width */
     gap: 40px;
+    /* KEPT: Same gap value */
     align-items: stretch;
 }
 
@@ -219,21 +228,22 @@
 .hero-bottom-col-stack {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
     width: 100%;
     height: 100%;
+    justify-content : flex-end;
 }
 
-/* COIN BOX - INCREASED HEIGHT */
+/* COIN BOX - REMOVED ANIMATION */
 .hero-coin-box {
     width: 100%;
-    height: 85px; /* FIXED: Increased from 60px to 85px - TALLER COIN */
+    height: 80px;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 26px;
-    padding: 15px; /* FIXED: Increased padding */
+    padding: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -256,9 +266,10 @@
     height: 100%;
     object-fit: cover;
     transition: all 0.3s ease;
+    /* REMOVED: animation */
 }
 
-/* TEXT BOX - REDUCED HEIGHT (more compact) */
+/* TEXT BOX - NOW TOUCHES BOTTOM */
 .hero-text-box {
     position: relative;
     background: rgba(255, 255, 255, 0.2);
@@ -266,7 +277,8 @@
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 30px 30px 0 0;
-    padding: 18px 60px 10px; /* FIXED: Reduced top/bottom padding */
+    padding: 18px 60px 0px;
+    /* CHANGED: bottom padding removed (was 10px, now 0px) */
     width: 100%;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -274,13 +286,15 @@
     box-shadow: 0 8px 32px rgba(94, 38, 144, 0.1);
     flex: 1;
     display: block;
-    max-height: 180px; /* FIXED: Control max height */
+    max-height: 200px;
+    margin-bottom: 0;
+    /* ENSURE: No margin at bottom */
 }
 
 .hero-text-box:hover {
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
-    transform: translateY(-5px);
+    // transform: translateY(-5px); 
     box-shadow: 0 15px 35px rgba(94, 38, 144, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
@@ -288,8 +302,8 @@
 /* QUOTE ICON - SMALLER 60-70px */
 .quote-mark {
     position: absolute;
-    top: 8px; /* FIXED: Adjusted position */
-    left: 30px; /* FIXED: Adjusted position */
+    top: 8px;
+    left: 30px;
     line-height: 1;
     color: #5d1d95;
     opacity: 0.15;
@@ -298,7 +312,7 @@
 }
 
 .quote-mark svg {
-    font-size: 70px; /* FIXED: Slightly smaller */
+    font-size: 70px;
     color: #5d1d95;
 }
 
@@ -306,21 +320,24 @@
 .hero-text-box p {
     position: relative;
     z-index: 2;
-    font-size: 22px; /* FIXED: Slightly smaller */
-    margin: 0;
-    letter-spacing: 0.2px;
+    font-size: 23px;
+    margin: 0 0 0 0;
+    /* CHANGED: Remove bottom margin */
+    letter-spacing: 0.3px;
     font-family: 'Content', serif;
     transition: all 0.3s ease;
-    line-height: 1.25; /* FIXED: Tighter line height */
+    line-height: 1.35;
     white-space: pre-line;
     text-align: left;
+    padding-bottom: 0;
+    /* ENSURE: No padding at bottom */
 }
 
 .hero-text-box:hover p {
     transform: scale(1.02);
 }
 
-/* ===== COLUMN 2 - BAR IMAGE WITH GLASS (NARROWER) ===== */
+/* ===== COLUMN 2 - BAR IMAGE WITH GLASS (NARROWER) - REMOVED ANIMATION ===== */
 .hero-bottom-col-image {
     display: flex;
     align-items: stretch;
@@ -334,66 +351,78 @@
     min-height: 260px;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(50px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 30px 30px 0 0;
-    padding: 12px; /* FIXED: Reduced padding */
+    padding: 12px 12px 0 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease; 
+    transition: all 0.3s ease;
     cursor: pointer;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0 8px 32px rgba(94, 38, 144, 0.1);
+    /* REMOVED: animation variants */
 }
 
 .hero-bottom-fixed-image:hover {
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
-    transform: translateY(-5px);
+    // transform: translateY(-5px); 
     box-shadow: 0 15px 35px rgba(94, 38, 144, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .hero-bottom-fixed-image img {
     width: 100%;
-    height: 100%;
-    object-fit: contain; /* FIXED: Cover to fill the space properly */
+    height: 130%;
+    object-fit: contain;
     object-position: center;
     border-radius: 20px;
-    transition: all 0.3s ease; 
+    transition: all 0.3s ease;
+    transform: translateY(-20px); 
+    /* REMOVED: hover animation from image itself */
+}
+
+.hero-bottom-fixed-image:hover img {
+    transform: translateY(-25px);  
+    /* KEPT: hover effect */
 }
 
 /* ===== COLUMN 3 - BAR CHART WITH GLASS (TOUCHES BOTTOM) ===== */
 .hero-bottom-col-right {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     height: 100%;
+    justify-content: flex-end;
+    margin-left: 30px;
 }
 
 .full-height {
     width: 100%;
     height: 100%;
-    max-height: 280px;
+    max-height: 300px;
     min-height: 260px;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 30px 30px 0 0;
-    padding: 0; /* FIXED: REMOVED ALL PADDING - bars touch bottom */
+    padding: 0;
+    /* KEPT: No padding */
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease;  
     box-shadow: 0 8px 32px rgba(94, 38, 144, 0.1);
     display: flex;
     align-items: flex-end;
-    overflow: hidden; /* FIXED: Ensure content stays within bounds */
+    overflow: hidden;
+    
 }
 
 .full-height:hover {
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
-    transform: translateY(-5px);
+    // transform: translateY(-5px); 
     box-shadow: 0 15px 35px rgba(94, 38, 144, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
@@ -403,15 +432,16 @@
     width: 100%;
     display: flex;
     align-items: flex-end;
-    gap: 10px; /* FIXED: Slightly reduced gap */
+    gap: 10px;
     margin: 0;
-    padding: 0 20px; /* FIXED: No padding */
+    padding: 50px 20px 0px 20px;
+    /* KEPT: bottom padding 0, top padding for numbers */
 }
 
 .hero-bottom-bar {
     flex: 1;
     border-radius: 8px 8px 0 0;
-    font-size: 12px; /* FIXED: Slightly smaller */
+    font-size: 12px;
     color: #fff;
     text-align: center;
     transition: all 0.3s ease;
@@ -421,15 +451,16 @@
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 4px; /* FIXED: Minimal padding for numbers */
-    margin-bottom: 0; /* FIXED: No margin at bottom */
+    padding-top: 4px;
+    margin-bottom: 0;
+    /* ENSURE: No margin at bottom */
     display: flex;
     align-items: flex-start;
     justify-content: center;
 }
 
 .hero-bottom-bar:hover {
-    transform: scaleY(1.1);
+    transform: scaleY(1.03);
     transform-origin: bottom;
     box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2);
 }
@@ -449,11 +480,25 @@
     left: 100%;
 }
 
-.hero-bottom-bar1 { background: rgba(214, 198, 247, 0.9); }
-.hero-bottom-bar2 { background: rgba(194, 170, 240, 0.9); }
-.hero-bottom-bar3 { background: rgba(168, 139, 231, 0.9); }
-.hero-bottom-bar4 { background: rgba(122, 61, 184, 0.9); }
-.hero-bottom-bar5 { background: rgba(94, 38, 144, 0.9); }
+.hero-bottom-bar1 {
+    background: rgba(214, 198, 247, 0.9);
+}
+
+.hero-bottom-bar2 {
+    background: rgba(194, 170, 240, 0.9);
+}
+
+.hero-bottom-bar3 {
+    background: rgba(168, 139, 231, 0.9);
+}
+
+.hero-bottom-bar4 {
+    background: rgba(122, 61, 184, 0.9);
+}
+
+.hero-bottom-bar5 {
+    background: rgba(94, 38, 144, 0.9);
+}
 
 /* ===== MAKE ALL COLUMNS SAME HEIGHT ===== */
 .hero-bottom-grid {
@@ -555,13 +600,15 @@
     }
 
     .hero-bottom-grid {
-        grid-template-columns: 1.2fr 0.8fr 1fr; /* Keep same ratio */
+        grid-template-columns: 1.2fr 0.8fr 1fr;
+        /* Keep same ratio */
         gap: 25px;
     }
 
     /* COLUMN 1 */
     .hero-coin-box {
-        height: 75px; /* Slightly smaller on tablet */
+        height: 75px;
+        /* Slightly smaller on tablet */
         padding: 12px;
     }
 
@@ -584,11 +631,11 @@
         min-height: 230px;
         max-height: 250px;
     }
-    
+
     .hero-bottom-fixed-image {
         padding: 10px;
     }
-    
+
     .hero-bottom-bar-chart {
         gap: 8px;
     }
@@ -646,13 +693,15 @@
         background: rgba(255, 255, 255, 0.2);
         backdrop-filter: blur(10px);
         display: block;
-        max-height: none; /* Remove max-height on mobile */
+        max-height: none;
+        /* Remove max-height on mobile */
     }
 
     .hero-text-box p {
         font-size: 24px;
         text-align: center;
         white-space: pre-line;
+        // margin-left: 5rem; 
     }
 
     .quote-mark svg {
@@ -691,6 +740,7 @@
 
     .hero-bottom-bg {
         padding: 24px 16px 16px 16px;
+        border-radius: 25px;
     }
 
     .hero-text-box {

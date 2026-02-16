@@ -4,33 +4,32 @@
 /* ===== SECTION WRAPPER ===== */
 .services-wrapper {
     width: 100%;
+    min-height: 80vh;
     background: #fff;
     font-family: 'Content', serif;
-    min-height: 100vh;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .services-container {
     max-width: 1200px;
-    margin: auto;
-    padding: 80px 40px;
+    margin: 0 auto;
+    padding: 40px 40px;
     display: flex;
     gap: 80px;
-    align-items: center;
-    position: relative;
+    align-items: flex-start;
     width: 100%;
 }
 
-/* ===== LEFT SIDE – VERTICALLY CENTERED ===== */
+/* ===== LEFT SIDE – STICKY 80vh BOX WITH CENTERED CONTENT ===== */
 .services-left {
     width: 45%;
+    height: 80vh;
+    position: sticky;
+    top: 0;
     display: flex;
     align-items: center;
-    position: sticky;
-    top: 50%;
-    transform: translateY(-50%);
-    height: auto;
 }
 
 .services-left-content {
@@ -141,7 +140,7 @@
     transform: rotate(-45deg);
 }
 
-/* ===== RIGHT SIDE – TIMELINE ===== */
+/* ===== RIGHT SIDE – NORMAL FLOW ===== */
 .services-right {
     width: 55%;
     position: relative;
@@ -152,14 +151,14 @@
     padding: 20px 0;
 }
 
-/* VERTICAL LINE – UNFILLED BACKGROUND */
+/* VERTICAL LINE – UNFILLED BACKGROUND (only one line) */
 .timeline-line {
     position: absolute;
     left: 18px;
     top: 20px;
     bottom: 20px;
     width: 2px;
-    background: transparent; /* NO COLOR – only fill appears */
+    background: rgba(122, 61, 184, 0.2);
     z-index: 1;
     overflow: hidden;
 }
@@ -173,52 +172,38 @@
     z-index: 2;
 }
 
-/* SERVICE ITEMS – FULLY VISIBLE, ANIMATED BY FRAMER */
+/* SERVICE ITEMS – connector lines removed */
 .service-item {
     display: flex;
     align-items: flex-start;
     gap: 24px;
     position: relative;
-    padding-left: 40px;
-    margin-bottom: 80px;
+    padding-left: 48px;        /* Space for icon */
+    margin-bottom: 150px;
 
     &:last-child {
         margin-bottom: 0;
     }
 
-    /* CONNECTOR LINE (LIGHT) */
-    &::before {
-        content: "";
-        position: absolute;
-        left: 18px;
-        top: 36px;
-        height: 100px;
-        width: 2px;
-        background: #7a3db8;
-        opacity: 0.2;
-        z-index: 1;
-    }
-
-    &:last-child::before {
-        display: none;
-    }
+    /* NO ::before – only the main timeline line remains */
 }
 
-/* ICON – STYLED, STATE CONTROLLED BY FRAMER */
+/* ICON – increased size, inactive background transparent */
 .icon {
     position: absolute;
-    left: 0;
+    left: -5px;
     top: 0;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px solid;
     z-index: 3;
-    font-size: 18px;
+    font-size: 22px;
     transition: all 0.3s ease;
+    background: transparent;    /* Fallback if motion doesn't set */
 }
 
 .content {
@@ -247,8 +232,12 @@
 
 /* ===== RESPONSIVE: TABLET ===== */
 @media (max-width: 1024px) and (min-width: 769px) {
+    .services-wrapper {
+        min-height: 80vh;
+    }
+
     .services-container {
-        padding: 60px 30px;
+        padding: 30px;
         gap: 60px;
     }
 
@@ -265,11 +254,14 @@
     }
 
     .service-item {
-        margin-bottom: 70px;
+        margin-bottom: 150px;
+        padding-left: 44px;
+    }
 
-        &::before {
-            height: 90px;
-        }
+    .icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
     }
 
     .content h3 {
@@ -308,7 +300,6 @@
 @media (max-width: 768px) {
     .services-wrapper {
         min-height: auto;
-        align-items: flex-start;
     }
 
     .services-container {
@@ -323,9 +314,10 @@
     }
 
     .services-left {
+        height: auto;
         position: relative;
         top: 0;
-        transform: none;
+        display: block;
         text-align: center;
         padding: 0;
     }
@@ -355,21 +347,15 @@
     }
 
     .service-item {
-        padding-left: 36px;
+        padding-left: 42px;
         gap: 16px;
-        margin-bottom: 60px;
-
-        &::before {
-            left: 16px;
-            height: 70px;
-            top: 32px;
-        }
+        margin-bottom: 100px;
     }
 
     .icon {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
         left: 0;
     }
 
@@ -457,26 +443,18 @@
     }
 
     .service-item {
-        padding-left: 32px;
-        margin-bottom: 50px;
-
-        &::before {
-            height: 60px;
-            top: 30px;
-        }
+        padding-left: 38px;
+        margin-bottom: 80px;
     }
 
     .icon {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+        left: -3px;
     }
 
     .timeline-line {
-        left: 14px;
-    }
-
-    .service-item::before {
         left: 14px;
     }
 
@@ -491,6 +469,7 @@
 
 /* ===== REDUCE MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
+
     .timeline-fill,
     .service-item,
     .icon,
@@ -523,7 +502,7 @@
 
     .icon:hover {
         transform: none !important;
-        background: #efe8fb !important;
+        background: transparent !important;
         color: #7a3db8 !important;
         border-color: #7a3db8 !important;
     }

@@ -10,6 +10,7 @@ import Contact from "./Pages/Contact/Contact";
 import Privacy from "./Pages/Privacy/Privacy";
 import AdminAuth from "./Pages/Admin/AdminAuth/AdminAuth";
 import AdminDashboard from "./Pages/Admin/Dashboard/AdminDashboard";
+import PricingPage from "./Pages/Pricing/PricingPage";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacypolicy" element={<Privacy />} />
+        <Route path="/pricing" element={<PricingPage />} />
 
 
 

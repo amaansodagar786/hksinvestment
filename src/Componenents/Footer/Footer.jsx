@@ -107,7 +107,7 @@ const Footer = () => {
         tap: { scale: 0.98, transition: { duration: 0.1 } }
     };
 
-    const guideItems = ["HOME", "CONTACT", "PRIVACY POLICY"];
+const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -228,9 +228,9 @@ const Footer = () => {
                                 </div>
                             </motion.div>
 
-                            {/* COLUMN 3: GUIDE */}
+                            {/* COLUMN 3: GUIDE - WILL BE HIDDEN ON MOBILE VIA CSS */}
                             <motion.div
-                                className="footer-col"
+                                className="footer-col guide-column"
                                 variants={columnVariants}
                             >
                                 <motion.h4
@@ -309,7 +309,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* BOTTOM BIG TEXT - FULL WIDTH */}
+                {/* BOTTOM BIG TEXT - FULL WIDTH - COLOR CHANGED ONLY */}
                 <motion.div
                     className="footer-bottom"
                     variants={bottomTextVariants}

@@ -1,20 +1,89 @@
 import React, { useRef } from "react";
 import "./Services.scss";
 import { FiUser, FiSettings, FiArrowRight, FiTrendingUp, FiShield, FiPieChart, FiDollarSign } from "react-icons/fi";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
+
+// Separate component for each service item
+const ServiceItem = ({ service, index, total, scrollYProgress }) => {
+    const ref = useRef(null);
+    // Track if the item is in view (used for fade‑up and mobile activation)
+    const isInView = useInView(ref, { margin: "-80px", amount: 0.2, once: false });
+
+    // Simple mobile detection – you can replace with a more robust hook if needed
+    const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+
+    // For desktop: threshold when line reaches this icon
+    const threshold = (index + 0.5) / total;
+    const isActiveByLine = useTransform(scrollYProgress, (progress) => (progress >= threshold ? 1 : 0));
+
+    // Map active state to visual properties for desktop
+    const scale = useTransform(isActiveByLine, [0, 1], [0.8, 1]);
+    const bgColor = useTransform(isActiveByLine, [0, 1], ['transparent', '#7a3db8']);
+    const iconColor = useTransform(isActiveByLine, [0, 1], ['#7a3db8', '#ffffff']);
+    const borderColor = useTransform(isActiveByLine, [0, 1], ['#7a3db8', '#5e2690']);
+
+    // Hover variant (same for both)
+    const hoverVariant = {
+        scale: 1.2,
+        rotate: 360,
+        backgroundColor: '#5e2690',
+        color: '#fff',
+        borderColor: '#5e2690',
+        transition: { duration: 0.4, ease: "easeInOut" }
+    };
+
+    return (
+        <motion.div
+            ref={ref}
+            className={`service-item ${index === total - 1 ? 'last' : ''}`}
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+            {isMobile ? (
+                // MOBILE: use isInView for activation
+                <motion.div
+                    className="icon"
+                    initial={{ scale: 0.8, backgroundColor: "transparent", color: "#7a3db8", borderColor: "#7a3db8" }}
+                    animate={isInView ? { scale: 1, backgroundColor: "#7a3db8", color: "#ffffff", borderColor: "#5e2690" } : {}}
+                    transition={{ duration: 0.4, ease: "backOut" }}
+                    whileHover={hoverVariant}
+                >
+                    {service.icon}
+                </motion.div>
+            ) : (
+                // DESKTOP: use scroll progress for activation
+                <motion.div
+                    className="icon"
+                    style={{
+                        scale,
+                        backgroundColor: bgColor,
+                        color: iconColor,
+                        borderColor: borderColor
+                    }}
+                    whileHover={hoverVariant}
+                >
+                    {service.icon}
+                </motion.div>
+            )}
+
+            <div className="content">
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+            </div>
+        </motion.div>
+    );
+};
 
 const Services = () => {
     const timelineRef = useRef(null);
-    const leftRef = useRef(null);
 
-    // Scroll animation for timeline line – fills as you scroll
     const { scrollYProgress } = useScroll({
         target: timelineRef,
         offset: ["start center", "end center"]
     });
     const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-    // UPDATED SERVICES DATA
     const services = [
         {
             id: 1,
@@ -54,7 +123,6 @@ const Services = () => {
         }
     ];
 
-    // LEFT CONTENT ANIMATION – appears when in view
     const leftContentVariants = {
         hidden: { opacity: 0, x: -30 },
         visible: {
@@ -64,41 +132,6 @@ const Services = () => {
         }
     };
 
-    // SERVICE ITEM – appears one by one on scroll
-    const serviceItemVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" }
-        }
-    };
-
-    // ICON – inactive (light) → active (dark purple) when in view
-    const iconVariants = {
-        hidden: {
-            scale: 0.8,
-            backgroundColor: "#efe8fb",
-            color: "#7a3db8",
-            borderColor: "#7a3db8"
-        },
-        visible: {
-            scale: 1,
-            backgroundColor: "#7a3db8",
-            color: "#ffffff",
-            borderColor: "#5e2690",
-            transition: { duration: 0.4, ease: "backOut" }
-        },
-        hover: {
-            scale: 1.2,
-            rotate: 360,
-            backgroundColor: "#5e2690",
-            color: "#fff",
-            transition: { duration: 0.4, ease: "easeInOut" }
-        }
-    };
-
-    // BUTTON – same as About section
     const buttonVariants = {
         initial: { scale: 1 },
         hover: { scale: 1.02 },
@@ -108,16 +141,15 @@ const Services = () => {
     return (
         <section className="services-wrapper">
             <div className="services-container">
-                {/* LEFT SIDE – VERTICALLY CENTERED */}
-                <motion.div
-                    className="services-left"
-                    ref={leftRef}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    variants={leftContentVariants}
-                >
-                    <div className="services-left-content">
+                {/* LEFT SIDE – 80vh sticky box with centered content */}
+                <div className="services-left">
+                    <motion.div
+                        className="services-left-content"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-100px" }}
+                        variants={leftContentVariants}
+                    >
                         <motion.span
                             className="services-tag"
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -142,7 +174,6 @@ const Services = () => {
                             stage of life.
                         </motion.p>
 
-                        {/* BUTTON – RIGHT TO LEFT HOVER ANIMATION */}
                         <motion.button
                             className="services-btn"
                             variants={buttonVariants}
@@ -156,8 +187,8 @@ const Services = () => {
                                 <FiArrowRight />
                             </span>
                         </motion.button>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                </div>
 
                 {/* RIGHT SIDE – TIMELINE */}
                 <div className="services-right" ref={timelineRef}>
@@ -170,32 +201,15 @@ const Services = () => {
                             />
                         </div>
 
-                        {/* SERVICE ITEMS – APPEAR ONE BY ONE ON SCROLL */}
+                        {/* SERVICE ITEMS */}
                         {services.map((service, index) => (
-                            <motion.div
+                            <ServiceItem
                                 key={service.id}
-                                className={`service-item ${index === services.length - 1 ? 'last' : ''}`}
-                                variants={serviceItemVariants}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: false, margin: "-80px", amount: 0.2 }}
-                            >
-                                <motion.div
-                                    className="icon"
-                                    variants={iconVariants}
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    viewport={{ once: false, margin: "-80px", amount: 0.2 }}
-                                    whileHover="hover"
-                                >
-                                    {service.icon}
-                                </motion.div>
-
-                                <div className="content">
-                                    <h3>{service.title}</h3>
-                                    <p>{service.description}</p>
-                                </div>
-                            </motion.div>
+                                service={service}
+                                index={index}
+                                total={services.length}
+                                scrollYProgress={scrollYProgress}
+                            />
                         ))}
                     </div>
                 </div>

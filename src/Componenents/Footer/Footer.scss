@@ -31,7 +31,8 @@
 
 /* GROUP: BRAND + GUIDE + CONTACT + COPYRIGHT */
 .footer-group {
-    flex: 1.2 + 0.9 + 1.2; /* sum of 3 columns */
+    flex: 1.2 + 0.9 + 1.2;
+    /* sum of 3 columns */
     display: flex;
     flex-direction: column;
     background: transparent;
@@ -40,7 +41,7 @@
 /* 3-COLUMN GRID INSIDE GROUP */
 .footer-group-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.9fr 1.2fr;
+    grid-template-columns: 1.2fr 0.6fr 1.2fr;
     gap: 30px;
     width: 100%;
 }
@@ -59,16 +60,19 @@
 .feedback-form {
     display: flex;
     flex-direction: column;
-    gap: 12px; /* REDUCED GAP */
+    gap: 12px;
+    /* REDUCED GAP */
     width: 100%;
 }
 
 .feedback-input,
 .feedback-textarea {
-    padding: 10px 14px; /* REDUCED PADDING */
+    padding: 10px 14px;
+    /* REDUCED PADDING */
     background: rgba(255, 255, 255, 0.08);
     border: 1.5px solid rgba(217, 204, 243, 0.3);
-    border-radius: 10px; /* SLIGHTLY SMALLER */
+    border-radius: 10px;
+    /* SLIGHTLY SMALLER */
     font-family: 'Content', serif;
     font-size: 14px;
     color: #ffffff;
@@ -92,14 +96,16 @@
 
 .feedback-textarea {
     resize: vertical;
-    min-height: 70px; /* REDUCED HEIGHT */
+    min-height: 70px;
+    /* REDUCED HEIGHT */
 }
 
 .feedback-btn {
     background: linear-gradient(90deg, #5e2690, #7a3db8);
     color: white;
     border: none;
-    padding: 10px 18px; /* REDUCED PADDING */
+    padding: 10px 18px;
+    /* REDUCED PADDING */
     border-radius: 50px;
     font-family: 'Content', serif;
     font-size: 14px;
@@ -109,7 +115,8 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: 2px; /* REDUCED */
+    margin-top: 2px;
+    /* REDUCED */
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -324,17 +331,26 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+    color: #ffffff;
+    /* SIRF YEH LINE ADD KARO */
     background: linear-gradient(90deg, #4a2775, #5e2690, #7a3db8);
     background-size: 200% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientShift 5s ease-in-out infinite;
+    animation: gradientShift 6s ease-in-out infinite;
 }
 
 @keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
 }
 
 /* =========================
@@ -456,6 +472,9 @@
     .footer {
         padding: 20px 16px 0px;
     }
+     .footer-col.guide-column {
+        display: none;
+    }
 
     .footer-top {
         gap: 30px;
@@ -507,6 +526,7 @@
    REDUCED MOTION
 ========================= */
 @media (prefers-reduced-motion: reduce) {
+
     .footer-bottom,
     .socials div,
     .footer-col ul li,
@@ -541,3 +561,9 @@
         transform: none !important;
     }
 }
+
+
+
+
+
+
