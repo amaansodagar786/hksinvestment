@@ -15,7 +15,7 @@
 
     @media (max-width: 768px) { 
 
-        min-height: 94vh;
+        min-height: 50vh;
     }
 }
 
@@ -53,8 +53,8 @@
     display: inline-block;
     transform-style: preserve-3d;
     perspective: 1000px;
-    background: rgba(122, 61, 184, 0.1); 
-    background: none;
+    background: #7a3db81a; 
+    background: rgba(122, 61, 184, 0.1);
 }
 
 .financial-highlight::before,
@@ -113,8 +113,8 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    width: 185px;
-    height: 56px;
+    width: 340px;
+    height: 60px;
     background: #5e2690;
     border: 2px solid #5e2690;
     border-radius: 999px;
@@ -132,8 +132,8 @@
     right: 2px;
     top: 50%;
     transform: translateY(-50%);
-    height: 49px;
-    width: 46px;
+    height: 51px;
+    width: 50px;
     background: #ffffff;
     border-radius: 999px;
     transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -190,6 +190,7 @@
     padding: 40px 0 0;
     display: flex;
     justify-content: center;
+    display: none;
 }
 
 .hero-bottom-bg {
@@ -799,7 +800,7 @@
 
 @media (max-width: 480px) {
     .hero-btn {
-        width: 120px;
+        width: 230px;
         height: 44px;
     }
 
@@ -811,7 +812,7 @@
     .hero-btn-arrow,
     .hero-btn-fill {
         width: 34px;
-        height: 34px;
+        height: 36px;
         font-size: 15px;
     }
 }

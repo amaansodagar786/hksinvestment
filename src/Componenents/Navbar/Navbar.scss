@@ -13,11 +13,11 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 // DESKTOP NAVBAR
 // =========================
 .desktop-navbar {
-    position: absolute;
+    position: fixed;
     top: 24px;
     left: 0;
     right: 0;
-    top: 30px;
+    // top: 30px; 
     display: flex;
     justify-content: center;
     z-index: 1000;
@@ -273,8 +273,11 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 // MOBILE MENU LINKS
 // =========================
 .mobile-menu-links {
-    width: 70%;
-    margin: 80px 24px 0 auto; // Increased top margin to account for fixed button
+    position: fixed; // Changed from relative
+    top: 30px; // Position below the fixed hamburger
+    right: 5%;
+    width: 60%;
+    max-width: 350px; // Prevent too wide on tablets
     background: $purple-light;
     border: 2px solid $purple-secondary;
     border-radius: 28px;
@@ -287,7 +290,6 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transform: translateX(20px) scale(0.95);
     pointer-events: none;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
     z-index: 1001;
 
     &.open {
@@ -402,7 +404,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 @media (max-width: 480px) {
     .mobile-logo a {
         font-size: 20px;
-        padding-top: 50px !important;
+        // padding-top: 50px !important;
     }
 
     .hamburger {
@@ -412,7 +414,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
     .mobile-menu-links {
-        width: 75%;
+        width: 60%;
         margin: 75px 16px 0 auto;
         padding: 16px 0;
         gap: 14px;

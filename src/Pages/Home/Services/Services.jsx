@@ -18,7 +18,7 @@ const ServiceItem = ({ service, index, total, scrollYProgress }) => {
 
     // Map active state to visual properties for desktop
     const scale = useTransform(isActiveByLine, [0, 1], [0.8, 1]);
-    const bgColor = useTransform(isActiveByLine, [0, 1], ['transparent', '#7a3db8']);
+    const bgColor = useTransform(isActiveByLine, [0, 1], ['#fff', '#7a3db8']);
     const iconColor = useTransform(isActiveByLine, [0, 1], ['#7a3db8', '#ffffff']);
     const borderColor = useTransform(isActiveByLine, [0, 1], ['#7a3db8', '#5e2690']);
 

@@ -157,7 +157,7 @@ const HeroSection = () => {
                         whileTap="tap"
                     >
                         <span className="hero-btn-fill"></span>
-                        <span className="hero-btn-text">Let's start</span>
+                        <span className="hero-btn-text">Get Your Free Consultation</span>
                         <span className="hero-btn-arrow">
                             <FiArrowRight />
                         </span>

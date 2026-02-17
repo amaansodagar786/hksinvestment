@@ -1,13 +1,16 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import { FaArrowLeft, FaArrowRight as FaArrowRightIcon } from "react-icons/fa6"; // NEW ICONS
+import { FaArrowLeft, FaArrowRight as FaArrowRightIcon } from "react-icons/fa6";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "swiper/css";
 import "./Testimonials.scss";
 
-// Avatar images
+// Avatar images (unchanged)
 const avatars = [
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
     "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop",
@@ -15,9 +18,14 @@ const avatars = [
     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
     "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=100&h=100&fit=crop",
     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    // Extra avatars for additional reviews (you can add more)
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop",
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop"
 ];
 
+// Reviews array (can be extended)
 const reviews = [
     {
         name: "David R.",
@@ -46,13 +54,104 @@ const reviews = [
     {
         name: "Emma T.",
         text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits."
+    },
+    {
+        name: "Amaan S.",
+        text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities.Integration was challenging at first but definitely worth it for the long-term benefits"
+    },
+    // Add more reviews to test scrolling
+    {
+        name: "John D.",
+        text: "Excellent service and support. They helped me plan my retirement with confidence."
+    },
+    {
+        name: "Sarah K.",
+        text: "Very professional team. My investments have grown steadily thanks to their advice."
     }
 ];
 
+// Modal Component (inside same file or separate – we'll keep inline for simplicity)
+const ReviewModal = ({ isOpen, onClose }) => {
+    if (!isOpen) return null;
+
+    return (
+        <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+        >
+            <motion.div
+                className="modal-content"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+            >
+                <h3>Leave a Review</h3>
+                <Formik
+                    initialValues={{ name: "", number: "", review: "" }}
+                    validate={values => {
+                        const errors = {};
+                        if (!values.name) errors.name = "Required";
+                        if (!values.number) errors.number = "Required";
+                        if (!values.review) errors.review = "Required";
+                        return errors;
+                    }}
+                    onSubmit={(values, { setSubmitting, resetForm }) => {
+                        // Simulate submission
+                        setTimeout(() => {
+                            toast.success("Review submitted successfully!");
+                            setSubmitting(false);
+                            resetForm();
+                            onClose();
+                        }, 500);
+                    }}
+                >
+                    {({ isSubmitting }) => (
+                        <Form>
+                            <div className="form-group">
+                                <label htmlFor="name">Name</label>
+                                <Field type="text" name="name" />
+                                <ErrorMessage name="name" component="div" className="error" />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="number">Phone Number</label>
+                                <Field type="tel" name="number" />
+                                <ErrorMessage name="number" component="div" className="error" />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="review">Review</label>
+                                <Field as="textarea" name="review" rows="4" />
+                                <ErrorMessage name="review" component="div" className="error" />
+                            </div>
+                            <div className="modal-actions">
+                                <button type="button" onClick={onClose} className="cancel-btn">Cancel</button>
+                                <button type="submit" disabled={isSubmitting} className="submit-btn">
+                                    {isSubmitting ? "Submitting..." : "Submit"}
+                                </button>
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
+                <button className="close-modal" onClick={onClose}>×</button>
+            </motion.div>
+        </motion.div>
+    );
+};
+
 const Testimonials = () => {
     const swiperRef = useRef(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Animation variants
+    // Split reviews into three columns for desktop grid
+    const columns = [[], [], []];
+    reviews.forEach((review, index) => {
+        columns[index % 3].push(review);
+    });
+
+    // Animation variants (unchanged)
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -89,25 +188,14 @@ const Testimonials = () => {
             y: 0,
             transition: { duration: 0.5, ease: "easeOut" }
         },
-        
     };
 
-    // BUTTON VARIANTS – SAME AS ABOUT SECTION
     const buttonVariants = {
         initial: { scale: 1 },
         hover: { scale: 1.02 },
         tap: { scale: 0.98 }
     };
 
-    const avatarVariants = {
-        hover: {
-            scale: 1.1,
-            borderColor: "#7a3db8",
-            transition: { duration: 0.3, ease: "easeInOut" }
-        }
-    };
-
-    // ARROW VARIANTS FOR SLIDER BUTTONS (FaArrowLeft / FaArrowRight)
     const sliderArrowVariants = {
         initial: {
             background: "#5e2690",
@@ -117,204 +205,161 @@ const Testimonials = () => {
         hover: {
             background: "#7a3db8",
             scale: 1.1,
-            rotate: 360, // full spin for fun
+            rotate: 360,
             transition: { duration: 0.4, ease: "easeInOut" }
         },
         tap: { scale: 0.9 }
     };
 
     return (
-        <motion.section
-            className="testimonial-section"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-        >
-            {/* HEADER */}
-            <motion.div
-                className="testimonial-header"
-                variants={headerVariants}
+        <>
+            <motion.section
+                className="testimonial-section"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={containerVariants}
             >
-                <div>
-                    <motion.span
-                        className="pill"
-                        variants={pillVariants}
-                    >
-                        Testimonial
-                    </motion.span>
-                    <motion.h2 variants={headerVariants}>
-                        Reviews that <br />
+                {/* HEADER */}
+                <motion.div
+                    className="testimonial-header"
+                    variants={headerVariants}
+                >
+                    <div>
                         <motion.span
-                            initial={{ opacity: 0.8 }}
-                            animate={{ opacity: 1 }}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                repeatType: "reverse"
-                            }}
+                            className="pill"
+                            variants={pillVariants}
                         >
-                            make us blush
+                            Testimonial
                         </motion.span>
-                    </motion.h2>
-                </div>
-
-                {/* DESKTOP BUTTON – hidden on mobile via CSS */}
-                <motion.button
-                    className="review-btn desktop-only"
-                    variants={buttonVariants}
-                    initial="initial"
-                    whileHover="hover"
-                    whileTap="tap"
-                >
-                    <span className="review-btn-fill"></span>
-                    <span className="review-btn-text">Leave a review</span>
-                    <span className="review-btn-arrow">
-                        <FiArrowRight />
-                    </span>
-                </motion.button>
-            </motion.div>
-
-            {/* DESKTOP GRID – LAYOUT UNCHANGED */}
-            <div className="testimonial-grid desktop-only">
-                <div className="col">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-50px" }}
-                        variants={cardVariants}
-                        // whileHover="hover" 
-                    >
-                        <ReviewCard {...reviews[0]} avatar={avatars[0]} />
-                    </motion.div>
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-50px" }}
-                        variants={cardVariants}
-                        whileHover="hover"
-                        transition={{ delay: 0.1 }}
-                    >
-                        <ReviewCard {...reviews[3]} avatar={avatars[3]} />
-                    </motion.div>
-                </div>
-                <div className="col">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-50px" }}
-                        variants={cardVariants}
-                        whileHover="hover"
-                        transition={{ delay: 0.2 }}
-                    >
-                        <ReviewCard {...reviews[1]} avatar={avatars[1]} />
-                    </motion.div>
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-50px" }}
-                        variants={cardVariants}
-                        whileHover="hover"
-                        transition={{ delay: 0.3 }}
-                    >
-                        <ReviewCard {...reviews[4]} avatar={avatars[4]} />
-                    </motion.div>
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-50px" }}
-                        variants={cardVariants}
-                        whileHover="hover"
-                        transition={{ delay: 0.4 }}
-                    >
-                        <ReviewCard {...reviews[5]} avatar={avatars[5]} />
-                    </motion.div>
-                </div>
-                <div className="col">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-50px" }}
-                        variants={cardVariants}
-                        whileHover="hover"
-                        transition={{ delay: 0.5 }}
-                    >
-                        <ReviewCard {...reviews[2]} avatar={avatars[2]} />
-                    </motion.div>
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-50px" }}
-                        variants={cardVariants}
-                        whileHover="hover"
-                        transition={{ delay: 0.6 }}
-                    >
-                        <ReviewCard {...reviews[6]} avatar={avatars[6]} />
-                    </motion.div>
-                </div>
-            </div>
-
-            {/* MOBILE SLIDER – LAYOUT UNCHANGED */}
-            <div className="testimonial-mobile">
-                <Swiper
-                    modules={[Autoplay]}
-                    onSwiper={(swiper) => (swiperRef.current = swiper)}
-                    slidesPerView={1}
-                    spaceBetween={20}
-                    loop
-                    autoplay={{ delay: 5000, disableOnInteraction: false }}
-                >
-                    {reviews.map((item, i) => (
-                        <SwiperSlide key={i}>
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.4 }}
+                        <motion.h2 variants={headerVariants}>
+                            Reviews that <br />
+                            <motion.span
+                                initial={{ opacity: 0.8 }}
+                                animate={{ opacity: 1 }}
+                                transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    repeatType: "reverse"
+                                }}
                             >
-                                <ReviewCard {...item} avatar={avatars[i]} mobile />
-                            </motion.div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+                                make us blush
+                            </motion.span>
+                        </motion.h2>
+                    </div>
 
-                {/* SLIDER ARROWS – UPDATED WITH FaArrowLeft / FaArrowRight */}
-                <div className="slider-arrows">
+                    {/* DESKTOP BUTTON – opens modal */}
                     <motion.button
-                        onClick={() => swiperRef.current.slidePrev()}
-                        variants={sliderArrowVariants}
+                        className="review-btn desktop-only"
+                        variants={buttonVariants}
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
+                        onClick={() => setIsModalOpen(true)}
                     >
-                        <FaArrowLeft />
+                        <span className="review-btn-fill"></span>
+                        <span className="review-btn-text">Leave a review</span>
+                        <span className="review-btn-arrow">
+                            <FiArrowRight />
+                        </span>
                     </motion.button>
-                    <motion.button
-                        onClick={() => swiperRef.current.slideNext()}
-                        variants={sliderArrowVariants}
-                        initial="initial"
-                        whileHover="hover"
-                        whileTap="tap"
-                    >
-                        <FaArrowRightIcon />
-                    </motion.button>
+                </motion.div>
+
+                {/* DESKTOP GRID – DYNAMIC & SCROLLABLE (shadows added via CSS) */}
+                <div className="testimonial-grid desktop-only">
+                    {columns.map((colReviews, colIndex) => (
+                        <div key={colIndex} className="col">
+                            {colReviews.map((review, index) => (
+                                <motion.div
+                                    key={`${colIndex}-${index}`}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    variants={cardVariants}
+                                    whileHover="hover"
+                                    transition={{ delay: (colIndex + index * 3) * 0.1 }}
+                                >
+                                    <ReviewCard
+                                        {...review}
+                                        avatar={avatars[(colIndex + index * 3) % avatars.length]}
+                                    />
+                                </motion.div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
 
-                {/* MOBILE CTA BUTTON – ONLY BUTTON IN MOBILE VIEW */}
-                <motion.button
-                    className="review-btn mobile-only"
-                    variants={buttonVariants}
-                    initial="initial"
-                    whileHover="hover"
-                    whileTap="tap"
-                >
-                    <span className="review-btn-fill"></span>
-                    <span className="review-btn-text">Leave a review</span>
-                    <span className="review-btn-arrow">
-                        <FiArrowRight />
-                    </span>
-                </motion.button>
-            </div>
-        </motion.section>
+                {/* MOBILE SLIDER – UNCHANGED */}
+                <div className="testimonial-mobile">
+                    <Swiper
+                        modules={[Autoplay]}
+                        onSwiper={(swiper) => (swiperRef.current = swiper)}
+                        slidesPerView={1}
+                        spaceBetween={20}
+                        loop
+                        autoplay={{ delay: 5000, disableOnInteraction: false }}
+                    >
+                        {reviews.map((item, i) => (
+                            <SwiperSlide key={i}>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.4 }}
+                                >
+                                    <ReviewCard {...item} avatar={avatars[i]} mobile />
+                                </motion.div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+
+                    {/* SLIDER ARROWS */}
+                    <div className="slider-arrows">
+                        <motion.button
+                            onClick={() => swiperRef.current?.slidePrev()}
+                            variants={sliderArrowVariants}
+                            initial="initial"
+                            whileHover="hover"
+                            whileTap="tap"
+                        >
+                            <FaArrowLeft />
+                        </motion.button>
+                        <motion.button
+                            onClick={() => swiperRef.current?.slideNext()}
+                            variants={sliderArrowVariants}
+                            initial="initial"
+                            whileHover="hover"
+                            whileTap="tap"
+                        >
+                            <FaArrowRightIcon />
+                        </motion.button>
+                    </div>
+
+                    {/* MOBILE CTA BUTTON – opens modal */}
+                    <motion.button
+                        className="review-btn mobile-only"
+                        variants={buttonVariants}
+                        initial="initial"
+                        whileHover="hover"
+                        whileTap="tap"
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        <span className="review-btn-fill"></span>
+                        <span className="review-btn-text">Leave a review</span>
+                        <span className="review-btn-arrow">
+                            <FiArrowRight />
+                        </span>
+                    </motion.button>
+                </div>
+            </motion.section>
+
+            {/* MODAL */}
+            <AnimatePresence>
+                {isModalOpen && <ReviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+            </AnimatePresence>
+
+            {/* TOAST CONTAINER */}
+            <ToastContainer position="top-right" autoClose={3000} />
+        </>
     );
 };
 

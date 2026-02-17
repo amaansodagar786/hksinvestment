@@ -3,9 +3,22 @@
 /* =========================
    SECTION
 ========================= */
-.about-section {
-    padding: 100px 80px 100px 60px;
+
+.main-about {
     background: #f7f5fb;
+    // width: 100%;  
+    overflow-x: hidden;
+    
+}
+
+.about-section {
+    padding: 50px 40px 100px 0px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+
+
+
 }
 
 /* =========================
@@ -148,8 +161,8 @@
 }
 
 .trends {
-    bottom: -22px;
-    left: 50%;
+    bottom: -15px;
+    left: 25%;
     transform: translateX(-50%);
 }
 
@@ -577,8 +590,19 @@
    SHIELD ICON ALIGNED TO LEFT
 ========================= */
 @media (max-width: 480px) {
+
+
+    .main-about {
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        padding-left: 0;
+        padding-right: 0;
+    }
     .about-section {
-        padding: 50px 16px;
+        padding: 50px 16px;   /* symmetrical padding */
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .about-header h2 {
