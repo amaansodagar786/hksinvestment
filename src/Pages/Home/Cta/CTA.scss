@@ -106,9 +106,9 @@
 }
 
 /* =========================
-   CONTACT MODAL – 💎 FIXED: CENTERED WITH MARGIN (no transform) 💎
+   CTA MODAL – COMPACT STYLE LIKE GENERAL INQUIRY
 ========================= */
-.modal-overlay {
+.cta-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -119,18 +119,16 @@
   z-index: 9998;
 }
 
-.contact-modal {
+.cta-modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
-  /* 🔥 perfectly centers without transform */
   width: 90%;
   max-width: 650px;
   height: fit-content;
-  /* takes content height */
   max-height: 90vh;
   overflow-y: auto;
   background: white;
@@ -159,7 +157,7 @@
   }
 }
 
-.modal-close-btn {
+.cta-modal-close-btn {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -184,7 +182,7 @@
   }
 }
 
-.modal-title {
+.cta-modal-title {
   font-size: 32px;
   font-family: 'Heading', serif;
   color: #5e2690;
@@ -200,7 +198,7 @@
   }
 }
 
-.modal-subtitle {
+.cta-modal-subtitle {
   font-size: 16px;
   font-family: 'Content', serif;
   color: #666;
@@ -210,19 +208,19 @@
 }
 
 /* =========================
-   FORM STYLES – UNCHANGED
+   CTA FORM STYLES – COMPACT LIKE GENERAL INQUIRY
 ========================= */
-.contact-form {
+.cta-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.form-row-full {
+.cta-form-row-full {
   width: 100%;
 }
 
-.form-row-2col {
+.cta-form-row-2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
@@ -234,14 +232,14 @@
   }
 }
 
-.form-group {
+.cta-form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
 }
 
-.form-group label {
+.cta-form-group label {
   font-family: 'Content', serif;
   font-size: 15px;
   color: #333;
@@ -252,8 +250,8 @@
   color: #ff4757;
 }
 
-.form-input,
-.form-textarea {
+.cta-form-input,
+.cta-form-textarea {
   padding: 14px 18px;
   border: 2px solid #e0d0f0;
   border-radius: 12px;
@@ -277,7 +275,7 @@
   }
 }
 
-.form-textarea {
+.cta-form-textarea {
   resize: vertical;
   min-height: 100px;
 }
@@ -289,7 +287,7 @@
   margin-top: 4px;
 }
 
-.submit-btn {
+.cta-submit-btn {
   background: #5e2690;
   color: white;
   border: none;
@@ -319,12 +317,12 @@
   }
 }
 
-.submit-arrow {
+.cta-submit-arrow {
   font-size: 20px;
   transition: transform 0.3s ease;
 }
 
-.submit-btn:hover .submit-arrow {
+.cta-submit-btn:hover .cta-submit-arrow {
   transform: translateX(4px);
 }
 
@@ -505,9 +503,9 @@
   .cta-btn-arrow,
   .cta-box,
   .cta-box h2 span,
-  .contact-modal,
-  .modal-overlay,
-  .submit-btn {
+  .cta-modal,
+  .cta-modal-overlay,
+  .cta-submit-btn {
     animation: none !important;
     transition: none !important;
   }

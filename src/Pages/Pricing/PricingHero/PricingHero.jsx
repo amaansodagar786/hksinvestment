@@ -117,9 +117,7 @@ const PricingHero = () => {
                         className="pricing-hero-subtitle"
                         variants={itemVariants}
                     >
-                        Choose the perfect plan for your financial journey!
-                        <br />
-                        No hidden fees. Cancel anytime. Start free for 14 days.
+                        Choose the perfect plan for your financial journey!<br className="desktop-only" /> No hidden fees. Cancel anytime. Start free for 14 days.
                     </motion.p>
 
                     <motion.button

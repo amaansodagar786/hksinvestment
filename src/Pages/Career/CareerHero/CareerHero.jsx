@@ -117,9 +117,7 @@ const CareerHero = () => {
                         className="career-hero-subtitle"
                         variants={itemVariants}
                     >
-                        Join a team that's reshaping financial technology!
-                        <br />
-                        Grow your career while making a real impact.
+                        Join a team that's reshaping financial technology!<br className="desktop-only" /> Grow your career while making a real impact.
                     </motion.p>
 
                     <motion.button

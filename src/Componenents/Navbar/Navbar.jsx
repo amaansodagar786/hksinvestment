@@ -1,14 +1,23 @@
+// Navbar.jsx
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { FiMessageCircle } from "react-icons/fi"; // Better matching icon
+import GeneralInquiryModal from "../../Pages/Contact/GenralInquiry/GeneralInquiryModal";
 import "./Navbar.scss";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeMenu = () => setMobileMenuOpen(false);
   
   const toggleMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const openInquiryModal = () => {
+    setIsModalOpen(true);
+    closeMenu(); // Close mobile menu if open
   };
 
   return (
@@ -22,19 +31,28 @@ const Navbar = () => {
             </NavLink>
           </div>
           
-          <div className="nav-links">
-            <NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>
-              Home
-            </NavLink>
-            <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
-              Contact
-            </NavLink>
-            <NavLink to="/pricing" className={({ isActive }) => isActive ? "active" : ""}>
-              Pricing
-            </NavLink>
-            <NavLink to="/career" className={({ isActive }) => isActive ? "active" : ""}>
-              Career
-            </NavLink>
+          {/* RIGHT SIDE - LINKS + INQUIRY BUTTON */}
+          <div className="nav-right">
+            <div className="nav-links">
+              <NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>
+                Home
+              </NavLink>
+              <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
+                Contact
+              </NavLink>
+              <NavLink to="/career" className={({ isActive }) => isActive ? "active" : ""}>
+                Career
+              </NavLink>
+              <NavLink to="/pricing" className={({ isActive }) => isActive ? "active" : ""}>
+                Pricing
+              </NavLink>
+            </div>
+
+            {/* INQUIRY BUTTON - DESKTOP */}
+            <button className="inquiry-nav-btn" onClick={openInquiryModal}>
+              <FiMessageCircle className="btn-icon" />
+              <span>Inquiry</span>
+            </button>
           </div>
         </div>
       </nav>
@@ -73,14 +91,31 @@ const Navbar = () => {
           <NavLink to="/contact" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
             Contact
           </NavLink>
-          <NavLink to="/pricing" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
-            Pricing
-          </NavLink>
           <NavLink to="/career" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
             Career
           </NavLink>
+          <NavLink to="/pricing" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
+            Pricing
+          </NavLink>
+          
+          {/* INQUIRY BUTTON - MOBILE */}
+          <button className="mobile-inquiry-btn" onClick={openInquiryModal}>
+            <FiMessageCircle className="btn-icon" />
+            <span>Inquiry</span>
+          </button>
+
+          {/* PRIVACY POLICY - MOBILE ONLY */}
+          <NavLink to="/privacypolicy" onClick={closeMenu} className="mobile-privacy-link">
+            Privacy Policy
+          </NavLink>
         </div>
       </div>
+
+      {/* GENERAL INQUIRY MODAL */}
+      <GeneralInquiryModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 };

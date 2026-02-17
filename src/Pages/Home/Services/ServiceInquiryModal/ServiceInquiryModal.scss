@@ -1,0 +1,243 @@
+/* =========================
+   SERVICE INQUIRY MODAL STYLES
+========================= */
+.service-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 9998;
+}
+
+.service-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 90%;
+    max-width: 650px;
+    height: fit-content;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    z-index: 9999;
+    box-shadow: 0 25px 50px rgba(94, 38, 144, 0.2);
+    border: 1px solid #e9dff7;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        width: 90%;
+        max-width: 90%;
+        padding: 30px;
+    }
+
+    @media (max-width: 480px) {
+        width: 85%;
+        padding: 24px 20px;
+        border-radius: 20px;
+    }
+}
+
+.service-modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #f5f0fd;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #5e2690;
+    font-size: 20px;
+    transition: all 0.2s ease;
+    z-index: 10000;
+
+    &:hover {
+        background: #5e2690;
+        color: white;
+        transform: rotate(90deg);
+    }
+}
+
+.service-modal-title {
+    font-size: 32px;
+    font-family: 'Heading', serif;
+    color: #5e2690;
+    margin-bottom: 12px;
+    text-align: center;
+
+    @media (max-width: 768px) {
+        font-size: 28px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 24px;
+    }
+}
+
+.service-modal-subtitle {
+    font-size: 16px;
+    font-family: 'Content', serif;
+    color: #666;
+    text-align: center;
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+/* =========================
+   SERVICE FORM STYLES
+========================= */
+.service-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.service-form-row-full {
+    width: 100%;
+}
+
+.service-form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+
+    @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+.service-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.service-form-group label {
+    font-family: 'Content', serif;
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+.required {
+    color: #ff4757;
+}
+
+.service-form-input,
+.service-form-select,
+.service-form-textarea {
+    padding: 14px 18px;
+    border: 2px solid #e0d0f0;
+    border-radius: 12px;
+    font-family: 'Content', serif;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: #faf7ff;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: #5e2690;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(94, 38, 144, 0.1);
+    }
+
+    &.error {
+        border-color: #ff4757;
+        background: #fff5f5;
+    }
+}
+
+.service-form-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235e2690' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+}
+
+.service-form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.error-message {
+    color: #ff4757;
+    font-family: 'Content', serif;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.service-submit-btn {
+    background: #5e2690;
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-family: 'Content', serif;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+    width: 100%;
+
+    &:hover:not(:disabled) {
+        background: #4a1f73;
+        color: white;
+        box-shadow: 0 10px 25px rgba(94, 38, 144, 0.3);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.service-submit-arrow {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.service-submit-btn:hover .service-submit-arrow {
+    transform: translateX(4px);
+}
+
+/* =========================
+   REDUCE MOTION
+========================= */
+@media (prefers-reduced-motion: reduce) {
+
+    .service-modal,
+    .service-modal-overlay,
+    .service-submit-btn {
+        animation: none !important;
+        transition: none !important;
+    }
+}

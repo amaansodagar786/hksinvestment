@@ -3,9 +3,13 @@
 // =========================
 $purple-primary: #5e2690;
 $purple-secondary: #7a3db8;
-$purple-light: #efe8fb;
+$purple-dark: #4a1f73;
+$purple-light: #f5f0fd;
+$purple-soft: #efe8fb;
 $white: #ffffff;
-$dark: #333333;
+$dark: #2d2d2d;
+$gray-light: #f8f9fa;
+$gray: #6c757d;
 $transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
@@ -17,7 +21,6 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     top: 24px;
     left: 0;
     right: 0;
-    // top: 30px; 
     display: flex;
     justify-content: center;
     z-index: 1000;
@@ -41,6 +44,11 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     &:hover {
         box-shadow: 0 12px 40px rgba($purple-secondary, 0.15);
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        width: 80%;
+        padding: 0 24px;
     }
 }
 
@@ -82,6 +90,19 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 // =========================
+// RIGHT SIDE CONTAINER (NEW)
+// =========================
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+        gap: 24px;
+    }
+}
+
+// =========================
 // DESKTOP NAV LINKS
 // =========================
 .nav-links {
@@ -92,14 +113,14 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     a {
         font-size: 18px;
         font-family: "Content", serif;
-        color: $dark;
+        color: $gray;
         text-decoration: none;
         padding: 8px 4px;
         position: relative;
         transition: $transition;
         font-weight: 500;
 
-        // ACTIVE PAGE - REDUCED BORDER HEIGHT
+        // ACTIVE PAGE
         &.active {
             color: $purple-primary;
             font-weight: 600;
@@ -141,14 +162,74 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
             }
         }
     }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        gap: 24px;
+
+        a {
+            font-size: 17px;
+        }
+    }
 }
 
 // =========================
-// MOBILE NAVBAR - COMPLETELY CHANGED
+// INQUIRY BUTTON - DESKTOP (UPDATED ICON)
+// =========================
+.inquiry-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, $purple-primary, $purple-secondary);
+    border: none;
+    border-radius: 40px;
+    color: $white;
+    font-family: "Content", serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    box-shadow: 0 4px 15px rgba($purple-primary, 0.3);
+
+    .btn-icon {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+    }
+
+    span {
+        letter-spacing: 0.3px;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba($purple-primary, 0.4);
+        background: linear-gradient(135deg, $purple-dark, $purple-primary);
+
+        .btn-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        padding: 6px 16px;
+        font-size: 15px;
+        
+        .btn-icon {
+            font-size: 16px;
+        }
+    }
+}
+
+// =========================
+// MOBILE NAVBAR
 // =========================
 .mobile-navbar {
     display: none;
-    position: absolute; // Changed from fixed
+    position: absolute;
     top: 20px;
     left: 0;
     right: 0;
@@ -159,7 +240,6 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 }
 
-// REMOVED the white container background - now it's just a flex row
 .mobile-navbar-container {
     width: 90%;
     margin: 0 auto;
@@ -169,12 +249,12 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     padding: 0;
     position: relative;
     z-index: 1002;
-    background: transparent; // No background
-    box-shadow: none; // No box shadow
-    height: auto; // Auto height
+    background: transparent;
+    box-shadow: none;
+    height: auto;
 }
 
-// Logo styles - completely bare, no background
+// Mobile logo
 .mobile-logo {
     a {
         font-size: 22px;
@@ -186,7 +266,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         transition: $transition;
         position: relative;
         background: transparent;
-        padding: 0; // No padding
+        padding: 0;
 
         &:hover {
             color: $purple-secondary;
@@ -195,22 +275,22 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 // =========================
-// HAMBURGER - WITH BACKGROUND BUBBLE
+// HAMBURGER
 // =========================
 .hamburger {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: $white; // White background
-    border-radius: 50%; // Perfect circle
+    background: $white;
+    border-radius: 50%;
     width: 48px;
     height: 48px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     transition: $transition;
-    position: fixed; // FIXED on scroll
-    top: 20px; // Stay at top
-    right: 5%; // Align with container
+    position: fixed;
+    top: 20px;
+    right: 5%;
     z-index: 1003;
 
     &:hover {
@@ -261,7 +341,6 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     stroke-dashoffset: -32.42;
 }
 
-// When menu is open, hamburger stays same
 .mobile-navbar.menu-open {
     .hamburger {
         background: $purple-light;
@@ -273,15 +352,15 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 // MOBILE MENU LINKS
 // =========================
 .mobile-menu-links {
-    position: fixed; // Changed from relative
-    top: 30px; // Position below the fixed hamburger
+    position: fixed;
+    top: 80px;
     right: 5%;
     width: 60%;
-    max-width: 350px; // Prevent too wide on tablets
-    background: $purple-light;
-    border: 2px solid $purple-secondary;
-    border-radius: 28px;
-    padding: 20px 0;
+    max-width: 350px;
+    background: $white;
+    border: 1px solid rgba($purple-secondary, 0.2);
+    border-radius: 24px;
+    padding: 24px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -291,65 +370,143 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     pointer-events: none;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1001;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 
     &.open {
         opacity: 1;
         transform: translateX(0) scale(1);
         pointer-events: auto;
-        box-shadow: 0 12px 40px rgba($purple-secondary, 0.15);
     }
 
     a {
-        font-size: 21px;
+        font-size: 20px;
         font-family: "Heading", serif;
-        color: $purple-primary;
+        color: $gray;
         text-decoration: none;
-        padding: 10px 20px;
+        padding: 12px 24px;
         width: 85%;
         text-align: center;
         position: relative;
         transition: $transition;
-        border-radius: 6px;
-        display: inline-block;
+        border-radius: 40px;
 
         // ACTIVE PAGE
         &.active {
-            font-weight: 700;
-            color: $purple-secondary;
-            background: transparent;
+            color: $purple-primary;
+            font-weight: 600;
+            background: $purple-light;
+            width: auto; // Change from 85% to auto
+            padding: 12px 30px; // Increase horizontal padding
+            margin: 0 auto; // Center it
+            display: inline-block;
 
             &::after {
-                content: '';
-                position: absolute;
-                bottom: 6px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: auto;
-                max-width: 70%;
-                min-width: 50px;
-                padding: 0 4px;
-                height: 3px;
-                background: linear-gradient(90deg, $purple-primary, $purple-secondary);
-                border-radius: 3px;
-                animation: slideInPurlContent 0.4s $bounce;
-                box-shadow: 0 2px 8px rgba($purple-secondary, 0.3);
+                display: none;
             }
         }
 
         // HOVER EFFECT
         &:hover {
-            background: transparent;
+            background: $purple-light;
+            color: $purple-primary;
             transform: translateX(6px);
-
-            &::before {
-                content: '→';
-                position: absolute;
-                left: 10%;
-                opacity: 1;
-                color: $purple-secondary;
-                animation: slideArrow 0.3s $bounce;
-            }
         }
+    }
+
+    @media (max-width: 480px) {
+        width: 70%;
+        padding: 20px 0;
+        top: 75px;
+
+        a {
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+    }
+}
+
+// =========================
+// MOBILE INQUIRY BUTTON (UPDATED ICON)
+// =========================
+.mobile-inquiry-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 85%;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, $purple-primary, $purple-secondary);
+    border: none;
+    border-radius: 40px;
+    color: $white;
+    font-family: "Heading", serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    margin: 8px 0;
+    box-shadow: 0 4px 15px rgba($purple-primary, 0.3);
+
+    .btn-icon {
+        font-size: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    span {
+        letter-spacing: 0.5px;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba($purple-primary, 0.4);
+        
+        .btn-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    @media (max-width: 480px) {
+        padding: 12px 20px;
+        font-size: 16px;
+        
+        .btn-icon {
+            font-size: 18px;
+        }
+    }
+}
+
+// =========================
+// PRIVACY POLICY LINK - MOBILE ONLY
+// =========================
+.mobile-privacy-link {
+    margin-top: 12px;
+    padding: 8px 16px !important;
+    font-size: 15px !important;
+    color: $gray !important;
+    font-family: "Content", serif !important;
+    // border-top: 1px solid rgba($purple-secondary, 0.2);
+    border-radius: 0 !important;
+    width: 90% !important;
+    text-align: center !important;
+    opacity: 0.8;
+    transition: $transition;
+
+    &:hover {
+        opacity: 1;
+        color: $purple-primary !important;
+        background: transparent !important;
+        transform: none !important;
+    }
+
+    &::before {
+        content: '🔒';
+        margin-right: 6px;
+        font-size: 14px;
+        opacity: 0.7;
     }
 }
 
@@ -361,93 +518,8 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         width: 0;
         opacity: 0;
     }
-
     100% {
         width: 100%;
         opacity: 1;
-    }
-}
-
-@keyframes slideInPurlContent {
-    0% {
-        width: 0;
-        opacity: 0;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    100% {
-        width: auto;
-        max-width: 70%;
-        min-width: 50px;
-        opacity: 1;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-}
-
-@keyframes slideArrow {
-    0% {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-// =========================
-// RESPONSIVE: SMALL MOBILE
-// =========================
-@media (max-width: 480px) {
-    .mobile-logo a {
-        font-size: 20px;
-        // padding-top: 50px !important;
-    }
-
-    .hamburger {
-        width: 44px;
-        height: 44px;
-        top: 18px;
-    }
-
-    .mobile-menu-links {
-        width: 60%;
-        margin: 75px 16px 0 auto;
-        padding: 16px 0;
-        gap: 14px;
-
-        a {
-            font-size: 19px;
-            padding: 8px 16px;
-            width: 90%;
-
-            &.active::after {
-                bottom: 4px;
-                height: 2.5px;
-                min-width: 45px;
-                max-width: 65%;
-            }
-        }
-    }
-}
-
-// =========================
-// RESPONSIVE: TABLET (DESKTOP STAYS SAME)
-// =========================
-@media (min-width: 769px) and (max-width: 1024px) {
-    .navbar-container {
-        width: 80%;
-        padding: 0 24px;
-    }
-
-    .nav-links {
-        gap: 24px;
-
-        a {
-            font-size: 17px;
-        }
     }
 }

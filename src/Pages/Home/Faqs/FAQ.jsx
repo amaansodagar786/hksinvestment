@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom"; // ADDED
 import "./FAQ.scss";
 
 const faqData = [
@@ -38,9 +39,26 @@ const faqData = [
 
 const FAQ = ({ bgColor = "default" }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate(); // ADDED
 
   const toggleFAQ = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
+  };
+
+  // ADDED: Handler for Schedule click
+  const handleScheduleClick = () => {
+    navigate('/contact'); // Navigate to contact page
+    
+    // Small delay to ensure page loads before scrolling
+    setTimeout(() => {
+      const appointmentSection = document.getElementById('appointment-section');
+      if (appointmentSection) {
+        appointmentSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100);
   };
 
   // Animation variants
@@ -152,7 +170,28 @@ const FAQ = ({ bgColor = "default" }) => {
         <motion.p
           variants={headerVariants}
         >
-          Let us walk you through it. <strong>Schedule</strong> your demo now.
+          Let us walk you through it. <motion.span 
+            className="schedule-link"
+            onClick={handleScheduleClick}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{ 
+              color: '#5e2690', 
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              display: 'inline-block',
+              borderBottom: '2px solid transparent',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderBottomColor = '#5e2690';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderBottomColor = 'transparent';
+            }}
+          >
+            Schedule
+          </motion.span> your demo now.
         </motion.p>
       </motion.div>
 

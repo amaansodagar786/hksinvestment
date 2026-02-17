@@ -1,7 +1,7 @@
 import React from 'react'
 import HeroSection from './HeroSection/HeroSection'
 import About from './About/About'
-import Services from './Services/Services'
+import Services from './Services/Services'  
 import CTA from './Cta/CTA'
 import FAQ from './Faqs/FAQ'
 import Testimonials from './Reviews/Testimonials'
@@ -11,11 +11,11 @@ const Home = () => {
     <>
     <HeroSection/>
     <About/>
-    <Services/>
+    <Services/>  
     {/* <Pricing/>  */}
     <CTA/>
 
-    <Testimonials/>
+    {/* <Testimonials/>  */}
     {/* <FAQ/>  */}
     </>
   )

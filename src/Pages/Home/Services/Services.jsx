@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react"; // ADDED useState
 import "./Services.scss";
 import { FiUser, FiSettings, FiArrowRight, FiTrendingUp, FiShield, FiPieChart, FiDollarSign } from "react-icons/fi";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import ServiceInquiryModal from "./ServiceInquiryModal/ServiceInquiryModal"; // ADDED IMPORT
 
 // Separate component for each service item
 const ServiceItem = ({ service, index, total, scrollYProgress }) => {
@@ -77,6 +78,7 @@ const ServiceItem = ({ service, index, total, scrollYProgress }) => {
 
 const Services = () => {
     const timelineRef = useRef(null);
+    const [isModalOpen, setIsModalOpen] = useState(false); // ADDED STATE
 
     const { scrollYProgress } = useScroll({
         target: timelineRef,
@@ -122,6 +124,11 @@ const Services = () => {
             description: "Smart tax planning strategies to minimize liabilities, maximize returns, and ensure compliance with all regulations while optimizing your financial position."
         }
     ];
+
+    // ADDED HANDLER
+    const handleLetStartClick = () => {
+        setIsModalOpen(true);
+    };
 
     const leftContentVariants = {
         hidden: { opacity: 0, x: -30 },
@@ -180,6 +187,7 @@ const Services = () => {
                             initial="initial"
                             whileHover="hover"
                             whileTap="tap"
+                            onClick={handleLetStartClick} // ADDED ONCLICK
                         >
                             <span className="services-btn-fill"></span>
                             <span className="services-btn-text">Let's start</span>
@@ -214,6 +222,12 @@ const Services = () => {
                     </div>
                 </div>
             </div>
+
+            {/* ADDED MODAL */}
+            <ServiceInquiryModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </section>
     );
 };

@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const CTA = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Validation schema
+  // Validation schema - UPDATED: phone is now required
   const validationSchema = Yup.object({
     name: Yup.string()
       .required("Name is required")
@@ -19,6 +19,7 @@ const CTA = () => {
       .email("Invalid email address")
       .required("Email is required"),
     phone: Yup.string()
+      .required("Phone number is required") // CHANGED: Now required
       .matches(/^[0-9+\-\s()]*$/, "Phone number is not valid"),
     message: Yup.string()
       .max(500, "Message must be 500 characters or less")
@@ -58,7 +59,7 @@ const CTA = () => {
     tap: { scale: 0.98 }
   };
 
-  // ✅ MODAL VARIANTS – KEPT EXACTLY AS YOU HAD THEM
+  // ✅ MODAL VARIANTS – UPDATED for compact style
   const modalVariants = {
     hidden: {
       opacity: 0,
@@ -171,12 +172,12 @@ const CTA = () => {
         </motion.div>
       </motion.section>
 
-      {/* ✅ MODAL – COMPLETELY UNCHANGED */}
+      {/* ✅ UPDATED MODAL – COMPACT STYLE LIKE GENERAL INQUIRY */}
       <AnimatePresence>
         {isModalOpen && (
           <>
             <motion.div
-              className="modal-overlay"
+              className="cta-modal-overlay"
               variants={overlayVariants}
               initial="hidden"
               animate="visible"
@@ -185,21 +186,21 @@ const CTA = () => {
             />
 
             <motion.div
-              className="contact-modal"
+              className="cta-modal"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
             >
               <button
-                className="modal-close-btn"
+                className="cta-modal-close-btn"
                 onClick={() => setIsModalOpen(false)}
               >
                 <FiX />
               </button>
 
-              <h3 className="modal-title">Contact Our Advisors</h3>
-              <p className="modal-subtitle">Fill out the form below and our team will get back to you within 24 hours.</p>
+              <h3 className="cta-modal-title">Contact Our Advisors</h3>
+              <p className="cta-modal-subtitle">Fill out the form below and our team will get back to you within 24 hours.</p>
 
               <Formik
                 initialValues={{
@@ -212,9 +213,10 @@ const CTA = () => {
                 onSubmit={handleSubmit}
               >
                 {({ isSubmitting, errors, touched }) => (
-                  <Form className="contact-form">
-                    <div className="form-row-full">
-                      <div className="form-group">
+                  <Form className="cta-form">
+                    {/* Row 1: Name and Email */}
+                    <div className="cta-form-row-2col">
+                      <div className="cta-form-group">
                         <label htmlFor="name">
                           Full Name <span className="required">*</span>
                         </label>
@@ -222,15 +224,13 @@ const CTA = () => {
                           type="text"
                           id="name"
                           name="name"
-                          className={`form-input ${touched.name && errors.name ? 'error' : ''}`}
+                          className={`cta-form-input ${touched.name && errors.name ? 'error' : ''}`}
                           placeholder="Enter your full name"
                         />
                         <ErrorMessage name="name" component="div" className="error-message" />
                       </div>
-                    </div>
 
-                    <div className="form-row-2col">
-                      <div className="form-group">
+                      <div className="cta-form-group">
                         <label htmlFor="email">
                           Email Address <span className="required">*</span>
                         </label>
@@ -238,33 +238,39 @@ const CTA = () => {
                           type="email"
                           id="email"
                           name="email"
-                          className={`form-input ${touched.email && errors.email ? 'error' : ''}`}
+                          className={`cta-form-input ${touched.email && errors.email ? 'error' : ''}`}
                           placeholder="your@email.com"
                         />
                         <ErrorMessage name="email" component="div" className="error-message" />
                       </div>
+                    </div>
 
-                      <div className="form-group">
-                        <label htmlFor="phone">Phone Number (Optional)</label>
+                    {/* Row 2: Phone (Now Required) */}
+                    <div className="cta-form-row-full">
+                      <div className="cta-form-group">
+                        <label htmlFor="phone">
+                          Phone Number <span className="required">*</span>
+                        </label>
                         <Field
                           type="tel"
                           id="phone"
                           name="phone"
-                          className={`form-input ${touched.phone && errors.phone ? 'error' : ''}`}
+                          className={`cta-form-input ${touched.phone && errors.phone ? 'error' : ''}`}
                           placeholder="+1 (123) 456-7890"
                         />
                         <ErrorMessage name="phone" component="div" className="error-message" />
                       </div>
                     </div>
 
-                    <div className="form-row-full">
-                      <div className="form-group">
+                    {/* Row 3: Message */}
+                    <div className="cta-form-row-full">
+                      <div className="cta-form-group">
                         <label htmlFor="message">Message (Optional)</label>
                         <Field
                           as="textarea"
                           id="message"
                           name="message"
-                          className={`form-textarea ${touched.message && errors.message ? 'error' : ''}`}
+                          className={`cta-form-textarea ${touched.message && errors.message ? 'error' : ''}`}
                           placeholder="Tell us about your investment needs..."
                           rows="4"
                         />
@@ -272,15 +278,16 @@ const CTA = () => {
                       </div>
                     </div>
 
+                    {/* Row 4: Submit Button */}
                     <motion.button
                       type="submit"
-                      className="submit-btn"
+                      className="cta-submit-btn"
                       disabled={isSubmitting}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
                       {isSubmitting ? "Sending..." : "Submit Message"}
-                      <FiArrowRight className="submit-arrow" />
+                      <FiArrowRight className="cta-submit-arrow" />
                     </motion.button>
                   </Form>
                 )}

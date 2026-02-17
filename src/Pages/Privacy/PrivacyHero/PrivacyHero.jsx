@@ -108,9 +108,7 @@ const PrivacyHero = () => {
                         className="privacy-hero-subtitle"
                         variants={itemVariants}
                     >
-                        We are committed to protecting your personal and financial information
-                        <br />
-                        with the highest standards of security and transparency.
+                        We are committed to protecting your personal and financial information<br className="desktop-only" /> with the highest standards of security and transparency.
                     </motion.p>
 
                     <motion.button

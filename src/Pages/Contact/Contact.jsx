@@ -8,7 +8,7 @@ const Contact = () => {
     <>
 
     <ContactHero/>
-    {/* <ContactSection/>        */}
+    {/* <ContactSection/>  */}
     <AppointmentSection/>
     
     </>

@@ -1,3 +1,4 @@
+// About.jsx
 import React from "react";
 import {
     FiTrendingUp,
@@ -7,6 +8,7 @@ import {
     FiShield
 } from "react-icons/fi";
 import { FiArrowRight } from "react-icons/fi";
+import { useNavigate } from "react-router-dom"; // ADD THIS IMPORT
 import "./About.scss";
 import { BsShieldFillCheck, BsBank2 } from "react-icons/bs";
 import { MdOutlineSell } from "react-icons/md";
@@ -14,6 +16,8 @@ import { motion } from "framer-motion";
 import roboimag from "../../../assets/images/home/about/robo.png"
 
 const About = () => {
+    const navigate = useNavigate(); // ADD THIS HOOK
+
     // Animation variants for circles
     const circleVariants = {
         animate: {
@@ -164,6 +168,11 @@ const About = () => {
                 ease: "easeOut"
             }
         }
+    };
+
+    // ADD THIS HANDLER FUNCTION - SIMPLE VERSION
+    const handleScheduleClick = () => {
+        navigate('/contact'); // Just navigate to contact page, no scrolling
     };
 
     // UPDATED TAGS WITH NEW ICONS
@@ -320,12 +329,13 @@ const About = () => {
                             around your goals, income, and risk profile.
                         </motion.p>
 
-                        {/* BUTTON - PRESERVED RIGHT TO LEFT ANIMATION */}
+                        {/* BUTTON - WITH NAVIGATION */}
                         <motion.button
                             className="about-btn"
                             initial={{ scale: 1 }}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
+                            onClick={handleScheduleClick} // ADD THIS
                         >
                             <span className="about-btn-fill"></span>
                             <span className="about-btn-text">Schedule</span>

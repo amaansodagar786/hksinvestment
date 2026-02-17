@@ -61,7 +61,7 @@ const AppointmentSection = () => {
     const fetchBookedSlots = async (date) => {
         try {
             setIsLoadingSlots(true);
-            
+
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL || 'https://hksinvenstmentbackend.onrender.com/api'}/appointments/slots/${date}`
             );
@@ -242,6 +242,7 @@ const AppointmentSection = () => {
             <ToastContainer />
             <motion.section
                 className="appointment-section"
+                id="appointment-section"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}

@@ -288,3 +288,12 @@
         transition: none !important;
     }
 }
+
+
+.desktop-only {
+    display: inline;
+    
+    @media (max-width: 768px) {
+        display: none;
+    }
+}

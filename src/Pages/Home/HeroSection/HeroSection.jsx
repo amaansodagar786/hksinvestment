@@ -1,13 +1,17 @@
+// HeroSection.jsx
 import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { FaQuoteLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom"; // ADDED
 import "./HeroSection.scss";
 import coin from "../../../assets/images/home/hero/coin.png";
 import bar from "../../../assets/images/home/hero/bar.png";
 
 const HeroSection = () => {
+    const navigate = useNavigate(); // ADDED
+
     // For bottom section animation trigger
     const [ref, inView] = useInView({
         triggerOnce: true,
@@ -110,6 +114,22 @@ const HeroSection = () => {
     // Bar values
     const barValues = [8, 12, 16, 20, 29];
 
+    // ADDED: Handler function for consultation button click
+    const handleConsultationClick = () => {
+        navigate('/contact'); // Navigate to contact page
+
+        // Small delay to ensure page loads before scrolling
+        setTimeout(() => {
+            const appointmentSection = document.getElementById('appointment-section');
+            if (appointmentSection) {
+                appointmentSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }, 100);
+    };
+
     return (
         <motion.section
             className="hero-wrapper"
@@ -155,9 +175,10 @@ const HeroSection = () => {
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
+                        onClick={handleConsultationClick} // ADDED
                     >
                         <span className="hero-btn-fill"></span>
-                        <span className="hero-btn-text">Get Your Free Consultation</span>
+                        <span className="hero-btn-text">Free Consultation</span>
                         <span className="hero-btn-arrow">
                             <FiArrowRight />
                         </span>
@@ -179,7 +200,7 @@ const HeroSection = () => {
                         {/* ===== COLUMN 1 - TWO INDEPENDENT DIVS ===== */}
                         <div className="hero-bottom-col-stack">
                             {/* DIV 1: COIN - ANIMATED ON SCROLL */}
-                            <motion.div 
+                            <motion.div
                                 className="hero-coin-box"
                                 variants={bottomItemVariants}
                             >
@@ -187,7 +208,7 @@ const HeroSection = () => {
                             </motion.div>
 
                             {/* DIV 2: TEXT - ANIMATED ON SCROLL */}
-                            <motion.div 
+                            <motion.div
                                 className="hero-text-box"
                                 variants={bottomItemVariants}
                             >
@@ -203,7 +224,7 @@ const HeroSection = () => {
                         </div>
 
                         {/* ===== COLUMN 2 - BAR IMAGE - ANIMATED ON SCROLL ===== */}
-                        <motion.div 
+                        <motion.div
                             className="hero-bottom-col hero-bottom-col-image"
                             variants={bottomItemVariants}
                         >
@@ -213,42 +234,42 @@ const HeroSection = () => {
                         </motion.div>
 
                         {/* ===== COLUMN 3 - BAR CHART - WITH PROPER HEIGHT ANIMATION ===== */}
-                        <motion.div 
+                        <motion.div
                             className="hero-bottom-col hero-bottom-col-right"
                             variants={bottomItemVariants}
                         >
                             <div className="full-height">
                                 <div className="hero-bottom-bar-chart">
                                     {/* ✅ FIXED: Each bar gets its actual value for height calculation */}
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar1"
                                         custom={barValues[0]}
                                         variants={barVariants}
                                         initial="hidden"
                                         animate={inView ? "visible" : "hidden"}
                                     >{barValues[0]}</motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar2"
                                         custom={barValues[1]}
                                         variants={barVariants}
                                         initial="hidden"
                                         animate={inView ? "visible" : "hidden"}
                                     >{barValues[1]}</motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar3"
                                         custom={barValues[2]}
                                         variants={barVariants}
                                         initial="hidden"
                                         animate={inView ? "visible" : "hidden"}
                                     >{barValues[2]}</motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar4"
                                         custom={barValues[3]}
                                         variants={barVariants}
                                         initial="hidden"
                                         animate={inView ? "visible" : "hidden"}
                                     >{barValues[3]}</motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         className="hero-bottom-bar hero-bottom-bar5"
                                         custom={barValues[4]}
                                         variants={barVariants}

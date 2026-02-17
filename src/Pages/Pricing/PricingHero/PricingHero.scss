@@ -14,7 +14,7 @@
     overflow-x: hidden;
 
     @media (max-width: 768px) {
-        min-height: 94vh;
+        min-height: 50vh;
     }
 }
 
@@ -142,8 +142,8 @@
     right: 3px;
     top: 50%;
     transform: translateY(-50%);
-    height: 55px;
-    width: 52px;
+    height: 57px;
+    width: 53px;
     background: #ffffff;
     border-radius: 999px;
     transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -262,7 +262,7 @@
 
 @media (max-width: 600px) {
     .pricing-hero-btn {
-        width: 160px;
+        width: 170px;
         height: 48px;
     }
 
@@ -281,7 +281,7 @@
 
 @media (max-width: 480px) {
     .pricing-hero-btn {
-        width: 120px;
+        width: 130px;
         height: 44px;
     }
 
@@ -308,5 +308,15 @@
     .pricing-hero-subtitle {
         animation: none !important;
         transition: none !important;
+    }
+}
+
+
+
+.desktop-only {
+    display: inline;
+
+    @media (max-width: 768px) {
+        display: none;
     }
 }

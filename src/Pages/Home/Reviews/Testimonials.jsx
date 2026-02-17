@@ -35,18 +35,18 @@ const reviews = [
         name: "Rebecca H.",
         text: "The client portal is a game-changer for managing investments. Pricing flexibility could be better for individuals, but overall the service is excellent for serious investors."
     },
-    // {
-    //     name: "Carlos M.",
-    //     text: "Great analytics and insights that helped us make better investment decisions. Occasional downtime during peak usage, but customer support is always responsive and helpful."
-    // },
+    {
+        name: "Carlos M.",
+        text: "Great analytics and insights that helped us make better investment decisions. Occasional downtime during peak usage, but customer support is always responsive and helpful."
+    },
     {
         name: "Akash P.",
         text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities."
     },
-    // {
-    //     name: "Thomas W.",
-    //     text: "Just amazing! Transformed how we manage our family finances. The interface is intuitive and the reporting features save us hours every month."
-    // },
+    {
+        name: "Thomas W.",
+        text: "Just amazing! Transformed how we manage our family finances. The interface is intuitive and the reporting features save us hours every month."
+    },
     {
         name: "Lisa G.",
         text: "Compliant, user-friendly, and supported by an excellent success team. They helped us set up our retirement portfolio and we've seen steady growth ever since."
@@ -55,19 +55,19 @@ const reviews = [
         name: "Emma T.",
         text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits."
     },
-    // {
-    //     name: "Amaan S.",
-    //     text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities.Integration was challenging at first but definitely worth it for the long-term benefits"
-    // },
+    {
+        name: "Amaan S.",
+        text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities.Integration was challenging at first but definitely worth it for the long-term benefits"
+    },
     // Add more reviews to test scrolling
-    // {
-    //     name: "John D.",
-    //     text: "Excellent service and support. They helped me plan my retirement with confidence."
-    // },
-    // {
-    //     name: "Sarah K.",
-    //     text: "Very professional team. My investments have grown steadily thanks to their advice."
-    // }
+    {
+        name: "John D.",
+        text: "Excellent service and support. They helped me plan my retirement with confidence."
+    },
+    {
+        name: "Sarah K.",
+        text: "Very professional team. My investments have grown steadily thanks to their advice."
+    }
 ];
 
 // Modal Component (inside same file or separate – we'll keep inline for simplicity)

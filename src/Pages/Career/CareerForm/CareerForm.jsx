@@ -11,9 +11,11 @@ import {
     FiInstagram,
     FiArrowRight,
     FiUser,
-    FiCheckCircle
+    FiCheckCircle,
+    FiYoutube // ADDED for YouTube
 } from "react-icons/fi";
-import { FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa"; // UPDATED: Removed Twitter, added WhatsApp
+import { FaXTwitter } from "react-icons/fa6"; // ADDED: New X (Twitter) icon
 import "./CareerForm.scss";
 
 const CareerForm = () => {
@@ -148,29 +150,43 @@ const CareerForm = () => {
         }, 1000);
     };
 
+    // UPDATED: Social icons with current platforms
     const socialIcons = [
-        { Icon: FiInstagram, label: "Instagram" },
-        { Icon: FaFacebookF, label: "Facebook" },
-        { Icon: FaLinkedinIn, label: "LinkedIn" },
-        { Icon: FaTwitter, label: "Twitter" }
+        { Icon: FiInstagram, label: "Instagram", url: "https://instagram.com/hksinvestment" },
+        { Icon: FaFacebookF, label: "Facebook", url: "https://facebook.com/hksinvestment" },
+        { Icon: FaLinkedinIn, label: "LinkedIn", url: "https://linkedin.com/company/hksinvestment" },
+        { Icon: FaXTwitter, label: "X (Twitter)", url: "https://twitter.com/hksinvestment" }, // UPDATED to X
+        { Icon: FiYoutube, label: "YouTube", url: "https://youtube.com/@hksinvestment" } // ADDED YouTube
     ];
 
+    // UPDATED: Contact info with ORIGINAL details (from footer)
     const contactInfo = [
         {
-            icon: <FiPhone />,
-            text: "+1 (416) 555-0123",
-            type: "phone"
+            icon: <FaWhatsapp />, // WhatsApp icon instead of phone
+            text: "+1 782-882-8102",
+            type: "whatsapp",
+            link: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities"
         },
         {
             icon: <FiMail />,
-            text: "careers@company.com",
-            type: "email"
+            text: "support@hksinvestment.com",
+            type: "email",
+            link: "mailto:support@hksinvestment.com"
         },
         {
             icon: <FiMapPin />,
-            text: "123 Business Avenue, Suite 100 Toronto, ON M5V 2T6",
-            type: "address"
+            text: "Halifax, NS, Canada",
+            type: "address",
+            link: "https://maps.google.com/?q=Halifax,NS,Canada"
         }
+    ];
+
+    // UPDATED: Why Join Us - Now in bullet points (4 points)
+    const whyJoinUsPoints = [
+        "Dynamic team shaping the future of financial technology",
+        "Growth opportunities & competitive benefits",
+        "Supportive culture with work-life balance",
+        "Professional development & training programs"
     ];
 
     return (
@@ -198,7 +214,7 @@ const CareerForm = () => {
                     <motion.p
                         variants={itemVariants}
                     >
-                    Your help is important for us.
+                        Your help is important for us.
                     </motion.p>
                 </div>
 
@@ -218,38 +234,58 @@ const CareerForm = () => {
                                 Why Join Us?
                             </motion.h3>
 
-                            <motion.p
+                            {/* UPDATED: Bullet points instead of single paragraph */}
+                            <motion.ul
+                                className="why-join-list"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: 0.1 }}
                             >
-                                Be part of a dynamic team shaping the future of financial technology.
-                                We offer growth opportunities, competitive benefits, and a supportive culture.
-                            </motion.p>
+                                {whyJoinUsPoints.map((point, index) => (
+                                    <motion.li
+                                        key={index}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.4, delay: 0.1 + index * 0.1 }}
+                                        whileHover={{ x: 10, color: "#5e2690" }}
+                                    >
+                                        <span className="bullet-point">•</span> {point}
+                                    </motion.li>
+                                ))}
+                            </motion.ul>
 
-                            {/* CONTACT ITEMS */}
+                            {/* CONTACT ITEMS - UPDATED with original info */}
                             <div className="career-items">
                                 {contactInfo.map((item, index) => (
-                                    <motion.div
+                                    <motion.a
                                         key={index}
-                                        className="career-item"
-                                        variants={contactItemVariants}
-                                        initial="initial"
-                                        whileHover="hover"
-                                        custom={index}
+                                        href={item.link}
+                                        target={item.type === 'address' ? '_blank' : '_blank'}
+                                        rel="noopener noreferrer"
+                                        className="career-item-link"
+                                        style={{ textDecoration: 'none' }}
                                     >
-                                        <div className="career-item-icon">
-                                            {item.icon}
-                                        </div>
-                                        <div className="career-item-text">
-                                            {item.text}
-                                        </div>
-                                    </motion.div>
+                                        <motion.div
+                                            className="career-item"
+                                            variants={contactItemVariants}
+                                            initial="initial"
+                                            whileHover="hover"
+                                            custom={index}
+                                        >
+                                            <div className="career-item-icon">
+                                                {item.icon}
+                                            </div>
+                                            <div className="career-item-text">
+                                                {item.text}
+                                            </div>
+                                        </motion.div>
+                                    </motion.a>
                                 ))}
                             </div>
 
-                            {/* SOCIAL ICONS */}
+                            {/* SOCIAL ICONS - UPDATED with current platforms */}
                             <motion.div
                                 className="career-socials"
                                 initial={{ opacity: 0 }}
@@ -262,7 +298,9 @@ const CareerForm = () => {
                                     {socialIcons.map((social, index) => (
                                         <motion.a
                                             key={index}
-                                            href="#"
+                                            href={social.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="social-icon"
                                             variants={iconVariants}
                                             initial="initial"
@@ -278,7 +316,7 @@ const CareerForm = () => {
                         </div>
                     </motion.div>
 
-                    {/* RIGHT SIDE - FORM */}
+                    {/* RIGHT SIDE - FORM (EXACT SAME) */}
                     <motion.div
                         className="career-form-wrapper"
                         variants={itemVariants}
