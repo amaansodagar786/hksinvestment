@@ -36,7 +36,7 @@ const faqData = [
   }
 ];
 
-const FAQ = () => {
+const FAQ = ({ bgColor = "default" }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const toggleFAQ = (index) => {
@@ -127,7 +127,7 @@ const FAQ = () => {
 
   return (
     <motion.section
-      className="faq-section"
+      className={`faq-section ${bgColor === "white" ? "faq-section-white" : ""}`}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
