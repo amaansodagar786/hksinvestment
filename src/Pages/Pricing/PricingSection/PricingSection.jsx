@@ -89,7 +89,7 @@ const PricingSection = () => {
                 >
                     <div className="card-inner">
                         <div className="card-header-box">
-                            <h3>Weekly</h3>
+                            <h3>Swing & Option trading</h3>
                             <p>Perfect for active traders</p>
                         </div>
 
@@ -104,8 +104,8 @@ const PricingSection = () => {
                                 <li className="yes">Option & swing trading</li>
                                 <li className="yes">Personal assistance</li>
                                 <li className="yes">No commitment, cancel anytime</li>
-                                <li className="no">Refund</li>
                                 <li className="yes">Daily live analysis</li>
+                                <li className="no">Refund</li>
                             </ul>
 
                             <motion.button
@@ -129,7 +129,7 @@ const PricingSection = () => {
                 >
                     <div className="card-inner">
                         <div className="card-header-box">
-                            <h3>Monthly</h3>
+                            <h3>Long term investment</h3>
                             <p>Great for long-term investors</p>
                         </div>
 
@@ -141,10 +141,11 @@ const PricingSection = () => {
 
                             <ul>
                                 <li className="yes">Long term stock</li>
-                                <li className="no">Option & swing trading</li>
-                                <li className="no">Personal assistance</li>
+                               
                                 <li className="yes">No commitment, cancel anytime</li>
                                 <li className="no">Refund</li>
+                                 <li className="no">Option & swing trading</li>
+                                <li className="no">Personal assistance</li>
                                 {/* No daily live analysis for monthly */}
                             </ul>
 

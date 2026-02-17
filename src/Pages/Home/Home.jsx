@@ -16,7 +16,7 @@ const Home = () => {
     <CTA/>
 
     <Testimonials/>
-    <FAQ/>
+    {/* <FAQ/>  */}
     </>
   )
 }

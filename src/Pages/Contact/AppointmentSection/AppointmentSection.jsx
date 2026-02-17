@@ -330,7 +330,7 @@ const AppointmentSection = () => {
                                     <div className="info-content">
                                         <h4>Office Hours</h4>
                                         <p>Monday - Friday: 10:00 AM - 6:00 PM</p>
-                                        <p className="note">Each session is 1 hour long</p>
+                                        {/* <p className="note">Each session is 1 hour long</p> */}
                                     </div>
                                 </div>
                             </div>

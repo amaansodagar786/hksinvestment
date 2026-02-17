@@ -37,31 +37,25 @@
   display: inline-flex;
   align-items: center;
   width: 170px;
-  /* EXACT same width as About */
   height: 56px;
-  /* EXACT same height as About */
   background: #5e2690;
   border: 2px solid #5e2690;
   border-radius: 999px;
   cursor: pointer;
   text-decoration: none;
   padding: 0;
-  /* EXACT same padding - 0 */
   overflow: hidden;
   font-family: 'Content', serif;
   outline: none;
 }
 
-/* WHITE FILL – STARTS AT ARROW (RIGHT SIDE) */
 .cta-btn-fill {
   position: absolute;
   right: 2px;
   top: 50%;
   transform: translateY(-50%);
   height: 49px;
-  /* EXACT same height as About (49px) */
   width: 46px;
-  /* EXACT same width as About (46px) */
   background: #ffffff;
   border-radius: 999px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -77,9 +71,7 @@
   position: relative;
   z-index: 2;
   padding-left: 26px;
-  /* EXACT same padding-left as About (26px) */
   font-size: 16px;
-  /* EXACT same font size as About (16px) */
   font-weight: 500;
   color: #ffffff;
   transition: color 0.4s ease 0.25s;
@@ -94,9 +86,7 @@
   position: relative;
   z-index: 3;
   width: 46px;
-  /* EXACT same width as About (46px) */
   height: 46px;
-  /* EXACT same height as About (46px) */
   border-radius: 50%;
   background: #ffffff;
   color: #5e2690;
@@ -104,7 +94,6 @@
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  /* EXACT same font size as About (20px) */
   margin-left: auto;
   margin-right: 2px;
   transition: transform 0.2s ease;
@@ -117,7 +106,7 @@
 }
 
 /* =========================
-   CONTACT MODAL – 💎 EXACTLY AS YOU SET – UNCHANGED 💎
+   CONTACT MODAL – 💎 FIXED: CENTERED WITH MARGIN (no transform) 💎
 ========================= */
 .modal-overlay {
   position: fixed;
@@ -132,20 +121,24 @@
 
 .contact-modal {
   position: fixed;
-  top: 5%;
-  left: 25%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  /* 🔥 perfectly centers without transform */
+  width: 90%;
+  max-width: 650px;
+  height: fit-content;
+  /* takes content height */
+  max-height: 90vh;
+  overflow-y: auto;
   background: white;
   border-radius: 24px;
   padding: 40px;
-  width: 90%;
-  max-width: 650px;
-  max-height: 90vh;
-  overflow-y: auto;
   z-index: 9999;
   box-shadow: 0 25px 50px rgba(94, 38, 144, 0.2);
   border: 1px solid #e9dff7;
-  margin: 0;
   scrollbar-width: none;
   -ms-overflow-style: none;
 
@@ -157,17 +150,12 @@
     width: 90%;
     max-width: 90%;
     padding: 30px;
-    left: 0%;
-    transform: translate(-50%, -50%);
   }
 
   @media (max-width: 480px) {
     width: 85%;
     padding: 24px 20px;
     border-radius: 20px;
-    left: 1%;
-    top: 1%;
-    transform: translate(-50%, -50%);
   }
 }
 
@@ -389,36 +377,26 @@
     font-size: 40px;
   }
 
-  /* BUTTON - TABLET - EXACT same as About tablet */
   .cta-btn {
     width: 170px;
-    /* SAME as About */
     height: 52px;
-    /* SAME as About tablet */
   }
 
   .cta-btn-text {
     font-size: 15px;
-    /* SAME as About tablet */
     padding-left: 22px;
-    /* SAME as About tablet */
   }
 
   .cta-btn-arrow,
   .cta-btn-fill {
     width: 42px;
-    /* SAME as About tablet */
     height: 42px;
-    /* SAME as About tablet */
     font-size: 18px;
-    /* SAME as About tablet */
   }
 
   .cta-btn-fill {
     height: 42px;
-    /* SAME as About tablet */
     width: 42px;
-    /* SAME as About tablet */
     right: 2px;
   }
 
@@ -449,36 +427,26 @@
     font-size: 28px;
   }
 
-  /* BUTTON - MOBILE - EXACT same as About mobile */
   .cta-btn {
     width: 160px;
-    /* SAME as About mobile */
     height: 48px;
-    /* SAME as About mobile */
   }
 
   .cta-btn-text {
     font-size: 14px;
-    /* SAME as About mobile */
     padding-left: 20px;
-    /* SAME as About mobile */
   }
 
   .cta-btn-arrow,
   .cta-btn-fill {
     width: 38px;
-    /* SAME as About mobile */
     height: 38px;
-    /* SAME as About mobile */
     font-size: 16px;
-    /* SAME as About mobile */
   }
 
   .cta-btn-fill {
     height: 38px;
-    /* SAME as About mobile */
     width: 38px;
-    /* SAME as About mobile */
     right: 2px;
   }
 
@@ -497,36 +465,26 @@
     font-size: 24px;
   }
 
-  /* BUTTON - SMALL MOBILE - EXACT same as About small mobile */
   .cta-btn {
     width: 140px;
-    /* SAME as About small mobile */
     height: 44px;
-    /* SAME as About small mobile */
   }
 
   .cta-btn-text {
     font-size: 13px;
-    /* SAME as About small mobile */
     padding-left: 18px;
-    /* SAME as About small mobile */
   }
 
   .cta-btn-arrow,
   .cta-btn-fill {
     width: 34px;
-    /* SAME as About small mobile */
     height: 34px;
-    /* SAME as About small mobile */
     font-size: 15px;
-    /* SAME as About small mobile */
   }
 
   .cta-btn-fill {
     height: 34px;
-    /* SAME as About small mobile */
     width: 34px;
-    /* SAME as About small mobile */
     right: 2px;
   }
 
@@ -556,7 +514,6 @@
 
   .cta-btn:hover .cta-btn-fill {
     width: 46px !important;
-    /* SAME as About */
     right: 2px !important;
   }
 

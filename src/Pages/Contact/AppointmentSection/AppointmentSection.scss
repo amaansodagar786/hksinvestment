@@ -4,7 +4,7 @@
 /* ===== SECTION ===== */
 .appointment-section {
   padding: 100px 60px;
-  background: #ffffff;
+  background: #f7f5fb;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,13 +28,14 @@
   border-radius: 50px;
   color: #7a3db8;
   font-family: 'SubHeading', serif;
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 
 .appointment-header h2 {
   font-size: 42px;
   font-family: 'Heading', serif;
   margin-bottom: 16px;
+  margin-top: 0px;
   color: #1a1a1a;
 }
 
@@ -97,7 +98,7 @@
 .appointment-info-card {
   background: #ffffff;
   border-radius: 20px;
-  padding: 24px;
+  padding:  6px 24px 24px;
   margin-bottom: 32px;
   border: 2px solid #e6dcf7;
 }
@@ -119,13 +120,28 @@
   color: #7a3db8;
   font-size: 24px;
   flex-shrink: 0;
+  margin-top: 1.7rem;  
+
+
+  @media (max-width: 480px) { 
+
+    margin-top: 0.8rem; 
+    margin-bottom: 0rem; 
+  } 
 }
 
 .info-content h4 {
   font-size: 20px;
   font-family: 'SubHeading', serif;
   color: #1a1a1a;
-  margin-bottom: 8px;
+  margin-bottom: 8px;  
+
+
+  @media (max-width: 480px) { 
+
+    margin-top: 0.2rem; 
+    
+  } 
 }
 
 .info-content p {
@@ -1050,7 +1066,7 @@
 }
 
 .date-input-container input[type="date"] {
-    width: 85%;
+    width: 100%;
     padding: 14px 16px 14px 48px;
     border: 2px solid #e6dcf7;
     border-radius: 12px;

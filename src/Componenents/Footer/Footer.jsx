@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import {
     FiInstagram,
-    FiSend
+    FiSend,
+    FiArrowRight
 } from "react-icons/fi";
-import { FaYoutube } from "react-icons/fa";
-import { IoIosCall } from "react-icons/io";
+import { FaYoutube, FaWhatsapp } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
+import { NavLink, useLocation } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./Footer.scss";
 
@@ -19,6 +20,7 @@ const Footer = () => {
         feedback: ""
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const location = useLocation();
 
     // Animation variants
     const containerVariants = {
@@ -44,6 +46,7 @@ const Footer = () => {
         }
     };
 
+    // KEEP SOCIAL ICONS VARIANTS EXACTLY AS IS - DO NOT CHANGE
     const socialIconVariants = {
         initial: { scale: 1, color: "#d9ccf3" },
         hover: {
@@ -54,24 +57,49 @@ const Footer = () => {
         }
     };
 
+    // UPGRADED: Guide list item variants with more premium effect
     const listItemVariants = {
-        initial: { x: 0 },
+        initial: { x: 0, opacity: 0.8 },
         hover: {
-            x: 10,
-            color: "#d9ccf3",
-            transition: { duration: 0.3, ease: "easeOut" }
+            x: 15,
+            color: "#ffffff",
+            opacity: 1,
+            textShadow: "0 0 8px rgba(255,255,255,0.5)",
+            transition: {
+                duration: 0.4,
+                ease: [0.19, 1, 0.22, 1]
+            }
         }
     };
 
+    // UPGRADED: Contact items with more sophisticated hover
     const contactItemVariants = {
-        initial: { opacity: 0.8 },
+        initial: { opacity: 0.8, x: 0 },
         hover: {
             opacity: 1,
-            x: 5,
-            transition: { duration: 0.3, ease: "easeInOut" }
+            x: 8,
+            transition: {
+                duration: 0.4,
+                ease: "easeOut"
+            }
         }
     };
 
+    // UPGRADED: Icon inside contact items
+    const contactIconVariants = {
+        initial: { scale: 1, color: "#d9ccf3" },
+        hover: {
+            scale: 1.2,
+            color: "#ffffff",
+            rotate: [0, -10, 10, 0],
+            transition: {
+                duration: 0.5,
+                ease: "easeInOut"
+            }
+        }
+    };
+
+    // UPDATED: Bottom text variants - CHANGED TO WHITE
     const bottomTextVariants = {
         hidden: { opacity: 0, scale: 0.9 },
         visible: {
@@ -81,6 +109,7 @@ const Footer = () => {
         }
     };
 
+    // KEEP COPYRIGHT VARIANTS EXACTLY AS IS
     const copyrightVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -89,6 +118,7 @@ const Footer = () => {
         }
     };
 
+    // KEEP PULSE VARIANTS EXACTLY AS IS
     const pulseVariants = {
         initial: { opacity: 0.9 },
         animate: {
@@ -97,17 +127,83 @@ const Footer = () => {
         }
     };
 
+    // UPGRADED: Button variants
     const buttonVariants = {
-        initial: { background: "linear-gradient(90deg, #5e2690, #7a3db8)", scale: 1 },
+        initial: {
+            background: "linear-gradient(90deg, #5e2690, #7a3db8)",
+            scale: 1,
+            boxShadow: "0 4px 15px rgba(94, 38, 144, 0.2)"
+        },
         hover: {
             scale: 1.05,
-            boxShadow: "0 10px 25px rgba(94, 38, 144, 0.4)",
-            transition: { duration: 0.3, ease: "easeInOut" }
+            boxShadow: "0 15px 30px rgba(94, 38, 144, 0.6), 0 0 20px rgba(217, 204, 243, 0.4)",
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+                boxShadow: { duration: 0.4 }
+            }
         },
         tap: { scale: 0.98, transition: { duration: 0.1 } }
     };
 
-const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
+    // Arrow icon variants
+    const arrowIconVariants = {
+        initial: { x: 0, rotate: 0 },
+        hover: {
+            x: 5,
+            rotate: 15,
+            transition: {
+                type: "spring",
+                stiffness: 400,
+                damping: 10
+            }
+        }
+    };
+
+    // Section headers hover effect
+    const headerVariants = {
+        initial: { letterSpacing: "1px", opacity: 0.7 },
+        hover: {
+            letterSpacing: "2px",
+            opacity: 1,
+            textShadow: "0 0 10px rgba(217, 204, 243, 0.5)",
+            transition: { duration: 0.3, ease: "easeOut" }
+        }
+    };
+
+    // Form input focus variants
+    const inputVariants = {
+        initial: {
+            borderColor: "rgba(217, 204, 243, 0.3)",
+            scale: 1,
+            boxShadow: "0 0 0 rgba(217, 204, 243, 0)"
+        },
+        focus: {
+            borderColor: "#d9ccf3",
+            scale: 1.02,
+            boxShadow: "0 0 20px rgba(217, 204, 243, 0.3)",
+            transition: { duration: 0.2 }
+        }
+    };
+
+    // Developer text premium hover
+    const developerVariants = {
+        initial: { opacity: 0.85 },
+        hover: {
+            opacity: 1,
+            scale: 1.05,
+            transition: { duration: 0.3 }
+        }
+    };
+
+    // UPDATED: Guide items with sentence case
+    const guideItems = [
+        { name: "Home", path: "/" },
+        { name: "Contact", path: "/contact" },
+        { name: "Pricing", path: "/pricing" },
+        { name: "Career", path: "/career" },
+        { name: "Privacy Policy", path: "/privacypolicy" }
+    ];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -133,6 +229,9 @@ const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
         }, 1500);
     };
 
+    // WhatsApp link generator
+    const whatsappLink = "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%20have%20a%20question%20about%20your%20services.";
+
     return (
         <>
             <ToastContainer position="top-right" autoClose={4000} theme="dark" />
@@ -144,38 +243,52 @@ const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
                 variants={containerVariants}
             >
                 <div className="footer-top">
-                    {/* COLUMN 1: FEEDBACK - NO LABELS, COMPACT */}
+                    {/* COLUMN 1: FEEDBACK */}
                     <motion.div
                         className="footer-col feedback"
                         variants={columnVariants}
                     >
                         <motion.h4
-                            initial={{ opacity: 0.7 }}
-                            whileHover={{ opacity: 1 }}
-                            transition={{ duration: 0.3 }}
+                            variants={headerVariants}
+                            initial="initial"
+                            whileHover="hover"
                         >
-                            GIVE FEEDBACK
+                            Your feedback is important for us.
                         </motion.h4>
 
                         <form className="feedback-form" onSubmit={handleSubmit}>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                placeholder="Your name"
-                                className="feedback-input"
-                                disabled={isSubmitting}
-                            />
-                            <textarea
-                                name="feedback"
-                                value={formData.feedback}
-                                onChange={handleInputChange}
-                                placeholder="Your feedback"
-                                className="feedback-textarea"
-                                rows="2"
-                                disabled={isSubmitting}
-                            />
+                            <motion.div
+                                whileFocus="focus"
+                                variants={inputVariants}
+                                initial="initial"
+                            >
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    placeholder="Your name"
+                                    className="feedback-input"
+                                    disabled={isSubmitting}
+                                />
+                            </motion.div>
+
+                            <motion.div
+                                whileFocus="focus"
+                                variants={inputVariants}
+                                initial="initial"
+                            >
+                                <textarea
+                                    name="feedback"
+                                    value={formData.feedback}
+                                    onChange={handleInputChange}
+                                    placeholder="Your feedback"
+                                    className="feedback-textarea"
+                                    rows="2"
+                                    disabled={isSubmitting}
+                                />
+                            </motion.div>
+
                             <motion.button
                                 type="submit"
                                 className="feedback-btn"
@@ -186,7 +299,15 @@ const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
                                 disabled={isSubmitting}
                             >
                                 {isSubmitting ? "Sending..." : "Send Feedback"}
-                                <FiSend className="send-icon" />
+                                <motion.span
+                                    variants={arrowIconVariants}
+                                    initial="initial"
+                                    whileHover="hover"
+                                    className="send-icon-wrapper"
+                                >
+                                    <FiSend className="send-icon" />
+                                    {/* <FiArrowRight className="arrow-icon" /> */}
+                                </motion.span>
                             </motion.button>
                         </form>
                     </motion.div>
@@ -210,6 +331,10 @@ const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.5, delay: 0.2 }}
+                                    whileHover={{
+                                        color: "#d9ccf3",
+                                        transition: { duration: 0.3 }
+                                    }}
                                 >
                                     Redefining wealth, <br />
                                     one decision at a time.
@@ -228,55 +353,89 @@ const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
                                 </div>
                             </motion.div>
 
-                            {/* COLUMN 3: GUIDE - WILL BE HIDDEN ON MOBILE VIA CSS */}
+                            {/* COLUMN 3: GUIDE - HEADING REMOVED, LINKS FROM TOP */}
                             <motion.div
                                 className="footer-col guide-column"
                                 variants={columnVariants}
                             >
-                                <motion.h4
-                                    initial={{ opacity: 0.7 }}
-                                    whileHover={{ opacity: 1 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    GUIDE
-                                </motion.h4>
-                                <ul>
+                                {/* HEADING COMPLETELY REMOVED */}
+                                <ul className="guide-links-list">
                                     {guideItems.map((item, idx) => (
                                         <motion.li
                                             key={idx}
                                             variants={listItemVariants}
                                             initial="initial"
                                             whileHover="hover"
-                                            transition={{ delay: idx * 0.1 }}
+                                            custom={idx}
                                         >
-                                            {item}
+                                            <NavLink
+                                                to={item.path}
+                                                className={({ isActive }) =>
+                                                    isActive ? "guide-link active" : "guide-link"
+                                                }
+                                            >
+                                                <span className="guide-item-text">{item.name}</span>
+                                                <motion.span
+                                                    className="guide-arrow"
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    whileHover={{
+                                                        opacity: 1,
+                                                        x: 0,
+                                                        transition: { delay: 0.1 }
+                                                    }}
+                                                >
+                                                    →
+                                                </motion.span>
+                                            </NavLink>
                                         </motion.li>
                                     ))}
                                 </ul>
                             </motion.div>
 
-                            {/* COLUMN 4: CONTACT - CANADA, CLICKABLE */}
+                            {/* COLUMN 4: CONTACT - CALL REPLACED WITH WHATSAPP */}
                             <motion.div
                                 className="footer-col contact"
                                 variants={columnVariants}
                             >
+                                {/* REPLACED CALL WITH WHATSAPP */}
                                 <motion.p
                                     variants={contactItemVariants}
                                     whileHover="hover"
                                 >
-                                    <a href="tel:+17828828102">
-                                        <IoIosCall /> +1 782-882-8102
+                                    <a
+                                        href={whatsappLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="whatsapp-link"
+                                    >
+                                        <motion.span
+                                            variants={contactIconVariants}
+                                            initial="initial"
+                                            whileHover="hover"
+                                        >
+                                            <FaWhatsapp />
+                                        </motion.span>
+                                        +1 782-882-8102
                                     </a>
                                 </motion.p>
+
                                 <motion.p
                                     variants={contactItemVariants}
                                     whileHover="hover"
                                     transition={{ delay: 0.1 }}
                                 >
                                     <a href="mailto:support@hksinvestment.com">
-                                        <MdEmail /> support@hksinvestment.com
+                                        <motion.span
+                                            variants={contactIconVariants}
+                                            initial="initial"
+                                            whileHover="hover"
+                                        >
+                                            <MdEmail />
+                                        </motion.span>
+                                        support@hksinvestment.com
                                     </a>
                                 </motion.p>
+
                                 <motion.p
                                     variants={contactItemVariants}
                                     whileHover="hover"
@@ -287,14 +446,20 @@ const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        <FaLocationDot className="location-icon" />
+                                        <motion.span
+                                            variants={contactIconVariants}
+                                            initial="initial"
+                                            whileHover="hover"
+                                        >
+                                            <FaLocationDot className="location-icon" />
+                                        </motion.span>
                                         Halifax, NS, Canada
                                     </a>
                                 </motion.p>
                             </motion.div>
                         </div>
 
-                        {/* COPYRIGHT ROW - INSIDE GROUP, BORDER ONLY UNDER THESE 3 COLUMNS */}
+                        {/* COPYRIGHT ROW */}
                         <motion.div
                             className="copyright-row"
                             variants={copyrightVariants}
@@ -302,14 +467,19 @@ const guideItems = ["HOME", "CONTACT", "PRICING", "CAREER", "PRIVACY POLICY"];
                             <span className="copyright-brand">
                                 Copyright © 2026 hksinvestment, All Rights Reserved.
                             </span>
-                            <span className="developer-text">
+                            <motion.span
+                                className="developer-text"
+                                variants={developerVariants}
+                                initial="initial"
+                                whileHover="hover"
+                            >
                                 Design and Developed by <strong>TECHCORSES</strong>
-                            </span>
+                            </motion.span>
                         </motion.div>
                     </div>
                 </div>
 
-                {/* BOTTOM BIG TEXT - FULL WIDTH - COLOR CHANGED ONLY */}
+                {/* BOTTOM BIG TEXT - COLOR CHANGED TO WHITE ONLY */}
                 <motion.div
                     className="footer-bottom"
                     variants={bottomTextVariants}
