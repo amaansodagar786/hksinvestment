@@ -465,7 +465,7 @@ const Footer = () => {
                             variants={copyrightVariants}
                         >
                             <span className="copyright-brand">
-                                Copyright © 2026 hksinvestment, All Rights Reserved.
+                                Copyright © 2025 hksinvestment, All Rights Reserved.
                             </span>
                             <motion.span
                                 className="developer-text"

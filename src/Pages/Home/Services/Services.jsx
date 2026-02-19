@@ -169,7 +169,7 @@ const Services = () => {
 
                         <motion.h2 variants={leftContentVariants}>
                             Clear Strategies. <br />
-                            Strong Investments. <br />
+                            Higher Returns. <br />
                             Real Growth.
                         </motion.h2>
 
@@ -190,7 +190,7 @@ const Services = () => {
                             onClick={handleLetStartClick} // ADDED ONCLICK
                         >
                             <span className="services-btn-fill"></span>
-                            <span className="services-btn-text">Let's start</span>
+                            <span className="services-btn-text">Build Wealth</span>
                             <span className="services-btn-arrow">
                                 <FiArrowRight />
                             </span>

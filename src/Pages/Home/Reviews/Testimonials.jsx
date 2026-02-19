@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { FaArrowLeft, FaArrowRight as FaArrowRightIcon } from "react-icons/fa6";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules"; // Added Navigation
 import { motion, AnimatePresence } from "framer-motion";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toast, ToastContainer } from "react-toastify";
@@ -19,58 +19,66 @@ const avatars = [
     "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=100&h=100&fit=crop",
     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    // Extra avatars for additional reviews (you can add more)
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
     "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop"
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
+    "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=100&h=100&fit=crop"
 ];
 
-// Reviews array (can be extended)
+// Reviews array - uncommented all reviews
 const reviews = [
     {
-        name: "David R.",
+        name: "David R. 1",
         text: "We've scaled from 5 to 50 employees using this financial platform. The automation eliminated busywork and helped us focus on growth. Highly recommended for any business looking to streamline their financial operations."
     },
     {
-        name: "Rebecca H.",
+        name: "Rebecca H.2",
         text: "The client portal is a game-changer for managing investments. Pricing flexibility could be better for individuals, but overall the service is excellent for serious investors."
     },
     {
-        name: "Carlos M.",
+        name: "Carlos M.3",
         text: "Great analytics and insights that helped us make better investment decisions. Occasional downtime during peak usage, but customer support is always responsive and helpful."
     },
     {
-        name: "Akash P.",
+        name: "Akash P.4",
         text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities."
     },
     {
-        name: "Thomas W.",
+        name: "Thomas W.5",
         text: "Just amazing! Transformed how we manage our family finances. The interface is intuitive and the reporting features save us hours every month."
     },
     {
-        name: "Lisa G.",
+        name: "Lisa G.6",
         text: "Compliant, user-friendly, and supported by an excellent success team. They helped us set up our retirement portfolio and we've seen steady growth ever since."
     },
     {
-        name: "Emma T.",
+        name: "Emma T.7",
         text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits."
     },
     {
-        name: "Amaan S.",
-        text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities.Integration was challenging at first but definitely worth it for the long-term benefits"
+        name: "Amaan S.8",
+        text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities."
     },
-    // Add more reviews to test scrolling
-    {
-        name: "John D.",
-        text: "Excellent service and support. They helped me plan my retirement with confidence."
-    },
-    {
-        name: "Sarah K.",
-        text: "Very professional team. My investments have grown steadily thanks to their advice."
-    }
+    // {
+    //     name: "John D.",
+    //     text: "Excellent service and support. They helped me plan my retirement with confidence."
+    // },
+    // {
+    //     name: "Sarah K.",
+    //     text: "Very professional team. My investments have grown steadily thanks to their advice."
+    // },
+    // {
+    //     name: "Mike P.",
+    //     text: "Outstanding platform! The reporting features are incredibly detailed and helpful for tax planning."
+    // },
+    // {
+    //     name: "Rachel W.",
+    //     text: "Best decision we made for our business finances. The automation saves us at least 10 hours per week."
+    // }
 ];
 
-// Modal Component (inside same file or separate – we'll keep inline for simplicity)
+// Modal Component (unchanged - keep as is)
 const ReviewModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
@@ -100,7 +108,6 @@ const ReviewModal = ({ isOpen, onClose }) => {
                         return errors;
                     }}
                     onSubmit={(values, { setSubmitting, resetForm }) => {
-                        // Simulate submission
                         setTimeout(() => {
                             toast.success("Review submitted successfully!");
                             setSubmitting(false);
@@ -143,13 +150,8 @@ const ReviewModal = ({ isOpen, onClose }) => {
 
 const Testimonials = () => {
     const swiperRef = useRef(null);
+    const desktopSwiperRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // Split reviews into three columns for desktop grid
-    const columns = [[], [], []];
-    reviews.forEach((review, index) => {
-        columns[index % 3].push(review);
-    });
 
     // Animation variants (unchanged)
     const containerVariants = {
@@ -211,6 +213,63 @@ const Testimonials = () => {
         tap: { scale: 0.9 }
     };
 
+    // Function to arrange reviews in carousel that shows next logical set of 5 reviews
+    const getDesktopSlides = () => {
+        const slides = [];
+
+        if (reviews.length <= 5) {
+            // If 5 or fewer reviews, just show one slide
+            slides.push({
+                col1: [reviews[0], reviews[1]],
+                col2: [reviews[2]],
+                col3: [reviews[3], reviews[4]]
+            });
+        } else {
+            let startIndex = 0;
+
+            while (startIndex + 4 < reviews.length) {
+                const slideReviews = reviews.slice(startIndex, startIndex + 5);
+
+                slides.push({
+                    col1: [slideReviews[0], slideReviews[1]],
+                    col2: [slideReviews[2]],
+                    col3: [slideReviews[3], slideReviews[4]]
+                });
+
+                // Move startIndex forward by the number of new reviews we want to show
+                // For 6 reviews: +1, For 7 reviews: +2, For 8 reviews: +3, etc.
+                startIndex += Math.max(1, Math.floor(5 - (reviews.length - startIndex - 5)));
+            }
+
+            // Handle the last slide if needed
+            if (startIndex < reviews.length) {
+                // Get the last 5 reviews available
+                const lastStartIndex = Math.max(0, reviews.length - 5);
+                const lastSlideReviews = reviews.slice(lastStartIndex, lastStartIndex + 5);
+
+                // Check if this slide is different from the last one
+                const lastSlide = {
+                    col1: [lastSlideReviews[0], lastSlideReviews[1]],
+                    col2: [lastSlideReviews[2]],
+                    col3: [lastSlideReviews[3], lastSlideReviews[4]]
+                };
+
+                // Compare with the last slide in slides array
+                const lastExistingSlide = slides[slides.length - 1];
+                const lastExistingStr = JSON.stringify(lastExistingSlide);
+                const lastSlideStr = JSON.stringify(lastSlide);
+
+                if (lastExistingStr !== lastSlideStr) {
+                    slides.push(lastSlide);
+                }
+            }
+        }
+
+        return slides;
+    };
+
+    const desktopSlides = getDesktopSlides();
+
     return (
         <>
             <motion.section
@@ -265,28 +324,112 @@ const Testimonials = () => {
                     </motion.button>
                 </motion.div>
 
-                {/* DESKTOP GRID – DYNAMIC & SCROLLABLE (shadows added via CSS) */}
-                <div className="testimonial-grid desktop-only">
-                    {columns.map((colReviews, colIndex) => (
-                        <div key={colIndex} className="col">
-                            {colReviews.map((review, index) => (
-                                <motion.div
-                                    key={`${colIndex}-${index}`}
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    viewport={{ once: true, margin: "-50px" }}
-                                    variants={cardVariants}
-                                    whileHover="hover"
-                                    transition={{ delay: (colIndex + index * 3) * 0.1 }}
-                                >
-                                    <ReviewCard
-                                        {...review}
-                                        avatar={avatars[(colIndex + index * 3) % avatars.length]}
-                                    />
-                                </motion.div>
-                            ))}
+                {/* DESKTOP CAROUSEL – ALWAYS SHOWS 5 REVIEWS */}
+                <div className="desktop-carousel desktop-only">
+                    <Swiper
+                        modules={[Autoplay, Navigation]}
+                        onSwiper={(swiper) => (desktopSwiperRef.current = swiper)}
+                        slidesPerView={1}
+                        spaceBetween={0}
+                        loop={false} // Change this to false
+                        autoplay={false}
+                        navigation={{
+                            prevEl: '.desktop-swiper-prev',
+                            nextEl: '.desktop-swiper-next',
+                        }}
+                        className="desktop-swiper"
+                        watchOverflow={true} // Add this
+                        allowTouchMove={false} // Add this to prevent manual swiping
+                    >
+                        {desktopSlides.map((slide, slideIndex) => (
+                            <SwiperSlide key={slideIndex}>
+                                <div className="testimonial-grid">
+                                    {/* Column 1 - 2 reviews */}
+                                    <div className="col col-1">
+                                        {slide.col1.map((review, idx) => (
+                                            <motion.div
+                                                key={`col1-${slideIndex}-${idx}`}
+                                                initial="hidden"
+                                                whileInView="visible"
+                                                viewport={{ once: true, margin: "-50px" }}
+                                                variants={cardVariants}
+                                                transition={{ delay: idx * 0.1 }}
+                                            >
+                                                <ReviewCard
+                                                    {...review}
+                                                    avatar={avatars[(slideIndex * 5 + idx) % avatars.length]}
+                                                />
+                                            </motion.div>
+                                        ))}
+                                    </div>
+
+                                    {/* Column 2 - 1 review (vertically centered) */}
+                                    <div className="col col-2">
+                                        {slide.col2.map((review, idx) => (
+                                            <motion.div
+                                                key={`col2-${slideIndex}-${idx}`}
+                                                initial="hidden"
+                                                whileInView="visible"
+                                                viewport={{ once: true, margin: "-50px" }}
+                                                variants={cardVariants}
+                                                className="centered-card"
+                                            >
+                                                <ReviewCard
+                                                    {...review}
+                                                    avatar={avatars[(slideIndex * 5 + 2) % avatars.length]}
+                                                />
+                                            </motion.div>
+                                        ))}
+                                    </div>
+
+                                    {/* Column 3 - 2 reviews */}
+                                    <div className="col col-3">
+                                        {slide.col3.map((review, idx) => (
+                                            <motion.div
+                                                key={`col3-${slideIndex}-${idx}`}
+                                                initial="hidden"
+                                                whileInView="visible"
+                                                viewport={{ once: true, margin: "-50px" }}
+                                                variants={cardVariants}
+                                                transition={{ delay: idx * 0.1 }}
+                                            >
+                                                <ReviewCard
+                                                    {...review}
+                                                    avatar={avatars[(slideIndex * 5 + 3 + idx) % avatars.length]}
+                                                />
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+
+                    {/* Desktop Navigation Arrows - Only show if more than 5 reviews */}
+                    {desktopSlides.length > 1 && (
+                        <div className="desktop-slider-arrows">
+                            <motion.button
+                                className="desktop-swiper-prev"
+                                variants={sliderArrowVariants}
+                                initial="initial"
+                                whileHover="hover"
+                                whileTap="tap"
+                                disabled={desktopSwiperRef.current?.isBeginning}
+                            >
+                                <FaArrowLeft />
+                            </motion.button>
+                            <motion.button
+                                className="desktop-swiper-next"
+                                variants={sliderArrowVariants}
+                                initial="initial"
+                                whileHover="hover"
+                                whileTap="tap"
+                                disabled={desktopSwiperRef.current?.isEnd}
+                            >
+                                <FaArrowRightIcon />
+                            </motion.button>
                         </div>
-                    ))}
+                    )}
                 </div>
 
                 {/* MOBILE SLIDER – UNCHANGED */}

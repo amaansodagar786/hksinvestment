@@ -125,7 +125,7 @@ const ContactHero = () => {
                             onClick={() => setIsModalOpen(true)}
                         >
                             <span className="contact-hero-btn-fill"></span>
-                            <span className="contact-hero-btn-text">Schedule a Call</span>
+                            <span className="contact-hero-btn-text">Schedule a Meeting</span>
                             <span className="contact-hero-btn-arrow">
                                 <FiArrowRight />
                             </span>

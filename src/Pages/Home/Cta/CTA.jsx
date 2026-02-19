@@ -150,8 +150,8 @@ const CTA = () => {
                 repeatType: "reverse"
               }}
             >
-              Advisors
-            </motion.span> for your investments
+              Licensed
+            </motion.span> Financial Advisor.
           </motion.h2>
 
           {/* ✅ BUTTON UPDATED - EXACT SAME AS ABOUT COMPONENT */}
@@ -164,7 +164,7 @@ const CTA = () => {
             onClick={() => setIsModalOpen(true)}
           >
             <span className="cta-btn-fill"></span>
-            <span className="cta-btn-text">Contact</span>
+            <span className="cta-btn-text">Free Consultation</span>
             <span className="cta-btn-arrow">
               <FiArrowRight />
             </span>

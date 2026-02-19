@@ -149,7 +149,7 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    width: 225px;
+    width: 260px;
     height: 56px;
     background: #5e2690;
     border: 2px solid #5e2690;
@@ -172,7 +172,7 @@
     }
 
     @media (max-width: 480px) {
-        width: 175px;
+        width: 205px;
         height: 48px;
     }
 }
