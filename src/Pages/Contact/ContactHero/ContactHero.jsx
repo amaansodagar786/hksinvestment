@@ -1,16 +1,12 @@
-// ContactHero.jsx
-import React, { useState } from "react";
+import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GeneralInquiryModal from "../GenralInquiry/GeneralInquiryModal";
 import "./ContactHero.scss";
 
 const ContactHero = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // Animation variants
+    // Animation variants (unchanged)
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -77,6 +73,14 @@ const ContactHero = () => {
         }
     };
 
+    // Function to scroll to appointment section
+    const scrollToAppointment = () => {
+        const appointmentSection = document.getElementById("appointment-section");
+        if (appointmentSection) {
+            appointmentSection.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <>
             <ToastContainer position="top-right" autoClose={5000} />
@@ -122,7 +126,7 @@ const ContactHero = () => {
                             initial="initial"
                             whileHover="hover"
                             whileTap="tap"
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={scrollToAppointment}  // Changed here
                         >
                             <span className="contact-hero-btn-fill"></span>
                             <span className="contact-hero-btn-text">Schedule a Meeting</span>
@@ -133,12 +137,6 @@ const ContactHero = () => {
                     </motion.div>
                 </div>
             </motion.section>
-
-            {/* General Inquiry Modal Component */}
-            <GeneralInquiryModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            />
         </>
     );
 };

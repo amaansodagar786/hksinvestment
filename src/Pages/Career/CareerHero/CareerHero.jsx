@@ -128,7 +128,7 @@ const CareerHero = () => {
                         whileTap="tap"
                     >
                         <span className="career-hero-btn-fill"></span>
-                        <span className="career-hero-btn-text">View openings</span>
+                        <span className="career-hero-btn-text">Join Us</span>
                         <span className="career-hero-btn-arrow">
                             <FiArrowRight />
                         </span>

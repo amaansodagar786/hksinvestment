@@ -12,10 +12,8 @@ import {
     FiArrowRight,
     FiUser,
     FiCheckCircle,
-    FiYoutube // ADDED for YouTube
 } from "react-icons/fi";
-import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa"; // UPDATED: Removed Twitter, added WhatsApp
-import { FaXTwitter } from "react-icons/fa6"; // ADDED: New X (Twitter) icon
+import { FaWhatsapp } from "react-icons/fa"; // Only WhatsApp icon kept
 import "./CareerForm.scss";
 
 const CareerForm = () => {
@@ -150,13 +148,10 @@ const CareerForm = () => {
         }, 1000);
     };
 
-    // UPDATED: Social icons with current platforms
+    // UPDATED: Social icons – only WhatsApp and Instagram
     const socialIcons = [
         { Icon: FiInstagram, label: "Instagram", url: "https://instagram.com/hksinvestment" },
-        { Icon: FaFacebookF, label: "Facebook", url: "https://facebook.com/hksinvestment" },
-        { Icon: FaLinkedinIn, label: "LinkedIn", url: "https://linkedin.com/company/hksinvestment" },
-        { Icon: FaXTwitter, label: "X (Twitter)", url: "https://twitter.com/hksinvestment" }, // UPDATED to X
-        { Icon: FiYoutube, label: "YouTube", url: "https://youtube.com/@hksinvestment" } // ADDED YouTube
+        { Icon: FaWhatsapp, label: "WhatsApp", url: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities" }
     ];
 
     // UPDATED: Contact info with ORIGINAL details (from footer)
@@ -285,7 +280,7 @@ const CareerForm = () => {
                                 ))}
                             </div>
 
-                            {/* SOCIAL ICONS - UPDATED with current platforms */}
+                            {/* SOCIAL ICONS - UPDATED: Only WhatsApp and Instagram */}
                             <motion.div
                                 className="career-socials"
                                 initial={{ opacity: 0 }}

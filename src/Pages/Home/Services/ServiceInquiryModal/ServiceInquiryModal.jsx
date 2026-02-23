@@ -28,6 +28,7 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
             .required("Phone number is required")
             .matches(/^[0-9+\-\s()]*$/, "Phone number is not valid"),
         email: Yup.string()
+            .required("Email is required")
             .email("Invalid email address"),
         service: Yup.string()
             .required("Please select a service"),
@@ -155,7 +156,9 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
                                     {/* Row 2: Email and Service Selection */}
                                     <div className="service-form-row-2col">
                                         <div className="service-form-group">
-                                            <label htmlFor="email">Email Address (Optional)</label>
+                                            <label htmlFor="email">
+                                                Email Address <span className="required">*</span>
+                                            </label>
                                             <Field
                                                 type="email"
                                                 id="email"

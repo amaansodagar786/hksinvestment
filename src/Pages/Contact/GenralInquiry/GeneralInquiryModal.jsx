@@ -18,6 +18,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
             .required("Phone number is required")
             .matches(/^[0-9+\-\s()]*$/, "Phone number is not valid"),
         email: Yup.string()
+            .required("Email is required")
             .email("Invalid email address"),
         reason: Yup.string()
             .required("Please select a reason"),
@@ -145,7 +146,9 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                     {/* Row 2: Email and Reason */}
                                     <div className="inquiry-form-row-2col">
                                         <div className="inquiry-form-group">
-                                            <label htmlFor="email">Email Address (Optional)</label>
+                                            <label htmlFor="email">
+                                                Email Address <span className="required">*</span>
+                                            </label>
                                             <Field
                                                 type="email"
                                                 id="email"

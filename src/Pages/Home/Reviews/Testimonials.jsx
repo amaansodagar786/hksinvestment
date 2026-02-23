@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { FaArrowLeft, FaArrowRight as FaArrowRightIcon } from "react-icons/fa6";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules"; // Added Navigation
+import { Autoplay, Navigation } from "swiper/modules";
 import { motion, AnimatePresence } from "framer-motion";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toast, ToastContainer } from "react-toastify";
@@ -26,7 +26,7 @@ const avatars = [
     "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=100&h=100&fit=crop"
 ];
 
-// Reviews array - uncommented all reviews
+// Reviews array (unchanged)
 const reviews = [
     {
         name: "David R. 1",
@@ -59,39 +59,23 @@ const reviews = [
     {
         name: "Amaan S.8",
         text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities."
-    },
-    // {
-    //     name: "John D.",
-    //     text: "Excellent service and support. They helped me plan my retirement with confidence."
-    // },
-    // {
-    //     name: "Sarah K.",
-    //     text: "Very professional team. My investments have grown steadily thanks to their advice."
-    // },
-    // {
-    //     name: "Mike P.",
-    //     text: "Outstanding platform! The reporting features are incredibly detailed and helpful for tax planning."
-    // },
-    // {
-    //     name: "Rachel W.",
-    //     text: "Best decision we made for our business finances. The automation saves us at least 10 hours per week."
-    // }
+    }
 ];
 
-// Modal Component (unchanged - keep as is)
+// Modal Component (unchanged)
 const ReviewModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
         <motion.div
-            className="modal-overlay"
+            className="testimonial-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
         >
             <motion.div
-                className="modal-content"
+                className="testimonial-modal-content"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
@@ -118,31 +102,31 @@ const ReviewModal = ({ isOpen, onClose }) => {
                 >
                     {({ isSubmitting }) => (
                         <Form>
-                            <div className="form-group">
+                            <div className="testimonial-form-group">
                                 <label htmlFor="name">Name</label>
                                 <Field type="text" name="name" />
-                                <ErrorMessage name="name" component="div" className="error" />
+                                <ErrorMessage name="name" component="div" className="testimonial-error" />
                             </div>
-                            <div className="form-group">
+                            <div className="testimonial-form-group">
                                 <label htmlFor="number">Phone Number</label>
                                 <Field type="tel" name="number" />
-                                <ErrorMessage name="number" component="div" className="error" />
+                                <ErrorMessage name="number" component="div" className="testimonial-error" />
                             </div>
-                            <div className="form-group">
+                            <div className="testimonial-form-group">
                                 <label htmlFor="review">Review</label>
                                 <Field as="textarea" name="review" rows="4" />
-                                <ErrorMessage name="review" component="div" className="error" />
+                                <ErrorMessage name="review" component="div" className="testimonial-error" />
                             </div>
-                            <div className="modal-actions">
-                                <button type="button" onClick={onClose} className="cancel-btn">Cancel</button>
-                                <button type="submit" disabled={isSubmitting} className="submit-btn">
+                            <div className="testimonial-modal-actions">
+                                <button type="button" onClick={onClose} className="testimonial-cancel-btn">Cancel</button>
+                                <button type="submit" disabled={isSubmitting} className="testimonial-submit-btn">
                                     {isSubmitting ? "Submitting..." : "Submit"}
                                 </button>
                             </div>
                         </Form>
                     )}
                 </Formik>
-                <button className="close-modal" onClick={onClose}>×</button>
+                <button className="testimonial-close-modal" onClick={onClose}>×</button>
             </motion.div>
         </motion.div>
     );
@@ -213,56 +197,38 @@ const Testimonials = () => {
         tap: { scale: 0.9 }
     };
 
-    // Function to arrange reviews in carousel that shows next logical set of 5 reviews
+    // ✅ NEW: generates slides with exactly 5 reviews, last slide = last 5 reviews
     const getDesktopSlides = () => {
         const slides = [];
+        const total = reviews.length;
 
-        if (reviews.length <= 5) {
-            // If 5 or fewer reviews, just show one slide
+        if (total <= 5) {
             slides.push({
-                col1: [reviews[0], reviews[1]],
-                col2: [reviews[2]],
-                col3: [reviews[3], reviews[4]]
+                reviews: reviews,
+                startIndex: 0
             });
-        } else {
-            let startIndex = 0;
+            return slides;
+        }
 
-            while (startIndex + 4 < reviews.length) {
-                const slideReviews = reviews.slice(startIndex, startIndex + 5);
+        const fullChunks = Math.floor(total / 5);
+        const remainder = total % 5;
 
-                slides.push({
-                    col1: [slideReviews[0], slideReviews[1]],
-                    col2: [slideReviews[2]],
-                    col3: [slideReviews[3], slideReviews[4]]
-                });
+        // Non‑overlapping slides (full chunks of 5)
+        for (let i = 0; i < fullChunks; i++) {
+            const start = i * 5;
+            slides.push({
+                reviews: reviews.slice(start, start + 5),
+                startIndex: start
+            });
+        }
 
-                // Move startIndex forward by the number of new reviews we want to show
-                // For 6 reviews: +1, For 7 reviews: +2, For 8 reviews: +3, etc.
-                startIndex += Math.max(1, Math.floor(5 - (reviews.length - startIndex - 5)));
-            }
-
-            // Handle the last slide if needed
-            if (startIndex < reviews.length) {
-                // Get the last 5 reviews available
-                const lastStartIndex = Math.max(0, reviews.length - 5);
-                const lastSlideReviews = reviews.slice(lastStartIndex, lastStartIndex + 5);
-
-                // Check if this slide is different from the last one
-                const lastSlide = {
-                    col1: [lastSlideReviews[0], lastSlideReviews[1]],
-                    col2: [lastSlideReviews[2]],
-                    col3: [lastSlideReviews[3], lastSlideReviews[4]]
-                };
-
-                // Compare with the last slide in slides array
-                const lastExistingSlide = slides[slides.length - 1];
-                const lastExistingStr = JSON.stringify(lastExistingSlide);
-                const lastSlideStr = JSON.stringify(lastSlide);
-
-                if (lastExistingStr !== lastSlideStr) {
-                    slides.push(lastSlide);
-                }
-            }
+        // If there’s a remainder, add the last slide = last 5 reviews (overlaps)
+        if (remainder !== 0) {
+            const lastStart = total - 5;
+            slides.push({
+                reviews: reviews.slice(lastStart, total),
+                startIndex: lastStart
+            });
         }
 
         return slides;
@@ -279,14 +245,14 @@ const Testimonials = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
             >
-                {/* HEADER */}
+                {/* HEADER (unchanged) */}
                 <motion.div
                     className="testimonial-header"
                     variants={headerVariants}
                 >
                     <div>
                         <motion.span
-                            className="pill"
+                            className="testimonial-pill"
                             variants={pillVariants}
                         >
                             Testimonial
@@ -307,109 +273,114 @@ const Testimonials = () => {
                         </motion.h2>
                     </div>
 
-                    {/* DESKTOP BUTTON – opens modal */}
                     <motion.button
-                        className="review-btn desktop-only"
+                        className="testimonial-review-btn desktop-only"
                         variants={buttonVariants}
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
                         onClick={() => setIsModalOpen(true)}
                     >
-                        <span className="review-btn-fill"></span>
-                        <span className="review-btn-text">Leave a review</span>
-                        <span className="review-btn-arrow">
+                        <span className="testimonial-review-btn-fill"></span>
+                        <span className="testimonial-review-btn-text">Leave a review</span>
+                        <span className="testimonial-review-btn-arrow">
                             <FiArrowRight />
                         </span>
                     </motion.button>
                 </motion.div>
 
-                {/* DESKTOP CAROUSEL – ALWAYS SHOWS 5 REVIEWS */}
-                <div className="desktop-carousel desktop-only">
+                {/* DESKTOP CAROUSEL – NOW SHOWS 5 REVIEWS PER SLIDE */}
+                <div className="testimonial-desktop-carousel desktop-only">
                     <Swiper
                         modules={[Autoplay, Navigation]}
                         onSwiper={(swiper) => (desktopSwiperRef.current = swiper)}
                         slidesPerView={1}
                         spaceBetween={0}
-                        loop={false} // Change this to false
+                        loop={false}
                         autoplay={false}
                         navigation={{
-                            prevEl: '.desktop-swiper-prev',
-                            nextEl: '.desktop-swiper-next',
+                            prevEl: '.testimonial-desktop-swiper-prev',
+                            nextEl: '.testimonial-desktop-swiper-next',
                         }}
-                        className="desktop-swiper"
-                        watchOverflow={true} // Add this
-                        allowTouchMove={false} // Add this to prevent manual swiping
+                        className="testimonial-desktop-swiper"
+                        watchOverflow={true}
+                        allowTouchMove={false}
                     >
                         {desktopSlides.map((slide, slideIndex) => (
                             <SwiperSlide key={slideIndex}>
                                 <div className="testimonial-grid">
-                                    {/* Column 1 - 2 reviews */}
-                                    <div className="col col-1">
-                                        {slide.col1.map((review, idx) => (
-                                            <motion.div
-                                                key={`col1-${slideIndex}-${idx}`}
-                                                initial="hidden"
-                                                whileInView="visible"
-                                                viewport={{ once: true, margin: "-50px" }}
-                                                variants={cardVariants}
-                                                transition={{ delay: idx * 0.1 }}
-                                            >
-                                                <ReviewCard
-                                                    {...review}
-                                                    avatar={avatars[(slideIndex * 5 + idx) % avatars.length]}
-                                                />
-                                            </motion.div>
-                                        ))}
+                                    {/* Column 1 – first two reviews */}
+                                    <div className="testimonial-col testimonial-col-1">
+                                        {slide.reviews.slice(0, 2).map((review, idx) => {
+                                            const globalIndex = slide.startIndex + idx;
+                                            return (
+                                                <motion.div
+                                                    key={`col1-${slideIndex}-${idx}`}
+                                                    initial="hidden"
+                                                    whileInView="visible"
+                                                    viewport={{ once: true, margin: "-50px" }}
+                                                    variants={cardVariants}
+                                                    transition={{ delay: idx * 0.1 }}
+                                                >
+                                                    <ReviewCard
+                                                        {...review}
+                                                        avatar={avatars[globalIndex % avatars.length]}
+                                                    />
+                                                </motion.div>
+                                            );
+                                        })}
                                     </div>
 
-                                    {/* Column 2 - 1 review (vertically centered) */}
-                                    <div className="col col-2">
-                                        {slide.col2.map((review, idx) => (
+                                    {/* Column 2 – third review (if exists) */}
+                                    <div className="testimonial-col testimonial-col-2">
+                                        {slide.reviews[2] && (
                                             <motion.div
-                                                key={`col2-${slideIndex}-${idx}`}
+                                                key={`col2-${slideIndex}`}
                                                 initial="hidden"
                                                 whileInView="visible"
                                                 viewport={{ once: true, margin: "-50px" }}
                                                 variants={cardVariants}
-                                                className="centered-card"
+                                                className="testimonial-centered-card"
                                             >
                                                 <ReviewCard
-                                                    {...review}
-                                                    avatar={avatars[(slideIndex * 5 + 2) % avatars.length]}
+                                                    {...slide.reviews[2]}
+                                                    avatar={avatars[(slide.startIndex + 2) % avatars.length]}
                                                 />
                                             </motion.div>
-                                        ))}
+                                        )}
                                     </div>
 
-                                    {/* Column 3 - 2 reviews */}
-                                    <div className="col col-3">
-                                        {slide.col3.map((review, idx) => (
-                                            <motion.div
-                                                key={`col3-${slideIndex}-${idx}`}
-                                                initial="hidden"
-                                                whileInView="visible"
-                                                viewport={{ once: true, margin: "-50px" }}
-                                                variants={cardVariants}
-                                                transition={{ delay: idx * 0.1 }}
-                                            >
-                                                <ReviewCard
-                                                    {...review}
-                                                    avatar={avatars[(slideIndex * 5 + 3 + idx) % avatars.length]}
-                                                />
-                                            </motion.div>
-                                        ))}
+                                    {/* Column 3 – fourth & fifth reviews */}
+                                    <div className="testimonial-col testimonial-col-3">
+                                        {slide.reviews.slice(3, 5).map((review, idx) => {
+                                            const globalIndex = slide.startIndex + 3 + idx;
+                                            return (
+                                                <motion.div
+                                                    key={`col3-${slideIndex}-${idx}`}
+                                                    initial="hidden"
+                                                    whileInView="visible"
+                                                    viewport={{ once: true, margin: "-50px" }}
+                                                    variants={cardVariants}
+                                                    transition={{ delay: idx * 0.1 }}
+                                                >
+                                                    <ReviewCard
+                                                        {...review}
+                                                        avatar={avatars[globalIndex % avatars.length]}
+                                                    />
+                                                </motion.div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>
 
-                    {/* Desktop Navigation Arrows - Only show if more than 5 reviews */}
+                    {/* Desktop Navigation Arrows (unchanged) */}
                     {desktopSlides.length > 1 && (
-                        <div className="desktop-slider-arrows">
+                        <div className="testimonial-desktop-slider-arrows">
                             <motion.button
-                                className="desktop-swiper-prev"
+                                className="testimonial-desktop-swiper-prev"
                                 variants={sliderArrowVariants}
                                 initial="initial"
                                 whileHover="hover"
@@ -419,7 +390,7 @@ const Testimonials = () => {
                                 <FaArrowLeft />
                             </motion.button>
                             <motion.button
-                                className="desktop-swiper-next"
+                                className="testimonial-desktop-swiper-next"
                                 variants={sliderArrowVariants}
                                 initial="initial"
                                 whileHover="hover"
@@ -455,8 +426,7 @@ const Testimonials = () => {
                         ))}
                     </Swiper>
 
-                    {/* SLIDER ARROWS */}
-                    <div className="slider-arrows">
+                    <div className="testimonial-slider-arrows">
                         <motion.button
                             onClick={() => swiperRef.current?.slidePrev()}
                             variants={sliderArrowVariants}
@@ -477,30 +447,27 @@ const Testimonials = () => {
                         </motion.button>
                     </div>
 
-                    {/* MOBILE CTA BUTTON – opens modal */}
                     <motion.button
-                        className="review-btn mobile-only"
+                        className="testimonial-review-btn mobile-only"
                         variants={buttonVariants}
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
                         onClick={() => setIsModalOpen(true)}
                     >
-                        <span className="review-btn-fill"></span>
-                        <span className="review-btn-text">Leave a review</span>
-                        <span className="review-btn-arrow">
+                        <span className="testimonial-review-btn-fill"></span>
+                        <span className="testimonial-review-btn-text">Leave a review</span>
+                        <span className="testimonial-review-btn-arrow">
                             <FiArrowRight />
                         </span>
                     </motion.button>
                 </div>
             </motion.section>
 
-            {/* MODAL */}
             <AnimatePresence>
                 {isModalOpen && <ReviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
             </AnimatePresence>
 
-            {/* TOAST CONTAINER */}
             <ToastContainer position="top-right" autoClose={3000} />
         </>
     );
@@ -516,10 +483,10 @@ const ReviewCard = ({ name, text, avatar, mobile }) => {
     };
 
     return (
-        <div className={`review-card-testimonial ${mobile ? "mobile-card" : ""}`}>
-            <div className="user">
+        <div className={`testimonial-card ${mobile ? "testimonial-mobile-card" : ""}`}>
+            <div className="testimonial-user">
                 <motion.div
-                    className="avatar"
+                    className="testimonial-avatar"
                     whileHover="hover"
                     variants={avatarVariants}
                 >
