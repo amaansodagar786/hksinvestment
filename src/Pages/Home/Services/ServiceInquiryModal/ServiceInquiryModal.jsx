@@ -1,4 +1,4 @@
-// ServiceInquiryModal.jsx
+// ServiceInquiryModal.jsx (UPDATED with real API)
 import React from "react";
 import { FiArrowRight, FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "./ServiceInquiryModal.scss";
 
 const ServiceInquiryModal = ({ isOpen, onClose }) => {
+    const API_URL = import.meta.env.VITE_API_URL;
+
     // Service options from the Services section
     const serviceOptions = [
         "Financial Advising",
@@ -70,13 +72,46 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
     };
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        // Simulate API call
-        setTimeout(() => {
-            toast.success(`Thank you for your interest in ${values.service}! Our team will contact you soon.`);
-            resetForm();
-            onClose();
+        try {
+            const response = await fetch(`${API_URL}/service-inquiry/submit`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values)
+            });
+
+            // Handle non-JSON responses
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error('Invalid JSON response:', text);
+                throw new Error('Server returned invalid response');
+            }
+
+            if (!response.ok) {
+                if (response.status === 429) {
+                    toast.warning(data.message || 'Please wait 48 hours between service inquiries');
+                    return;
+                }
+                throw new Error(data.message || 'Failed to submit inquiry');
+            }
+
+            if (data.success) {
+                toast.success(`Thank you for your interest in ${values.service}! Our team will contact you within 24 hours.`);
+                resetForm();
+                onClose();
+            } else {
+                toast.error(data.message || 'Submission failed');
+            }
+        } catch (error) {
+            console.error('Error submitting inquiry:', error);
+            toast.error(error.message || 'Something went wrong. Please try again.');
+        } finally {
             setSubmitting(false);
-        }, 1000);
+        }
     };
 
     return (
@@ -102,6 +137,7 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
                         <button
                             className="service-modal-close-btn"
                             onClick={onClose}
+                            type="button"
                         >
                             <FiX />
                         </button>
@@ -134,6 +170,7 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
                                                 name="name"
                                                 className={`service-form-input ${touched.name && errors.name ? 'error' : ''}`}
                                                 placeholder="Enter your full name"
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="name" component="div" className="error-message" />
                                         </div>
@@ -148,6 +185,7 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
                                                 name="phone"
                                                 className={`service-form-input ${touched.phone && errors.phone ? 'error' : ''}`}
                                                 placeholder="+1 (123) 456-7890"
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="phone" component="div" className="error-message" />
                                         </div>
@@ -165,6 +203,7 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
                                                 name="email"
                                                 className={`service-form-input ${touched.email && errors.email ? 'error' : ''}`}
                                                 placeholder="your@email.com"
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="email" component="div" className="error-message" />
                                         </div>
@@ -178,6 +217,7 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
                                                 id="service"
                                                 name="service"
                                                 className={`service-form-select ${touched.service && errors.service ? 'error' : ''}`}
+                                                disabled={isSubmitting}
                                             >
                                                 <option value="">Choose a service</option>
                                                 {serviceOptions.map((service, index) => (
@@ -199,6 +239,7 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
                                                 className={`service-form-textarea ${touched.message && errors.message ? 'error' : ''}`}
                                                 placeholder="Tell us more about your requirements..."
                                                 rows="4"
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="message" component="div" className="error-message" />
                                         </div>
@@ -207,14 +248,28 @@ const ServiceInquiryModal = ({ isOpen, onClose }) => {
                                     {/* Row 4: Submit Button */}
                                     <motion.button
                                         type="submit"
-                                        className="service-submit-btn"
+                                        className={`service-submit-btn ${isSubmitting ? 'submitting' : ''}`}
                                         disabled={isSubmitting}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
+                                        whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                                        whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                                     >
-                                        {isSubmitting ? "Submitting..." : "Submit Inquiry"}
-                                        <FiArrowRight className="service-submit-arrow" />
+                                        {isSubmitting ? (
+                                            <>
+                                                <span>Submitting...</span>
+                                                <div className="spinner"></div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                Submit Inquiry
+                                                <FiArrowRight className="service-submit-arrow" />
+                                            </>
+                                        )}
                                     </motion.button>
+
+                                    {/* Cooldown info text */}
+                                    <p className="service-form-note">
+                                        <small>Note: You can only submit one service inquiry every 48 hours to ensure quality service.</small>
+                                    </p>
                                 </Form>
                             )}
                         </Formik>

@@ -649,3 +649,78 @@
     transform: none !important;
   }
 }
+
+
+
+
+/* =========================
+   SUBMITTING STATE FIX
+========================= */
+.submit-btn.submitting {
+  background: #5e2690 !important; /* Keep purple background */
+  color: white !important; /* Keep text white */
+  opacity: 0.8;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.submit-btn.submitting::after {
+  display: none !important; /* Remove the white hover effect */
+}
+
+.submit-btn.submitting span {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.submit-btn.submitting .spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Ensure the button content is properly aligned */
+.submit-btn.submitting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 14px 50px;
+}
+
+.submit-btn.submitting span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+}
+
+/* Remove any hover effects when submitting */
+.submit-btn.submitting:hover {
+  background: #5e2690 !important;
+  color: white !important;
+}
+
+.submit-btn.submitting:hover span {
+  background: transparent !important;
+  color: white !important;
+}
+
+.submit-btn.submitting:hover::after {
+  left: -100% !important; /* Keep the white overlay hidden */
+}
+

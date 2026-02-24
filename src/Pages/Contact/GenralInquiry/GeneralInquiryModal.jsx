@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "./GeneralInquiryModal.scss";
 
 const GeneralInquiryModal = ({ isOpen, onClose }) => {
+    const API_URL = import.meta.env.VITE_API_URL;
+
     // Validation schema
     const validationSchema = Yup.object({
         name: Yup.string()
@@ -59,14 +61,40 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
         exit: { opacity: 0 }
     };
 
-    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        // Simulate API call
-        setTimeout(() => {
-            toast.success('Thank you for your general inquiry! Our team will contact you soon.');
-            resetForm();
-            onClose();
+    const handleSubmit = async (values, { setSubmitting, resetForm, setFieldError }) => {
+        try {
+            const response = await fetch(`${API_URL}/general-inquiry/submit`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                // Handle 429 cooldown error specifically
+                if (response.status === 429) {
+                    toast.warning(data.message || 'Please wait 48 hours between inquiries');
+                    return;
+                }
+                throw new Error(data.message || 'Failed to submit inquiry');
+            }
+
+            if (data.success) {
+                toast.success('Thank you for your inquiry! Our team will contact you within 24 hours.');
+                resetForm();
+                onClose();
+            } else {
+                toast.error(data.message || 'Submission failed');
+            }
+        } catch (error) {
+            console.error('Error submitting inquiry:', error);
+            toast.error(error.message || 'Something went wrong. Please try again.');
+        } finally {
             setSubmitting(false);
-        }, 1000);
+        }
     };
 
     return (
@@ -92,6 +120,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                         <button
                             className="inquiry-modal-close-btn"
                             onClick={onClose}
+                            type="button"
                         >
                             <FiX />
                         </button>
@@ -124,6 +153,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                                 name="name"
                                                 className={`inquiry-form-input ${touched.name && errors.name ? 'error' : ''}`}
                                                 placeholder="Enter your full name"
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="name" component="div" className="error-message" />
                                         </div>
@@ -138,6 +168,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                                 name="phone"
                                                 className={`inquiry-form-input ${touched.phone && errors.phone ? 'error' : ''}`}
                                                 placeholder="+1 (123) 456-7890"
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="phone" component="div" className="error-message" />
                                         </div>
@@ -155,6 +186,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                                 name="email"
                                                 className={`inquiry-form-input ${touched.email && errors.email ? 'error' : ''}`}
                                                 placeholder="your@email.com"
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="email" component="div" className="error-message" />
                                         </div>
@@ -168,6 +200,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                                 id="reason"
                                                 name="reason"
                                                 className={`inquiry-form-select ${touched.reason && errors.reason ? 'error' : ''}`}
+                                                disabled={isSubmitting}
                                             >
                                                 <option value="">Select a reason</option>
                                                 <option value="General Inquiry">General Inquiry</option>
@@ -190,6 +223,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                                 className={`inquiry-form-textarea ${touched.message && errors.message ? 'error' : ''}`}
                                                 placeholder="Tell us about your inquiry..."
                                                 rows="4"
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="message" component="div" className="error-message" />
                                         </div>
@@ -198,14 +232,28 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                     {/* Row 4: Submit Button */}
                                     <motion.button
                                         type="submit"
-                                        className="inquiry-submit-btn"
+                                        className={`inquiry-submit-btn ${isSubmitting ? 'submitting' : ''}`}
                                         disabled={isSubmitting}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
+                                        whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                                        whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                                     >
-                                        {isSubmitting ? "Submitting..." : "Submit Inquiry"}
-                                        <FiArrowRight className="inquiry-submit-arrow" />
+                                        {isSubmitting ? (
+                                            <>
+                                                <span>Submitting...</span>
+                                                <div className="spinner"></div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                Submit Inquiry
+                                                <FiArrowRight className="inquiry-submit-arrow" />
+                                            </>
+                                        )}
                                     </motion.button>
+
+                                    {/* Cooldown info text */}
+                                    <p className="inquiry-form-note">
+                                        <small>Note: You can only submit one inquiry every 48 hours to ensure quality service.</small>
+                                    </p>
                                 </Form>
                             )}
                         </Formik>

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { FaArrowLeft, FaArrowRight as FaArrowRightIcon } from "react-icons/fa6";
+import { FaUserCircle } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,23 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "swiper/css";
 import "./Testimonials.scss";
 
-// Avatar images (unchanged)
-const avatars = [
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=100&h=100&fit=crop"
-];
-
-// Reviews array (unchanged)
+// Reviews array
 const reviews = [
     {
         name: "David R. 1",
@@ -62,7 +47,7 @@ const reviews = [
     }
 ];
 
-// Modal Component (unchanged)
+// Modal Component
 const ReviewModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
@@ -137,7 +122,7 @@ const Testimonials = () => {
     const desktopSwiperRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Animation variants (unchanged)
+    // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -197,37 +182,45 @@ const Testimonials = () => {
         tap: { scale: 0.9 }
     };
 
-    // ✅ NEW: generates slides with exactly 5 reviews, last slide = last 5 reviews
     const getDesktopSlides = () => {
         const slides = [];
         const total = reviews.length;
 
-        if (total <= 5) {
+        if (total <= 3) {
             slides.push({
-                reviews: reviews,
+                reviews: reviews.slice(0, total),
                 startIndex: 0
             });
             return slides;
         }
 
-        const fullChunks = Math.floor(total / 5);
-        const remainder = total % 5;
+        // First slide: reviews 0,1,2
+        slides.push({
+            reviews: reviews.slice(0, 3),
+            startIndex: 0
+        });
 
-        // Non‑overlapping slides (full chunks of 5)
-        for (let i = 0; i < fullChunks; i++) {
-            const start = i * 5;
+        // Calculate remaining reviews after first slide
+        const remaining = total - 3;
+
+        if (remaining <= 3) {
+            // For 4-6 reviews: add one more slide with last 3 reviews
             slides.push({
-                reviews: reviews.slice(start, start + 5),
-                startIndex: start
+                reviews: reviews.slice(total - 3, total),
+                startIndex: total - 3
             });
-        }
-
-        // If there’s a remainder, add the last slide = last 5 reviews (overlaps)
-        if (remainder !== 0) {
-            const lastStart = total - 5;
+        } else {
+            // For 7+ reviews: add middle slide + last slide
+            // Add second slide with next 3 reviews (positions 3,4,5)
             slides.push({
-                reviews: reviews.slice(lastStart, total),
-                startIndex: lastStart
+                reviews: reviews.slice(3, 6),
+                startIndex: 3
+            });
+
+            // Add third slide with last 3 reviews
+            slides.push({
+                reviews: reviews.slice(total - 3, total),
+                startIndex: total - 3
             });
         }
 
@@ -245,7 +238,7 @@ const Testimonials = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
             >
-                {/* HEADER (unchanged) */}
+                {/* HEADER */}
                 <motion.div
                     className="testimonial-header"
                     variants={headerVariants}
@@ -289,7 +282,7 @@ const Testimonials = () => {
                     </motion.button>
                 </motion.div>
 
-                {/* DESKTOP CAROUSEL – NOW SHOWS 5 REVIEWS PER SLIDE */}
+                {/* DESKTOP CAROUSEL – ALWAYS 3 REVIEWS PER SLIDE */}
                 <div className="testimonial-desktop-carousel desktop-only">
                     <Swiper
                         modules={[Autoplay, Navigation]}
@@ -308,75 +301,30 @@ const Testimonials = () => {
                     >
                         {desktopSlides.map((slide, slideIndex) => (
                             <SwiperSlide key={slideIndex}>
-                                <div className="testimonial-grid">
-                                    {/* Column 1 – first two reviews */}
-                                    <div className="testimonial-col testimonial-col-1">
-                                        {slide.reviews.slice(0, 2).map((review, idx) => {
-                                            const globalIndex = slide.startIndex + idx;
-                                            return (
-                                                <motion.div
-                                                    key={`col1-${slideIndex}-${idx}`}
-                                                    initial="hidden"
-                                                    whileInView="visible"
-                                                    viewport={{ once: true, margin: "-50px" }}
-                                                    variants={cardVariants}
-                                                    transition={{ delay: idx * 0.1 }}
-                                                >
-                                                    <ReviewCard
-                                                        {...review}
-                                                        avatar={avatars[globalIndex % avatars.length]}
-                                                    />
-                                                </motion.div>
-                                            );
-                                        })}
-                                    </div>
-
-                                    {/* Column 2 – third review (if exists) */}
-                                    <div className="testimonial-col testimonial-col-2">
-                                        {slide.reviews[2] && (
+                                <div className="testimonial-grid-three">
+                                    {slide.reviews.map((review, idx) => {
+                                        return (
                                             <motion.div
-                                                key={`col2-${slideIndex}`}
+                                                key={`desktop-${slideIndex}-${idx}`}
                                                 initial="hidden"
                                                 whileInView="visible"
                                                 viewport={{ once: true, margin: "-50px" }}
                                                 variants={cardVariants}
-                                                className="testimonial-centered-card"
+                                                transition={{ delay: idx * 0.1 }}
+                                                className="testimonial-grid-item"
                                             >
                                                 <ReviewCard
-                                                    {...slide.reviews[2]}
-                                                    avatar={avatars[(slide.startIndex + 2) % avatars.length]}
+                                                    {...review}
                                                 />
                                             </motion.div>
-                                        )}
-                                    </div>
-
-                                    {/* Column 3 – fourth & fifth reviews */}
-                                    <div className="testimonial-col testimonial-col-3">
-                                        {slide.reviews.slice(3, 5).map((review, idx) => {
-                                            const globalIndex = slide.startIndex + 3 + idx;
-                                            return (
-                                                <motion.div
-                                                    key={`col3-${slideIndex}-${idx}`}
-                                                    initial="hidden"
-                                                    whileInView="visible"
-                                                    viewport={{ once: true, margin: "-50px" }}
-                                                    variants={cardVariants}
-                                                    transition={{ delay: idx * 0.1 }}
-                                                >
-                                                    <ReviewCard
-                                                        {...review}
-                                                        avatar={avatars[globalIndex % avatars.length]}
-                                                    />
-                                                </motion.div>
-                                            );
-                                        })}
-                                    </div>
+                                        );
+                                    })}
                                 </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>
 
-                    {/* Desktop Navigation Arrows (unchanged) */}
+                    {/* Desktop Navigation Arrows */}
                     {desktopSlides.length > 1 && (
                         <div className="testimonial-desktop-slider-arrows">
                             <motion.button
@@ -403,7 +351,7 @@ const Testimonials = () => {
                     )}
                 </div>
 
-                {/* MOBILE SLIDER – UNCHANGED */}
+                {/* MOBILE SLIDER – WITH ICONS */}
                 <div className="testimonial-mobile">
                     <Swiper
                         modules={[Autoplay]}
@@ -420,7 +368,10 @@ const Testimonials = () => {
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.4 }}
                                 >
-                                    <ReviewCard {...item} avatar={avatars[i]} mobile />
+                                    <ReviewCard
+                                        {...item}
+                                        mobile
+                                    />
                                 </motion.div>
                             </SwiperSlide>
                         ))}
@@ -473,7 +424,8 @@ const Testimonials = () => {
     );
 };
 
-const ReviewCard = ({ name, text, avatar, mobile }) => {
+// ReviewCard component - uses icons for ALL views
+const ReviewCard = ({ name, text, mobile }) => {
     const avatarVariants = {
         hover: {
             scale: 1.1,
@@ -490,7 +442,7 @@ const ReviewCard = ({ name, text, avatar, mobile }) => {
                     whileHover="hover"
                     variants={avatarVariants}
                 >
-                    <img src={avatar} alt={name} />
+                    <FaUserCircle className="testimonial-avatar-icon" />
                 </motion.div>
                 <motion.strong
                     initial={{ opacity: 0.8 }}

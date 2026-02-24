@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const CTA = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Validation schema - UPDATED: phone is now required
+  // Validation schema
   const validationSchema = Yup.object({
     name: Yup.string()
       .required("Name is required")
@@ -19,7 +19,7 @@ const CTA = () => {
       .email("Invalid email address")
       .required("Email is required"),
     phone: Yup.string()
-      .required("Phone number is required") // CHANGED: Now required
+      .required("Phone number is required")
       .matches(/^[0-9+\-\s()]*$/, "Phone number is not valid"),
     message: Yup.string()
       .max(500, "Message must be 500 characters or less")
@@ -52,14 +52,12 @@ const CTA = () => {
     }
   };
 
-  // ✅ BUTTON VARIANTS – same as About
   const buttonVariants = {
     initial: { scale: 1 },
     hover: { scale: 1.02 },
     tap: { scale: 0.98 }
   };
 
-  // ✅ MODAL VARIANTS – UPDATED for compact style
   const modalVariants = {
     hidden: {
       opacity: 0,
@@ -105,6 +103,11 @@ const CTA = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        // Handle 429 cooldown error
+        if (response.status === 429) {
+          toast.warning(data.message || 'Please wait 48 hours between messages');
+          return;
+        }
         throw new Error(data.message || 'Failed to submit form');
       }
 
@@ -154,7 +157,6 @@ const CTA = () => {
             </motion.span> Financial Advisor.
           </motion.h2>
 
-          {/* ✅ BUTTON UPDATED - EXACT SAME AS ABOUT COMPONENT */}
           <motion.button
             className="cta-btn"
             variants={buttonVariants}
@@ -172,7 +174,6 @@ const CTA = () => {
         </motion.div>
       </motion.section>
 
-      {/* ✅ UPDATED MODAL – COMPACT STYLE LIKE GENERAL INQUIRY */}
       <AnimatePresence>
         {isModalOpen && (
           <>
@@ -195,6 +196,7 @@ const CTA = () => {
               <button
                 className="cta-modal-close-btn"
                 onClick={() => setIsModalOpen(false)}
+                type="button"
               >
                 <FiX />
               </button>
@@ -226,6 +228,7 @@ const CTA = () => {
                           name="name"
                           className={`cta-form-input ${touched.name && errors.name ? 'error' : ''}`}
                           placeholder="Enter your full name"
+                          disabled={isSubmitting}
                         />
                         <ErrorMessage name="name" component="div" className="error-message" />
                       </div>
@@ -240,12 +243,13 @@ const CTA = () => {
                           name="email"
                           className={`cta-form-input ${touched.email && errors.email ? 'error' : ''}`}
                           placeholder="your@email.com"
+                          disabled={isSubmitting}
                         />
                         <ErrorMessage name="email" component="div" className="error-message" />
                       </div>
                     </div>
 
-                    {/* Row 2: Phone (Now Required) */}
+                    {/* Row 2: Phone */}
                     <div className="cta-form-row-full">
                       <div className="cta-form-group">
                         <label htmlFor="phone">
@@ -257,6 +261,7 @@ const CTA = () => {
                           name="phone"
                           className={`cta-form-input ${touched.phone && errors.phone ? 'error' : ''}`}
                           placeholder="+1 (123) 456-7890"
+                          disabled={isSubmitting}
                         />
                         <ErrorMessage name="phone" component="div" className="error-message" />
                       </div>
@@ -273,6 +278,7 @@ const CTA = () => {
                           className={`cta-form-textarea ${touched.message && errors.message ? 'error' : ''}`}
                           placeholder="Tell us about your investment needs..."
                           rows="4"
+                          disabled={isSubmitting}
                         />
                         <ErrorMessage name="message" component="div" className="error-message" />
                       </div>
@@ -281,14 +287,28 @@ const CTA = () => {
                     {/* Row 4: Submit Button */}
                     <motion.button
                       type="submit"
-                      className="cta-submit-btn"
+                      className={`cta-submit-btn ${isSubmitting ? 'submitting' : ''}`}
                       disabled={isSubmitting}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                      whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                     >
-                      {isSubmitting ? "Sending..." : "Submit Message"}
-                      <FiArrowRight className="cta-submit-arrow" />
+                      {isSubmitting ? (
+                        <>
+                          <span>Sending...</span>
+                          <div className="spinner"></div>
+                        </>
+                      ) : (
+                        <>
+                          Submit Message
+                          <FiArrowRight className="cta-submit-arrow" />
+                        </>
+                      )}
                     </motion.button>
+
+                    {/* Cooldown info text */}
+                    <p className="cta-form-note">
+                      <small>Note: You can only submit one message every 48 hours to ensure quality service.</small>
+                    </p>
                   </Form>
                 )}
               </Formik>

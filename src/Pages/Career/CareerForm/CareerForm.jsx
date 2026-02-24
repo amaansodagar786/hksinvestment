@@ -1,3 +1,4 @@
+// CareerForm.jsx (UPDATED with real API)
 import React from "react";
 import { motion } from "framer-motion";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -13,10 +14,12 @@ import {
     FiUser,
     FiCheckCircle,
 } from "react-icons/fi";
-import { FaWhatsapp } from "react-icons/fa"; // Only WhatsApp icon kept
+import { FaWhatsapp } from "react-icons/fa";
 import "./CareerForm.scss";
 
 const CareerForm = () => {
+    const API_URL = import.meta.env.VITE_API_URL || 'https://hksinvenstmentbackend.onrender.com/api';
+
     // Animation variants - EXACT SAME as ContactSection
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -112,7 +115,7 @@ const CareerForm = () => {
             .email("Invalid email address")
             .required("Email is required"),
         phone: Yup.string()
-            .matches(/^[0-9\-\+ ]+$/, "Invalid phone number")
+            .matches(/^[0-9+\-\s()]*$/, "Invalid phone number")
             .required("Phone number is required"),
         llqpLicense: Yup.string()
             .required("Please select an option")
@@ -128,36 +131,54 @@ const CareerForm = () => {
     };
 
     // Handle form submission
-    const handleSubmit = (values, { resetForm, setSubmitting }) => {
-        console.log("Form submitted:", values);
-
-        // Simulate API call
-        setTimeout(() => {
-            toast.success("Application submitted successfully! We'll contact you soon.", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "light",
+    const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+        try {
+            const response = await fetch(`${API_URL}/career/apply`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values)
             });
 
-            resetForm();
+            const data = await response.json();
+
+            if (!response.ok) {
+                // Handle 429 cooldown error (1 week)
+                if (response.status === 429) {
+                    toast.warning(data.message || 'Please wait 7 days between applications');
+                    return;
+                }
+                throw new Error(data.message || 'Failed to submit application');
+            }
+
+            if (data.success) {
+                toast.success('Application submitted successfully! Our HR team will review your application.', {
+                    position: "top-right",
+                    autoClose: 5000,
+                });
+                resetForm();
+            } else {
+                toast.error(data.message || 'Submission failed');
+            }
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            toast.error(error.message || 'Something went wrong. Please try again.');
+        } finally {
             setSubmitting(false);
-        }, 1000);
+        }
     };
 
-    // UPDATED: Social icons – only WhatsApp and Instagram
+    // Social icons
     const socialIcons = [
         { Icon: FiInstagram, label: "Instagram", url: "https://instagram.com/hksinvestment" },
         { Icon: FaWhatsapp, label: "WhatsApp", url: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities" }
     ];
 
-    // UPDATED: Contact info with ORIGINAL details (from footer)
+    // Contact info
     const contactInfo = [
         {
-            icon: <FaWhatsapp />, // WhatsApp icon instead of phone
+            icon: <FaWhatsapp />,
             text: "+1 782-882-8102",
             type: "whatsapp",
             link: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities"
@@ -176,7 +197,7 @@ const CareerForm = () => {
         }
     ];
 
-    // UPDATED: Why Join Us - Now in bullet points (4 points)
+    // Why Join Us points
     const whyJoinUsPoints = [
         "Dynamic team shaping the future of financial technology",
         "Growth opportunities & competitive benefits",
@@ -229,7 +250,6 @@ const CareerForm = () => {
                                 Why Join Us?
                             </motion.h3>
 
-                            {/* UPDATED: Bullet points instead of single paragraph */}
                             <motion.ul
                                 className="why-join-list"
                                 initial={{ opacity: 0, y: 20 }}
@@ -251,7 +271,7 @@ const CareerForm = () => {
                                 ))}
                             </motion.ul>
 
-                            {/* CONTACT ITEMS - UPDATED with original info */}
+                            {/* CONTACT ITEMS */}
                             <div className="career-items">
                                 {contactInfo.map((item, index) => (
                                     <motion.a
@@ -280,7 +300,7 @@ const CareerForm = () => {
                                 ))}
                             </div>
 
-                            {/* SOCIAL ICONS - UPDATED: Only WhatsApp and Instagram */}
+                            {/* SOCIAL ICONS */}
                             <motion.div
                                 className="career-socials"
                                 initial={{ opacity: 0 }}
@@ -311,7 +331,7 @@ const CareerForm = () => {
                         </div>
                     </motion.div>
 
-                    {/* RIGHT SIDE - FORM (EXACT SAME) */}
+                    {/* RIGHT SIDE - FORM */}
                     <motion.div
                         className="career-form-wrapper"
                         variants={itemVariants}
@@ -336,6 +356,7 @@ const CareerForm = () => {
                                                     name="firstName"
                                                     placeholder="Enter your first name"
                                                     className={`form-input ${errors.firstName && touched.firstName ? 'error' : ''}`}
+                                                    disabled={isSubmitting}
                                                 />
                                                 <ErrorMessage name="firstName" component="div" className="error-message" />
                                             </div>
@@ -350,6 +371,7 @@ const CareerForm = () => {
                                                     name="lastName"
                                                     placeholder="Enter your last name"
                                                     className={`form-input ${errors.lastName && touched.lastName ? 'error' : ''}`}
+                                                    disabled={isSubmitting}
                                                 />
                                                 <ErrorMessage name="lastName" component="div" className="error-message" />
                                             </div>
@@ -366,6 +388,7 @@ const CareerForm = () => {
                                                 name="email"
                                                 placeholder="Enter your email"
                                                 className={`form-input ${errors.email && touched.email ? 'error' : ''}`}
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="email" component="div" className="error-message" />
                                         </div>
@@ -381,6 +404,7 @@ const CareerForm = () => {
                                                 name="phone"
                                                 placeholder="Enter your phone number"
                                                 className={`form-input ${errors.phone && touched.phone ? 'error' : ''}`}
+                                                disabled={isSubmitting}
                                             />
                                             <ErrorMessage name="phone" component="div" className="error-message" />
                                         </div>
@@ -392,11 +416,11 @@ const CareerForm = () => {
                                             </label>
                                             <div className="radio-group">
                                                 <label className="radio-label">
-                                                    <Field type="radio" name="llqpLicense" value="yes" />
+                                                    <Field type="radio" name="llqpLicense" value="yes" disabled={isSubmitting} />
                                                     <span>Yes</span>
                                                 </label>
                                                 <label className="radio-label">
-                                                    <Field type="radio" name="llqpLicense" value="no" />
+                                                    <Field type="radio" name="llqpLicense" value="no" disabled={isSubmitting} />
                                                     <span>No</span>
                                                 </label>
                                             </div>
@@ -406,20 +430,29 @@ const CareerForm = () => {
                                         {/* SUBMIT BUTTON */}
                                         <motion.button
                                             type="submit"
-                                            className="submit-btn"
+                                            className={`submit-btn ${isSubmitting ? 'submitting' : ''}`}
                                             variants={buttonVariants}
                                             initial="initial"
-                                            whileHover="hover"
-                                            whileTap="tap"
+                                            whileHover={isSubmitting ? {} : "hover"}
+                                            whileTap={isSubmitting ? {} : "tap"}
                                             disabled={isSubmitting}
                                         >
-                                            {isSubmitting ? "Submitting..." : "Submit Application"}
-                                            <motion.span
-                                                variants={arrowVariants}
-                                            >
-                                                <FiArrowRight />
-                                            </motion.span>
+                                            {isSubmitting ? (
+                                                <>
+                                                    <span>Submitting...</span>
+                                                    <div className="spinner"></div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    Submit Application
+                                                    <motion.span variants={arrowVariants}>
+                                                        <FiArrowRight />
+                                                    </motion.span>
+                                                </>
+                                            )}
                                         </motion.button>
+
+
                                     </Form>
                                 )}
                             </Formik>
