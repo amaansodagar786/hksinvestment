@@ -23,14 +23,26 @@
 
         .header-icon {
             color: #5e2690;
-            font-size: 32px;
+            font-size: 32px; 
+
+
+            @media (max-width: 600px) {
+
+                font-size: 28px !important; 
+        }
         }
     }
 
     p {
         font-size: 16px;
         color: #666;
-        margin-left: 44px;
+        margin-left: 44px; 
+
+
+        @media (max-width: 600px) {
+
+            font-size: 13px !important;
+        }
     }
 }
 
@@ -219,7 +231,12 @@
         font-family: 'Heading', serif;
         font-size: 24px;
         color: #1a1a1a;
-        margin: 0;
+        margin: 0; 
+
+        @media (max-width: 600px) {
+
+            font-size: 20px !important;
+        }
     }
 
     .total-count {
@@ -228,8 +245,12 @@
         border-radius: 20px;
         font-family: 'SubHeading', serif;
         font-size: 14px;
-        color: #5e2690;
+        color: #5e2690; 
         border: 2px solid #7a3db8;
+
+        @media (max-width: 600px) { 
+            font-size: 12px !important;
+        }
     }
 }
 
@@ -577,7 +598,7 @@
     }
 
     .admin-header h1 {
-        font-size: 28px;
+        font-size: 25px !important;
     }
 
     .page-tabs {
