@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { FiMenu } from 'react-icons/fi';
 import './AdminLayout.scss';
 import AdminSidebar from '../Sidebar/AdminSidebar';
-import { FiMenu } from 'react-icons/fi';
 
 const AdminLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -11,8 +11,9 @@ const AdminLayout = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-            if (window.innerWidth > 768) setMobileMenuOpen(false);
+            const mobile = window.innerWidth <= 768;
+            setIsMobile(mobile);
+            if (!mobile) setMobileMenuOpen(false);
         };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
