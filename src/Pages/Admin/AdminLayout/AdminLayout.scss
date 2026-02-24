@@ -7,9 +7,50 @@
     margin-left: 260px;
     transition: margin-left 0.3s ease;
     background: #f7f5fb;
+    position: relative;
 
     &.collapsed {
       margin-left: 80px;
     }
+
+    &.mobile {
+      margin-left: 0;
+      padding-top: 60px; // space for fixed toggle button
+    }
+
+    .mobile-menu-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1001;
+      background: #5e2690;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+      &:hover {
+        background: #7a3db8;
+      }
+    }
   }
+}
+
+// Mobile overlay
+.mobile-sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 1001;
 }

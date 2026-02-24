@@ -1,6 +1,7 @@
 @import "../../../Componenents/Fonts/fonts.scss";
 
-.admin-sidebar {
+/* ----- DESKTOP SIDEBAR (fixed, collapsible) ----- */
+.admin-sidebar.desktop {
     position: fixed;
     top: 0;
     left: 0;
@@ -21,9 +22,8 @@
         .sidebar-header {
             padding: 20px 0;
             justify-content: center;
-            font-family: 'Heading', serif;
 
-            .logo-area {
+            h2 {
                 display: none;
             }
 
@@ -45,21 +45,17 @@
 
             .nav-icon {
                 margin: 0;
-                font-size: 28px; // Slightly larger for better visibility
+                font-size: 28px;
             }
 
-            // Ensure SVG inside icon is also sized
             svg {
                 width: 28px;
                 height: 28px;
             }
         }
 
-        // Remove the white left border for active links in collapsed mode
-        .nav-link.active {
-            &::before {
-                display: none;
-            }
+        .nav-link.active::before {
+            display: none; // remove white left border in collapsed mode
         }
     }
 
@@ -70,30 +66,16 @@
         justify-content: space-between;
         border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            .logo-icon {
-                font-size: 32px;
-                color: #b78aff;
-                font-family: 'Content', serif;
-                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-            }
-
-            h2 {
-                font-family: 'Heading', serif; // Ensure correct font, with fallback
-                font-size: 22px;
-                font-weight: 600;
-                margin: 0;
-                background: linear-gradient(135deg, #ffffff 0%, #e6d0ff 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                letter-spacing: 1px;
-                // Removed duplicate font-family
-            }
+        h2 {
+            font-family: 'Heading', serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0;
+            background: linear-gradient(135deg, #ffffff 0%, #e6d0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
         }
 
         .toggle-btn {
@@ -220,6 +202,118 @@
                     color: #ff8a8a;
                     transform: scale(1.1);
                 }
+            }
+        }
+    }
+}
+
+/* ----- MOBILE SIDEBAR (slide‑in overlay) ----- */
+.admin-sidebar.mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(180deg, #5e2690 0%, #3f1a63 100%);
+    color: white;
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+
+    .sidebar-header {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+        h2 {
+            font-family: 'Heading', serif;
+            font-size: 22px;
+            margin: 0;
+            background: linear-gradient(135deg, #ffffff 0%, #e6d0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.25);
+            }
+        }
+    }
+
+    .sidebar-nav {
+        flex: 1;
+        padding: 20px 0;
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 24px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-family: 'Content', serif;
+            font-size: 16px;
+            transition: all 0.2s;
+
+            .nav-icon {
+                font-size: 24px;
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+            }
+
+            &.active {
+                background: linear-gradient(90deg, #874ccc, #b063f0);
+                color: white;
+                border-left: 4px solid white;
+            }
+        }
+    }
+
+    .sidebar-footer {
+        padding: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+        .logout-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Content', serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            .nav-icon {
+                font-size: 24px;
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.2);
             }
         }
     }
