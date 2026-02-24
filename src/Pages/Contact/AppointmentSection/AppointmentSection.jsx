@@ -267,8 +267,7 @@ const AppointmentSection = () => {
                                 </div>
                                 <div className="form-header-content">
                                     <h3>Personal Information</h3>
-                                    <p>Fill in your details to book your consultation</p>
-                                </div>
+                                    <p>Quick details to confirm your appointment</p>                                </div>
                             </div>
 
                             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
@@ -351,10 +350,10 @@ const AppointmentSection = () => {
                                                     <span className="time">{nextHour}</span>
                                                 </div>
                                                 <div className="time-slot-status">
-                                                    {isBooked ? <><FiXCircle /><span>Booked</span></> : 
-                                                     !isAvailable ? <><FiXCircle /><span>Unavailable</span></> : 
-                                                     isSelected ? <><FiCheckCircle /><span>Selected</span></> : 
-                                                     <span>Available</span>}
+                                                    {isBooked ? <><FiXCircle /><span>Booked</span></> :
+                                                        !isAvailable ? <><FiXCircle /><span>Unavailable</span></> :
+                                                            isSelected ? <><FiCheckCircle /><span>Selected</span></> :
+                                                                <span>Available</span>}
                                                 </div>
                                             </div>
                                             {isSelected && <motion.div className="time-slot-indicator" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200 }} />}
