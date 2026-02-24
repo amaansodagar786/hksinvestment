@@ -6,34 +6,34 @@ import "./FAQ.scss";
 
 const faqData = [
   {
-    question: "How long does it take to get started with Feature?",
+    question: "How long does it take to get access after subscribing?",
     answer:
-      "Getting started is quick and simple. Once you sign up, you can begin using the core features immediately without any complex setup."
+      "Access will be provided within 24–48 hours after successful payment."
   },
   {
-    question: "Do I need any technical knowledge to use the platform?",
+    question: "Do I need prior knowledge to use the platform?",
     answer:
-      "No technical expertise is required. Our platform is designed to be user-friendly and intuitive for everyone."
+      "Yes, you should have basic knowledge of buying and selling stocks and options to use the platform effectively."
   },
   {
     question: "Can I cancel my subscription at any time?",
     answer:
-      "Yes, you can cancel your subscription at any time from your account settings with no additional charges."
+      "Yes, you may cancel your subscription at any time."
   },
   {
-    question: "Is customer support available 24/7?",
+    question: "Can I get a refund for this subscription?",
     answer:
-      "Our support team is available to assist you via email and chat, with priority support for premium users."
+      "Currently, we do not offer refunds for subscriptions."
   },
   {
-    question: "Do you offer a free trial?",
+    question: "Do you offer a trial period?",
     answer:
-      "Yes, we offer a free trial so you can explore the platform and its features before committing."
+      "Yes, we offer a 3-day trial period for new users."
   },
   {
     question: "Is my data secure?",
     answer:
-      "Absolutely. We use industry-standard security measures to ensure your data is safe and protected."
+      "Yes, your data is fully secure, and all payments are safely handled by our trusted third-party payment provider, Square."
   }
 ];
 
@@ -48,12 +48,12 @@ const FAQ = ({ bgColor = "default" }) => {
   // ADDED: Handler for Schedule click
   const handleScheduleClick = () => {
     navigate('/contact'); // Navigate to contact page
-    
+
     // Small delay to ensure page loads before scrolling
     setTimeout(() => {
       const appointmentSection = document.getElementById('appointment-section');
       if (appointmentSection) {
-        appointmentSection.scrollIntoView({ 
+        appointmentSection.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         });
@@ -170,13 +170,13 @@ const FAQ = ({ bgColor = "default" }) => {
         <motion.p
           variants={headerVariants}
         >
-          Let us walk you through it. <motion.span 
+          Let us walk you through it. <motion.span
             className="schedule-link"
             onClick={handleScheduleClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            style={{ 
-              color: '#5e2690', 
+            style={{
+              color: '#5e2690',
               fontWeight: 'bold',
               cursor: 'pointer',
               display: 'inline-block',
@@ -191,7 +191,7 @@ const FAQ = ({ bgColor = "default" }) => {
             }}
           >
             Schedule
-          </motion.span> your demo now.
+          </motion.span> your meeting now.
         </motion.p>
       </motion.div>
 

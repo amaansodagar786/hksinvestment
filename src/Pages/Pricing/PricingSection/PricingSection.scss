@@ -277,7 +277,7 @@
 
 @media (max-width: 480px) {
     .pricing-section {
-        padding: 50px 16px;
+         padding: 50px 12px;
     }
 
     .pricing-text {
@@ -288,6 +288,7 @@
 
     .pricing-card {
         padding: 14px;
+        max-width: 90%;
 
         &.active {
             padding: 6px;

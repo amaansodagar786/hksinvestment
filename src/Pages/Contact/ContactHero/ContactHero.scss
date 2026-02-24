@@ -33,7 +33,7 @@
 
 .contact-hero-content {
     text-align: center;
-    max-width: 1000px;
+    max-width: 1100px;
     margin-top: 40px;
     font-family: 'Heading', serif;
 }
@@ -59,10 +59,16 @@
     }
 }
 
-/* ===== TITLE BREAK - SHOW ON ALL SCREENS ===== */
-.title-break {
-    display: block;
-}
+/* ===== TITLE BREAK - SHOW ONLY ON MOBILE ===== */
+// .title-break {
+//     display: none;
+   
+
+//     @media (max-width: 768px) {
+//         display: block;
+       
+//     }
+// }
 
 /* ===== HIGHLIGHTED WORDS - NO DEFAULT EFFECTS ===== */
 .contact-highlight {

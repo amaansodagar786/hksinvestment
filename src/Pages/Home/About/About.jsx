@@ -18,6 +18,25 @@ import roboimag from "../../../assets/images/home/about/robo.png"
 const About = () => {
     const navigate = useNavigate(); // ADD THIS HOOK
 
+
+
+    // ADDED: Handler function for consultation button click
+    const handleScheduleClick = () => {
+        navigate('/contact'); // Navigate to contact page
+
+        // Small delay to ensure page loads before scrolling
+        setTimeout(() => {
+            const appointmentSection = document.getElementById('appointment-section');
+            if (appointmentSection) {
+                appointmentSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }, 100);
+    };
+
+
     // Animation variants for circles
     const circleVariants = {
         animate: {
@@ -170,10 +189,7 @@ const About = () => {
         }
     };
 
-    // ADD THIS HANDLER FUNCTION - SIMPLE VERSION
-    const handleScheduleClick = () => {
-        navigate('/contact'); // Just navigate to contact page, no scrolling
-    };
+
 
     // UPDATED TAGS WITH NEW ICONS
     const tags = [

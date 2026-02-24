@@ -3,9 +3,13 @@ import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useMediaQuery } from "react-responsive";
 import "./ContactHero.scss";
 
 const ContactHero = () => {
+    // Check if mobile
+    const isMobile = useMediaQuery({ maxWidth: 768 });
+
     // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -83,30 +87,61 @@ const ContactHero = () => {
                             className="contact-hero-title"
                             variants={titleVariants}
                         >
-                            {/* SIMPLE STRUCTURE - 2 WORDS TOP, 1 WORD BOTTOM */}
-                            <motion.span
-                                className="contact-highlight"
-                                variants={highlightVariants}
-                                whileHover="hover"
-                            >
-                                Finance.
-                            </motion.span>
-                            {" "}
-                            <motion.span
-                                className="contact-highlight"
-                                variants={highlightVariants}
-                                whileHover="hover"
-                            >
-                                Freedom.
-                            </motion.span>
-                            <br className="title-break" />
-                            <motion.span
-                                className="contact-highlight"
-                                variants={highlightVariants}
-                                whileHover="hover"
-                            >
-                                Future.
-                            </motion.span>
+                            {isMobile ? (
+                                // MOBILE VIEW - 2 lines
+                                <>
+                                    <motion.span
+                                        className="contact-highlight"
+                                        variants={highlightVariants}
+                                        whileHover="hover"
+                                    >
+                                        Finance.
+                                    </motion.span>
+                                    {" "}
+                                    <motion.span
+                                        className="contact-highlight"
+                                        variants={highlightVariants}
+                                        whileHover="hover"
+                                    >
+                                        Freedom.
+                                    </motion.span>
+                                    <br />
+                                    <motion.span
+                                        className="contact-highlight"
+                                        variants={highlightVariants}
+                                        whileHover="hover"
+                                    >
+                                        Future.
+                                    </motion.span>
+                                </>
+                            ) : (
+                                // DESKTOP VIEW - 1 line
+                                <>
+                                    <motion.span
+                                        className="contact-highlight"
+                                        variants={highlightVariants}
+                                        whileHover="hover"
+                                    >
+                                        Finance.
+                                    </motion.span>
+                                    {/* {" "} */}
+                                    <motion.span
+                                        className="contact-highlight"
+                                        variants={highlightVariants}
+                                        whileHover="hover"
+                                    >
+                                        Freedom.
+                                    </motion.span>
+                                    {/* {" "} */}
+                                    <motion.span
+                                        className="contact-highlight"
+                                        variants={highlightVariants}
+                                        whileHover="hover"
+                                    >
+                                        Future.
+                                    </motion.span>
+                                </>
+                            )}
                         </motion.h1>
 
                         <motion.p
@@ -137,4 +172,4 @@ const ContactHero = () => {
     );
 };
 
-export default ContactHero;
+export default ContactHero; // ONLY ONE export at the end

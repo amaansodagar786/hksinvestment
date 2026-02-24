@@ -305,10 +305,7 @@ const CTA = () => {
                       )}
                     </motion.button>
 
-                    {/* Cooldown info text */}
-                    <p className="cta-form-note">
-                      <small>Note: You can only submit one message every 48 hours to ensure quality service.</small>
-                    </p>
+                   
                   </Form>
                 )}
               </Formik>

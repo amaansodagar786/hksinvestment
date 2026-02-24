@@ -706,3 +706,13 @@
     height: 36px;
   }
 }
+
+
+
+.appointment-submit-btn span svg {
+  transition: transform 0.3s ease;
+}
+
+.appointment-submit-btn:hover span svg {
+  transform: rotate(45deg);
+}

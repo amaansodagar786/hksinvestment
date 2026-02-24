@@ -46,7 +46,7 @@ const Footer = () => {
         }
     };
 
-    // KEEP SOCIAL ICONS VARIANTS EXACTLY AS IS - DO NOT CHANGE
+    // UPDATED: Social icons variants - ONLY 2 ICONS NOW (WhatsApp and Instagram)
     const socialIconVariants = {
         initial: { scale: 1, color: "#d9ccf3" },
         hover: {
@@ -232,6 +232,9 @@ const Footer = () => {
     // WhatsApp link generator
     const whatsappLink = "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%20have%20a%20question%20about%20your%20services.";
 
+    // Instagram link
+    const instagramLink = "https://www.instagram.com/hksinvestment/";
+
     return (
         <>
             <ToastContainer position="top-right" autoClose={4000} theme="dark" />
@@ -306,7 +309,6 @@ const Footer = () => {
                                     className="send-icon-wrapper"
                                 >
                                     <FiSend className="send-icon" />
-                                    {/* <FiArrowRight className="arrow-icon" /> */}
                                 </motion.span>
                             </motion.button>
                         </form>
@@ -339,17 +341,34 @@ const Footer = () => {
                                     Redefining wealth, <br />
                                     one decision at a time.
                                 </motion.p>
+
+                                {/* UPDATED: ONLY 2 SOCIAL ICONS - WHATSAPP AND INSTAGRAM */}
                                 <div className="socials">
-                                    {[FiInstagram, FaFacebookF, FaLinkedinIn, FaYoutube].map((Icon, idx) => (
-                                        <motion.div
-                                            key={idx}
-                                            variants={socialIconVariants}
-                                            initial="initial"
-                                            whileHover="hover"
-                                        >
-                                            <Icon />
-                                        </motion.div>
-                                    ))}
+                                    {/* Instagram Icon with Link */}
+
+
+                                    {/* WhatsApp Icon with Link */}
+                                    <motion.a
+                                        href={whatsappLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        variants={socialIconVariants}
+                                        initial="initial"
+                                        whileHover="hover"
+                                    >
+                                        <FaWhatsapp />
+                                    </motion.a>
+
+                                    <motion.a
+                                        href={instagramLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        variants={socialIconVariants}
+                                        initial="initial"
+                                        whileHover="hover"
+                                    >
+                                        <FiInstagram />
+                                    </motion.a>
                                 </div>
                             </motion.div>
 
@@ -479,7 +498,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* BOTTOM BIG TEXT - COLOR CHANGED TO WHITE ONLY */}
+                {/* BOTTOM BIG TEXT - WITH GRADIENT ANIMATION */}
                 <motion.div
                     className="footer-bottom"
                     variants={bottomTextVariants}

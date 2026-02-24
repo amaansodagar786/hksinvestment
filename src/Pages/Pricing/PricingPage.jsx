@@ -30,7 +30,7 @@ const PricingPage = () => {
       <div id="pricing-plans-section">  {/* Add ID here */}
         <PricingSection />
       </div>
-      <FAQ />
+      <FAQ /> 
     </>
   )
 }

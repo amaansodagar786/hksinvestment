@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from 'react-icons/fi';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AdminAuth.scss';
@@ -174,6 +174,41 @@ const AdminAuth = () => {
         });
     };
 
+    // Button variants matching CareerForm
+    const buttonVariants = {
+        initial: {
+            background: "#5e2690",
+            color: "#fff"
+        },
+        hover: {
+            background: "#fff",
+            color: "#5e2690",
+            border: "2px solid #5e2690",
+            scale: 1.02,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut"
+            }
+        },
+        tap: {
+            scale: 0.98,
+            transition: {
+                duration: 0.1
+            }
+        }
+    };
+
+    const arrowVariants = {
+        hover: {
+            rotate: 45,
+            scale: 1.1,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut"
+            }
+        }
+    };
+
     return (
         <div className="admin-auth-container">
             <ToastContainer />
@@ -188,17 +223,28 @@ const AdminAuth = () => {
                     <div className="left-content">
                         <div className="logo-container">
                             <h1>HKS Investment</h1>
-                            <p>Admin Portal</p>
                         </div>
                         
                         <div className="info-section">
                             <h3>Administrator Access</h3>
                             <p>
                                 {isLogin 
-                                    ? 'Sign in to manage appointments and view analytics.'
+                                    ? 'Sign in to manage your investment platform.'
                                     : 'Create an admin account to access the management portal.'
                                 }
                             </p>
+                        </div>
+
+                        {/* New features list */}
+                        <div className="features-section">
+                            <h3>Admin Capabilities</h3>
+                            <ul className="features-list">
+                                <li><span className="check">✓</span> Manage Appointments</li>
+                                <li><span className="check">✓</span> View Contact Form Submissions</li>
+                                <li><span className="check">✓</span> General Inquiry Data</li>
+                                <li><span className="check">✓</span> Service Form Responses</li>
+                                <li><span className="check">✓</span> Career Applications</li>
+                            </ul>
                         </div>
                     </div>
                 </motion.div>
@@ -338,20 +384,29 @@ const AdminAuth = () => {
                                 </div>
                             )}
 
-                            {/* Submit Button */}
+                            {/* Submit Button - EXACT SAME as CareerForm */}
                             <motion.button
                                 type="submit"
-                                className="submit-btn"
+                                className={`submit-btn ${isSubmitting ? 'submitting' : ''}`}
+                                variants={buttonVariants}
+                                initial="initial"
+                                whileHover={isSubmitting ? {} : "hover"}
+                                whileTap={isSubmitting ? {} : "tap"}
                                 disabled={isSubmitting}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
                             >
                                 {isSubmitting ? (
-                                    <span className="spinner"></span>
+                                    <>
+                                        <span>Processing...</span>
+                                        <div className="spinner"></div>
+                                    </>
                                 ) : (
-                                    isLogin ? 'Sign In' : 'Create Account'
+                                    <>
+                                        {isLogin ? 'Sign In' : 'Create Account'}
+                                        <motion.span variants={arrowVariants}>
+                                            <FiArrowRight />
+                                        </motion.span>
+                                    </>
                                 )}
-                                {isSubmitting ? 'Processing...' : ''}
                             </motion.button>
 
                             {/* Error Message */}
@@ -363,14 +418,14 @@ const AdminAuth = () => {
                             )}
 
                             {/* Toggle Link */}
-                            <div className="toggle-link">
+                            {/* <div className="toggle-link">
                                 <p>
                                     {isLogin ? "Don't have an account?" : "Already have an account?"}
                                     <button type="button" onClick={toggleAuthMode}>
                                         {isLogin ? 'Register here' : 'Login here'}
                                     </button>
                                 </p>
-                            </div>
+                            </div> */}
 
                             {/* Back to Home */}
                             <div className="back-home">

@@ -250,10 +250,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                         )}
                                     </motion.button>
 
-                                    {/* Cooldown info text */}
-                                    <p className="inquiry-form-note">
-                                        <small>Note: You can only submit one inquiry every 48 hours to ensure quality service.</small>
-                                    </p>
+                                   
                                 </Form>
                             )}
                         </Formik>

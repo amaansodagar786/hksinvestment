@@ -135,7 +135,7 @@ const PricingSection = () => {
 
                         <div className="card-body-box">
                             <div className="price">
-                                <span className="amount">CAD 14.99</span>
+                                <span className="amount">CAD 07.99</span>
                                 <span className="duration">/bi-weekly</span>
                             </div>
 

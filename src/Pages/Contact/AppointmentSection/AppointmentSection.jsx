@@ -64,7 +64,7 @@ const AppointmentSection = () => {
             setIsLoadingSlots(true);
 
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL || 'https://hksinvenstmentbackend.onrender.com/api'}/appointments/slots/${date}`
+                `${import.meta.env.VITE_API_URL}/appointments/slots/${date}`
             );
 
             if (!response.ok) {
@@ -167,7 +167,7 @@ const AppointmentSection = () => {
             };
 
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL || 'https://hksinvenstmentbackend.onrender.com/api'}/appointments/book`,
+                `${import.meta.env.VITE_API_URL}/appointments/book`,
                 {
                     method: 'POST',
                     headers: {
