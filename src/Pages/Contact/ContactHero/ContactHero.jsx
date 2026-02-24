@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./ContactHero.scss";
 
 const ContactHero = () => {
-    // Animation variants (unchanged)
+    // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -42,25 +42,8 @@ const ContactHero = () => {
         }
     };
 
-    // Animation for the highlighted word
+    // Animation for the highlighted words - ONLY HOVER
     const highlightVariants = {
-        initial: {
-            scale: 1,
-            boxShadow: "0 0 0 rgba(94, 38, 144, 0.4)"
-        },
-        animate: {
-            scale: [1, 1.02, 1],
-            boxShadow: [
-                "0 0 0 rgba(94, 38, 144, 0.4)",
-                "0 0 15px rgba(94, 38, 144, 0.6)",
-                "0 0 0 rgba(94, 38, 144, 0.4)"
-            ],
-            transition: {
-                duration: 2.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-            }
-        },
         hover: {
             scale: 1.05,
             backgroundColor: "rgba(122, 61, 184, 0.25)",
@@ -100,17 +83,30 @@ const ContactHero = () => {
                             className="contact-hero-title"
                             variants={titleVariants}
                         >
-                            Let's start your <br />
+                            {/* SIMPLE STRUCTURE - 2 WORDS TOP, 1 WORD BOTTOM */}
                             <motion.span
                                 className="contact-highlight"
                                 variants={highlightVariants}
-                                initial="initial"
-                                animate="animate"
                                 whileHover="hover"
                             >
-                                Financial
+                                Finance.
                             </motion.span>
-                            {" "}journey
+                            {" "}
+                            <motion.span
+                                className="contact-highlight"
+                                variants={highlightVariants}
+                                whileHover="hover"
+                            >
+                                Freedom.
+                            </motion.span>
+                            <br className="title-break" />
+                            <motion.span
+                                className="contact-highlight"
+                                variants={highlightVariants}
+                                whileHover="hover"
+                            >
+                                Future.
+                            </motion.span>
                         </motion.h1>
 
                         <motion.p
@@ -126,7 +122,7 @@ const ContactHero = () => {
                             initial="initial"
                             whileHover="hover"
                             whileTap="tap"
-                            onClick={scrollToAppointment}  // Changed here
+                            onClick={scrollToAppointment}
                         >
                             <span className="contact-hero-btn-fill"></span>
                             <span className="contact-hero-btn-text">Schedule a Meeting</span>

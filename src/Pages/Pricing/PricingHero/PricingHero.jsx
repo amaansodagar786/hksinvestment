@@ -3,7 +3,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import "./PricingHero.scss";
 
-const PricingHero = () => {
+const PricingHero = ({ onViewPlansClick }) => {  // Add prop
     // Animation variants - SAME AS ORIGINAL TOP SECTION
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -84,6 +84,14 @@ const PricingHero = () => {
         }
     };
 
+    // Handle button click
+    const handleViewPlansClick = (e) => {
+        e.preventDefault();
+        if (onViewPlansClick) {
+            onViewPlansClick();
+        }
+    };
+
     return (
         <motion.section
             className="pricing-hero-wrapper"
@@ -126,6 +134,7 @@ const PricingHero = () => {
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
+                        onClick={handleViewPlansClick}  // Add click handler
                     >
                         <span className="pricing-hero-btn-fill"></span>
                         <span className="pricing-hero-btn-text">View plans</span>

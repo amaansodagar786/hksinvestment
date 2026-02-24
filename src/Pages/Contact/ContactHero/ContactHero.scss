@@ -38,11 +38,13 @@
     font-family: 'Heading', serif;
 }
 
+/* ===== TITLE STYLES ===== */
 .contact-hero-title {
     font-size: 75px;
     font-weight: 800;
     line-height: 1.45;
     position: relative;
+    color: #000;
 
     @media (max-width: 1024px) and (min-width: 769px) {
         font-size: 58px;
@@ -57,19 +59,28 @@
     }
 }
 
-/* ===== HIGHLIGHTED WORD ===== */
+/* ===== TITLE BREAK - SHOW ON ALL SCREENS ===== */
+.title-break {
+    display: block;
+}
+
+/* ===== HIGHLIGHTED WORDS - NO DEFAULT EFFECTS ===== */
 .contact-highlight {
     position: relative;
     padding: 2px 22px;
-    border: 2px solid #7a3db8;
-    border-radius: 16px;
-    color: #5e2690;
     display: inline-block;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    background: rgba(122, 61, 184, 0.1);
     cursor: default;
     transition: all 0.3s ease;
+
+    /* NO default border, background, or purple color */
+    border: 2px solid transparent;
+    background: transparent;
+    color: inherit;
+    border-radius: 16px;
+
+    @media (max-width: 768px) {
+        padding: 2px 10px;
+    }
 }
 
 /* Dots - hidden by default */
@@ -89,23 +100,34 @@
 .contact-highlight::before {
     top: -6px;
     left: 22px;
+
+    @media (max-width: 768px) {
+        left: 12px;
+    }
 }
 
 .contact-highlight::after {
     bottom: -6px;
     right: 22px;
+
+    @media (max-width: 768px) {
+        right: 12px;
+    }
 }
 
-/* Show dots on hover */
+/* ALL EFFECTS ONLY ON HOVER */
+.contact-highlight:hover {
+    border: 2px solid #7a3db8;
+    background: rgba(122, 61, 184, 0.1);
+    color: #5e2690;
+    border-radius: 16px;
+    transform: translateY(-2px);
+}
+
+/* Show dots only on hover */
 .contact-highlight:hover::before,
 .contact-highlight:hover::after {
     opacity: 1;
-}
-
-/* Hover effect */
-.contact-highlight:hover {
-    background: rgba(122, 61, 184, 0.2);
-    transform: translateY(-2px);
 }
 
 /* ===== SUBTITLE ===== */
@@ -281,10 +303,9 @@
     }
 }
 
-
 .desktop-only {
     display: inline;
-    
+
     @media (max-width: 768px) {
         display: none;
     }

@@ -402,7 +402,7 @@
 }
 
 /* =========================
-   BOTTOM BIG TEXT - CHANGED TO WHITE
+   BOTTOM BIG TEXT - UPDATED WITH EXACT ANIMATION FROM FIRST CODE
 ========================= */
 .footer-bottom {
     font-size: 72px;
@@ -417,23 +417,41 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    color: #ffffff;
-    /* Changed to solid white */
-    animation: gentlePulse 3s ease-in-out infinite;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    
+
+    /* Left Light to Right Dark Gradient - EXACTLY from first code */
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            /* Left - Light */
+            rgba(255, 255, 255, 0.4) 25%,
+            rgba(255, 255, 255, 0.6) 50%,
+            rgba(255, 255, 255, 0.8) 75%,
+            rgba(255, 255, 255, 1) 100%
+            /* Right - Dark */
+        );
+
+    /* Important for gradient animation */
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Animation - left to right (EXACT same from first code) */
+    animation: leftToRight 4s ease-in-out infinite;
 }
 
-@keyframes gentlePulse {
-
-    0%,
-    100% {
-        opacity: 0.9;
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+/* Left to Right Animation - EXACTLY from first code */
+@keyframes leftToRight {
+    0% {
+        background-position: 0% 50%;
     }
 
     50% {
-        opacity: 1;
-        text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
     }
 }
 
@@ -449,7 +467,6 @@
         font-size: 48px;
     }
 }
-
 
 /* =========================
    REDUCED MOTION
@@ -474,14 +491,11 @@
 
     .footer-bottom {
         animation: none !important;
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        -webkit-text-fill-color: #ffffff !important;
+        background: transparent !important;
+        color: #ffffff;
     }
 }
-
-
-
-
-
 
 /* =========================
    RESPONSIVE: MOBILE (UP TO 768px)
@@ -507,9 +521,9 @@
         width: 100%;
         padding-right: 0;
         order: 1;
-    }  
+    }
 
-    .footer-col.feedback h4{
+    .footer-col.feedback h4 {
         text-align: center;
     }
 
@@ -603,7 +617,7 @@
         margin-top: 5px;
     }
 
-    /* BOTTOM BIG TEXT */
+    /* BOTTOM BIG TEXT - MOBILE VERSION (ANIMATION DISABLED - from first code) */
     .footer-bottom {
         font-size: 32px;
         white-space: normal;
@@ -614,7 +628,10 @@
         padding: 0 10px;
         order: 4;
         width: 100%;
-        animation: gentlePulse 3s ease-in-out infinite;
+        animation: none !important;
+        background: none !important;
+        -webkit-text-fill-color: #ffffff !important;
+        color: #ffffff;
     }
 
     /* REMOVE ALL PROBLEMATIC HOVER EFFECTS ON MOBILE */
@@ -668,6 +685,10 @@
     .footer-bottom {
         font-size: 24px;
         margin-top: 25px;
+        animation: none !important;
+        background: none !important;
+        -webkit-text-fill-color: #ffffff !important;
+        color: #ffffff;
     }
 
     .copyright-row {
@@ -702,6 +723,10 @@
 
     .footer-bottom {
         font-size: 20px;
+        animation: none !important;
+        background: none !important;
+        -webkit-text-fill-color: #ffffff !important;
+        color: #ffffff;
     }
 
     .footer-col.brand h3 {

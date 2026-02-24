@@ -3,7 +3,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import "./CareerHero.scss";
 
-const CareerHero = () => {
+const CareerHero = ({ onJoinClick }) => {  // Add prop
     // Animation variants - SAME AS ORIGINAL
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -84,6 +84,14 @@ const CareerHero = () => {
         }
     };
 
+    // Handle button click
+    const handleJoinClick = (e) => {
+        e.preventDefault();
+        if (onJoinClick) {
+            onJoinClick();
+        }
+    };
+
     return (
         <motion.section
             className="career-hero-wrapper"
@@ -126,6 +134,7 @@ const CareerHero = () => {
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
+                        onClick={handleJoinClick}  // Add click handler
                     >
                         <span className="career-hero-btn-fill"></span>
                         <span className="career-hero-btn-text">Join Us</span>
