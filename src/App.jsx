@@ -14,6 +14,9 @@ import Career from "./Pages/Career/Career";
 import AdminForms from "./Pages/Admin/AdminForms/AdminForms";
 import AdminCareer from "./Pages/Admin/AdminCareer/AdminCareer";
 import AdminLayout from "./Pages/Admin/AdminLayout/AdminLayout";
+import AdminSchedule from "./Pages/Admin/AdminSchedule/AdminSchedule";
+import AdminAppointments from "./Pages/Admin/ApproveReject/AdminAppointments";
+// import AdminSchedule from "./Pages/Admin/AdminAppointsments/AdminSchedule";
 
 function AppLayout() {
   const location = useLocation();
@@ -38,6 +41,8 @@ function AppLayout() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="forms" element={<AdminForms />} />
           <Route path="career" element={<AdminCareer />} />
+          <Route path="schedule" element={< AdminSchedule/>} />
+          <Route path="appointments" element={< AdminAppointments/>} />
         </Route>
       </Routes>
 

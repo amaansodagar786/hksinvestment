@@ -178,7 +178,8 @@
     align-items: flex-start;
     gap: 24px;
     position: relative;
-    padding-left: 48px;        /* Space for icon */
+    padding-left: 48px;
+    /* Space for icon */
     margin-bottom: 150px;
 
     &:last-child {
@@ -203,7 +204,16 @@
     z-index: 3;
     font-size: 22px;
     transition: all 0.3s ease;
-    background: transparent;    /* Fallback if motion doesn't set */
+    background: #d40e0e I !important; 
+
+
+     > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .content {

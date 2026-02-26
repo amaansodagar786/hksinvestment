@@ -1,7 +1,18 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiHome, FiMail, FiBriefcase, FiLogOut, FiMenu, FiChevronLeft, FiX } from 'react-icons/fi';
+import { 
+    FiHome, 
+    FiMail, 
+    FiBriefcase, 
+    FiLogOut, 
+    FiMenu, 
+    FiChevronLeft, 
+    FiX,
+    FiCalendar,
+    FiClock,
+    FiUsers
+} from 'react-icons/fi';
 import './AdminSidebar.scss';
 
 const AdminSidebar = ({ collapsed, setCollapsed, mobileMenuOpen, setMobileMenuOpen, isMobile }) => {
@@ -33,7 +44,7 @@ const AdminSidebar = ({ collapsed, setCollapsed, mobileMenuOpen, setMobileMenuOp
                             transition={{ type: 'tween', duration: 0.3 }}
                         >
                             <div className="sidebar-header">
-                                <h2>Admin</h2>
+                                <h2>Admin Panel</h2>
                                 <button className="close-btn" onClick={closeMobileMenu}>
                                     <FiX />
                                 </button>
@@ -50,6 +61,14 @@ const AdminSidebar = ({ collapsed, setCollapsed, mobileMenuOpen, setMobileMenuOp
                                 <NavLink to="/admin/career" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
                                     <FiBriefcase className="nav-icon" />
                                     <span>Career</span>
+                                </NavLink>
+                                <NavLink to="/admin/schedule" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
+                                    <FiClock className="nav-icon" />
+                                    <span>Schedule</span>
+                                </NavLink>
+                                <NavLink to="/admin/appointments" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
+                                    <FiCalendar className="nav-icon" />
+                                    <span>Appointments</span>
                                 </NavLink>
                             </nav>
                             <div className="sidebar-footer">
@@ -74,7 +93,7 @@ const AdminSidebar = ({ collapsed, setCollapsed, mobileMenuOpen, setMobileMenuOp
             transition={{ duration: 0.3 }}
         >
             <div className="sidebar-header">
-                {!collapsed && <h2>Admin</h2>}
+                {!collapsed && <h2>Admin Panel</h2>}
                 <button className="toggle-btn" onClick={() => setCollapsed(!collapsed)}>
                     {collapsed ? <FiMenu /> : <FiChevronLeft />}
                 </button>
@@ -91,6 +110,14 @@ const AdminSidebar = ({ collapsed, setCollapsed, mobileMenuOpen, setMobileMenuOp
                 <NavLink to="/admin/career" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
                     <FiBriefcase className="nav-icon" />
                     {!collapsed && <span>Career</span>}
+                </NavLink>
+                <NavLink to="/admin/schedule" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                    <FiClock className="nav-icon" />
+                    {!collapsed && <span>Schedule</span>}
+                </NavLink>
+                <NavLink to="/admin/appointments" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                    <FiCalendar className="nav-icon" />
+                    {!collapsed && <span>Appointments</span>}
                 </NavLink>
             </nav>
             <div className="sidebar-footer">

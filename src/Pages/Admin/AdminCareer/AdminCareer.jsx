@@ -18,7 +18,9 @@ import {
     FiChevronRight,
     FiEye,
     FiInbox,
-    FiAward
+    FiAward,
+    FiClock,
+    FiX
 } from 'react-icons/fi';
 import './AdminCareer.scss';
 import * as XLSX from 'xlsx';
@@ -161,7 +163,6 @@ const AdminCareer = () => {
     };
 
     const exportToExcel = () => {
-        // Prepare headers and data
         const headers = ['Name', 'Email', 'Phone', 'LLQP License', 'Status', 'Date'];
         const rows = data.map(item => [
             `${item.firstName} ${item.lastName}`,
@@ -172,28 +173,40 @@ const AdminCareer = () => {
             new Date(item.createdAt).toLocaleDateString()
         ]);
 
-        // Combine headers and rows
         const worksheetData = [headers, ...rows];
-
-        // Create a new workbook and worksheet
         const workbook = XLSX.utils.book_new();
         const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-
-        // Add worksheet to workbook
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Applications');
 
-        // Generate Excel file and trigger download
         const fileName = `career-applications-${new Date().toISOString().split('T')[0]}.xlsx`;
         XLSX.writeFile(workbook, fileName);
+        toast.success('Excel file downloaded successfully');
+    };
+
+    const getStatusBadge = (status) => {
+        switch (status) {
+            case 'pending':
+                return <span className="status-badge pending"><FiClock /> Pending</span>;
+            case 'reviewed':
+                return <span className="status-badge reviewed"><FiCheckCircle /> Reviewed</span>;
+            case 'contacted':
+                return <span className="status-badge contacted"><FiPhone /> Contacted</span>;
+            case 'rejected':
+                return <span className="status-badge rejected"><FiXCircle /> Rejected</span>;
+            case 'hired':
+                return <span className="status-badge hired"><FiAward /> Hired</span>;
+            default:
+                return <span className="status-badge">{status}</span>;
+        }
     };
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'pending': return 'status-pending';
-            case 'reviewed': return 'status-reviewed';
-            case 'contacted': return 'status-contacted';
-            case 'rejected': return 'status-rejected';
-            case 'hired': return 'status-hired';
+            case 'pending': return 'pending';
+            case 'reviewed': return 'reviewed';
+            case 'contacted': return 'contacted';
+            case 'rejected': return 'rejected';
+            case 'hired': return 'hired';
             default: return '';
         }
     };
@@ -219,7 +232,7 @@ const AdminCareer = () => {
 
     return (
         <>
-            <ToastContainer position="top-right" autoClose={3000} />
+            <ToastContainer position="top-right" theme="colored" />
             <motion.div
                 className="admin-career"
                 initial="hidden"
@@ -227,12 +240,29 @@ const AdminCareer = () => {
                 variants={containerVariants}
             >
                 {/* Header */}
-                <motion.div className="admin-header" variants={itemVariants}>
-                    <h1>
-                        <FiBriefcase className="header-icon" />
-                        Career Applications Management
-                    </h1>
-                    <p>Manage all job applications and candidate status</p>
+                <motion.div className="career-header" variants={itemVariants}>
+                    <motion.span
+                        className="career-pill"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        Admin Panel
+                    </motion.span>
+                    <motion.h2
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                    >
+                        Career <span>Applications</span>
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        Manage all job applications and candidate status
+                    </motion.p>
                 </motion.div>
 
                 {/* Controls Bar */}
@@ -250,7 +280,7 @@ const AdminCareer = () => {
                     </div>
                     <div className="right-controls">
                         <button className="refresh-btn" onClick={fetchData}>
-                            <FiRefreshCw /> Refresh
+                            <FiRefreshCw className={loading ? 'spinner' : ''} /> Refresh
                         </button>
                     </div>
                 </motion.div>
@@ -323,7 +353,7 @@ const AdminCareer = () => {
                 </motion.div>
 
                 {/* Table */}
-                <motion.div className="table-container" variants={itemVariants}>
+                <motion.div className="table-section" variants={itemVariants}>
                     {loading ? (
                         <div className="loading-state">
                             <div className="spinner"></div>
@@ -336,107 +366,98 @@ const AdminCareer = () => {
                             <p>No job applications match your criteria.</p>
                         </div>
                     ) : (
-                        <div className="table-responsive">
-                            <table className="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>LLQP License</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data.map((item, index) => (
-                                        <motion.tr
-                                            key={item._id}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.05 }}
-                                            className={updatingId === item._id ? 'updating' : ''}
-                                        >
-                                            <td data-label="Name" className="name-cell">
-                                                <FiUser className="cell-icon" />
-                                                {item.firstName} {item.lastName}
-                                            </td>
-                                            <td data-label="Email" className="email-cell">
-                                                <FiMail className="cell-icon" />
-                                                {item.email}
-                                            </td>
-                                            <td data-label="Phone" className="phone-cell">
-                                                <FiPhone className="cell-icon" />
-                                                {item.phone}
-                                            </td>
-                                            <td data-label="LLQP License">
-                                                <span className={`license-badge ${item.llqpLicense === 'yes' ? 'license-yes' : 'license-no'}`}>
-                                                    {item.llqpLicense === 'yes' ? 'Yes' : 'No'}
-                                                </span>
-                                            </td>
-                                            <td data-label="Status">
-                                                <select
-                                                    className={`status-select ${getStatusColor(item.status)}`}
-                                                    value={item.status}
-                                                    onChange={(e) => handleStatusUpdate(item._id, e.target.value)}
-                                                    disabled={updatingId === item._id}
-                                                >
-                                                    <option value="pending">Pending</option>
-                                                    <option value="reviewed">Reviewed</option>
-                                                    <option value="contacted">Contacted</option>
-                                                    <option value="rejected">Rejected</option>
-                                                    <option value="hired">Hired</option>
-                                                </select>
-                                            </td>
-                                            <td data-label="Date" className="date-cell">
-                                                <FiCalendar className="cell-icon" />
-                                                {new Date(item.createdAt).toLocaleDateString()}
-                                            </td>
-                                            <td data-label="Actions" className="actions-cell">
-                                                <button
-                                                    className="view-btn"
-                                                    onClick={() => {
-                                                        setSelectedItem(item);
-                                                        setShowDetails(true);
-                                                    }}
-                                                    title="View Details"
-                                                >
-                                                    <FiEye />
-                                                </button>
-                                            </td>
-                                        </motion.tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        <>
+                            <div className="table-container">
+                                <table className="career-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>LLQP License</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data.map((item, index) => (
+                                            <motion.tr
+                                                key={item._id}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.05 }}
+                                                className={updatingId === item._id ? 'updating' : ''}
+                                            >
+                                                <td className="name-cell">
+                                                    <FiUser className="cell-icon" />
+                                                    {item.firstName} {item.lastName}
+                                                </td>
+                                                <td className="email-cell">
+                                                    <FiMail className="cell-icon" />
+                                                    {item.email}
+                                                </td>
+                                                <td className="phone-cell">
+                                                    <FiPhone className="cell-icon" />
+                                                    {item.phone}
+                                                </td>
+                                                <td>
+                                                    <span className={`license-badge ${item.llqpLicense === 'yes' ? 'license-yes' : 'license-no'}`}>
+                                                        {item.llqpLicense === 'yes' ? 'Yes' : 'No'}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    {getStatusBadge(item.status)}
+                                                </td>
+                                                <td className="date-cell">
+                                                    <FiCalendar className="cell-icon" />
+                                                    {new Date(item.createdAt).toLocaleDateString()}
+                                                </td>
+                                                <td className="actions-cell">
+                                                    <button
+                                                        className="view-btn"
+                                                        onClick={() => {
+                                                            setSelectedItem(item);
+                                                            setShowDetails(true);
+                                                        }}
+                                                        title="View Details"
+                                                    >
+                                                        <FiEye />
+                                                    </button>
+                                                </td>
+                                            </motion.tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Pagination */}
+                            {!loading && data.length > 0 && pagination.pages > 1 && (
+                                <div className="pagination">
+                                    <button
+                                        className="page-btn"
+                                        onClick={() => handlePageChange(pagination.page - 1)}
+                                        disabled={pagination.page === 1}
+                                    >
+                                        <FiChevronLeft /> Previous
+                                    </button>
+                                    <span className="page-info">
+                                        Page {pagination.page} of {pagination.pages}
+                                    </span>
+                                    <button
+                                        className="page-btn"
+                                        onClick={() => handlePageChange(pagination.page + 1)}
+                                        disabled={pagination.page === pagination.pages}
+                                    >
+                                        Next <FiChevronRight />
+                                    </button>
+                                </div>
+                            )}
+                        </>
                     )}
                 </motion.div>
 
-                {/* Pagination */}
-                {!loading && data.length > 0 && (
-                    <motion.div className="pagination" variants={itemVariants}>
-                        <button
-                            className="page-btn"
-                            onClick={() => handlePageChange(pagination.page - 1)}
-                            disabled={pagination.page === 1}
-                        >
-                            <FiChevronLeft />
-                        </button>
-                        <span className="page-info">
-                            Page {pagination.page} of {pagination.pages}
-                        </span>
-                        <button
-                            className="page-btn"
-                            onClick={() => handlePageChange(pagination.page + 1)}
-                            disabled={pagination.page === pagination.pages}
-                        >
-                            <FiChevronRight />
-                        </button>
-                    </motion.div>
-                )}
-
-                {/* Details Modal - PERFECTLY CENTERED */}
+                {/* Details Modal */}
                 <AnimatePresence>
                     {showDetails && selectedItem && (
                         <motion.div
@@ -447,86 +468,108 @@ const AdminCareer = () => {
                             onClick={() => setShowDetails(false)}
                         >
                             <motion.div
-                                className="details-modal"
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                                className="modal-content details-modal"
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.8, opacity: 0 }}
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <div className="modal-header">
                                     <h3>Application Details</h3>
-                                    <button
+                                    <button 
                                         className="close-btn"
                                         onClick={() => setShowDetails(false)}
                                     >
-                                        <FiXCircle />
+                                        <FiX />
                                     </button>
                                 </div>
-                                <div className="modal-content">
-                                    <div className="detail-row">
-                                        <label>Full Name:</label>
-                                        <span>{selectedItem.firstName} {selectedItem.lastName}</span>
+
+                                <div className="modal-body">
+                                    <div className="detail-section">
+                                        <h4>Personal Information</h4>
+                                        <div className="detail-row">
+                                            <span className="detail-label"><FiUser /> Name:</span>
+                                            <span className="detail-value">{selectedItem.firstName} {selectedItem.lastName}</span>
+                                        </div>
+                                        <div className="detail-row">
+                                            <span className="detail-label"><FiMail /> Email:</span>
+                                            <span className="detail-value">{selectedItem.email}</span>
+                                        </div>
+                                        <div className="detail-row">
+                                            <span className="detail-label"><FiPhone /> Phone:</span>
+                                            <span className="detail-value">{selectedItem.phone}</span>
+                                        </div>
                                     </div>
-                                    <div className="detail-row">
-                                        <label>Email:</label>
-                                        <span>{selectedItem.email}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <label>Phone:</label>
-                                        <span>{selectedItem.phone}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <label>LLQP License:</label>
-                                        <span className={`license-badge ${selectedItem.llqpLicense === 'yes' ? 'license-yes' : 'license-no'}`}>
-                                            {selectedItem.llqpLicense === 'yes' ? 'Yes' : 'No'}
-                                        </span>
+
+                                    <div className="detail-section">
+                                        <h4>Application Details</h4>
+                                        <div className="detail-row">
+                                            <span className="detail-label">LLQP License:</span>
+                                            <span className="detail-value">
+                                                <span className={`license-badge ${selectedItem.llqpLicense === 'yes' ? 'license-yes' : 'license-no'}`}>
+                                                    {selectedItem.llqpLicense === 'yes' ? 'Yes' : 'No'}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div className="detail-row">
+                                            <span className="detail-label">Reference ID:</span>
+                                            <span className="detail-value reference-id">{selectedItem.referenceId}</span>
+                                        </div>
                                     </div>
 
                                     {selectedItem.adminNotes && (
-                                        <div className="detail-row">
-                                            <label>Admin Notes:</label>
-                                            <p>{selectedItem.adminNotes}</p>
+                                        <div className="detail-section">
+                                            <h4>Admin Notes</h4>
+                                            <div className="detail-row">
+                                                <span className="detail-value message">{selectedItem.adminNotes}</span>
+                                            </div>
                                         </div>
                                     )}
 
-                                    <div className="detail-row">
-                                        <label>Reference ID:</label>
-                                        <span className="reference-id">{selectedItem.referenceId}</span>
-                                    </div>
-
-                                    <div className="detail-row">
-                                        <label>Status:</label>
-                                        <select
-                                            className={`status-select ${getStatusColor(selectedItem.status)}`}
-                                            value={selectedItem.status}
-                                            onChange={(e) => {
-                                                handleStatusUpdate(selectedItem._id, e.target.value);
-                                                setSelectedItem({ ...selectedItem, status: e.target.value });
-                                            }}
-                                        >
-                                            <option value="pending">Pending</option>
-                                            <option value="reviewed">Reviewed</option>
-                                            <option value="contacted">Contacted</option>
-                                            <option value="rejected">Rejected</option>
-                                            <option value="hired">Hired</option>
-                                        </select>
-                                    </div>
-
-                                    <div className="detail-row">
-                                        <label>Applied:</label>
-                                        <span>{new Date(selectedItem.createdAt).toLocaleString()}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <label>Last Updated:</label>
-                                        <span>{new Date(selectedItem.updatedAt).toLocaleString()}</span>
-                                    </div>
-                                    {selectedItem.reviewedAt && (
+                                    <div className="detail-section">
+                                        <h4>Status & Timeline</h4>
                                         <div className="detail-row">
-                                            <label>Reviewed At:</label>
-                                            <span>{new Date(selectedItem.reviewedAt).toLocaleString()}</span>
+                                            <span className="detail-label">Status:</span>
+                                            <span className="detail-value">{getStatusBadge(selectedItem.status)}</span>
                                         </div>
-                                    )}
+                                        <div className="detail-row">
+                                            <span className="detail-label">Applied:</span>
+                                            <span className="detail-value">{new Date(selectedItem.createdAt).toLocaleString()}</span>
+                                        </div>
+                                        <div className="detail-row">
+                                            <span className="detail-label">Last Updated:</span>
+                                            <span className="detail-value">{new Date(selectedItem.updatedAt).toLocaleString()}</span>
+                                        </div>
+                                        {selectedItem.reviewedAt && (
+                                            <div className="detail-row">
+                                                <span className="detail-label">Reviewed At:</span>
+                                                <span className="detail-value">{new Date(selectedItem.reviewedAt).toLocaleString()}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <select
+                                        className={`status-select ${getStatusColor(selectedItem.status)}`}
+                                        value={selectedItem.status}
+                                        onChange={(e) => {
+                                            handleStatusUpdate(selectedItem._id, e.target.value);
+                                            setSelectedItem({ ...selectedItem, status: e.target.value });
+                                        }}
+                                    >
+                                        <option value="pending">Pending</option>
+                                        <option value="reviewed">Reviewed</option>
+                                        <option value="contacted">Contacted</option>
+                                        <option value="rejected">Rejected</option>
+                                        <option value="hired">Hired</option>
+                                    </select>
+                                    <button
+                                        className="close-modal-btn"
+                                        onClick={() => setShowDetails(false)}
+                                    >
+                                        Close
+                                    </button>
                                 </div>
                             </motion.div>
                         </motion.div>

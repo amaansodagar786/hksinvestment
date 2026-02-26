@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import * as XLSX from 'xlsx'; // <-- ADD THIS IMPORT
+import * as XLSX from 'xlsx';
 import {
     FiMail,
     FiPhone,
@@ -18,7 +18,9 @@ import {
     FiChevronLeft,
     FiChevronRight,
     FiEye,
-    FiInbox
+    FiInbox,
+    FiClock,
+    FiX
 } from 'react-icons/fi';
 import './AdminForms.scss';
 
@@ -183,12 +185,12 @@ const AdminForms = () => {
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    // REPLACE exportToCSV with exportToExcel
     const exportToExcel = () => {
-        const headers = ['Name', 'Email', 'Status', 'Date'];
+        const headers = ['Name', 'Email', 'Phone', 'Status', 'Date'];
         const rows = data.map(item => [
             getItemName(item),
             item.email,
+            item.phone || 'N/A',
             item.status,
             new Date(item.createdAt).toLocaleDateString()
         ]);
@@ -200,6 +202,7 @@ const AdminForms = () => {
 
         const fileName = `${activeTab}-${new Date().toISOString().split('T')[0]}.xlsx`;
         XLSX.writeFile(workbook, fileName);
+        toast.success('Excel file downloaded successfully');
     };
 
     const getItemName = (item) => {
@@ -213,11 +216,24 @@ const AdminForms = () => {
         }
     };
 
+    const getStatusBadge = (status) => {
+        switch (status) {
+            case 'pending':
+                return <span className="status-badge pending"><FiClock /> Pending</span>;
+            case 'contacted':
+                return <span className="status-badge contacted"><FiCheckCircle /> Contacted</span>;
+            case 'resolved':
+                return <span className="status-badge resolved"><FiCheckCircle /> Resolved</span>;
+            default:
+                return <span className="status-badge">{status}</span>;
+        }
+    };
+
     const getStatusColor = (status) => {
         switch (status) {
-            case 'pending': return 'status-pending';
-            case 'contacted': return 'status-contacted';
-            case 'resolved': return 'status-resolved';
+            case 'pending': return 'pending';
+            case 'contacted': return 'contacted';
+            case 'resolved': return 'resolved';
             default: return '';
         }
     };
@@ -243,9 +259,8 @@ const AdminForms = () => {
 
     return (
         <>
-            <ToastContainer position="top-right" autoClose={3000} />
+            <ToastContainer position="top-right" theme="colored" />
             
-
             <motion.div
                 className="admin-forms"
                 initial="hidden"
@@ -253,16 +268,33 @@ const AdminForms = () => {
                 variants={containerVariants}
             >
                 {/* Header */}
-                <motion.div className="admin-header" variants={itemVariants}>
-                    <h1>
-                        <FiMail className="header-icon" />
-                        Forms Management
-                    </h1>
-                    <p>Manage all contact form submissions and inquiries</p>
+                <motion.div className="forms-header" variants={itemVariants}>
+                    <motion.span
+                        className="forms-pill"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        Admin Panel
+                    </motion.span>
+                    <motion.h2
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                    >
+                        Forms <span>Management</span>
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        Manage all contact form submissions and inquiries
+                    </motion.p>
                 </motion.div>
 
-                {/* Page Toggle Buttons */}
-                <motion.div className="page-tabs" variants={itemVariants}>
+                {/* Page Tabs */}
+                <motion.div className="forms-tabs" variants={itemVariants}>
                     <button
                         className={`tab-btn ${activeTab === 'contact' ? 'active' : ''}`}
                         onClick={() => {
@@ -307,7 +339,7 @@ const AdminForms = () => {
                     </div>
                     <div className="right-controls">
                         <button className="refresh-btn" onClick={fetchData}>
-                            <FiRefreshCw /> Refresh
+                            <FiRefreshCw className={loading ? 'spinner' : ''} /> Refresh
                         </button>
                     </div>
                 </motion.div>
@@ -371,7 +403,7 @@ const AdminForms = () => {
                 </motion.div>
 
                 {/* Table */}
-                <motion.div className="table-container" variants={itemVariants}>
+                <motion.div className="table-section" variants={itemVariants}>
                     {loading ? (
                         <div className="loading-state">
                             <div className="spinner"></div>
@@ -384,92 +416,90 @@ const AdminForms = () => {
                             <p>No records match your criteria.</p>
                         </div>
                     ) : (
-                        <div className="table-responsive">
-                            <table className="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data.map((item, index) => (
-                                        <motion.tr
-                                            key={item._id}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.05 }}
-                                            className={updatingId === item._id ? 'updating' : ''}
-                                        >
-                                            <td data-label="Name" className="name-cell">
-                                                <FiUser className="cell-icon" />
-                                                {getItemName(item)}
-                                            </td>
-                                            <td data-label="Email" className="email-cell">
-                                                <FiMail className="cell-icon" />
-                                                {item.email}
-                                            </td>
-                                            <td data-label="Status">
-                                                <select
-                                                    className={`status-select ${getStatusColor(item.status)}`}
-                                                    value={item.status}
-                                                    onChange={(e) => handleStatusUpdate(item._id, e.target.value)}
-                                                    disabled={updatingId === item._id}
-                                                >
-                                                    <option value="pending">Pending</option>
-                                                    <option value="contacted">Contacted</option>
-                                                    <option value="resolved">Resolved</option>
-                                                </select>
-                                            </td>
-                                            <td data-label="Date" className="date-cell">
-                                                <FiCalendar className="cell-icon" />
-                                                {new Date(item.createdAt).toLocaleDateString()}
-                                            </td>
-                                            <td data-label="Actions" className="actions-cell">
-                                                <button
-                                                    className="view-btn"
-                                                    onClick={() => {
-                                                        setSelectedItem(item);
-                                                        setShowDetails(true);
-                                                    }}
-                                                    title="View Details"
-                                                >
-                                                    <FiEye />
-                                                </button>
-                                            </td>
-                                        </motion.tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        <>
+                            <div className="table-container">
+                                <table className="forms-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data.map((item, index) => (
+                                            <motion.tr
+                                                key={item._id}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.05 }}
+                                                className={updatingId === item._id ? 'updating' : ''}
+                                            >
+                                                <td className="name-cell">
+                                                    <FiUser className="cell-icon" />
+                                                    {getItemName(item)}
+                                                </td>
+                                                <td className="email-cell">
+                                                    <FiMail className="cell-icon" />
+                                                    {item.email}
+                                                </td>
+                                                <td className="phone-cell">
+                                                    <FiPhone className="cell-icon" />
+                                                    {item.phone || 'N/A'}
+                                                </td>
+                                                <td>
+                                                    {getStatusBadge(item.status)}
+                                                </td>
+                                                <td className="date-cell">
+                                                    <FiCalendar className="cell-icon" />
+                                                    {new Date(item.createdAt).toLocaleDateString()}
+                                                </td>
+                                                <td className="actions-cell">
+                                                    <button
+                                                        className="view-btn"
+                                                        onClick={() => {
+                                                            setSelectedItem(item);
+                                                            setShowDetails(true);
+                                                        }}
+                                                        title="View Details"
+                                                    >
+                                                        <FiEye />
+                                                    </button>
+                                                </td>
+                                            </motion.tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Pagination */}
+                            {!loading && data.length > 0 && pagination.pages > 1 && (
+                                <div className="pagination">
+                                    <button
+                                        className="page-btn"
+                                        onClick={() => handlePageChange(pagination.page - 1)}
+                                        disabled={pagination.page === 1}
+                                    >
+                                        <FiChevronLeft /> Previous
+                                    </button>
+                                    <span className="page-info">
+                                        Page {pagination.page} of {pagination.pages}
+                                    </span>
+                                    <button
+                                        className="page-btn"
+                                        onClick={() => handlePageChange(pagination.page + 1)}
+                                        disabled={pagination.page === pagination.pages}
+                                    >
+                                        Next <FiChevronRight />
+                                    </button>
+                                </div>
+                            )}
+                        </>
                     )}
                 </motion.div>
-
-                {/* Pagination */}
-                {!loading && data.length > 0 && (
-                    <motion.div className="pagination" variants={itemVariants}>
-                        <button
-                            className="page-btn"
-                            onClick={() => handlePageChange(pagination.page - 1)}
-                            disabled={pagination.page === 1}
-                        >
-                            <FiChevronLeft />
-                        </button>
-                        <span className="page-info">
-                            Page {pagination.page} of {pagination.pages}
-                        </span>
-                        <button
-                            className="page-btn"
-                            onClick={() => handlePageChange(pagination.page + 1)}
-                            disabled={pagination.page === pagination.pages}
-                        >
-                            <FiChevronRight />
-                        </button>
-                    </motion.div>
-                )}
 
                 {/* Details Modal */}
                 <AnimatePresence>
@@ -482,78 +512,104 @@ const AdminForms = () => {
                             onClick={() => setShowDetails(false)}
                         >
                             <motion.div
-                                className="details-modal"
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                                className="modal-content details-modal"
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.8, opacity: 0 }}
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <div className="modal-header">
                                     <h3>Submission Details</h3>
-                                    <button className="close-btn" onClick={() => setShowDetails(false)}>
-                                        <FiXCircle />
+                                    <button 
+                                        className="close-btn"
+                                        onClick={() => setShowDetails(false)}
+                                    >
+                                        <FiX />
                                     </button>
                                 </div>
-                                <div className="modal-content">
-                                    {/* all detail rows (unchanged) */}
-                                    <div className="detail-row">
-                                        <label>Name:</label>
-                                        <span>{getItemName(selectedItem)}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <label>Email:</label>
-                                        <span>{selectedItem.email}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <label>Phone:</label>
-                                        <span>{selectedItem.phone || 'Not provided'}</span>
+
+                                <div className="modal-body">
+                                    <div className="detail-section">
+                                        <h4>Contact Information</h4>
+                                        <div className="detail-row">
+                                            <span className="detail-label"><FiUser /> Name:</span>
+                                            <span className="detail-value">{getItemName(selectedItem)}</span>
+                                        </div>
+                                        <div className="detail-row">
+                                            <span className="detail-label"><FiMail /> Email:</span>
+                                            <span className="detail-value">{selectedItem.email}</span>
+                                        </div>
+                                        <div className="detail-row">
+                                            <span className="detail-label"><FiPhone /> Phone:</span>
+                                            <span className="detail-value">{selectedItem.phone || 'Not provided'}</span>
+                                        </div>
                                     </div>
 
                                     {activeTab === 'service' && selectedItem.service && (
-                                        <div className="detail-row">
-                                            <label>Service:</label>
-                                            <span>{selectedItem.service}</span>
+                                        <div className="detail-section">
+                                            <h4>Service Details</h4>
+                                            <div className="detail-row">
+                                                <span className="detail-label">Service:</span>
+                                                <span className="detail-value">{selectedItem.service}</span>
+                                            </div>
                                         </div>
                                     )}
+
                                     {activeTab === 'general' && selectedItem.reason && (
-                                        <div className="detail-row">
-                                            <label>Reason:</label>
-                                            <span>{selectedItem.reason}</span>
+                                        <div className="detail-section">
+                                            <h4>Inquiry Details</h4>
+                                            <div className="detail-row">
+                                                <span className="detail-label">Reason:</span>
+                                                <span className="detail-value">{selectedItem.reason}</span>
+                                            </div>
                                         </div>
                                     )}
 
                                     {selectedItem.message && (
-                                        <div className="detail-row message-row">
-                                            <label>Message:</label>
-                                            <p>{selectedItem.message}</p>
+                                        <div className="detail-section">
+                                            <h4>Message</h4>
+                                            <div className="detail-row">
+                                                <span className="detail-value message">{selectedItem.message}</span>
+                                            </div>
                                         </div>
                                     )}
 
-                                    <div className="detail-row">
-                                        <label>Status:</label>
-                                        <select
-                                            className={`status-select ${getStatusColor(selectedItem.status)}`}
-                                            value={selectedItem.status}
-                                            onChange={(e) => {
-                                                handleStatusUpdate(selectedItem._id, e.target.value);
-                                                setSelectedItem({ ...selectedItem, status: e.target.value });
-                                            }}
-                                        >
-                                            <option value="pending">Pending</option>
-                                            <option value="contacted">Contacted</option>
-                                            <option value="resolved">Resolved</option>
-                                        </select>
+                                    <div className="detail-section">
+                                        <h4>Status & Timeline</h4>
+                                        <div className="detail-row">
+                                            <span className="detail-label">Status:</span>
+                                            <span className="detail-value">{getStatusBadge(selectedItem.status)}</span>
+                                        </div>
+                                        <div className="detail-row">
+                                            <span className="detail-label">Submitted:</span>
+                                            <span className="detail-value">{new Date(selectedItem.createdAt).toLocaleString()}</span>
+                                        </div>
+                                        <div className="detail-row">
+                                            <span className="detail-label">Last Updated:</span>
+                                            <span className="detail-value">{new Date(selectedItem.updatedAt).toLocaleString()}</span>
+                                        </div>
                                     </div>
+                                </div>
 
-                                    <div className="detail-row">
-                                        <label>Submitted:</label>
-                                        <span>{new Date(selectedItem.createdAt).toLocaleString()}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <label>Last Updated:</label>
-                                        <span>{new Date(selectedItem.updatedAt).toLocaleString()}</span>
-                                    </div>
+                                <div className="modal-footer">
+                                    <select
+                                        className={`status-select ${getStatusColor(selectedItem.status)}`}
+                                        value={selectedItem.status}
+                                        onChange={(e) => {
+                                            handleStatusUpdate(selectedItem._id, e.target.value);
+                                            setSelectedItem({ ...selectedItem, status: e.target.value });
+                                        }}
+                                    >
+                                        <option value="pending">Pending</option>
+                                        <option value="contacted">Contacted</option>
+                                        <option value="resolved">Resolved</option>
+                                    </select>
+                                    <button
+                                        className="close-modal-btn"
+                                        onClick={() => setShowDetails(false)}
+                                    >
+                                        Close
+                                    </button>
                                 </div>
                             </motion.div>
                         </motion.div>

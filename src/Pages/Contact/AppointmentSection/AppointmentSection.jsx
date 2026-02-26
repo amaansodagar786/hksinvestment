@@ -14,7 +14,8 @@ import {
     FiCheckCircle,
     FiXCircle,
     FiLoader,
-    FiEdit3
+    FiEdit3,
+    FiAlertCircle
 } from "react-icons/fi";
 import "./AppointmentSection.scss";
 
@@ -25,6 +26,10 @@ const AppointmentSection = () => {
     const [isLoadingSlots, setIsLoadingSlots] = useState(false);
     const [bookedSlots, setBookedSlots] = useState([]);
     const [availableSlots, setAvailableSlots] = useState([]);
+    const [allSlots, setAllSlots] = useState([]); // New state to store ALL slots with their status
+    const [isOff, setIsOff] = useState(false);
+    const [scheduleType, setScheduleType] = useState('default');
+    const [slotCount, setSlotCount] = useState(0);
 
     // Get today's date in YYYY-MM-DD format
     const getTodayDate = () => {
@@ -35,33 +40,36 @@ const AppointmentSection = () => {
         return `${year}-${month}-${day}`;
     };
 
-    // Generate 1-hour time slots from 10:00 to 18:00
-    const generateAllTimeSlots = () => {
+    const todayDate = getTodayDate();
+
+    // Generate all possible default time slots (10 AM to 6 PM)
+    const getAllDefaultTimeSlots = () => {
         const slots = [];
         for (let hour = 10; hour < 18; hour++) {
-            const timeString = `${hour.toString().padStart(2, '0')}:00`;
-            slots.push(timeString);
+            const timeStr = `${hour.toString().padStart(2, '0')}:00`;
+            slots.push(timeStr);
         }
         return slots;
     };
 
-    const allTimeSlots = generateAllTimeSlots();
-    const todayDate = getTodayDate();
-
-    // Fetch booked slots when date is selected
+    // Fetch available slots when date is selected
     useEffect(() => {
         if (selectedDate) {
-            fetchBookedSlots(selectedDate);
+            fetchAvailableSlots(selectedDate);
         } else {
             setBookedSlots([]);
-            setAvailableSlots(allTimeSlots);
+            setAvailableSlots([]);
+            setAllSlots([]);
+            setIsOff(false);
+            setSelectedTime(null);
         }
     }, [selectedDate]);
 
-    // Fetch booked slots from API
-    const fetchBookedSlots = async (date) => {
+    // Fetch available slots from API
+    const fetchAvailableSlots = async (date) => {
         try {
             setIsLoadingSlots(true);
+            toast.dismiss(); // Dismiss any existing toasts
 
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/appointments/slots/${date}`
@@ -74,33 +82,66 @@ const AppointmentSection = () => {
             const data = await response.json();
 
             if (data.success) {
-                setBookedSlots(data.data.bookedSlots);
-                setAvailableSlots(data.data.availableSlots);
+                const booked = data.data.bookedSlots || [];
+                const available = data.data.availableSlots || [];
+
+                setBookedSlots(booked);
+                setAvailableSlots(available);
+                setIsOff(data.data.isOff || false);
+                setScheduleType(data.data.scheduleType || 'default');
+                setSlotCount(available.length || 0);
+
+                // Create combined slots array with all slots and their status
+                let combinedSlots = [];
+
+                if (data.data.isOff) {
+                    // If day is off, show all default slots as unavailable
+                    combinedSlots = getAllDefaultTimeSlots().map(time => ({
+                        time,
+                        status: 'unavailable',
+                        reason: 'day_off'
+                    }));
+                } else if (data.data.scheduleType === 'custom' && data.data.customSlotCount > 0) {
+                    // For custom schedule, we need to know all custom slots
+                    // Since API doesn't send custom slots list, we'll use available + booked
+                    // This shows both available and booked custom slots
+                    const allCustomSlots = [...new Set([...available, ...booked])].sort();
+                    combinedSlots = allCustomSlots.map(time => ({
+                        time,
+                        status: booked.includes(time) ? 'booked' : 'available'
+                    }));
+                } else {
+                    // Default schedule - show all slots from 10-18 with their status
+                    combinedSlots = getAllDefaultTimeSlots().map(time => ({
+                        time,
+                        status: booked.includes(time) ? 'booked' :
+                            available.includes(time) ? 'available' : 'unavailable'
+                    }));
+                }
+
+                setAllSlots(combinedSlots);
+
+                // Reset selected time if it's now booked or unavailable
+                if (selectedTime) {
+                    if (booked.includes(selectedTime) || !available.includes(selectedTime)) {
+                        setSelectedTime(null);
+                    }
+                }
             } else {
                 throw new Error(data.message || 'Failed to fetch slots');
             }
         } catch (error) {
-            console.error('Error fetching booked slots:', error);
+            console.error('Error fetching slots:', error);
             toast.error('Failed to load available time slots. Please try again.', {
                 position: "top-right",
                 autoClose: 3000
             });
-            // Fallback to all slots as available
             setBookedSlots([]);
-            setAvailableSlots(allTimeSlots);
+            setAvailableSlots([]);
+            setAllSlots([]);
         } finally {
             setIsLoadingSlots(false);
         }
-    };
-
-    // Check if a time slot is booked
-    const isTimeSlotBooked = (time) => {
-        return bookedSlots.includes(time);
-    };
-
-    // Check if a time slot is available
-    const isTimeSlotAvailable = (time) => {
-        return availableSlots.includes(time);
     };
 
     // Handle date change
@@ -111,7 +152,8 @@ const AppointmentSection = () => {
 
     // Handle time slot selection
     const handleTimeSlotClick = (time) => {
-        if (isTimeSlotAvailable(time)) {
+        const slot = allSlots.find(s => s.time === time);
+        if (slot && slot.status === 'available') {
             setSelectedTime(time);
         }
     };
@@ -184,11 +226,20 @@ const AppointmentSection = () => {
             }
 
             if (data.success) {
+                // Dismiss any existing toasts first
+                toast.dismiss();
+
+                // Show only ONE toast that auto-dismisses after 5 seconds
                 toast.success(
-                    `Appointment booked successfully! Reference: ${data.data.referenceId}`,
+                    `Appointment request submitted! Reference: ${data.data.referenceId}. Awaiting approval.`,
                     {
                         position: "top-right",
                         autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
                     }
                 );
 
@@ -196,11 +247,13 @@ const AppointmentSection = () => {
                 setSelectedDate("");
                 setSelectedTime(null);
                 setBookedSlots([]);
-                setAvailableSlots(allTimeSlots);
+                setAvailableSlots([]);
+                setAllSlots([]);
             } else {
                 throw new Error(data.message || 'Booking failed');
             }
         } catch (error) {
+            toast.dismiss();
             toast.error(error.message || 'Failed to book appointment. Please try again.', {
                 position: "top-right",
                 autoClose: 5000
@@ -212,7 +265,8 @@ const AppointmentSection = () => {
 
     const formatDate = (dateString) => {
         if (!dateString) return "";
-        const date = new Date(dateString);
+        const [year, month, day] = dateString.split('-');
+        const date = new Date(year, month - 1, day);
         return date.toLocaleDateString('en-US', {
             weekday: 'long',
             year: 'numeric',
@@ -223,6 +277,57 @@ const AppointmentSection = () => {
 
     const getMinDate = () => {
         return todayDate;
+    };
+
+    // Get time range string from time slot
+    const getTimeRange = (time) => {
+        const hour = parseInt(time.split(':')[0]);
+        const nextHour = hour + 1;
+        const nextHourStr = `${nextHour.toString().padStart(2, '0')}:00`;
+        return `${time} - ${nextHourStr}`;
+    };
+
+    // Get slot status display info
+    const getSlotStatusInfo = (status) => {
+        switch (status) {
+            case 'booked':
+                return {
+                    icon: <FiXCircle />,
+                    text: 'Booked',
+                    className: 'booked'
+                };
+            case 'unavailable':
+                return {
+                    icon: <FiXCircle />,
+                    text: 'Unavailable',
+                    className: 'unavailable'
+                };
+            case 'available':
+                return {
+                    icon: null,
+                    text: 'Available',
+                    className: 'available'
+                };
+            default:
+                return {
+                    icon: <FiAlertCircle />,
+                    text: 'Not Available',
+                    className: 'unavailable'
+                };
+        }
+    };
+
+    // Get display message based on schedule type
+    const getScheduleMessage = () => {
+        if (isOff) {
+            return "No appointments available on this date";
+        }
+        if (scheduleType === 'custom') {
+            const availableCount = allSlots.filter(s => s.status === 'available').length;
+            const bookedCount = allSlots.filter(s => s.status === 'booked').length;
+            return `${availableCount} available, ${bookedCount} booked`;
+        }
+        return "Select a 1-hour time slot (10:00 AM - 6:00 PM)";
     };
 
     return (
@@ -246,7 +351,10 @@ const AppointmentSection = () => {
                 }}
             >
                 <div className="appointment-header">
-                    <motion.span className="appointment-pill" variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}>
+                    <motion.span
+                        className="appointment-pill"
+                        variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                    >
                         Book Appointment
                     </motion.span>
                     <motion.h2 variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}>
@@ -259,7 +367,10 @@ const AppointmentSection = () => {
 
                 <div className="appointment-content">
                     {/* LEFT SIDE - FORM */}
-                    <motion.div className="appointment-form-section" variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}>
+                    <motion.div
+                        className="appointment-form-section"
+                        variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                    >
                         <div className="appointment-form-container">
                             <div className="form-header">
                                 <div className="form-header-icon">
@@ -267,45 +378,94 @@ const AppointmentSection = () => {
                                 </div>
                                 <div className="form-header-content">
                                     <h3>Personal Information</h3>
-                                    <p>Quick details to confirm your appointment</p>                                </div>
+                                    <p>Quick details to confirm your appointment.</p>
+                                </div>
                             </div>
 
-                            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                            <Formik
+                                initialValues={initialValues}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                            >
                                 {({ errors, touched }) => (
                                     <Form className="appointment-form">
                                         <div className="form-group">
-                                            <label htmlFor="name"><FiUser /> Full Name *</label>
-                                            <Field type="text" id="name" name="name" placeholder="Enter your full name" className={`form-input ${errors.name && touched.name ? 'error' : ''}`} />
+                                            <label htmlFor="name">
+                                                <FiUser /> Full Name *
+                                            </label>
+                                            <Field
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                placeholder="Enter your full name"
+                                                className={`form-input ${errors.name && touched.name ? 'error' : ''}`}
+                                            />
                                             <ErrorMessage name="name" component="div" className="error-message" />
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="email"><FiMail /> Email Address *</label>
-                                            <Field type="email" id="email" name="email" placeholder="Enter your email" className={`form-input ${errors.email && touched.email ? 'error' : ''}`} />
+                                            <label htmlFor="email">
+                                                <FiMail /> Email Address *
+                                            </label>
+                                            <Field
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                placeholder="Enter your email"
+                                                className={`form-input ${errors.email && touched.email ? 'error' : ''}`}
+                                            />
                                             <ErrorMessage name="email" component="div" className="error-message" />
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="phone"><FiPhone /> Phone Number *</label>
-                                            <Field type="tel" id="phone" name="phone" placeholder="Enter your phone number" className={`form-input ${errors.phone && touched.phone ? 'error' : ''}`} />
+                                            <label htmlFor="phone">
+                                                <FiPhone /> Phone Number *
+                                            </label>
+                                            <Field
+                                                type="tel"
+                                                id="phone"
+                                                name="phone"
+                                                placeholder="Enter your phone number"
+                                                className={`form-input ${errors.phone && touched.phone ? 'error' : ''}`}
+                                            />
                                             <ErrorMessage name="phone" component="div" className="error-message" />
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="date"><FiCalendar /> Select Date *</label>
+                                            <label htmlFor="date">
+                                                <FiCalendar /> Select Date *
+                                            </label>
                                             <div className="date-picker-wrapper">
                                                 <div className="date-input-container">
                                                     <FiCalendar className="date-input-icon" />
-                                                    <input type="date" id="date" name="date" min={getMinDate()} value={selectedDate} onChange={handleDateChange} className="form-input date-picker-input" required />
+                                                    <input
+                                                        type="date"
+                                                        id="date"
+                                                        name="date"
+                                                        min={getMinDate()}
+                                                        value={selectedDate}
+                                                        onChange={handleDateChange}
+                                                        className="form-input date-picker-input"
+                                                        required
+                                                    />
                                                 </div>
                                             </div>
                                             {!selectedDate && <div className="error-message">Please select a date</div>}
                                         </div>
 
                                         {selectedDate && (
-                                            <motion.div className="selected-date-display" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-                                                <div className="selected-date-icon"><FiCheckCircle /></div>
-                                                <div className="selected-date-text"><strong>Selected Date:</strong> {formatDate(selectedDate)}</div>
+                                            <motion.div
+                                                className="selected-date-display"
+                                                initial={{ opacity: 0, y: -10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                <div className="selected-date-icon">
+                                                    <FiCheckCircle />
+                                                </div>
+                                                <div className="selected-date-text">
+                                                    <strong>Selected Date:</strong> {formatDate(selectedDate)}
+                                                </div>
                                             </motion.div>
                                         )}
 
@@ -317,83 +477,142 @@ const AppointmentSection = () => {
                     </motion.div>
 
                     {/* RIGHT SIDE - TIME SLOTS */}
-                    <motion.div className="appointment-time-section" variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}>
+                    <motion.div
+                        className="appointment-time-section"
+                        variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                    >
                         <div className="time-slots-container">
                             <div className="time-slots-header">
-                                <h3><FiClock /> Available Time Slots</h3>
-                                {selectedDate ? <p>Select a 1-hour time slot for {formatDate(selectedDate)}</p> : <p>Please select a date first</p>}
-                                {isLoadingSlots && <div className="loading-slots"><FiLoader className="spinner" /> Loading available slots...</div>}
+                                <h3>
+                                    <FiClock /> Available Time Slots
+                                </h3>
+                                {selectedDate ? (
+                                    <p>{getScheduleMessage()}</p>
+                                ) : (
+                                    <p>Please select a date first</p>
+                                )}
+
+                                {isLoadingSlots && (
+                                    <div className="loading-slots">
+                                        <FiLoader className="spinner" /> Loading available slots...
+                                    </div>
+                                )}
+
+                                {isOff && selectedDate && (
+                                    <div className="off-message">
+                                        <FiAlertCircle /> This date is not available for appointments
+                                    </div>
+                                )}
                             </div>
 
-                            <div className="time-slots-grid">
-                                {allTimeSlots.map((time, index) => {
-                                    const isBooked = isTimeSlotBooked(time);
-                                    const isAvailable = isTimeSlotAvailable(time);
-                                    const isSelected = selectedTime === time;
-                                    const nextHour = `${(parseInt(time.split(':')[0]) + 1).toString().padStart(2, '0')}:00`;
-                                    const isDisabled = !selectedDate || isBooked || !isAvailable;
+                            {/* Time Slots Grid - Shows ALL slots with their status */}
+                            {!isLoadingSlots && selectedDate && allSlots.length > 0 && (
+                                <div className={`time-slots-grid ${allSlots.length > 8 ? 'scrollable' : ''}`}>
+                                    {allSlots.map((slot, index) => {
+                                        const statusInfo = getSlotStatusInfo(slot.status);
+                                        const isSelected = selectedTime === slot.time;
+                                        const isDisabled = slot.status !== 'available';
+                                        const timeRange = getTimeRange(slot.time);
 
-                                    return (
-                                        <motion.button
-                                            key={index}
-                                            type="button"
-                                            className={`time-slot ${isSelected ? 'selected' : ''} ${isBooked ? 'booked' : ''} ${!isAvailable ? 'unavailable' : ''}`}
-                                            onClick={() => handleTimeSlotClick(time)}
-                                            disabled={isDisabled}
-                                            whileHover={!isDisabled ? { scale: 1.05 } : {}}
-                                            whileTap={!isDisabled ? { scale: 0.95 } : {}}
-                                        >
-                                            <div className="time-slot-content">
-                                                <div className="time-range">
-                                                    <span className="time">{time}</span>
-                                                    <span className="separator">-</span>
-                                                    <span className="time">{nextHour}</span>
+                                        return (
+                                            <motion.button
+                                                key={index}
+                                                type="button"
+                                                className={`time-slot ${statusInfo.className} ${isSelected ? 'selected' : ''}`}
+                                                onClick={() => handleTimeSlotClick(slot.time)}
+                                                disabled={isDisabled}
+                                                whileHover={!isDisabled ? { scale: 1.05 } : {}}
+                                                whileTap={!isDisabled ? { scale: 0.95 } : {}}
+                                            >
+                                                <div className="time-slot-content">
+                                                    <div className="time-range">
+                                                        <span className="time">{timeRange}</span>
+                                                    </div>
+                                                    <div className="time-slot-status">
+                                                        {statusInfo.icon}
+                                                        <span>{statusInfo.text}</span>
+                                                    </div>
                                                 </div>
-                                                <div className="time-slot-status">
-                                                    {isBooked ? <><FiXCircle /><span>Booked</span></> :
-                                                        !isAvailable ? <><FiXCircle /><span>Unavailable</span></> :
-                                                            isSelected ? <><FiCheckCircle /><span>Selected</span></> :
-                                                                <span>Available</span>}
-                                                </div>
-                                            </div>
-                                            {isSelected && <motion.div className="time-slot-indicator" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200 }} />}
-                                        </motion.button>
-                                    );
-                                })}
-                            </div>
+                                                {isSelected && (
+                                                    <motion.div
+                                                        className="time-slot-indicator"
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        transition={{ type: "spring", stiffness: 200 }}
+                                                    />
+                                                )}
+                                            </motion.button>
+                                        );
+                                    })}
+                                </div>
+                            )}
 
+                            {/* No Slots Message */}
+                            {!isLoadingSlots && selectedDate && allSlots.length === 0 && (
+                                <div className="no-slots-message">
+                                    <FiAlertCircle />
+                                    <p>No time slots available on this date</p>
+                                </div>
+                            )}
+
+                            {/* Selected Time Display */}
                             {selectedTime && (
-                                <motion.div className="selected-time-display" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                                <motion.div
+                                    className="selected-time-display"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                >
                                     <div className="selected-time-content">
-                                        <div className="time-icon"><FiClock /></div>
+                                        <div className="time-icon">
+                                            <FiClock />
+                                        </div>
                                         <div className="time-details">
                                             <h4>Selected Time Slot</h4>
-                                            <p className="time-slot-detail">{selectedTime} - {`${(parseInt(selectedTime.split(':')[0]) + 1).toString().padStart(2, '0')}:00`}</p>
-                                            {selectedDate && <p className="time-date-detail">On {formatDate(selectedDate)}</p>}
+                                            <p className="time-slot-detail">
+                                                {getTimeRange(selectedTime)}
+                                            </p>
+                                            {selectedDate && (
+                                                <p className="time-date-detail">
+                                                    On {formatDate(selectedDate)}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 </motion.div>
                             )}
 
+                            {/* Submit Button */}
                             <motion.button
                                 type="button"
                                 className="appointment-submit-btn"
                                 onClick={() => {
                                     if (!selectedDate || !selectedTime) {
-                                        toast.error("Please select both date and time", { position: "top-right", autoClose: 3000 });
+                                        toast.dismiss();
+                                        toast.error("Please select both date and time", {
+                                            position: "top-right",
+                                            autoClose: 3000
+                                        });
                                         return;
                                     }
                                     const form = document.querySelector('.appointment-form');
                                     if (form) {
-                                        const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
+                                        const submitEvent = new Event('submit', {
+                                            cancelable: true,
+                                            bubbles: true
+                                        });
                                         form.dispatchEvent(submitEvent);
                                     }
                                 }}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.98 }}
-                                disabled={isSubmitting || !selectedDate || !selectedTime}
+                                disabled={isSubmitting || !selectedDate || !selectedTime || isOff}
                             >
-                                {isSubmitting ? <><FiLoader className="submit-spinner" /> Booking...</> : "Confirm Appointment"}
+                                {isSubmitting ? (
+                                    <><FiLoader className="submit-spinner" /> Submitting...</>
+                                ) : (
+                                    "Request Appointment"
+                                )}
                                 <span><FiArrowRight /></span>
                             </motion.button>
                         </div>

@@ -4,32 +4,22 @@ import { FiUser, FiSettings, FiArrowRight, FiTrendingUp, FiShield, FiPieChart, F
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import ServiceInquiryModal from "./ServiceInquiryModal/ServiceInquiryModal"; // ADDED IMPORT
 
-// Separate component for each service item
 const ServiceItem = ({ service, index, total, scrollYProgress }) => {
     const ref = useRef(null);
-    // Track if the item is in view (used for fade‑up and mobile activation)
     const isInView = useInView(ref, { margin: "-80px", amount: 0.2, once: false });
-
-    // Simple mobile detection – you can replace with a more robust hook if needed
     const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
 
-    // For desktop: threshold when line reaches this icon
     const threshold = (index + 0.5) / total;
     const isActiveByLine = useTransform(scrollYProgress, (progress) => (progress >= threshold ? 1 : 0));
 
-    // Map active state to visual properties for desktop
     const scale = useTransform(isActiveByLine, [0, 1], [0.8, 1]);
-    const bgColor = useTransform(isActiveByLine, [0, 1], ['#fff', '#7a3db8']);
+    const bgColor = useTransform(isActiveByLine, [0, 1], ['#ffffff', '#7a3db8']);
     const iconColor = useTransform(isActiveByLine, [0, 1], ['#7a3db8', '#ffffff']);
     const borderColor = useTransform(isActiveByLine, [0, 1], ['#7a3db8', '#5e2690']);
 
-    // Hover variant (same for both)
     const hoverVariant = {
         scale: 1.2,
         rotate: 360,
-        backgroundColor: '#5e2690',
-        color: '#fff',
-        borderColor: '#5e2690',
         transition: { duration: 0.4, ease: "easeInOut" }
     };
 
@@ -37,34 +27,45 @@ const ServiceItem = ({ service, index, total, scrollYProgress }) => {
         <motion.div
             ref={ref}
             className={`service-item ${index === total - 1 ? 'last' : ''}`}
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            initial={{ y: 50, visibility: "hidden" }}
+            animate={isInView ? { y: 0, visibility: "visible" } : {}}
             transition={{ duration: 0.6, ease: "easeOut" }}
+            style={{ opacity: 1 }}
         >
             {isMobile ? (
-                // MOBILE: use isInView for activation
-                <motion.div
-                    className="icon"
-                    initial={{ scale: 0.8, backgroundColor: "transparent", color: "#7a3db8", borderColor: "#7a3db8" }}
-                    animate={isInView ? { scale: 1, backgroundColor: "#7a3db8", color: "#ffffff", borderColor: "#5e2690" } : {}}
-                    transition={{ duration: 0.4, ease: "backOut" }}
-                    whileHover={hoverVariant}
-                >
-                    {service.icon}
-                </motion.div>
-            ) : (
-                // DESKTOP: use scroll progress for activation
+                // MOBILE: outer icon always solid background, inner icon scales
                 <motion.div
                     className="icon"
                     style={{
-                        scale,
+                        backgroundColor: isInView ? "#7a3db8" : "#ffffff",
+                        color: isInView ? "#ffffff" : "#7a3db8",
+                        borderColor: isInView ? "#5e2690" : "#7a3db8"
+                    }}
+                >
+                    <motion.div
+                        animate={{ scale: isInView ? 1 : 0.8 }}
+                        transition={{ duration: 0.4, ease: "backOut" }}
+                        whileHover={hoverVariant}
+                    >
+                        {service.icon}
+                    </motion.div>
+                </motion.div>
+            ) : (
+                // DESKTOP: outer icon solid background from scroll progress, inner icon scales
+                <motion.div
+                    className="icon"
+                    style={{
                         backgroundColor: bgColor,
                         color: iconColor,
                         borderColor: borderColor
                     }}
-                    whileHover={hoverVariant}
                 >
-                    {service.icon}
+                    <motion.div
+                        style={{ scale }}
+                        whileHover={hoverVariant}
+                    >
+                        {service.icon}
+                    </motion.div>
                 </motion.div>
             )}
 

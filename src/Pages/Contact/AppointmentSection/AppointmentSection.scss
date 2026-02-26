@@ -332,6 +332,8 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-bottom: 32px;
+  padding-left: 10px;
+  padding-top: 10px;
 }
 
 .time-slot {
@@ -715,4 +717,107 @@
 
 .appointment-submit-btn:hover span svg {
   transform: rotate(45deg);
+}
+
+
+
+/* =========================
+   SCROLLABLE TIME SLOTS - ADD THIS AT THE BOTTOM
+========================= */
+
+/* Scrollable time slots grid */
+.time-slots-grid.scrollable {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+  
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 3.5px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #e6dcf7;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #7a3db8;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #5e2690;
+  }
+}
+
+/* Off day message */
+.off-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff5f5;
+  border: 2px solid #ffcdd2;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 16px;
+  color: #c0392b;
+  font-family: 'Content', serif;
+  font-size: 14px;
+  
+  svg {
+    font-size: 18px;
+    flex-shrink: 0;
+    color: #c0392b;
+  }
+}
+
+/* No slots message */
+.no-slots-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: #f9f6ff;
+  border: 2px solid #e6dcf7;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  
+  svg {
+    font-size: 40px;
+    color: #7a3db8;
+    margin-bottom: 12px;
+  }
+  
+  p {
+    font-size: 16px;
+    font-family: 'Content', serif;
+    color: #666;
+    text-align: center;
+    margin: 0;
+  }
+}
+
+/* Time range display - update existing style */
+.time-range .time {
+  font-size: 16px;
+  font-weight: 500;
+  
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
+}
+
+/* Responsive adjustments for scrollable grid */
+@media (max-width: 768px) {
+  .time-slots-grid.scrollable {
+    max-height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .time-slots-grid.scrollable {
+    max-height: 300px;
+  }
 }

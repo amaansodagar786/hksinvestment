@@ -737,3 +737,37 @@
         font-size: 14px;
     }
 }
+
+
+
+/* Placeholder styling - white text on gray background */
+.feedback-input::placeholder,
+.feedback-textarea::placeholder {
+    color: #ffffff !important;
+    opacity: 0.9;
+}
+
+/* For better browser support */
+.feedback-input::-webkit-input-placeholder,
+.feedback-textarea::-webkit-input-placeholder {
+    color: #ffffff !important;
+    opacity: 0.9;
+}
+
+.feedback-input::-moz-placeholder,
+.feedback-textarea::-moz-placeholder {
+    color: #ffffff !important;
+    opacity: 0.9;
+}
+
+.feedback-input:-ms-input-placeholder,
+.feedback-textarea:-ms-input-placeholder {
+    color: #ffffff !important;
+    opacity: 0.9;
+}
+
+.feedback-input:-moz-placeholder,
+.feedback-textarea:-moz-placeholder {
+    color: #ffffff !important;
+    opacity: 0.9;
+}
