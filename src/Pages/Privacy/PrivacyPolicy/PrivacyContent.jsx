@@ -1,10 +1,22 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { FiShield, FiLock, FiEye, FiDatabase, FiUsers, FiGlobe } from "react-icons/fi";
+import React from 'react';
+import { motion } from 'framer-motion';
+import {
+    FiMail,
+    FiPhone,
+    FiMapPin,
+    FiUser,
+    FiDollarSign,
+    FiTrendingUp,
+    FiShield,
+    FiClock,
+    FiCheckCircle
+} from "react-icons/fi";
+import { BsShieldFillCheck, BsBank2 } from "react-icons/bs";
+import { MdOutlineSell } from "react-icons/md";
 import "./PrivacyContent.scss";
 
 const PrivacyContent = () => {
-    // Animation variants
+    // Animation variants (matching your About/CareerForm theme)
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -16,8 +28,8 @@ const PrivacyContent = () => {
         }
     };
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 30 },
+    const headerVariants = {
+        hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,
@@ -28,30 +40,69 @@ const PrivacyContent = () => {
         }
     };
 
-    const cardVariants = {
+    const pillVariants = {
         hidden: { opacity: 0, scale: 0.9 },
         visible: {
             opacity: 1,
             scale: 1,
             transition: {
-                duration: 0.5,
+                duration: 0.4,
+                ease: "backOut"
+            }
+        }
+    };
+
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: (i) => ({
+            opacity: 1,
+            y: 0,
+            transition: {
+                delay: i * 0.1 + 0.3,
+                duration: 0.6,
                 ease: "easeOut"
             }
-        },
+        })
+    };
+
+    const listItemVariants = {
+        hidden: { opacity: 0, x: -20 },
+        visible: (i) => ({
+            opacity: 1,
+            x: 0,
+            transition: {
+                delay: i * 0.05 + 0.5,
+                duration: 0.4,
+                ease: "easeOut"
+            }
+        }),
         hover: {
-            y: -8,
-            boxShadow: "0 15px 35px rgba(122, 61, 184, 0.15)",
+            x: 10,
+            color: "#5e2690",
             transition: {
                 duration: 0.3,
-                ease: "easeInOut"
+                ease: "easeOut"
+            }
+        }
+    };
+
+    const contactItemVariants = {
+        initial: { opacity: 0.8, x: 0 },
+        hover: {
+            opacity: 1,
+            x: 10,
+            transition: {
+                duration: 0.3,
+                ease: "easeOut"
             }
         }
     };
 
     const iconVariants = {
         hover: {
-            rotate: 360,
             scale: 1.2,
+            color: "#5e2690",
+            rotate: 360,
             transition: {
                 duration: 0.4,
                 ease: "easeInOut"
@@ -59,172 +110,600 @@ const PrivacyContent = () => {
         }
     };
 
-    const privacyPrinciples = [
+    const decorVariants = {
+        animate: {
+            scale: [1, 1.02, 1],
+            transition: {
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+            }
+        }
+    };
+
+    // Data collection categories (from previous content)
+    const dataCollected = [
         {
+            title: "Personal Identification Information",
+            icon: <FiUser />,
+            items: [
+                "Full name",
+                "Email address (support@hksinvestment.com)",
+                "Phone number (+1 782-882-8102)",
+                "Home address",
+                "Date of birth",
+                "Social Insurance Number (SIN)"
+            ]
+        },
+        {
+            title: "Financial Information",
+            icon: <FiDollarSign />,
+            items: [
+                "Income details",
+                "Bank account information",
+                "Investment portfolio data",
+                "Retirement savings information",
+                "Tax returns and documents",
+                "Risk tolerance assessment"
+            ]
+        },
+        {
+            title: "Investment Profile",
+            icon: <FiTrendingUp />,
+            items: [
+                "Investment goals and objectives",
+                "Risk profile assessment",
+                "SIP contribution history",
+                "RRSP contribution limits",
+                "Wealth account balances",
+                "Transaction history"
+            ]
+        },
+        {
+            title: "Technical Data",
             icon: <FiShield />,
-            title: "Data Protection",
-            description: "We implement industry-standard encryption and security measures to protect your financial data from unauthorized access."
-        },
-        {
-            icon: <FiLock />,
-            title: "Access Control",
-            description: "Strict access controls ensure only authorized personnel can access your information for legitimate business purposes."
-        },
-        {
-            icon: <FiEye />,
-            title: "Transparency",
-            description: "We clearly explain what data we collect, why we collect it, and how we use it to serve you better."
-        },
-        {
-            icon: <FiDatabase />,
-            title: "Data Minimization",
-            description: "We only collect information that is necessary to provide our financial services and improve your experience."
-        },
-        {
-            icon: <FiUsers />,
-            title: "User Rights",
-            description: "You have the right to access, correct, or delete your personal information at any time."
-        },
-        {
-            icon: <FiGlobe />,
-            title: "Compliance",
-            description: "We adhere to global privacy regulations including GDPR, CCPA, and other applicable data protection laws."
+            items: [
+                "IP address",
+                "Browser type and version",
+                "Device information",
+                "Pages visited on our site",
+                "Time spent on pages",
+                "Appointment booking history"
+            ]
         }
     ];
 
-    const policySections = [
+    // Services offered
+    const services = [
+        { name: "Financial Advising", icon: <BsShieldFillCheck /> },
+        { name: "Systematic Investment Plan", icon: <FiTrendingUp /> },
+        { name: "Market-Based Research", icon: <BsBank2 /> },
+        { name: "RRSP Management", icon: <FiClock /> },
+        { name: "Wealth Account Management", icon: <FiDollarSign /> },
+        { name: "Tax Optimization", icon: <FiCheckCircle /> }
+    ];
+
+    // How we use data
+    const dataUsage = [
+        "To provide personalized financial advising and investment guidance",
+        "To manage Systematic Investment Plans (SIP) and track contributions",
+        "To conduct market research and provide investment recommendations",
+        "To administer Registered Retirement Savings Plans (RRSP)",
+        "To manage wealth accounts and optimize portfolio performance",
+        "To provide tax optimization strategies and minimize liabilities",
+        "To process bi-weekly payment plans and investment contributions",
+        "To schedule and manage client appointments"
+    ];
+
+    // Legal basis for processing
+    const legalBasis = [
         {
-            title: "Information We Collect",
-            content: "We collect information you provide directly, such as name, email, phone number, financial information for investment purposes, and communication records. We also automatically collect certain information when you use our services, including IP address, device information, and usage data."
+            title: "Consent",
+            description: "We obtain your explicit consent before collecting or using your personal information"
         },
         {
-            title: "How We Use Your Information",
-            content: "Your information is used to provide personalized financial advice, process transactions, communicate with you about services, improve our platform, ensure security and fraud prevention, and comply with legal obligations."
+            title: "Contract Performance",
+            description: "Processing necessary to provide investment management and financial advisory services"
         },
         {
-            title: "Data Sharing & Disclosure",
-            content: "We do not sell your personal information. We may share information with trusted service providers who assist in our operations, with regulatory authorities when required by law, or during business transfers with appropriate confidentiality protections."
+            title: "Legal Obligation",
+            description: "Compliance with Canadian securities laws, tax regulations, and anti-money laundering requirements"
         },
         {
-            title: "Data Security",
-            content: "We implement robust security measures including encryption, secure servers, regular security audits, access controls, and employee training to protect your information from unauthorized access, alteration, or destruction."
+            title: "Legitimate Interests",
+            description: "Improving our investment strategies, preventing fraud, and enhancing client experience"
+        }
+    ];
+
+    // Data retention periods
+    const retentionPeriods = [
+        {
+            period: "Investment Account Records",
+            duration: "7 years (as required by Canadian securities regulators)"
         },
         {
-            title: "Your Rights & Choices",
-            content: "You have the right to access your data, request corrections, opt-out of marketing communications, request data deletion (subject to legal requirements), and lodge complaints with data protection authorities."
+            period: "Tax Documents (RRSP, T-slips)",
+            duration: "7 years (Canada Revenue Agency requirement)"
         },
         {
-            title: "Updates to This Policy",
-            content: "We may update this privacy policy periodically. We will notify you of significant changes through email or prominent notices on our website. The 'Last Updated' date at the top indicates when the policy was last revised."
+            period: "Client Identification Records",
+            duration: "7 years after account closure (FINTRAC requirements)"
+        },
+        {
+            period: "Transaction History",
+            duration: "7 years for audit and compliance purposes"
+        },
+        {
+            period: "SIP Contribution Records",
+            duration: "7 years for investment tracking and tax reporting"
+        },
+        {
+            period: "Appointment History",
+            duration: "2 years for service improvement"
+        }
+    ];
+
+    // Client rights
+    const clientRights = [
+        "Right to access your personal information",
+        "Right to challenge accuracy and request corrections",
+        "Right to withdraw consent at any time",
+        "Right to know how your information is used and disclosed",
+        "Right to file a complaint with the Privacy Commissioner of Canada",
+        "Right to request deletion of non-required information"
+    ];
+
+    // Contact info (matching CareerForm style)
+    const contactInfo = [
+        {
+            icon: <FiPhone />,
+            text: "+1 782-882-8102",
+            link: "tel:+17828828102"
+        },
+        {
+            icon: <FiMail />,
+            text: "support@hksinvestment.com",
+            link: "mailto:support@hksinvestment.com"
+        },
+        {
+            icon: <FiMapPin />,
+            text: "Halifax, NS, Canada",
+            link: "https://maps.google.com/?q=Halifax,NS,Canada"
         }
     ];
 
     return (
-        <motion.section 
-            id="privacy-content"
-            className="privacy-content-section"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-        >
-            <div className="privacy-content-container">
-                {/* HEADER */}
-                <motion.div 
-                    className="privacy-content-header"
-                    variants={itemVariants}
-                >
-                    <h2>Our Privacy Commitment</h2>
-                    <p>
-                        At HKS Investment, we believe that trust is the foundation of any financial relationship. 
-                        This Privacy Policy explains how we collect, use, disclose, and safeguard your information.
-                    </p>
-                    <div className="last-updated">
-                        Last Updated: March 2024
-                    </div>
-                </motion.div>
+        <>
+            <div className="main-privacy">
 
-                {/* PRIVACY PRINCIPLES */}
-                <div className="privacy-principles">
-                    <motion.h3
-                        variants={itemVariants}
+
+                <motion.div
+                    className="privacy-content-wrapper"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                >
+                    {/* HEADER SECTION - Like About/CareerForm */}
+                    <motion.div className="privacy-header" variants={headerVariants}>
+                        <motion.span className="privacy-pill" variants={pillVariants}>
+                            Privacy Policy
+                        </motion.span>
+                        <motion.h2 variants={headerVariants}>
+                            Your <span>Privacy</span> Matters to Us
+                        </motion.h2>
+                        <motion.p variants={headerVariants}>
+                            How we collect, use, and protect your personal information at HKS Investment
+                        </motion.p>
+                        <motion.div className="privacy-underline" variants={headerVariants}></motion.div>
+                        <motion.p className="privacy-last-updated" variants={headerVariants}>
+                            Last Updated: February 2026
+                        </motion.p>
+                    </motion.div>
+
+                    {/* INTRODUCTION CARD - Like career-info card */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={1}
                     >
-                        Our Privacy Principles
-                    </motion.h3>
-                    
-                    <div className="principles-grid">
-                        {privacyPrinciples.map((principle, index) => (
-                            <motion.div
-                                key={index}
-                                className="principle-card"
-                                variants={cardVariants}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true, margin: "-50px" }}
-                                whileHover="hover"
-                            >
-                                <motion.div 
-                                    className="principle-icon"
-                                    variants={iconVariants}
-                                    whileHover="hover"
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={1.1}>
+                                <BsShieldFillCheck className="card-icon" /> Our Commitment
+                            </motion.h3>
+                            <motion.p variants={sectionVariants} custom={1.2}>
+                                At HKS Investment, we are committed to protecting your personal information and respecting your privacy.
+                                This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our
+                                financial advisory and investment management services in Canada. We comply with the Personal Information
+                                Protection and Electronic Documents Act (PIPEDA) and all applicable Canadian privacy laws.
+                            </motion.p>
+                        </div>
+                    </motion.div>
+
+                    {/* WHO WE ARE CARD */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={2}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={2.1}>
+                                <BsBank2 className="card-icon" /> Who We Are
+                            </motion.h3>
+                            <motion.p variants={sectionVariants} custom={2.2}>
+                                <strong>Company:</strong> HKS Investment<br />
+                            </motion.p>
+
+                            {/* Contact items in career-form style */}
+                            <div className="privacy-contact-items">
+                                {contactInfo.map((item, index) => (
+                                    <motion.a
+                                        key={index}
+                                        href={item.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="privacy-contact-link"
+                                        variants={contactItemVariants}
+                                        initial="initial"
+                                        whileHover="hover"
+                                    >
+                                        <div className="privacy-contact-item">
+                                            <motion.div
+                                                className="privacy-contact-icon"
+                                                variants={iconVariants}
+                                                whileHover="hover"
+                                            >
+                                                {item.icon}
+                                            </motion.div>
+                                            <div className="privacy-contact-text">
+                                                {item.text}
+                                            </div>
+                                        </div>
+                                    </motion.a>
+                                ))}
+                            </div>
+
+                            <motion.p variants={sectionVariants} custom={2.3}>
+                                We are the data controller responsible for your personal information. Our Privacy Officer ensures
+                                compliance with Canadian privacy laws.
+                            </motion.p>
+                        </div>
+                    </motion.div>
+
+                    {/* OUR SERVICES CARD */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={3}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={3.1}>
+                                <FiTrendingUp className="card-icon" /> Our Services
+                            </motion.h3>
+                            <motion.p variants={sectionVariants} custom={3.2}>
+                                We offer the following financial services, which require collection of your personal information:
+                            </motion.p>
+
+                            <div className="privacy-services-grid">
+                                {services.map((service, index) => (
+                                    <motion.div
+                                        key={index}
+                                        className="privacy-service-tag"
+                                        variants={listItemVariants}
+                                        custom={index}
+                                        whileHover={{ scale: 1.05, backgroundColor: "#e6dcf7", borderColor: "#5e2690" }}
+                                    >
+                                        <span className="service-icon">{service.icon}</span>
+                                        <span>{service.name}</span>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* DATA WE COLLECT - Multiple subsections like in About tags */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={4}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={4.1}>
+                                <FiUser className="card-icon" /> What Information We Collect
+                            </motion.h3>
+
+                            {dataCollected.map((category, catIndex) => (
+                                <motion.div
+                                    key={catIndex}
+                                    className="privacy-subsection"
+                                    variants={sectionVariants}
+                                    custom={4.2 + catIndex}
                                 >
-                                    {principle.icon}
+                                    <motion.h4 variants={sectionVariants} custom={4.3 + catIndex}>
+                                        <span className="subsection-icon">{category.icon}</span>
+                                        {category.title}
+                                    </motion.h4>
+
+                                    <ul className="privacy-list">
+                                        {category.items.map((item, itemIndex) => (
+                                            <motion.li
+                                                key={itemIndex}
+                                                variants={listItemVariants}
+                                                custom={itemIndex + (catIndex * 10)}
+                                                whileHover="hover"
+                                            >
+                                                <span className="bullet-point">•</span> {item}
+                                            </motion.li>
+                                        ))}
+                                    </ul>
                                 </motion.div>
-                                <h4>{principle.title}</h4>
-                                <p>{principle.description}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
+                            ))}
+                        </div>
+                    </motion.div>
 
-                {/* POLICY CONTENT */}
-                <div className="policy-content">
-                    <motion.h3
-                        variants={itemVariants}
+                    {/* HOW WE USE YOUR DATA */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={5}
                     >
-                        Privacy Policy Details
-                    </motion.h3>
-                    
-                    <div className="policy-sections">
-                        {policySections.map((section, index) => (
-                            <motion.div
-                                key={index}
-                                className="policy-section"
-                                variants={itemVariants}
-                                custom={index}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                            >
-                                <h4>
-                                    <span className="section-number">{String(index + 1).padStart(2, '0')}</span>
-                                    {section.title}
-                                </h4>
-                                <p>{section.content}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={5.1}>
+                                <FiTrendingUp className="card-icon" /> How We Use Your Information
+                            </motion.h3>
 
-                {/* CONTACT INFO */}
-                <motion.div 
-                    className="privacy-contact"
-                    variants={itemVariants}
-                >
-                    <h3>Contact Us</h3>
-                    <p>
-                        If you have any questions about this Privacy Policy or our data practices, 
-                        please contact our Privacy Officer:
-                    </p>
-                    <div className="contact-details">
-                        <p><strong>Email:</strong> hk.sangani80@gmail.com</p>
-                        <p><strong>Phone:</strong> +358 415737082</p>
-                        <p><strong>Address:</strong> Uomarinne 1 B 20 Vantaa 01600 Uusimaa Finland</p>
-                    </div>
+                            <ul className="privacy-list">
+                                {dataUsage.map((item, index) => (
+                                    <motion.li
+                                        key={index}
+                                        variants={listItemVariants}
+                                        custom={index + 50}
+                                        whileHover="hover"
+                                    >
+                                        <span className="bullet-point">•</span> {item}
+                                    </motion.li>
+                                ))}
+                            </ul>
+                        </div>
+                    </motion.div>
+
+                    {/* APPOINTMENT & CONTACT FORMS */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={6}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={6.1}>
+                                <FiClock className="card-icon" /> Appointment & Contact Forms
+                            </motion.h3>
+
+                            <motion.p variants={sectionVariants} custom={6.2}>
+                                When you book an appointment or contact us through our forms, we collect:
+                            </motion.p>
+
+                            <ul className="privacy-list">
+                                <motion.li variants={listItemVariants} custom={70} whileHover="hover">
+                                    <span className="bullet-point">•</span> <strong>Name:</strong> To personalize our service
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={71} whileHover="hover">
+                                    <span className="bullet-point">•</span> <strong>Email Address:</strong> For confirmations and updates
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={72} whileHover="hover">
+                                    <span className="bullet-point">•</span> <strong>Phone Number:</strong> For appointment reminders
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={73} whileHover="hover">
+                                    <span className="bullet-point">•</span> <strong>Investment Preferences:</strong> To prepare for consultation
+                                </motion.li>
+                            </ul>
+
+                            <motion.div className="privacy-note" variants={sectionVariants} custom={6.3}>
+                                <strong>Note:</strong> Appointment details are stored securely for 2 years to improve our service quality.
+                            </motion.div>
+                        </div>
+                    </motion.div>
+
+                    {/* BI-WEEKLY PAYMENT PLANS */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={7}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={7.1}>
+                                <FiDollarSign className="card-icon" /> Bi-Weekly Payment Plans
+                            </motion.h3>
+
+                            <ul className="privacy-list">
+                                <motion.li variants={listItemVariants} custom={80} whileHover="hover">
+                                    <span className="bullet-point">•</span> Bank account details for automated contributions
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={81} whileHover="hover">
+                                    <span className="bullet-point">•</span> Payment history and transaction records
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={82} whileHover="hover">
+                                    <span className="bullet-point">•</span> Investment allocation preferences
+                                </motion.li>
+                            </ul>
+                        </div>
+                    </motion.div>
+
+                    {/* LEGAL BASIS */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={8}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={8.1}>
+                                <BsShieldFillCheck className="card-icon" /> Legal Basis for Processing
+                            </motion.h3>
+
+                            {legalBasis.map((basis, index) => (
+                                <motion.div
+                                    key={index}
+                                    className="privacy-basis-item"
+                                    variants={sectionVariants}
+                                    custom={8.2 + index}
+                                    whileHover={{
+                                        backgroundColor: "#f9f6ff",
+                                        borderLeftColor: "#5e2690",
+                                        x: 5
+                                    }}
+                                >
+                                    <strong>{basis.title}:</strong>
+                                    <span>{basis.description}</span>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* DATA RETENTION */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={9}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={9.1}>
+                                <FiClock className="card-icon" /> How Long We Keep Your Information
+                            </motion.h3>
+
+                            <div className="privacy-table">
+                                {retentionPeriods.map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        className="privacy-table-row"
+                                        variants={sectionVariants}
+                                        custom={9.2 + index}
+                                        whileHover={{ backgroundColor: "#f9f6ff" }}
+                                    >
+                                        <span className="table-period">{item.period}:</span>
+                                        <span className="table-duration">{item.duration}</span>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* YOUR RIGHTS */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={10}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={10.1}>
+                                <FiCheckCircle className="card-icon" /> Your Rights Under Canadian Privacy Laws
+                            </motion.h3>
+
+                            <ul className="privacy-list rights-list">
+                                {clientRights.map((right, index) => (
+                                    <motion.li
+                                        key={index}
+                                        variants={listItemVariants}
+                                        custom={index + 90}
+                                        whileHover="hover"
+                                    >
+                                        <span className="check-icon">✓</span> {right}
+                                    </motion.li>
+                                ))}
+                            </ul>
+
+                            <motion.p variants={sectionVariants} custom={10.2}>
+                                To exercise any of these rights, please contact our Privacy Officer at{' '}
+                                <a href="mailto:support@hksinvestment.com" className="privacy-link">support@hksinvestment.com</a>.
+                            </motion.p>
+                        </div>
+                    </motion.div>
+
+                    {/* SECURITY MEASURES */}
+                    <motion.div
+                        className="privacy-card"
+                        variants={sectionVariants}
+                        custom={11}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={11.1}>
+                                <FiShield className="card-icon" /> Data Security
+                            </motion.h3>
+
+                            <ul className="privacy-list">
+                                <motion.li variants={listItemVariants} custom={100} whileHover="hover">
+                                    <span className="bullet-point">•</span> 256-bit encryption for all financial data
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={101} whileHover="hover">
+                                    <span className="bullet-point">•</span> Secure client portals for document sharing
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={102} whileHover="hover">
+                                    <span className="bullet-point">•</span> Two-factor authentication for account access
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={103} whileHover="hover">
+                                    <span className="bullet-point">•</span> Regular security audits and penetration testing
+                                </motion.li>
+                            </ul>
+                        </div>
+                    </motion.div>
+
+                    {/* CONTACT SECTION - Like CareerForm contact section */}
+                    <motion.div
+                        className="privacy-card privacy-contact-card"
+                        variants={sectionVariants}
+                        custom={12}
+                    >
+                        <div className="privacy-card-content">
+                            <motion.h3 variants={sectionVariants} custom={12.1}>
+                                Questions? Contact Us
+                            </motion.h3>
+
+                            <motion.p variants={sectionVariants} custom={12.2}>
+                                If you have questions about this Privacy Policy or wish to exercise your rights:
+                            </motion.p>
+
+                            <div className="privacy-contact-items">
+                                {contactInfo.map((item, index) => (
+                                    <motion.a
+                                        key={index}
+                                        href={item.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="privacy-contact-link"
+                                        variants={contactItemVariants}
+                                        initial="initial"
+                                        whileHover="hover"
+                                    >
+                                        <div className="privacy-contact-item">
+                                            <motion.div
+                                                className="privacy-contact-icon"
+                                                variants={iconVariants}
+                                                whileHover="hover"
+                                            >
+                                                {item.icon}
+                                            </motion.div>
+                                            <div className="privacy-contact-text">
+                                                {item.text}
+                                            </div>
+                                        </div>
+                                    </motion.a>
+                                ))}
+                            </div>
+
+                            <motion.div className="privacy-supervisory" variants={sectionVariants} custom={12.3}>
+                                You also have the right to contact the{' '}
+                                <strong>Office of the Privacy Commissioner of Canada</strong>.
+                            </motion.div>
+                        </div>
+                    </motion.div>
+
+                    {/* FOOTER NOTE */}
+                    <motion.div className="privacy-footer" variants={sectionVariants} custom={13}>
+                        <p>By using our services, you acknowledge that you have read and understood this Privacy Policy.</p>
+                    </motion.div>
                 </motion.div>
+
             </div>
-        </motion.section>
+
+        </>
     );
 };
 

@@ -140,61 +140,171 @@ const Dashboard = () => {
 
     const exportToExcel = () => {
         try {
-            // Prepare data based on active tab
-            let exportData = [];
-            let fileName = '';
-
             if (activeTab === 'overview') {
-                // Export overview stats
-                const overviewData = [
-                    ['Section', 'Metric', 'Value'],
-                    ['Appointments', 'Total', stats?.appointments?.total || 0],
-                    ['Appointments', 'Today', stats?.appointments?.today || 0],
-                    ['Appointments', 'This Week', stats?.appointments?.thisWeek || 0],
-                    ['Appointments', 'Pending', stats?.appointments?.byStatus?.pending || 0],
-                    ['Appointments', 'Approved', stats?.appointments?.byStatus?.approved || 0],
-                    ['Appointments', 'Rejected', stats?.appointments?.byStatus?.rejected || 0],
-                    [],
-                    ['Contacts', 'Total', stats?.contacts?.total || 0],
-                    ['Contacts', 'Pending', stats?.contacts?.byStatus?.pending || 0],
-                    ['Contacts', 'Contacted', stats?.contacts?.byStatus?.contacted || 0],
-                    ['Contacts', 'Resolved', stats?.contacts?.byStatus?.resolved || 0],
-                    [],
-                    ['Careers', 'Total', stats?.careers?.total || 0],
-                    ['Careers', 'LLQP Yes', stats?.careers?.llqpStats?.yes || 0],
-                    ['Careers', 'LLQP No', stats?.careers?.llqpStats?.no || 0],
-                    ...Object.entries(stats?.careers?.byStatus || {}).map(([status, count]) => ['Careers', status, count]),
-                    [],
-                    ['Service Inquiries', 'Total', stats?.serviceInquiries?.total || 0],
-                    ['Service Inquiries', 'Pending', stats?.serviceInquiries?.byStatus?.pending || 0],
-                    ['Service Inquiries', 'Contacted', stats?.serviceInquiries?.byStatus?.contacted || 0],
-                    ['Service Inquiries', 'Resolved', stats?.serviceInquiries?.byStatus?.resolved || 0],
-                    [],
-                    ['General Inquiries', ...(stats?.generalInquiries?.byReason || []).map(item => [item._id, `Total: ${item.count}`, `Pending: ${item.pending}`, `Contacted: ${item.contacted}`, `Resolved: ${item.resolved}`]).flat()]
-                ];
-                exportData = overviewData;
-                fileName = `dashboard-overview-${new Date().toISOString().split('T')[0]}.xlsx`;
+                // Create workbook with multiple sheets for Overview tab
+                const workbook = XLSX.utils.book_new();
+
+                // 1. Appointments Sheet
+                const appointmentsHeaders = ['Reference ID', 'Name', 'Email', 'Phone', 'Date', 'Time', 'Status'];
+                const appointmentsRows = (stats?.appointments?.recentData || []).map(item => [
+                    item.referenceId || 'N/A',
+                    item.name || 'N/A',
+                    item.email || 'N/A',
+                    item.phone || 'N/A',
+                    item.date || 'N/A',
+                    item.time || 'N/A',
+                    item.status || 'N/A'
+                ]);
+                const appointmentsSheet = XLSX.utils.aoa_to_sheet([appointmentsHeaders, ...appointmentsRows]);
+                XLSX.utils.book_append_sheet(workbook, appointmentsSheet, 'Appointments');
+
+                // 2. Contacts Sheet
+                const contactsHeaders = ['Name', 'Email', 'Phone', 'Message', 'Status', 'Date'];
+                const contactsRows = (stats?.contacts?.recentData || []).map(item => [
+                    item.name || 'N/A',
+                    item.email || 'N/A',
+                    item.phone || 'N/A',
+                    item.message ? item.message.substring(0, 50) + '...' : 'N/A',
+                    item.status || 'N/A',
+                    item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
+                ]);
+                const contactsSheet = XLSX.utils.aoa_to_sheet([contactsHeaders, ...contactsRows]);
+                XLSX.utils.book_append_sheet(workbook, contactsSheet, 'Contacts');
+
+                // 3. Careers Sheet
+                const careersHeaders = ['Name', 'Email', 'Phone', 'LLQP License', 'Status', 'Date'];
+                const careersRows = (stats?.careers?.recentData || []).map(item => [
+                    `${item.firstName || ''} ${item.lastName || ''}`.trim() || 'N/A',
+                    item.email || 'N/A',
+                    item.phone || 'N/A',
+                    item.llqpLicense === 'yes' ? 'Yes' : 'No',
+                    item.status || 'N/A',
+                    item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
+                ]);
+                const careersSheet = XLSX.utils.aoa_to_sheet([careersHeaders, ...careersRows]);
+                XLSX.utils.book_append_sheet(workbook, careersSheet, 'Careers');
+
+                // 4. Service Inquiries Sheet
+                const serviceHeaders = ['Name', 'Service', 'Email', 'Phone', 'Message', 'Status', 'Date'];
+                const serviceRows = (stats?.serviceInquiries?.recentData || []).map(item => [
+                    item.name || 'N/A',
+                    item.service || 'N/A',
+                    item.email || 'N/A',
+                    item.phone || 'N/A',
+                    item.message ? item.message.substring(0, 50) + '...' : 'N/A',
+                    item.status || 'N/A',
+                    item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
+                ]);
+                const serviceSheet = XLSX.utils.aoa_to_sheet([serviceHeaders, ...serviceRows]);
+                XLSX.utils.book_append_sheet(workbook, serviceSheet, 'Service Inquiries');
+
+                // 5. General Inquiries Sheet
+                const generalHeaders = ['Name', 'Reason', 'Email', 'Phone', 'Message', 'Status', 'Date'];
+                const generalRows = (stats?.generalInquiries?.recentData || []).map(item => [
+                    item.name || 'N/A',
+                    item.reason || 'N/A',
+                    item.email || 'N/A',
+                    item.phone || 'N/A',
+                    item.message ? item.message.substring(0, 50) + '...' : 'N/A',
+                    item.status || 'N/A',
+                    item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
+                ]);
+                const generalSheet = XLSX.utils.aoa_to_sheet([generalHeaders, ...generalRows]);
+                XLSX.utils.book_append_sheet(workbook, generalSheet, 'General Inquiries');
+
+                // Download the workbook
+                const fileName = `all-data-${new Date().toISOString().split('T')[0]}.xlsx`;
+                XLSX.writeFile(workbook, fileName);
+                toast.success('All data exported successfully with multiple sheets!');
             } else {
-                // Export detailed data
-                const headers = Object.keys(detailsData[0] || {}).filter(key => key !== '_id' && key !== '__v');
-                const rows = detailsData.map(item => headers.map(header => {
-                    if (header === 'createdAt' || header === 'updatedAt' || header === 'reviewedAt') {
-                        return item[header] ? new Date(item[header]).toLocaleString() : 'N/A';
-                    }
-                    return item[header] || 'N/A';
-                }));
-                exportData = [headers, ...rows];
-                fileName = `${activeTab}-${new Date().toISOString().split('T')[0]}.xlsx`;
+                // Export single sheet for other tabs
+                let headers = [];
+                let rows = [];
+                let sheetName = '';
+
+                switch (activeTab) {
+                    case 'appointments':
+                        sheetName = 'Appointments';
+                        headers = ['Reference ID', 'Name', 'Email', 'Phone', 'Date', 'Time', 'Status'];
+                        rows = detailsData.map(item => [
+                            item.referenceId || 'N/A',
+                            item.name || 'N/A',
+                            item.email || 'N/A',
+                            item.phone || 'N/A',
+                            item.date || 'N/A',
+                            item.time || 'N/A',
+                            item.status || 'N/A'
+                        ]);
+                        break;
+
+                    case 'contacts':
+                        sheetName = 'Contacts';
+                        headers = ['Name', 'Email', 'Phone', 'Message', 'Status', 'Date'];
+                        rows = detailsData.map(item => [
+                            item.name || 'N/A',
+                            item.email || 'N/A',
+                            item.phone || 'N/A',
+                            item.message || 'N/A',
+                            item.status || 'N/A',
+                            item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
+                        ]);
+                        break;
+
+                    case 'careers':
+                        sheetName = 'Careers';
+                        headers = ['Name', 'Email', 'Phone', 'LLQP License', 'Status', 'Date'];
+                        rows = detailsData.map(item => [
+                            `${item.firstName || ''} ${item.lastName || ''}`.trim() || 'N/A',
+                            item.email || 'N/A',
+                            item.phone || 'N/A',
+                            item.llqpLicense === 'yes' ? 'Yes' : 'No',
+                            item.status || 'N/A',
+                            item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
+                        ]);
+                        break;
+
+                    case 'service-inquiries':
+                        sheetName = 'Service Inquiries';
+                        headers = ['Name', 'Service', 'Email', 'Phone', 'Message', 'Status', 'Date'];
+                        rows = detailsData.map(item => [
+                            item.name || 'N/A',
+                            item.service || 'N/A',
+                            item.email || 'N/A',
+                            item.phone || 'N/A',
+                            item.message || 'N/A',
+                            item.status || 'N/A',
+                            item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
+                        ]);
+                        break;
+
+                    case 'general-inquiries':
+                        sheetName = 'General Inquiries';
+                        headers = ['Name', 'Reason', 'Email', 'Phone', 'Message', 'Status', 'Date'];
+                        rows = detailsData.map(item => [
+                            item.name || 'N/A',
+                            item.reason || 'N/A',
+                            item.email || 'N/A',
+                            item.phone || 'N/A',
+                            item.message || 'N/A',
+                            item.status || 'N/A',
+                            item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
+                        ]);
+                        break;
+
+                    default:
+                        return;
+                }
+
+                // Create workbook with single sheet
+                const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+
+                // Download file
+                const fileName = `${activeTab}-${new Date().toISOString().split('T')[0]}.xlsx`;
+                XLSX.writeFile(workbook, fileName);
+                toast.success(`${sheetName} data exported successfully!`);
             }
-
-            // Create workbook and worksheet
-            const worksheet = XLSX.utils.aoa_to_sheet(exportData);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-
-            // Download file
-            XLSX.writeFile(workbook, fileName);
-            toast.success('Excel file downloaded successfully!');
         } catch (error) {
             console.error('Error exporting to Excel:', error);
             toast.error('Failed to export data');

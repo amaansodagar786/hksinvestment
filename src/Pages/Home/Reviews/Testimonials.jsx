@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiX } from "react-icons/fi";  // Add FiX here
 import { FaArrowLeft, FaArrowRight as FaArrowRightIcon } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -47,7 +47,7 @@ const reviews = [
     }
 ];
 
-// Modal Component
+// Modal Component - UPDATED TO MATCH CTA STYLE
 const ReviewModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
@@ -66,52 +66,103 @@ const ReviewModal = ({ isOpen, onClose }) => {
                 exit={{ scale: 0.8, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
             >
+                <button
+                    className="testimonial-close-modal"
+                    onClick={onClose}
+                    type="button"
+                >
+                    <FiX />
+                </button>
+
                 <h3>Leave a Review</h3>
+                <p className="testimonial-modal-subtitle">Share your experience with us. We value your feedback!</p>
+
                 <Formik
                     initialValues={{ name: "", number: "", review: "" }}
                     validate={values => {
                         const errors = {};
-                        if (!values.name) errors.name = "Required";
-                        if (!values.number) errors.number = "Required";
-                        if (!values.review) errors.review = "Required";
+                        if (!values.name) errors.name = "Name is required";
+                        if (!values.number) errors.number = "Phone number is required";
+                        if (!values.review) errors.review = "Review is required";
                         return errors;
                     }}
                     onSubmit={(values, { setSubmitting, resetForm }) => {
                         setTimeout(() => {
-                            toast.success("Review submitted successfully!");
+                            toast.success("Review submitted successfully! Thank you for your feedback.");
                             setSubmitting(false);
                             resetForm();
                             onClose();
                         }, 500);
                     }}
                 >
-                    {({ isSubmitting }) => (
+                    {({ isSubmitting, errors, touched }) => (
                         <Form>
                             <div className="testimonial-form-group">
-                                <label htmlFor="name">Name</label>
-                                <Field type="text" name="name" />
+                                <label htmlFor="name">
+                                    Full Name <span className="required">*</span>
+                                </label>
+                                <Field
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    className={`testimonial-form-input ${touched.name && errors.name ? 'error' : ''}`}
+                                    placeholder="Enter your full name"
+                                    disabled={isSubmitting}
+                                />
                                 <ErrorMessage name="name" component="div" className="testimonial-error" />
                             </div>
+
                             <div className="testimonial-form-group">
-                                <label htmlFor="number">Phone Number</label>
-                                <Field type="tel" name="number" />
+                                <label htmlFor="number">
+                                    Phone Number <span className="required">*</span>
+                                </label>
+                                <Field
+                                    type="tel"
+                                    name="number"
+                                    id="number"
+                                    className={`testimonial-form-input ${touched.number && errors.number ? 'error' : ''}`}
+                                    placeholder="+1 (123) 456-7890"
+                                    disabled={isSubmitting}
+                                />
                                 <ErrorMessage name="number" component="div" className="testimonial-error" />
                             </div>
+
                             <div className="testimonial-form-group">
-                                <label htmlFor="review">Review</label>
-                                <Field as="textarea" name="review" rows="4" />
+                                <label htmlFor="review">
+                                    Your Review <span className="required">*</span>
+                                </label>
+                                <Field
+                                    as="textarea"
+                                    name="review"
+                                    id="review"
+                                    rows="4"
+                                    className={`testimonial-form-textarea ${touched.review && errors.review ? 'error' : ''}`}
+                                    placeholder="Tell us about your experience..."
+                                    disabled={isSubmitting}
+                                />
                                 <ErrorMessage name="review" component="div" className="testimonial-error" />
                             </div>
+
                             <div className="testimonial-modal-actions">
-                                <button type="button" onClick={onClose} className="testimonial-cancel-btn">Cancel</button>
-                                <button type="submit" disabled={isSubmitting} className="testimonial-submit-btn">
-                                    {isSubmitting ? "Submitting..." : "Submit"}
+                                <button
+                                    type="button"
+                                    onClick={onClose}
+                                    className="testimonial-cancel-btn"
+                                    disabled={isSubmitting}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="testimonial-submit-btn"
+                                >
+                                    {isSubmitting ? "Submitting..." : "Submit Review"}
                                 </button>
                             </div>
                         </Form>
                     )}
                 </Formik>
-                <button className="testimonial-close-modal" onClick={onClose}>×</button>
             </motion.div>
         </motion.div>
     );

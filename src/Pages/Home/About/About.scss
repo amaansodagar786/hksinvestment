@@ -745,3 +745,19 @@
         border-color: #7a3db8 !important;
     }
 }
+
+
+
+/* =========================
+   LARGE SCREENS (1900px - 2600px)
+========================= */
+@media screen and (min-width: 1900px) and (max-width: 2600px) {
+    .about-section {
+        max-width: 1700px;  /* Increased from 1400px */
+    }
+
+    .about-visual { 
+
+        justify-content: left;
+    }
+}

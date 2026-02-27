@@ -3,11 +3,21 @@
 .footer {
     background: #4a2775;
     color: #ffffff;
-    padding: 30px 60px 0px;
-    overflow-x: hidden;
     width: 100%;
     box-sizing: border-box;
     position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+/* =========================
+   MAIN CONTAINER - 1400px MAX WIDTH
+========================= */
+.footer-container {
+    max-width: 1400px;
+    width: 100%;
+    padding: 30px 60px 0px;
+    box-sizing: border-box;
 }
 
 /* =========================
@@ -16,9 +26,6 @@
 .footer-top {
     display: flex;
     gap: 30px;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
     width: 100%;
     box-sizing: border-box;
 }
@@ -169,11 +176,13 @@
     margin-top: 20px;
 }
 
-.socials div {
+.socials a {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #d9ccf3;
+    text-decoration: none;
 }
 
 .socials svg {
@@ -187,14 +196,12 @@
 ========================= */
 .guide-column {
     padding-top: 0;
-    /* Remove any top padding */
 }
 
 .guide-links-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    /* Remove margin to start from top */
 }
 
 .guide-column ul {
@@ -250,7 +257,6 @@
     position: relative;
     z-index: 1;
     text-transform: capitalize;
-    /* Ensures first letter capital, rest small */
 }
 
 .guide-arrow {
@@ -273,7 +279,6 @@
     top: 0;
     width: 100%;
     height: 100%;
-    // background: linear-gradient(90deg, transparent, rgba(217, 204, 243, 0.1));
     transition: left 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     z-index: 0;
 }
@@ -343,7 +348,6 @@
 /* WhatsApp specific styling */
 .whatsapp-link svg {
     color: #25D366;
-    /* WhatsApp green */
 }
 
 .footer-col.contact p:hover .whatsapp-link svg {
@@ -402,7 +406,7 @@
 }
 
 /* =========================
-   BOTTOM BIG TEXT - UPDATED WITH EXACT ANIMATION FROM FIRST CODE
+   BOTTOM BIG TEXT
 ========================= */
 .footer-bottom {
     font-size: 72px;
@@ -413,43 +417,30 @@
     margin-top: 40px;
     margin-bottom: 0px;
     padding: 0;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
     width: 100%;
-    
 
-    /* Left Light to Right Dark Gradient - EXACTLY from first code */
     background: linear-gradient(90deg,
             rgba(255, 255, 255, 0.2) 0%,
-            /* Left - Light */
             rgba(255, 255, 255, 0.4) 25%,
             rgba(255, 255, 255, 0.6) 50%,
             rgba(255, 255, 255, 0.8) 75%,
             rgba(255, 255, 255, 1) 100%
-            /* Right - Dark */
         );
 
-    /* Important for gradient animation */
     background-size: 200% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
-    /* Animation - left to right (EXACT same from first code) */
     animation: leftToRight 4s ease-in-out infinite;
 }
 
-/* Left to Right Animation - EXACTLY from first code */
 @keyframes leftToRight {
     0% {
         background-position: 0% 50%;
     }
-
     50% {
         background-position: 100% 50%;
     }
-
     100% {
         background-position: 0% 50%;
     }
@@ -459,7 +450,7 @@
    RESPONSIVE
 ========================= */
 @media (max-width: 1024px) and (min-width: 769px) {
-    .footer {
+    .footer-container {
         padding: 30px 30px 0px;
     }
 
@@ -468,54 +459,16 @@
     }
 }
 
-/* =========================
-   REDUCED MOTION
-========================= */
-@media (prefers-reduced-motion: reduce) {
-
-    .footer-bottom,
-    .socials div,
-    .footer-col ul li,
-    .footer-col.contact p,
-    .copyright-row span,
-    .feedback-btn,
-    .feedback-input,
-    .feedback-textarea,
-    .footer-col.feedback h4::after,
-    .footer-col ul li::before,
-    .developer-text strong::after,
-    .footer-col.contact a::after {
-        animation: none !important;
-        transition: none !important;
-    }
-
-    .footer-bottom {
-        animation: none !important;
-        -webkit-text-fill-color: #ffffff !important;
-        background: transparent !important;
-        color: #ffffff;
-    }
-}
-
-/* =========================
-   RESPONSIVE: MOBILE (UP TO 768px)
-========================= */
 @media (max-width: 768px) {
-    .footer {
+    .footer-container {
         padding: 30px 20px 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
     }
 
     .footer-top {
         flex-direction: column;
         gap: 30px;
-        width: 100%;
-        max-width: 100%;
     }
 
-    /* FEEDBACK COLUMN - FIRST */
     .footer-col.feedback {
         flex: none;
         width: 100%;
@@ -527,7 +480,6 @@
         text-align: center;
     }
 
-    /* FEEDBACK FORM CENTERING */
     .feedback-form {
         align-items: stretch;
         max-width: 100%;
@@ -538,19 +490,16 @@
         width: 100%;
     }
 
-    /* GROUP CONTAINER */
     .footer-group {
         width: 100%;
         order: 2;
     }
 
-    /* GRID TO SINGLE COLUMN */
     .footer-group-grid {
         grid-template-columns: 1fr;
         gap: 30px;
     }
 
-    /* BRAND COLUMN - SECOND */
     .footer-col.brand {
         order: 1;
         text-align: center;
@@ -564,13 +513,10 @@
         justify-content: center;
     }
 
-    /* GUIDE COLUMN - HIDDEN ON MOBILE */
     .footer-col.guide-column {
         display: none !important;
-        /* Force hide guide column on mobile */
     }
 
-    /* CONTACT COLUMN - THIRD */
     .footer-col.contact {
         order: 2;
         text-align: center;
@@ -598,7 +544,6 @@
         left: 10%;
     }
 
-    /* COPYRIGHT ROW */
     .copyright-row {
         flex-direction: column;
         text-align: center;
@@ -617,24 +562,20 @@
         margin-top: 5px;
     }
 
-    /* BOTTOM BIG TEXT - MOBILE VERSION (ANIMATION DISABLED - from first code) */
     .footer-bottom {
         font-size: 32px;
         white-space: normal;
         line-height: 1.2;
         margin-top: 30px;
-        margin-bottom: 0;
         word-break: break-word;
         padding: 0 10px;
         order: 4;
-        width: 100%;
         animation: none !important;
         background: none !important;
         -webkit-text-fill-color: #ffffff !important;
         color: #ffffff;
     }
 
-    /* REMOVE ALL PROBLEMATIC HOVER EFFECTS ON MOBILE */
     .footer-col ul li::before,
     .guide-arrow,
     .footer-col.contact a::after {
@@ -650,18 +591,14 @@
         display: none !important;
     }
 
-    /* SIMPLIFY ACTIVE STATE ON MOBILE */
     .guide-link.active {
         color: #d9ccf3;
         font-weight: 500;
     }
 }
 
-/* =========================
-   SMALL MOBILE (UP TO 480px)
-========================= */
 @media (max-width: 480px) {
-    .footer {
+    .footer-container {
         padding: 25px 16px 15px;
     }
 
@@ -685,10 +622,6 @@
     .footer-bottom {
         font-size: 24px;
         margin-top: 25px;
-        animation: none !important;
-        background: none !important;
-        -webkit-text-fill-color: #ffffff !important;
-        color: #ffffff;
     }
 
     .copyright-row {
@@ -706,27 +639,15 @@
         padding: 8px 16px;
         font-size: 13px;
     }
-
-    /* EVEN SMALLER FOR VERY SMALL DEVICES */
-    .footer-bottom {
-        font-size: 22px;
-    }
 }
 
-/* =========================
-   EXTRA SMALL (UP TO 360px)
-========================= */
 @media (max-width: 360px) {
-    .footer {
+    .footer-container {
         padding: 20px 12px 10px;
     }
 
     .footer-bottom {
         font-size: 20px;
-        animation: none !important;
-        background: none !important;
-        -webkit-text-fill-color: #ffffff !important;
-        color: #ffffff;
     }
 
     .footer-col.brand h3 {
@@ -738,16 +659,12 @@
     }
 }
 
-
-
-/* Placeholder styling - white text on gray background */
 .feedback-input::placeholder,
 .feedback-textarea::placeholder {
     color: #ffffff !important;
     opacity: 0.9;
 }
 
-/* For better browser support */
 .feedback-input::-webkit-input-placeholder,
 .feedback-textarea::-webkit-input-placeholder {
     color: #ffffff !important;
@@ -770,4 +687,41 @@
 .feedback-textarea:-moz-placeholder {
     color: #ffffff !important;
     opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .footer-bottom,
+    .socials a,
+    .footer-col ul li,
+    .footer-col.contact p,
+    .copyright-row span,
+    .feedback-btn,
+    .feedback-input,
+    .feedback-textarea,
+    .footer-col.feedback h4::after,
+    .footer-col ul li::before,
+    .developer-text strong::after,
+    .footer-col.contact a::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .footer-bottom {
+        animation: none !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: transparent !important;
+        color: #ffffff;
+    }
+}
+
+
+
+@media screen and (min-width: 1900px) and (max-width: 2600px) {
+    .footer-container {
+        max-width: 1700px;  /* Only this changes - increased from 1400px */
+        
+    }
+    
+
 }

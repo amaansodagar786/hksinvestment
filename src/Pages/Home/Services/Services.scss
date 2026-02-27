@@ -13,9 +13,9 @@
 }
 
 .services-container {
-    max-width: 1400px;
+    max-width: 1350px;
     margin: 0 auto;
-    padding: 40px 60px;
+    padding: 40px 30px 40px 50px;
     display: flex;
     gap: 80px;
     align-items: flex-start;
@@ -515,5 +515,16 @@
         background: transparent !important;
         color: #7a3db8 !important;
         border-color: #7a3db8 !important;
+    }
+}
+
+
+
+/* =========================
+   LARGE SCREENS (1900px - 2600px)
+========================= */
+@media screen and (min-width: 1900px) and (max-width: 2600px) {
+    .services-container {
+        max-width: 1700px;  /* Increased from 1400px to 1700px for ultra-wide screens */
     }
 }

@@ -103,7 +103,6 @@ const CTA = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        // Handle 429 cooldown error
         if (response.status === 429) {
           toast.warning(data.message || 'Please wait 48 hours between messages');
           return;
@@ -137,7 +136,7 @@ const CTA = () => {
         variants={containerVariants}
       >
         <motion.div
-          className="cta-box"
+          className="cta-container"
           variants={containerVariants}
         >
           <motion.h2
@@ -216,7 +215,6 @@ const CTA = () => {
               >
                 {({ isSubmitting, errors, touched }) => (
                   <Form className="cta-form">
-                    {/* Row 1: Name and Email */}
                     <div className="cta-form-row-2col">
                       <div className="cta-form-group">
                         <label htmlFor="name">
@@ -249,7 +247,6 @@ const CTA = () => {
                       </div>
                     </div>
 
-                    {/* Row 2: Phone */}
                     <div className="cta-form-row-full">
                       <div className="cta-form-group">
                         <label htmlFor="phone">
@@ -267,7 +264,6 @@ const CTA = () => {
                       </div>
                     </div>
 
-                    {/* Row 3: Message */}
                     <div className="cta-form-row-full">
                       <div className="cta-form-group">
                         <label htmlFor="message">Message (Optional)</label>
@@ -284,7 +280,6 @@ const CTA = () => {
                       </div>
                     </div>
 
-                    {/* Row 4: Submit Button */}
                     <motion.button
                       type="submit"
                       className={`cta-submit-btn ${isSubmitting ? 'submitting' : ''}`}
@@ -304,8 +299,6 @@ const CTA = () => {
                         </>
                       )}
                     </motion.button>
-
-                   
                   </Form>
                 )}
               </Formik>

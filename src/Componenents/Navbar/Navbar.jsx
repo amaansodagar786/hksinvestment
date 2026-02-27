@@ -37,14 +37,16 @@ const Navbar = () => {
               <NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>
                 Home
               </NavLink>
-              <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
-                Contact
+             
+              
+              <NavLink to="/pricing" className={({ isActive }) => isActive ? "active" : ""}>
+                Pricing
               </NavLink>
               <NavLink to="/career" className={({ isActive }) => isActive ? "active" : ""}>
                 Career
               </NavLink>
-              <NavLink to="/pricing" className={({ isActive }) => isActive ? "active" : ""}>
-                Pricing
+               <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
+                Contact
               </NavLink>
             </div>
 
@@ -88,14 +90,16 @@ const Navbar = () => {
           <NavLink to="/" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
             Home
           </NavLink>
-          <NavLink to="/contact" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
-            Contact
-          </NavLink>
-          <NavLink to="/career" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
-            Career
-          </NavLink>
+          
+         
           <NavLink to="/pricing" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
             Pricing
+          </NavLink>
+           <NavLink to="/career" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
+            Career
+          </NavLink>
+          <NavLink to="/contact" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
+            Contact
           </NavLink>
           
           {/* INQUIRY BUTTON - MOBILE */}
