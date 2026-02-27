@@ -241,14 +241,14 @@ const AdminCareer = () => {
             >
                 {/* Header */}
                 <motion.div className="career-header" variants={itemVariants}>
-                    <motion.span
+                    {/* <motion.span
                         className="career-pill"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
                         Admin Panel
-                    </motion.span>
+                    </motion.span> */}
                     <motion.h2
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}

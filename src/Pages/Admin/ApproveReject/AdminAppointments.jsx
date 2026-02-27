@@ -311,14 +311,14 @@ const AdminAppointments = () => {
             >
                 {/* Header */}
                 <div className="appointments-header">
-                    <motion.span
+                    {/* <motion.span
                         className="appointments-pill"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
                         Admin Panel
-                    </motion.span>
+                    </motion.span> */}
                     <motion.h2
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}

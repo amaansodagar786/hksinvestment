@@ -8,7 +8,6 @@ import Footer from "./Componenents/Footer/Footer";
 import Contact from "./Pages/Contact/Contact";
 import Privacy from "./Pages/Privacy/Privacy";
 import AdminAuth from "./Pages/Admin/AdminAuth/AdminAuth";
-import AdminDashboard from "./Pages/Admin/Dashboard/AdminDashboard";
 import PricingPage from "./Pages/Pricing/PricingPage";
 import Career from "./Pages/Career/Career";
 import AdminForms from "./Pages/Admin/AdminForms/AdminForms";
@@ -16,6 +15,7 @@ import AdminCareer from "./Pages/Admin/AdminCareer/AdminCareer";
 import AdminLayout from "./Pages/Admin/AdminLayout/AdminLayout";
 import AdminSchedule from "./Pages/Admin/AdminSchedule/AdminSchedule";
 import AdminAppointments from "./Pages/Admin/ApproveReject/AdminAppointments";
+import Dashboard from "./Pages/Admin/Dashboard/Dashboard";
 // import AdminSchedule from "./Pages/Admin/AdminAppointsments/AdminSchedule";
 
 function AppLayout() {
@@ -38,7 +38,7 @@ function AppLayout() {
         
         {/* Admin routes with layout */}
         <Route path="/admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="forms" element={<AdminForms />} />
           <Route path="career" element={<AdminCareer />} />
           <Route path="schedule" element={< AdminSchedule/>} />
