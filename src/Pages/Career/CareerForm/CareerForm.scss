@@ -338,7 +338,11 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  z-index: 1;
+  z-index: 1; 
+  font-weight: 700 !important; 
+
+
+
 }
 
 .submit-btn::after {

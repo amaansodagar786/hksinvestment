@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // ADDED
+import { useNavigate } from "react-router-dom";
 import "./FAQ.scss";
 
 const faqData = [
@@ -18,12 +18,12 @@ const faqData = [
   {
     question: "Can I cancel my subscription at any time?",
     answer:
-      "Yes, you may cancel your subscription at any time."
+      "Yes, you can cancel your subscription at any time."
   },
   {
     question: "Can I get a refund for this subscription?",
     answer:
-      "Currently, we do not offer refunds for subscriptions."
+      "Currently, we do not offer refunds for subscriptions but you can cancel your subscription at any time. "
   },
   {
     question: "Do you offer a trial period?",
@@ -39,26 +39,18 @@ const faqData = [
 
 const FAQ = ({ bgColor = "default" }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const navigate = useNavigate(); // ADDED
+  const navigate = useNavigate();
 
   const toggleFAQ = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
-  // ADDED: Handler for Schedule click
+  // FIXED: More reliable scroll to appointment section
   const handleScheduleClick = () => {
-    navigate('/contact'); // Navigate to contact page
-
-    // Small delay to ensure page loads before scrolling
-    setTimeout(() => {
-      const appointmentSection = document.getElementById('appointment-section');
-      if (appointmentSection) {
-        appointmentSection.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    }, 100);
+    // Navigate to contact page with state
+    navigate('/contact', { 
+      state: { scrollTo: 'appointment-section' } 
+    });
   };
 
   // Animation variants
@@ -259,14 +251,16 @@ const FAQ = ({ bgColor = "default" }) => {
               <AnimatePresence>
                 {activeIndex === index && (
                   <motion.div
-                    className="faq-answer"
+                    className="faq-answer-wrapper"
                     variants={answerVariants}
                     initial="hidden"
                     animate="visible"
                     exit="exit"
                     layout
                   >
-                    {item.answer}
+                    <div className="faq-answer">
+                      {item.answer}
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>

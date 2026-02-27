@@ -467,7 +467,15 @@ const Footer = () => {
                                     initial="initial"
                                     whileHover="hover"
                                 >
-                                    Design and Developed by <strong>TECHCORSES</strong>
+                                    Design and Developed by{" "}
+                                    <a
+                                        href="https://techorses.com"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="developer-link"
+                                    >
+                                        <strong>Techorses</strong>
+                                    </a>
                                 </motion.span>
                             </motion.div>
                         </div>

@@ -28,7 +28,7 @@
   border-radius: 50px;
   color: #7a3db8;
   font-family: 'SubHeading', serif;
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
 
   @media (max-width: 480px) {
     font-size: 14px;
@@ -42,7 +42,7 @@
   margin-top: 0px;
   color: #1a1a1a;
 
-  @media (max-width: 480px) { 
+  @media (max-width: 480px) {
     font-size: 30px;
   }
 }
@@ -314,6 +314,11 @@
   color: #1a1a1a;
   margin-bottom: 8px;
   margin-top: 0px;
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+
+  }
 }
 
 .time-slots-header h3 svg {
@@ -323,7 +328,12 @@
 .time-slots-header p {
   font-size: 16px;
   font-family: 'Content', serif;
-  color: #666;
+  color: #666;  
+
+   @media (max-width: 480px) {
+    font-size: 14px;
+
+  }
 }
 
 /* TIME SLOTS GRID */
@@ -506,6 +516,12 @@
   overflow: hidden;
   z-index: 1;
   box-sizing: border-box;
+  font-weight: 700;
+
+   @media (max-width: 480px) {
+    font-size: 15px;
+
+  }
 }
 
 .appointment-submit-btn::after {
@@ -730,22 +746,22 @@
   max-height: 400px;
   overflow-y: auto;
   padding-right: 10px;
-  
+
   /* Custom scrollbar */
   &::-webkit-scrollbar {
     width: 3.5px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: #e6dcf7;
     border-radius: 10px;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: #7a3db8;
     border-radius: 10px;
   }
-  
+
   &::-webkit-scrollbar-thumb:hover {
     background: #5e2690;
   }
@@ -764,7 +780,7 @@
   color: #c0392b;
   font-family: 'Content', serif;
   font-size: 14px;
-  
+
   svg {
     font-size: 18px;
     flex-shrink: 0;
@@ -783,13 +799,13 @@
   border: 2px solid #e6dcf7;
   border-radius: 20px;
   margin-bottom: 20px;
-  
+
   svg {
     font-size: 40px;
     color: #7a3db8;
     margin-bottom: 12px;
   }
-  
+
   p {
     font-size: 16px;
     font-family: 'Content', serif;
@@ -803,7 +819,7 @@
 .time-range .time {
   font-size: 16px;
   font-weight: 500;
-  
+
   @media (max-width: 480px) {
     font-size: 14px;
   }

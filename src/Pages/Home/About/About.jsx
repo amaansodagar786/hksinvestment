@@ -8,7 +8,7 @@ import {
     FiShield
 } from "react-icons/fi";
 import { FiArrowRight } from "react-icons/fi";
-import { useNavigate } from "react-router-dom"; // ADD THIS IMPORT
+import { useNavigate } from "react-router-dom";
 import "./About.scss";
 import { BsShieldFillCheck, BsBank2 } from "react-icons/bs";
 import { MdOutlineSell } from "react-icons/md";
@@ -16,26 +16,14 @@ import { motion } from "framer-motion";
 import roboimag from "../../../assets/images/home/about/robo.png"
 
 const About = () => {
-    const navigate = useNavigate(); // ADD THIS HOOK
+    const navigate = useNavigate();
 
-
-
-    // ADDED: Handler function for consultation button click
+    // FIXED: Use navigation state instead of manual scroll
     const handleScheduleClick = () => {
-        navigate('/contact'); // Navigate to contact page
-
-        // Small delay to ensure page loads before scrolling
-        setTimeout(() => {
-            const appointmentSection = document.getElementById('appointment-section');
-            if (appointmentSection) {
-                appointmentSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }, 100);
+        navigate('/contact', { 
+            state: { scrollTo: 'appointment-section' } 
+        });
     };
-
 
     // Animation variants for circles
     const circleVariants = {
@@ -189,16 +177,14 @@ const About = () => {
         }
     };
 
-
-
     // UPDATED TAGS WITH NEW ICONS
     const tags = [
         { className: "shares", icon: <FiPieChart />, text: "Shares" },
-        { className: "sell", icon: <MdOutlineSell />, text: "Sell" },      // UPDATED ICON
+        { className: "sell", icon: <MdOutlineSell />, text: "Sell" },
         { className: "yield", icon: <FiBarChart2 />, text: "Yield" },
         { className: "finance", icon: <FiDollarSign />, text: "Finance" },
         { className: "trends", icon: <FiTrendingUp />, text: "Trends" },
-        { className: "invest", icon: <BsBank2 />, text: "Investment" }     // UPDATED ICON
+        { className: "invest", icon: <BsBank2 />, text: "Investment" }
     ];
 
     return (
@@ -351,7 +337,7 @@ const About = () => {
                             initial={{ scale: 1 }}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            onClick={handleScheduleClick} // ADD THIS
+                            onClick={handleScheduleClick}
                         >
                             <span className="about-btn-fill"></span>
                             <span className="about-btn-text">Schedule</span>

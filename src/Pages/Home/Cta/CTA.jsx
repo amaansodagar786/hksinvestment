@@ -3,12 +3,14 @@ import { FiArrowRight, FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 import "./CTA.scss";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CTA = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Validation schema
   const validationSchema = Yup.object({
@@ -125,6 +127,13 @@ const CTA = () => {
     }
   };
 
+  // Handle button click - redirect to contact page with appointment section
+  const handleButtonClick = () => {
+    navigate('/contact', {
+      state: { scrollTo: 'appointment-section' }
+    });
+  };
+
   return (
     <>
       <ToastContainer position="top-right" autoClose={5000} />
@@ -142,8 +151,8 @@ const CTA = () => {
           <motion.h2
             variants={textVariants}
           >
-            Trusted & Professional <br />
-            <motion.span
+            Get Free Consultation With Trusted & <br />
+            Professional <motion.span
               initial={{ opacity: 0.7 }}
               animate={{ opacity: 1 }}
               transition={{
@@ -162,7 +171,7 @@ const CTA = () => {
             initial="initial"
             whileHover="hover"
             whileTap="tap"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleButtonClick}
           >
             <span className="cta-btn-fill"></span>
             <span className="cta-btn-text">Free Consultation</span>
@@ -173,6 +182,7 @@ const CTA = () => {
         </motion.div>
       </motion.section>
 
+      {/* Modal is still here but not used by default - can be used in future */}
       <AnimatePresence>
         {isModalOpen && (
           <>

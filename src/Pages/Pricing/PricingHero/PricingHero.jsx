@@ -108,7 +108,7 @@ const PricingHero = ({ onViewPlansClick }) => {  // Add prop
                         className="pricing-hero-title"
                         variants={titleVariants}
                     >
-                        Simple, transparent <br />
+                        Simple, transparent{" "}
                         <motion.span 
                             className="pricing-highlight"
                             variants={highlightVariants}
@@ -117,8 +117,9 @@ const PricingHero = ({ onViewPlansClick }) => {  // Add prop
                             whileHover="hover"
                         >
                             pricing
-                        </motion.span> 
-                        {" "}for every need to safe traders
+                        </motion.span>{" "}
+                       
+                        built for  <br />self traders
                     </motion.h1>
 
                     <motion.p
@@ -137,7 +138,7 @@ const PricingHero = ({ onViewPlansClick }) => {  // Add prop
                         onClick={handleViewPlansClick}  // Add click handler
                     >
                         <span className="pricing-hero-btn-fill"></span>
-                        <span className="pricing-hero-btn-text">View plans</span>
+                        <span className="pricing-hero-btn-text">View Plans</span>
                         <span className="pricing-hero-btn-arrow">
                             <FiArrowRight />
                         </span>

@@ -17,6 +17,7 @@ import AdminSchedule from "./Pages/Admin/AdminSchedule/AdminSchedule";
 import AdminAppointments from "./Pages/Admin/ApproveReject/AdminAppointments";
 import Dashboard from "./Pages/Admin/Dashboard/Dashboard";
 // import AdminSchedule from "./Pages/Admin/AdminAppointsments/AdminSchedule";
+import SmoothCursor from "./Componenents/Cursor/SmoothCursor"
 
 function AppLayout() {
   const location = useLocation();
@@ -24,9 +25,10 @@ function AppLayout() {
 
   return (
     <>
+      <SmoothCursor />
       <ScrollToTop />
       {!isAdminRoute && <Navbar />}
-      
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
@@ -35,14 +37,14 @@ function AppLayout() {
         <Route path="/career" element={<Career />} />
 
         <Route path="/admin/login" element={<AdminAuth />} />
-        
+
         {/* Admin routes with layout */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="forms" element={<AdminForms />} />
           <Route path="career" element={<AdminCareer />} />
-          <Route path="schedule" element={< AdminSchedule/>} />
-          <Route path="appointments" element={< AdminAppointments/>} />
+          <Route path="schedule" element={< AdminSchedule />} />
+          <Route path="appointments" element={< AdminAppointments />} />
         </Route>
       </Routes>
 

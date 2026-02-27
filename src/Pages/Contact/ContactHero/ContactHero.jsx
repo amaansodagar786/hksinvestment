@@ -46,8 +46,25 @@ const ContactHero = () => {
         }
     };
 
-    // Animation for the highlighted words - ONLY HOVER
+    // Animation for the highlighted word - SAME AS CAREER
     const highlightVariants = {
+        initial: { 
+            scale: 1,
+            boxShadow: "0 0 0 rgba(94, 38, 144, 0.4)"
+        },
+        animate: {
+            scale: [1, 1.02, 1],
+            boxShadow: [
+                "0 0 0 rgba(94, 38, 144, 0.4)",
+                "0 0 15px rgba(94, 38, 144, 0.6)",
+                "0 0 0 rgba(94, 38, 144, 0.4)"
+            ],
+            transition: {
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+            }
+        },
         hover: {
             scale: 1.05,
             backgroundColor: "rgba(122, 61, 184, 0.25)",
@@ -88,58 +105,56 @@ const ContactHero = () => {
                             variants={titleVariants}
                         >
                             {isMobile ? (
-                                // MOBILE VIEW - 2 lines
+                                // MOBILE VIEW - 3 lines
                                 <>
+                                    One{" "}
                                     <motion.span
                                         className="contact-highlight"
                                         variants={highlightVariants}
+                                        initial="initial"
+                                        animate="animate"
                                         whileHover="hover"
                                     >
-                                        Finance.
-                                    </motion.span>
-                                    {" "}
+                                        decision 
+                                    </motion.span> that{" "}
+                                    
+                                    can change your{" "}
+                                    
                                     <motion.span
                                         className="contact-highlight"
                                         variants={highlightVariants}
+                                        initial="initial"
+                                        animate="animate"
                                         whileHover="hover"
                                     >
-                                        Freedom.
+                                        life.
                                     </motion.span>
-                                    <br />
-                                    <motion.span
-                                        className="contact-highlight"
-                                        variants={highlightVariants}
-                                        whileHover="hover"
-                                    >
-                                        Future.
-                                    </motion.span>
+                                    
                                 </>
                             ) : (
                                 // DESKTOP VIEW - 1 line
                                 <>
+                                    One{" "}
                                     <motion.span
                                         className="contact-highlight"
                                         variants={highlightVariants}
+                                        initial="initial"
+                                        animate="animate"
                                         whileHover="hover"
                                     >
-                                        Finance.
-                                    </motion.span>
-                                    {/* {" "} */}
+                                        decision
+                                    </motion.span>{" "}
+                                    that can change your{" "}
                                     <motion.span
                                         className="contact-highlight"
                                         variants={highlightVariants}
+                                        initial="initial"
+                                        animate="animate"
                                         whileHover="hover"
                                     >
-                                        Freedom.
+                                        life.
                                     </motion.span>
-                                    {/* {" "} */}
-                                    <motion.span
-                                        className="contact-highlight"
-                                        variants={highlightVariants}
-                                        whileHover="hover"
-                                    >
-                                        Future.
-                                    </motion.span>
+                                    
                                 </>
                             )}
                         </motion.h1>
@@ -172,4 +187,4 @@ const ContactHero = () => {
     );
 };
 
-export default ContactHero; // ONLY ONE export at the end
+export default ContactHero;
