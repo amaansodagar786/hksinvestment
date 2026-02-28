@@ -4,3 +4,7 @@ body {
  
 }
 
+
+* {
+  cursor: none !important;
+}
