@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import PricingSection from './PricingSection/PricingSection'
 import PricingHero from './PricingHero/PricingHero'
 import FAQ from '../Home/Faqs/FAQ'
+import FinancialAnalysis from './FinancialAnalysis/FinancialAnalysis'
 
 const PricingPage = () => {
   // Add useEffect to scroll to top on page load
@@ -29,7 +30,9 @@ const PricingPage = () => {
       <PricingHero onViewPlansClick={scrollToPricing} />
       <div id="pricing-plans-section">  {/* Add ID here */}
         <PricingSection />
+
       </div>
+      <FinancialAnalysis/>
       <FAQ /> 
     </>
   )

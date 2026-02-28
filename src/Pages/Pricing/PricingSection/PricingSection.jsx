@@ -72,13 +72,13 @@ const PricingSection = () => {
                         <motion.p
                             variants={itemVariants}
                         >
-                            Simple, transparent pricing with no hidden fees. 
+                            Simple, transparent pricing with no hidden fees.
                             Pick the plan that fits your trading style.
                         </motion.p>
                     </div>
                 </motion.div>
 
-                {/* WEEKLY CARD */}
+                {/* WEEKLY CARD - CAD 24.99 */}
                 <motion.div
                     className={`pricing-card ${active === "weekly" ? "active" : ""}`}
                     onClick={() => setActive("weekly")}
@@ -90,7 +90,8 @@ const PricingSection = () => {
                     <div className="card-inner">
                         <div className="card-header-box">
                             <h3>Swing & Option trading</h3>
-                            <p>Perfect for active traders</p>
+                            <p className="sub-line1">Complete investing & options program</p>
+                            <p className="sub-line2">Step-by-step training with live signals</p>
                         </div>
 
                         <div className="card-body-box">
@@ -100,11 +101,17 @@ const PricingSection = () => {
                             </div>
 
                             <ul>
-                                <li className="yes">Long term stock</li>
-                                <li className="yes">Option & swing trading</li>
+                                <li className="yes">Option trade signals</li>
+                                <li className="yes">Entries + exits</li>
+                                <li className="yes">Swing trades</li>
+                                <li className="yes">Covered calls / cash secured</li>
+                                <li className="yes">AI signals, charts, analysis</li>
+                                <li className="yes">Daily analysis</li>
+                                <li className="yes">Crypto investment & trades</li>
+                                <li className="yes">Trial period (3 days)</li>
                                 <li className="yes">Personal assistance</li>
-                                <li className="yes">No commitment, cancel anytime</li>
-                                <li className="yes">Daily live analysis</li>
+                                <li className="yes">Cancel at anytime</li>
+                                <li className="yes">Portfolio management</li>
                                 <li className="no">Refund</li>
                             </ul>
 
@@ -118,7 +125,7 @@ const PricingSection = () => {
                     </div>
                 </motion.div>
 
-                {/* MONTHLY CARD */}
+                {/* MONTHLY CARD - CAD 7.99 */}
                 <motion.div
                     className={`pricing-card ${active === "monthly" ? "active" : ""}`}
                     onClick={() => setActive("monthly")}
@@ -130,7 +137,9 @@ const PricingSection = () => {
                     <div className="card-inner">
                         <div className="card-header-box">
                             <h3>Long term investment</h3>
-                            <p>Great for long-term investors</p>
+                            <p className="sub-line1">High-growth picks (10x–100x potential)</p>
+                            <p className="sub-line2">Receive real-time buy & sell alerts</p>
+                            <p className="note">Note: For Long-term investing only</p>
                         </div>
 
                         <div className="card-body-box">
@@ -140,13 +149,19 @@ const PricingSection = () => {
                             </div>
 
                             <ul>
-                                <li className="yes">Long term stock</li>
-                               
-                                <li className="yes">No commitment, cancel anytime</li>
+                                <li className="yes">Charts & deep dives</li>
+                                <li className="yes">Long-term stocks with high potential growth</li>
+                                <li className="yes">Daily analysis</li>
+                                <li className="yes">24/7 news updates</li>
+                                <li className="yes">Dividend stocks</li>
+                                <li className="yes">Understand market psychology</li>
+                                
+                                <li className="yes">Personal assistance</li>
+                                <li className="yes">Portfolio management</li>
+                                <li className="yes">Cancel at any time</li>
+                                <li className="no">Option & swing trading</li>
+                                <li className="no">Trial period (3 days)</li>
                                 <li className="no">Refund</li>
-                                 <li className="no">Option & swing trading</li>
-                                <li className="no">Personal assistance</li>
-                                {/* No daily live analysis for monthly */}
                             </ul>
 
                             <motion.button

@@ -64,6 +64,7 @@
     cursor: pointer;
     box-shadow: 0 10px 30px -10px rgba(94, 38, 144, 0.1);
     border: 1px solid #e9e0f5;
+    height: fit-content;
 
     &.active {
         padding: 8px;
@@ -78,18 +79,24 @@
     display: flex;
     flex-direction: column;
     gap: 18px;
+    height: 100%;
 }
 
 /* HEADER SMALL BOX */
 .card-header-box {
     background: #fff;
     border-radius: 24px;
-    padding: 24px;
+    padding: 24px 24px 0 24px;
     border: 1px solid #e9e0f5;
+    min-height: 165px;
+    /* Fixed minimum height to match both cards */
+    display: flex;
+    flex-direction: column;
 
     h3 {
         font-size: 24px;
-        margin-bottom: 8px;
+        margin-bottom: 20px;
+        margin-top: 5px;
         font-family: 'Heading', serif;
         color: #1e1b4b;
     }
@@ -99,6 +106,20 @@
         color: #6b7280;
         font-family: 'Content', serif;
         line-height: 1.6;
+        margin: 0 0 4px 0;
+
+        &.sub-line1,
+        &.sub-line2 {
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        &.note {
+            color: #7a3db8;
+            font-weight: 500;
+            margin-top: 8px;
+            font-style: italic;
+        }
     }
 }
 
@@ -108,6 +129,9 @@
     border-radius: 24px;
     padding: 28px 24px;
     border: 1px solid #e9e0f5;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 
     .price {
         display: flex;
@@ -132,7 +156,11 @@
     ul {
         list-style: none;
         padding: 0;
-        margin-bottom: 28px;
+        margin: 0 0 28px 0;
+        flex: 1;
+
+        /* Make both cards have consistent height by min-height */
+        min-height: 380px;
 
         li {
             padding-left: 28px;
@@ -174,6 +202,8 @@
         transition: all 0.3s ease;
         background: #fff;
         color: #5e2690;
+        margin-top: auto;
+        /* Pushes button to bottom */
 
         &:hover {
             background: #7a3db8;
@@ -232,6 +262,15 @@
         margin: 0 auto;
         width: 100%;
     }
+
+    /* Reset min-heights on mobile */
+    .card-header-box {
+        min-height: auto;
+    }
+
+    .card-body-box ul {
+        min-height: auto;
+    }
 }
 
 @media (max-width: 768px) {
@@ -277,7 +316,7 @@
 
 @media (max-width: 480px) {
     .pricing-section {
-         padding: 50px 12px;
+        padding: 50px 12px;
     }
 
     .pricing-text {
