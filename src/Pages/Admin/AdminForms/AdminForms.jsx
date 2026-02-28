@@ -26,7 +26,7 @@ import './AdminForms.scss';
 
 const AdminForms = () => {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState('contact');
+    const [activeTab, setActiveTab] = useState('general');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [updatingId, setUpdatingId] = useState(null);
@@ -295,7 +295,7 @@ const AdminForms = () => {
 
                 {/* Page Tabs */}
                 <motion.div className="forms-tabs" variants={itemVariants}>
-                    <button
+                    {/* <button
                         className={`tab-btn ${activeTab === 'contact' ? 'active' : ''}`}
                         onClick={() => {
                             setActiveTab('contact');
@@ -303,7 +303,7 @@ const AdminForms = () => {
                         }}
                     >
                         <FiMessageCircle /> Contact
-                    </button>
+                    </button> */}
                     <button
                         className={`tab-btn ${activeTab === 'general' ? 'active' : ''}`}
                         onClick={() => {

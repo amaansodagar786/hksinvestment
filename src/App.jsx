@@ -18,6 +18,7 @@ import AdminAppointments from "./Pages/Admin/ApproveReject/AdminAppointments";
 import Dashboard from "./Pages/Admin/Dashboard/Dashboard";
 // import AdminSchedule from "./Pages/Admin/AdminAppointsments/AdminSchedule";
 import SmoothCursor from "./Componenents/Cursor/SmoothCursor"
+import NotFound from "./Pages/404/NotFound";
 
 function AppLayout() {
   const location = useLocation();
@@ -35,6 +36,7 @@ function AppLayout() {
         <Route path="/privacypolicy" element={<Privacy />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/career" element={<Career />} />
+        <Route path="*" element={<NotFound />} />
 
         <Route path="/admin/login" element={<AdminAuth />} />
 

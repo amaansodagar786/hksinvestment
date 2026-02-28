@@ -781,7 +781,7 @@ const AdminSchedule = () => {
                                             </div>
                                         </div>
 
-                                        <div className="action-buttons">
+                                        <div className="admin-action-buttons">
                                             <motion.button
                                                 className="save-btn"
                                                 onClick={handleSaveSchedule}

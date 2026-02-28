@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+
 import {
     FiCalendar,
     FiMail,
@@ -30,6 +32,8 @@ import * as XLSX from 'xlsx';
 import './Dashboard.scss';
 
 const Dashboard = () => {
+        const navigate = useNavigate();
+
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('overview');
@@ -51,6 +55,15 @@ const Dashboard = () => {
     useEffect(() => {
         fetchDashboardStats();
     }, []);
+
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('adminToken');
+        if (!token) {
+            navigate('/admin/login');
+        }
+    }, [navigate]);
 
     // Fetch details when tab changes
     useEffect(() => {
@@ -158,6 +171,7 @@ const Dashboard = () => {
                 const appointmentsSheet = XLSX.utils.aoa_to_sheet([appointmentsHeaders, ...appointmentsRows]);
                 XLSX.utils.book_append_sheet(workbook, appointmentsSheet, 'Appointments');
 
+                {/* Commented out Contacts Sheet
                 // 2. Contacts Sheet
                 const contactsHeaders = ['Name', 'Email', 'Phone', 'Message', 'Status', 'Date'];
                 const contactsRows = (stats?.contacts?.recentData || []).map(item => [
@@ -170,8 +184,9 @@ const Dashboard = () => {
                 ]);
                 const contactsSheet = XLSX.utils.aoa_to_sheet([contactsHeaders, ...contactsRows]);
                 XLSX.utils.book_append_sheet(workbook, contactsSheet, 'Contacts');
+                */}
 
-                // 3. Careers Sheet
+                // 2. Careers Sheet (renumbered)
                 const careersHeaders = ['Name', 'Email', 'Phone', 'LLQP License', 'Status', 'Date'];
                 const careersRows = (stats?.careers?.recentData || []).map(item => [
                     `${item.firstName || ''} ${item.lastName || ''}`.trim() || 'N/A',
@@ -184,7 +199,7 @@ const Dashboard = () => {
                 const careersSheet = XLSX.utils.aoa_to_sheet([careersHeaders, ...careersRows]);
                 XLSX.utils.book_append_sheet(workbook, careersSheet, 'Careers');
 
-                // 4. Service Inquiries Sheet
+                // 3. Service Inquiries Sheet
                 const serviceHeaders = ['Name', 'Service', 'Email', 'Phone', 'Message', 'Status', 'Date'];
                 const serviceRows = (stats?.serviceInquiries?.recentData || []).map(item => [
                     item.name || 'N/A',
@@ -198,7 +213,7 @@ const Dashboard = () => {
                 const serviceSheet = XLSX.utils.aoa_to_sheet([serviceHeaders, ...serviceRows]);
                 XLSX.utils.book_append_sheet(workbook, serviceSheet, 'Service Inquiries');
 
-                // 5. General Inquiries Sheet
+                // 4. General Inquiries Sheet
                 const generalHeaders = ['Name', 'Reason', 'Email', 'Phone', 'Message', 'Status', 'Date'];
                 const generalRows = (stats?.generalInquiries?.recentData || []).map(item => [
                     item.name || 'N/A',
@@ -237,6 +252,7 @@ const Dashboard = () => {
                         ]);
                         break;
 
+                        {/* Commented out Contacts case
                     case 'contacts':
                         sheetName = 'Contacts';
                         headers = ['Name', 'Email', 'Phone', 'Message', 'Status', 'Date'];
@@ -249,6 +265,7 @@ const Dashboard = () => {
                             item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
                         ]);
                         break;
+                    */}
 
                     case 'careers':
                         sheetName = 'Careers';
@@ -313,9 +330,11 @@ const Dashboard = () => {
 
     if (loading) {
         return (
-            <div className="dashboard-loading">
-                <FiRefreshCw className="spinner" />
-                <p>Loading dashboard...</p>
+            <div className="dashboard-loading-container">
+                <div className="dashboard-loading">
+                    <FiRefreshCw className="spinner" />
+                    <p>Loading dashboard...</p>
+                </div>
             </div>
         );
     }
@@ -386,6 +405,7 @@ const Dashboard = () => {
                         </div>
                     </motion.div>
 
+                    {/* Commented out Contacts Card
                     <motion.div
                         className="stat-card contacts"
                         initial={{ opacity: 0, y: 20 }}
@@ -406,12 +426,13 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </motion.div>
+                    */}
 
                     <motion.div
                         className="stat-card careers"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
+                        transition={{ delay: 0.2 }}
                         whileHover={{ y: -5 }}
                     >
                         <div className="stat-icon">
@@ -429,21 +450,42 @@ const Dashboard = () => {
                     </motion.div>
 
                     <motion.div
-                        className="stat-card inquiries"
+                        className="stat-card service-inquiries"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        whileHover={{ y: -5 }}
+                    >
+                        <div className="stat-icon">
+                            <FiTrendingUp />
+                        </div>
+                        <div className="stat-content">
+                            <h3>Service Inquiries</h3>
+                            <div className="stat-numbers">
+                                <span className="total">{stats?.quickStats?.serviceInquiries?.total || 0}</span>
+                                <span className="badge pending">
+                                    {stats?.quickStats?.serviceInquiries?.pending || 0} pending
+                                </span>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        className="stat-card general-inquiries"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
                         whileHover={{ y: -5 }}
                     >
                         <div className="stat-icon">
-                            <FiUsers />
+                            <FiMessageSquare />
                         </div>
                         <div className="stat-content">
-                            <h3>Inquiries</h3>
+                            <h3>General Inquiries</h3>
                             <div className="stat-numbers">
-                                <span className="total">{stats?.quickStats?.inquiries?.total || 0}</span>
+                                <span className="total">{stats?.quickStats?.generalInquiries?.total || 0}</span>
                                 <span className="badge pending">
-                                    {stats?.quickStats?.inquiries?.pending || 0} pending
+                                    {stats?.quickStats?.generalInquiries?.pending || 0} pending
                                 </span>
                             </div>
                         </div>
@@ -466,6 +508,7 @@ const Dashboard = () => {
                     >
                         <FiCalendar /> Appointments
                     </motion.button>
+                    {/* Commented out Contacts Tab
                     <motion.button
                         className={`tab-btn ${activeTab === 'contacts' ? 'active' : ''}`}
                         onClick={() => setActiveTab('contacts')}
@@ -473,6 +516,7 @@ const Dashboard = () => {
                     >
                         <FiMail /> Contacts
                     </motion.button>
+                    */}
                     <motion.button
                         className={`tab-btn ${activeTab === 'careers' ? 'active' : ''}`}
                         onClick={() => setActiveTab('careers')}
@@ -562,7 +606,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                {/* Contact Forms Analytics */}
+                                {/* Commented out Contact Forms Analytics
                                 <div className="analytics-section">
                                     <h2>📞 Contact Forms Analytics</h2>
                                     <div className="analytics-grid">
@@ -607,6 +651,7 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                 </div>
+                                */}
 
                                 {/* Career Applications */}
                                 <div className="analytics-section">
@@ -644,7 +689,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                {/* Service Inquiries - UPDATED to match Contact Forms style */}
+                                {/* Service Inquiries */}
                                 <div className="analytics-section">
                                     <h2>📊 Service Inquiries</h2>
                                     <div className="analytics-grid">
@@ -733,6 +778,7 @@ const Dashboard = () => {
                                                             <th>Actions</th>
                                                         </>
                                                     )}
+                                                    {/* Commented out Contacts tab headers
                                                     {activeTab === 'contacts' && (
                                                         <>
                                                             <th>Name</th>
@@ -743,6 +789,7 @@ const Dashboard = () => {
                                                             <th>Actions</th>
                                                         </>
                                                     )}
+                                                    */}
                                                     {activeTab === 'careers' && (
                                                         <>
                                                             <th>Name</th>
@@ -809,6 +856,7 @@ const Dashboard = () => {
                                                                 </td>
                                                             </>
                                                         )}
+                                                        {/* Commented out Contacts tab content
                                                         {activeTab === 'contacts' && (
                                                             <>
                                                                 <td>{item.name}</td>
@@ -833,6 +881,7 @@ const Dashboard = () => {
                                                                 </td>
                                                             </>
                                                         )}
+                                                        */}
                                                         {activeTab === 'careers' && (
                                                             <>
                                                                 <td>{item.firstName} {item.lastName}</td>

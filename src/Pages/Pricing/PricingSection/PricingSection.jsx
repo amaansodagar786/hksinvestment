@@ -101,17 +101,27 @@ const PricingSection = () => {
                             </div>
 
                             <ul>
-                                <li className="yes">Option trade signals</li>
-                                <li className="yes">Entries + exits</li>
-                                <li className="yes">Swing trades</li>
-                                <li className="yes">Covered calls / cash secured</li>
-                                <li className="yes">AI signals, charts, analysis</li>
-                                <li className="yes">Daily analysis</li>
-                                <li className="yes">Crypto investment & trades</li>
-                                <li className="yes">Trial period (3 days)</li>
-                                <li className="yes">Personal assistance</li>
-                                <li className="yes">Cancel at anytime</li>
+                                {/* ACCOUNT FEATURES */}
                                 <li className="yes">Portfolio management</li>
+                                <li className="yes">Personal assistance</li>
+                                <li className="yes">Daily analysis</li>
+                                <li className="yes">Swing trades</li>
+                                <li className="yes">Entries + exits</li>
+                                <li className="yes">Covered calls / cash secured</li>
+                                
+                                {/* ANALYSIS & SIGNALS */}
+                                <li className="yes">AI signals, charts, analysis</li>
+                                
+                                {/* ADDITIONAL INVESTMENTS */}
+                                <li className="yes">Crypto investment & trades</li>
+                                                                <li className="yes">Cancel at anytime</li>
+
+                                <li className="yes">Option trade signals</li>
+                                
+                                {/* FLEXIBILITY */}
+                                <li className="yes">Trial period (3 days)</li>
+                                
+                                {/* EXCLUSIONS - AT BOTTOM */}
                                 <li className="no">Refund</li>
                             </ul>
 
@@ -149,18 +159,41 @@ const PricingSection = () => {
                             </div>
 
                             <ul>
-                                <li className="yes">Charts & deep dives</li>
-                                <li className="yes">Long-term stocks with high potential growth</li>
+                                {/* SAME POINTS AS BEFORE - SIRF ORDER CHANGE KIYA HAI */}
+                                {/* 1. Portfolio management (common) */}
+                                <li className="yes">Portfolio management</li>
+                                
+                                {/* 2. Personal assistance (common) */}
+                                <li className="yes">Personal assistance</li>
+                                
+                                {/* 3. Daily analysis (common) */}
                                 <li className="yes">Daily analysis</li>
+                                
+                                {/* 4. Long-term stocks (unique to 7.99) */}
+                                <li className="yes">Long-term stocks with high potential growth</li>
+                                
+                                {/* 5. Charts & deep dives (common - matches AI signals position) */}
+                                <li className="yes">Charts & deep dives</li>
+                                
+                                {/* 6. 24/7 news updates (unique to 7.99) */}
                                 <li className="yes">24/7 news updates</li>
+                                
+                                {/* 7. Dividend stocks (unique to 7.99) */}
                                 <li className="yes">Dividend stocks</li>
+                                
+                                {/* 8. Understand market psychology (unique to 7.99) */}
                                 <li className="yes">Understand market psychology</li>
                                 
-                                <li className="yes">Personal assistance</li>
-                                <li className="yes">Portfolio management</li>
+                                {/* 9. Cancel at any time (common) */}
                                 <li className="yes">Cancel at any time</li>
+                                
+                                {/* 10. Option & swing trading (common - but no in 7.99) */}
                                 <li className="no">Option & swing trading</li>
+                                
+                                {/* 11. Trial period (common - but no in 7.99) */}
                                 <li className="no">Trial period (3 days)</li>
+                                
+                                {/* 12. Refund (common - but no in 7.99) */}
                                 <li className="no">Refund</li>
                             </ul>
 
