@@ -1,4 +1,3 @@
-// About.jsx
 import React from "react";
 import {
     FiTrendingUp,
@@ -205,7 +204,7 @@ const About = () => {
                         className="about-pill"
                         variants={pillVariants}
                     >
-                        About us
+                        About Us
                     </motion.span>
                     <motion.h2
                         variants={headerVariants}

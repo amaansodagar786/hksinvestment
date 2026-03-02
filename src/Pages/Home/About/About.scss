@@ -16,9 +16,6 @@
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-
-
-
 }
 
 /* =========================
@@ -196,7 +193,11 @@
 }
 
 .about-shield-svg {
-    transition: all 0.3s ease;
+    transition: all 0.3s ease;  
+
+    @media (max-width: 768px) {
+        display: none !important;
+    }
 }
 
 /* =========================
@@ -454,7 +455,7 @@
 
 /* =========================
    RESPONSIVE: MOBILE (up to 768px)
-   SHIELD ICON ALIGNED TO LEFT
+   SHIELD ICON ALIGNED TO LEFT & BUTTON CENTERED
 ========================= */
 @media (max-width: 768px) {
     .about-section {
@@ -473,6 +474,7 @@
     .about-content {
         grid-template-columns: 1fr;
         gap: 50px;
+        
     }
 
     .about-visual {
@@ -490,6 +492,7 @@
         /* CHANGED: Left align text */
         font-size: 16px;
         line-height: 1.6;
+        text-align: justify;
     }
 
     /* SHIELD ICON - LEFT ALIGNED */
@@ -553,12 +556,12 @@
         bottom: 25%;
     }
 
-    /* BUTTON - MOBILE */
+    /* BUTTON - MOBILE - CENTERED */
     .about-btn {
         width: 160px;
         height: 48px;
-        margin: 0;
-        /* CHANGED: No auto margin, left aligned */
+        margin: 0 auto; /* ← CHANGED: Center the button */
+        display: flex;  /* ← CHANGED: Ensure flex for centering */
     }
 
     .about-btn-text {
@@ -587,11 +590,9 @@
 
 /* =========================
    RESPONSIVE: SMALL MOBILE (up to 480px)
-   SHIELD ICON ALIGNED TO LEFT
+   SHIELD ICON LEFT ALIGNED & BUTTON CENTERED
 ========================= */
 @media (max-width: 480px) {
-
-
     .main-about {
         width: 100vw;
         margin-left: calc(-50vw + 50%);
@@ -631,7 +632,6 @@
 
     .shares {
         left: -35px;
-
     }
 
     .yield {
@@ -646,16 +646,14 @@
         right: -50px;
     }
 
-
     .trends {
         bottom: -10px;
         left: 30%;
-
     }
 
     .about-text p {
         font-size: 15px;
-        text-align: left;
+        text-align: justify !important;
         /* CHANGED: Left align */
     }
 
@@ -667,12 +665,12 @@
         margin-bottom: 14px;
     }
 
-    /* BUTTON - SMALL MOBILE */
+    /* BUTTON - SMALL MOBILE - CENTERED */
     .about-btn {
         width: 140px;
         height: 44px;
-        margin: 0;
-        /* CHANGED: No auto margin, left aligned */
+        margin: 0 auto; /* ← CHANGED: Center the button */
+        display: flex;  /* ← CHANGED: Ensure flex for centering */
     }
 
     .about-btn-text {
@@ -746,8 +744,6 @@
     }
 }
 
-
-
 /* =========================
    LARGE SCREENS (1900px - 2600px)
 ========================= */
@@ -757,7 +753,6 @@
     }
 
     .about-visual { 
-
         justify-content: left;
     }
 }

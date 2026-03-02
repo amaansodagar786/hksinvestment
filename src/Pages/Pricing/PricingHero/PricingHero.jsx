@@ -130,7 +130,7 @@ const PricingHero = ({ onViewPlansClick }) => {
                         className="pricing-hero-subtitle"
                         variants={itemVariants}
                     >
-                        Choose the perfect plan for your financial journey!<br className="desktop-only" /> No hidden fees.<span className="mobile-br"><br /></span> Cancel anytime.
+                        Choose the perfect plan for your<span className="mobile-br"><br /></span> financial journey!<br className="desktop-only" /> No hidden fees.<span className="mobile-br"><br /></span> Cancel anytime.
                     </motion.p>
 
                     <motion.button

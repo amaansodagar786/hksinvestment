@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
 import "./FinancialAnalysis.scss";
+import { useNavigate } from "react-router-dom";
 
-const FinancialAnalysis = () => {
+
+const FinancialAnalysis = () => { 
+
+
+    const navigate = useNavigate();
+
+    const handleScheduleClick = () => {
+    // Navigate to contact page with state
+    navigate('/contact', { 
+      state: { scrollTo: 'appointment-section' } 
+    });
+  };
     return (
         <section className="financial-analysis-section"> {/* Changed from motion.section to section */}
             <div className="analysis-container">
@@ -15,7 +27,7 @@ const FinancialAnalysis = () => {
                 >
                     <span className="analysis-pill">Financial Planning</span>
                     <h2>Need a complete financial roadmap?</h2>
-                    <p>Get a personalized 1-on-1 financial <span className="mobile-br"><br /></span>analysis session</p>
+                    <p>Get a personalized <span>1-on-1</span> financial <span className="mobile-br"><br /></span>analysis session</p>
                 </motion.div>
 
                 {/* Analysis Card */}
@@ -55,6 +67,7 @@ const FinancialAnalysis = () => {
 
                             <motion.button
                                 className="analysis-button"
+                                onClick={handleScheduleClick}
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >

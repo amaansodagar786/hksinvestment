@@ -202,7 +202,12 @@
 .testimonial-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 30px rgba(122, 61, 184, 0.2);
-    border-radius: 20px;
+    border-radius: 20px; 
+
+     @media (max-width: 768px) {
+        box-shadow: none !important; 
+        transform: translateY(0px);
+    }
 }
 
 .testimonial-card p {
@@ -301,7 +306,8 @@
 .testimonial-mobile-card {
     min-height: auto;
     height: auto !important;
-}
+    
+ }
 
 .testimonial-slider-arrows {
     display: flex;
@@ -648,7 +654,7 @@
     }
 
     .testimonial-card {
-        padding: 18px;
+        padding: 35px 18px 18px;
     }
 
     .testimonial-avatar {
