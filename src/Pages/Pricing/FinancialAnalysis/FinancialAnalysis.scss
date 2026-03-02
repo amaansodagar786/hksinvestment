@@ -269,3 +269,13 @@
         transform: none !important;
     }
 }
+
+
+
+.mobile-br {
+    display: none;
+
+    @media (max-width: 480px) {
+        display: inline;
+    }
+}

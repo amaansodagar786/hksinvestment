@@ -361,7 +361,7 @@ const AppointmentSection = () => {
                         Schedule Your Free <span>Financial Consultation</span>
                     </motion.h2>
                     <motion.p variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}>
-                        Select a convenient time for your personalized financial planning session.
+                        Select a convenient time for<span className="mobile-br"><br /></span> your personalized financial<span className="mobile-br"><br /></span> planning session.
                     </motion.p>
                 </div>
 

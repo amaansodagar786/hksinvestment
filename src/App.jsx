@@ -26,7 +26,7 @@ function AppLayout() {
 
   return (
     <>
-      <SmoothCursor />
+      {/* <SmoothCursor />  */}
       <ScrollToTop />
       {!isAdminRoute && <Navbar />}
 

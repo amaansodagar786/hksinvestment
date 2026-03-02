@@ -26,6 +26,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 768px) {
+        height: auto;
+        padding: 80px 24px 60px;
+    }
 }
 
 .pricing-hero-content {
@@ -40,9 +45,21 @@
     font-weight: 800;
     line-height: 1.45;
     position: relative;
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 58px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 42px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 32px;
+    }
 }
 
-/* ===== HIGHLIGHTED WORD - WITH ANIMATION & HOVER ===== */
+/* ===== HIGHLIGHTED WORD - DEFAULT (DESKTOP) ===== */
 .pricing-highlight {
     position: relative;
     padding: 2px 22px;
@@ -54,11 +71,30 @@
     perspective: 1000px;
     background: rgba(122, 61, 184, 0.1);
     cursor: default;
-    /* Changed from pointer to default */
     transition: all 0.3s ease;
+
+    @media (max-width: 768px) {
+        padding: 2px 12px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 2px 8px;
+    }
 }
 
-/* Dots - hidden by default, show on hover */
+/* ===== MOBILE HIGHLIGHT - NO BG, NO BORDER ===== */
+.pricing-highlight-mobile {
+    @media (max-width: 768px) {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        color: #5e2690;
+        box-shadow: none !important;
+        /* keep the purple color */
+    }
+}
+
+/* Dots - hidden by default, show on hover (desktop only) */
 .pricing-highlight::before,
 .pricing-highlight::after {
     content: "";
@@ -75,23 +111,54 @@
 .pricing-highlight::before {
     top: -6px;
     left: 22px;
+
+    @media (max-width: 768px) {
+        left: 12px;
+    }
+
+    @media (max-width: 480px) {
+        left: 8px;
+    }
 }
 
 .pricing-highlight::after {
     bottom: -6px;
     right: 22px;
+
+    @media (max-width: 768px) {
+        right: 12px;
+    }
+
+    @media (max-width: 480px) {
+        right: 8px;
+    }
 }
 
-/* Show dots on hover */
+/* Hide dots on mobile for highlighted word */
+.pricing-highlight-mobile::before,
+.pricing-highlight-mobile::after {
+    @media (max-width: 768px) {
+        display: none !important;
+    }
+}
+
+/* Show dots on hover (desktop only) */
 .pricing-highlight:hover::before,
 .pricing-highlight:hover::after {
     opacity: 1;
 }
 
-/* Additional hover effect */
+/* Additional hover effect (desktop only) */
 .pricing-highlight:hover {
     background: rgba(122, 61, 184, 0.2);
     transform: translateY(-2px);
+}
+
+/* Disable hover transform on mobile for highlighted word */
+.pricing-highlight-mobile:hover {
+    @media (max-width: 768px) {
+        transform: none !important;
+    }
 }
 
 /* ===== SUBTITLE ===== */
@@ -100,6 +167,18 @@
     font-size: 22px;
     font-family: 'Content', serif;
     position: relative;
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
 }
 
 .pricing-hero-subtitle::after {
@@ -211,36 +290,6 @@
     }
 }
 
-@media (max-width: 768px) {
-    .pricing-hero-top {
-        height: auto;
-        padding: 80px 24px 60px;
-    }
-
-    .pricing-hero-title {
-        font-size: 42px;
-    }
-
-    .pricing-hero-subtitle {
-        font-size: 18px;
-    }
-}
-
-@media (max-width: 480px) {
-    .pricing-hero-top {
-        padding: 60px 20px 50px;
-    }
-
-    .pricing-hero-title {
-        font-size: 32px;
-    }
-
-    .pricing-hero-subtitle {
-        font-size: 16px;
-    }
-}
-
-/* ===== BUTTON RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .pricing-hero-btn {
         width: 170px;
@@ -256,6 +305,21 @@
     .pricing-hero-btn-fill {
         width: 42px;
         height: 42px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-hero-top {
+        height: auto;
+        padding: 80px 24px 60px;
+    }
+
+    .pricing-hero-title {
+        font-size: 42px;
+    }
+
+    .pricing-hero-subtitle {
         font-size: 18px;
     }
 }
@@ -280,6 +344,18 @@
 }
 
 @media (max-width: 480px) {
+    .pricing-hero-top {
+        padding: 60px 20px 50px;
+    }
+
+    .pricing-hero-title {
+        font-size: 32px;
+    }
+
+    .pricing-hero-subtitle {
+        font-size: 16px;
+    }
+
     .pricing-hero-btn {
         width: 130px;
         height: 44px;
@@ -311,12 +387,20 @@
     }
 }
 
-
-
 .desktop-only {
     display: inline;
 
     @media (max-width: 768px) {
         display: none;
+    }
+}
+
+
+
+.mobile-br {
+    display: none;
+
+    @media (max-width: 480px) {
+        display: inline;
     }
 }

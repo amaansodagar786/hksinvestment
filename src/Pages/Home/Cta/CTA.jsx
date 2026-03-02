@@ -148,22 +148,48 @@ const CTA = () => {
           className="cta-container"
           variants={containerVariants}
         >
-          <motion.h2
-            variants={textVariants}
-          >
-            Get Free Consultation With Trusted & <br />
-            Professional <motion.span
-              initial={{ opacity: 0.7 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
+          {/* TWO HEADINGS: desktop (unchanged) + mobile (three lines) */}
+          <div className="cta-headings">
+            <motion.h2
+              className="desktop-heading"
+              variants={textVariants}
             >
-              Licensed
-            </motion.span> Financial Advisor.
-          </motion.h2>
+              Get Free Consultation With Trusted & <br />
+              Professional{" "}
+              <motion.span
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                Licensed
+              </motion.span>{" "}
+              Financial Advisor.
+            </motion.h2>
+
+            <motion.h2
+              className="mobile-heading"
+              variants={textVariants}
+            >
+              Get Free Consultation With<br />
+              Trusted & Professional<br />
+              <motion.span
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                Licensed
+              </motion.span>{" "}
+              Financial Advisor.
+            </motion.h2>
+          </div>
 
           <motion.button
             className="cta-btn"

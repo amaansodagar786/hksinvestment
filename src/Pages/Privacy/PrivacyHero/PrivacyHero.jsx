@@ -1,9 +1,13 @@
 import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useMediaQuery } from "react-responsive"; // ← added
 import "./PrivacyHero.scss";
 
 const PrivacyHero = () => {
+    // Check if mobile
+    const isMobile = useMediaQuery({ maxWidth: 768 });
+
     // Animation variants - SAME AS OTHER PAGES
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -98,7 +102,13 @@ const PrivacyHero = () => {
                 >
                     <motion.h1 className="privacy-hero-title" variants={titleVariants}>
                         Your data deserves <br />
-                        <motion.span className="privacy-highlight" variants={highlightVariants}>
+                        <motion.span 
+                            className={`privacy-highlight ${isMobile ? 'privacy-highlight-mobile' : ''}`}
+                            variants={highlightVariants}
+                            initial="initial"
+                            animate="animate"
+                            whileHover="hover"
+                        >
                             Privacy
                         </motion.span>
                         {" "}& protection
@@ -108,7 +118,7 @@ const PrivacyHero = () => {
                         className="privacy-hero-subtitle"
                         variants={itemVariants}
                     >
-                        We are committed to protecting your personal and financial information<br className="desktop-only" /> with the highest standards of security and transparency.
+                        We are committed to protecting your<span className="mobile-br"><br /></span> personal and financial information<br className="desktop-only" /><span className="mobile-br"><br /></span> with the highest standards of<span className="mobile-br"><br /></span> security and transparency.
                     </motion.p>
 
                     <motion.button

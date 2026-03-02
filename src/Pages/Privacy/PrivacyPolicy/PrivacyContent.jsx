@@ -128,8 +128,8 @@ const PrivacyContent = () => {
             icon: <FiUser />,
             items: [
                 "Full name",
-                "Email address (support@hksinvestment.com)",
-                "Phone number (+1 782-882-8102)",
+                "Email address",
+                "Phone number",
                 "Home address",
                 "Date of birth",
                 "Social Insurance Number (SIN)"
@@ -467,7 +467,7 @@ const PrivacyContent = () => {
                         </div>
                     </motion.div>
 
-                    {/* APPOINTMENT & CONTACT FORMS */}
+                    {/* APPOINTMENT & CONTACT FORMS - UPDATED */}
                     <motion.div
                         className="privacy-card"
                         variants={sectionVariants}
@@ -482,18 +482,34 @@ const PrivacyContent = () => {
                                 When you book an appointment or contact us through our forms, we collect:
                             </motion.p>
 
-                            <ul className="privacy-list">
+                            <ul className="privacy-list privacy-appointment-list">
                                 <motion.li variants={listItemVariants} custom={70} whileHover="hover">
-                                    <span className="bullet-point">•</span> <strong>Name:</strong> To personalize our service
+                                    <span className="bullet-point">•</span>
+                                    <span className="list-item-content">
+                                        <strong>Name:</strong>
+                                        <span className="list-item-description"> To personalize our service</span>
+                                    </span>
                                 </motion.li>
                                 <motion.li variants={listItemVariants} custom={71} whileHover="hover">
-                                    <span className="bullet-point">•</span> <strong>Email Address:</strong> For confirmations and updates
+                                    <span className="bullet-point">•</span>
+                                    <span className="list-item-content">
+                                        <strong>Email Address:</strong>
+                                        <span className="list-item-description"> For confirmations and updates</span>
+                                    </span>
                                 </motion.li>
                                 <motion.li variants={listItemVariants} custom={72} whileHover="hover">
-                                    <span className="bullet-point">•</span> <strong>Phone Number:</strong> For appointment reminders
+                                    <span className="bullet-point">•</span>
+                                    <span className="list-item-content">
+                                        <strong>Phone Number:</strong>
+                                        <span className="list-item-description"> For appointment reminders</span>
+                                    </span>
                                 </motion.li>
                                 <motion.li variants={listItemVariants} custom={73} whileHover="hover">
-                                    <span className="bullet-point">•</span> <strong>Investment Preferences:</strong> To prepare for consultation
+                                    <span className="bullet-point">•</span>
+                                    <span className="list-item-content">
+                                        <strong>Investment Preferences:</strong>
+                                        <span className="list-item-description"> To prepare for consultation</span>
+                                    </span>
                                 </motion.li>
                             </ul>
 

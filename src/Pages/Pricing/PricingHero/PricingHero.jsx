@@ -1,9 +1,13 @@
 import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useMediaQuery } from "react-responsive"; // ← added
 import "./PricingHero.scss";
 
-const PricingHero = ({ onViewPlansClick }) => {  // Add prop
+const PricingHero = ({ onViewPlansClick }) => {
+    // Check if mobile
+    const isMobile = useMediaQuery({ maxWidth: 768 });
+
     // Animation variants - SAME AS ORIGINAL TOP SECTION
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -110,7 +114,7 @@ const PricingHero = ({ onViewPlansClick }) => {  // Add prop
                     >
                         Simple, transparent{" "}
                         <motion.span 
-                            className="pricing-highlight"
+                            className={`pricing-highlight ${isMobile ? 'pricing-highlight-mobile' : ''}`}
                             variants={highlightVariants}
                             initial="initial"
                             animate="animate"
@@ -126,7 +130,7 @@ const PricingHero = ({ onViewPlansClick }) => {  // Add prop
                         className="pricing-hero-subtitle"
                         variants={itemVariants}
                     >
-                        Choose the perfect plan for your financial journey!<br className="desktop-only" /> No hidden fees. Cancel anytime.
+                        Choose the perfect plan for your financial journey!<br className="desktop-only" /> No hidden fees.<span className="mobile-br"><br /></span> Cancel anytime.
                     </motion.p>
 
                     <motion.button
@@ -135,7 +139,7 @@ const PricingHero = ({ onViewPlansClick }) => {  // Add prop
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
-                        onClick={handleViewPlansClick}  // Add click handler
+                        onClick={handleViewPlansClick}
                     >
                         <span className="pricing-hero-btn-fill"></span>
                         <span className="pricing-hero-btn-text">View Plans</span>

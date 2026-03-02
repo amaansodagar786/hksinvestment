@@ -24,6 +24,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 768px) {
+        height: auto;
+        padding: 80px 24px 60px;
+    }
 }
 
 .privacy-hero-content {
@@ -38,9 +43,21 @@
     font-weight: 800;
     line-height: 1.45;
     position: relative;
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 58px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 42px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 32px;
+    }
 }
 
-/* ===== HIGHLIGHTED WORD ===== */
+/* ===== HIGHLIGHTED WORD - DEFAULT (DESKTOP) ===== */
 .privacy-highlight {
     position: relative;
     padding: 2px 22px;
@@ -53,6 +70,25 @@
     background: rgba(122, 61, 184, 0.1);
     cursor: default;
     transition: all 0.3s ease;
+
+    @media (max-width: 768px) {
+        padding: 2px 12px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 2px 8px;
+    }
+}
+
+/* ===== MOBILE HIGHLIGHT - NO BG, NO BORDER ===== */
+.privacy-highlight-mobile {
+    @media (max-width: 768px) {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        color: #5e2690; /* keep the purple color */
+        box-shadow: none !important;
+    }
 }
 
 /* Dots - hidden by default */
@@ -72,23 +108,54 @@
 .privacy-highlight::before {
     top: -6px;
     left: 22px;
+
+    @media (max-width: 768px) {
+        left: 12px;
+    }
+
+    @media (max-width: 480px) {
+        left: 8px;
+    }
 }
 
 .privacy-highlight::after {
     bottom: -6px;
     right: 22px;
+
+    @media (max-width: 768px) {
+        right: 12px;
+    }
+
+    @media (max-width: 480px) {
+        right: 8px;
+    }
 }
 
-/* Show dots on hover */
+/* Hide dots on mobile for highlighted word */
+.privacy-highlight-mobile::before,
+.privacy-highlight-mobile::after {
+    @media (max-width: 768px) {
+        display: none !important;
+    }
+}
+
+/* Show dots on hover (desktop only) */
 .privacy-highlight:hover::before,
 .privacy-highlight:hover::after {
     opacity: 1;
 }
 
-/* Hover effect */
+/* Hover effect (desktop only) */
 .privacy-highlight:hover {
     background: rgba(122, 61, 184, 0.2);
     transform: translateY(-2px);
+}
+
+/* Disable hover transform on mobile for highlighted word */
+.privacy-highlight-mobile:hover {
+    @media (max-width: 768px) {
+        transform: none !important;
+    }
 }
 
 /* ===== SUBTITLE ===== */
@@ -97,6 +164,18 @@
     font-size: 22px;
     font-family: 'Content', serif;
     position: relative;
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
 }
 
 .privacy-hero-subtitle::after {
@@ -215,6 +294,25 @@
     }
 }
 
+@media (max-width: 1024px) {
+    .privacy-hero-btn {
+        width: 170px;
+        height: 52px;
+    }
+
+    .privacy-hero-btn-text {
+        font-size: 15px;
+        padding-left: 22px;
+    }
+
+    .privacy-hero-btn-arrow,
+    .privacy-hero-btn-fill {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+}
+
 @media (max-width: 768px) {
     .privacy-hero-top {
         height: auto;
@@ -247,9 +345,28 @@
     }
 }
 
+@media (max-width: 600px) {
+    .privacy-hero-btn {
+        width: 175px;
+        height: 48px;
+    }
+
+    .privacy-hero-btn-text {
+        font-size: 14px;
+        padding-left: 16px;
+    }
+
+    .privacy-hero-btn-arrow,
+    .privacy-hero-btn-fill {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+}
+
 @media (max-width: 480px) {
     .privacy-hero-top {
-        padding: 60px 20px 50px;
+        padding: 60px 10px 50px;
     }
 
     .privacy-hero-title {
@@ -288,7 +405,6 @@
         transition: none !important;
     }
 }
-
 
 .desktop-only {
     display: inline;

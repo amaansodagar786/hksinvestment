@@ -5,7 +5,6 @@ import "./PricingSection.scss";
 const PricingSection = () => {
     const [active, setActive] = useState("weekly");
 
-    // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -52,7 +51,6 @@ const PricingSection = () => {
         >
             <div className="pricing-grid">
 
-                {/* LEFT CONTENT - VERTICALLY CENTERED */}
                 <motion.div
                     className="pricing-text"
                     variants={itemVariants}
@@ -67,7 +65,7 @@ const PricingSection = () => {
                         <motion.h2
                             variants={itemVariants}
                         >
-                            Choose the perfect plan<br />for your needs.
+                            Choose the perfect plan<br /> for your needs.
                         </motion.h2>
                         <motion.p
                             variants={itemVariants}
@@ -78,7 +76,6 @@ const PricingSection = () => {
                     </div>
                 </motion.div>
 
-                {/* WEEKLY CARD - CAD 24.99 */}
                 <motion.div
                     className={`pricing-card ${active === "weekly" ? "active" : ""}`}
                     onClick={() => setActive("weekly")}
@@ -93,38 +90,25 @@ const PricingSection = () => {
                             <p className="sub-line1">Complete investing & options program</p>
                             <p className="sub-line2">Step-by-step training with live signals</p>
                         </div>
-
                         <div className="card-body-box">
                             <div className="price">
                                 <span className="amount">CAD 24.99</span>
                                 <span className="duration">/bi-weekly</span>
                             </div>
-
                             <ul>
-                                {/* ACCOUNT FEATURES */}
                                 <li className="yes">Portfolio management</li>
                                 <li className="yes">Personal assistance</li>
                                 <li className="yes">Daily analysis</li>
                                 <li className="yes">Swing trades</li>
                                 <li className="yes">Entries + exits</li>
                                 <li className="yes">Covered calls / cash secured</li>
-                                
-                                {/* ANALYSIS & SIGNALS */}
                                 <li className="yes">AI signals, charts, analysis</li>
-                                
-                                {/* ADDITIONAL INVESTMENTS */}
                                 <li className="yes">Crypto investment & trades</li>
-                                                                <li className="yes">Cancel at anytime</li>
-
+                                <li className="yes">Cancel at anytime</li>
                                 <li className="yes">Option trade signals</li>
-                                
-                                {/* FLEXIBILITY */}
                                 <li className="yes">Trial period (3 days)</li>
-                                
-                                {/* EXCLUSIONS - AT BOTTOM */}
                                 <li className="no">Refund</li>
                             </ul>
-
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
@@ -135,7 +119,6 @@ const PricingSection = () => {
                     </div>
                 </motion.div>
 
-                {/* MONTHLY CARD - CAD 7.99 */}
                 <motion.div
                     className={`pricing-card ${active === "monthly" ? "active" : ""}`}
                     onClick={() => setActive("monthly")}
@@ -151,52 +134,25 @@ const PricingSection = () => {
                             <p className="sub-line2">Receive real-time buy & sell alerts</p>
                             <p className="note">Note: For Long-term investing only</p>
                         </div>
-
                         <div className="card-body-box">
                             <div className="price">
                                 <span className="amount">CAD 07.99</span>
                                 <span className="duration">/bi-weekly</span>
                             </div>
-
                             <ul>
-                                {/* SAME POINTS AS BEFORE - SIRF ORDER CHANGE KIYA HAI */}
-                                {/* 1. Portfolio management (common) */}
                                 <li className="yes">Portfolio management</li>
-                                
-                                {/* 2. Personal assistance (common) */}
                                 <li className="yes">Personal assistance</li>
-                                
-                                {/* 3. Daily analysis (common) */}
                                 <li className="yes">Daily analysis</li>
-                                
-                                {/* 4. Long-term stocks (unique to 7.99) */}
-                                <li className="yes">Long-term stocks with high potential growth</li>
-                                
-                                {/* 5. Charts & deep dives (common - matches AI signals position) */}
+                                <li className="yes">High-potential long-term stocks</li>
                                 <li className="yes">Charts & deep dives</li>
-                                
-                                {/* 6. 24/7 news updates (unique to 7.99) */}
                                 <li className="yes">24/7 news updates</li>
-                                
-                                {/* 7. Dividend stocks (unique to 7.99) */}
                                 <li className="yes">Dividend stocks</li>
-                                
-                                {/* 8. Understand market psychology (unique to 7.99) */}
                                 <li className="yes">Understand market psychology</li>
-                                
-                                {/* 9. Cancel at any time (common) */}
                                 <li className="yes">Cancel at any time</li>
-                                
-                                {/* 10. Option & swing trading (common - but no in 7.99) */}
                                 <li className="no">Option & swing trading</li>
-                                
-                                {/* 11. Trial period (common - but no in 7.99) */}
                                 <li className="no">Trial period (3 days)</li>
-                                
-                                {/* 12. Refund (common - but no in 7.99) */}
                                 <li className="no">Refund</li>
                             </ul>
-
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}

@@ -29,7 +29,22 @@
   justify-content: center;
 }
 
-/* HEADING */
+/* HEADING WRAPPER – holds both desktop & mobile headings */
+.cta-headings {
+  display: block;
+}
+
+/* Desktop heading (default) */
+.desktop-heading {
+  display: block;
+}
+
+/* Mobile heading (hidden by default) */
+.mobile-heading {
+  display: none;
+}
+
+/* HEADING TEXT STYLES (applied to both) */
 .cta-container h2 {
   font-size: 48px;
   font-family: 'Heading', serif;
@@ -435,6 +450,14 @@
   .cta-container h2 {
     font-size: 32px;
   }
+
+  /* ----- SWAP HEADINGS ON MOBILE ----- */
+  .desktop-heading {
+    display: none;
+  }
+  .mobile-heading {
+    display: block;
+  }
 }
 
 @media (max-width: 600px) {
@@ -473,12 +496,12 @@
 
 @media (max-width: 480px) {
   .cta-section {
-    padding: 50px 12px;
-    min-height: 250px;
+    padding: 20px 12px;
+    min-height: 220px;
   }
   
   .cta-container {
-    padding: 20px 16px;
+    padding: 20px 0px;
   }
 
   .cta-container h2 {

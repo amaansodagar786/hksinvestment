@@ -15,7 +15,7 @@ const FinancialAnalysis = () => {
                 >
                     <span className="analysis-pill">Financial Planning</span>
                     <h2>Need a complete financial roadmap?</h2>
-                    <p>Get a personalized 1-on-1 financial analysis session</p>
+                    <p>Get a personalized 1-on-1 financial <span className="mobile-br"><br /></span>analysis session</p>
                 </motion.div>
 
                 {/* Analysis Card */}

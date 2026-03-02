@@ -59,7 +59,7 @@
 .pricing-card {
     background: #ffffff;
     border-radius: 32px;
-    padding: 18px;
+    padding: 18px;               /* consistent padding for all cards */
     transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: 0 10px 30px -10px rgba(94, 38, 144, 0.1);
@@ -67,9 +67,9 @@
     height: fit-content;
 
     &.active {
-        padding: 8px;
+        /* removed padding override – now same as non‑active */
         background: #e6dcf7;
-        border-color: #7a3db8;
+        border-color: #7a3db8;   /* purple border */
         box-shadow: 0 20px 40px -15px rgba(94, 38, 144, 0.3);
     }
 }
@@ -89,7 +89,6 @@
     padding: 24px 24px 0 24px;
     border: 1px solid #e9e0f5;
     min-height: 165px;
-    /* Fixed minimum height to match both cards */
     display: flex;
     flex-direction: column;
 
@@ -158,8 +157,6 @@
         padding: 0;
         margin: 0 0 28px 0;
         flex: 1;
-
-        /* Make both cards have consistent height by min-height */
         min-height: 380px;
 
         li {
@@ -203,7 +200,6 @@
         background: #fff;
         color: #5e2690;
         margin-top: auto;
-        /* Pushes button to bottom */
 
         &:hover {
             background: #7a3db8;
@@ -218,7 +214,7 @@
 
     .card-header-box,
     .card-body-box {
-        border-color: #5e2690;
+        border-color: #5e2690;   /* inner boxes also get purple border */
         box-shadow: 0 4px 12px rgba(94, 38, 144, 0.1);
     }
 
@@ -263,7 +259,6 @@
         width: 100%;
     }
 
-    /* Reset min-heights on mobile */
     .card-header-box {
         min-height: auto;
     }
@@ -281,10 +276,19 @@
     .pricing-text {
         h2 {
             font-size: 32px;
+            // Hide the <br> so text wraps naturally
+            br {
+                display: none;
+            }
         }
 
         p {
             font-size: 16px;
+        }
+
+        // Limit width to force desired line breaks
+        .pricing-text-inner {
+            max-width: 300px;    // Adjust as needed for exact breaks
         }
     }
 
@@ -320,17 +324,27 @@
     }
 
     .pricing-text {
+        justify-content: center;
         h2 {
             font-size: 28px;
+        }
+        p
+        {
+            margin-top: 0;
+        }
+
+        // Keep the same max-width for consistency
+        .pricing-text-inner {
+            max-width: 280px;
         }
     }
 
     .pricing-card {
-        padding: 14px;
+        padding: 14px;           // Slightly reduced outer padding on very small screens
         max-width: 90%;
 
         &.active {
-            padding: 6px;
+            padding: 14px;       // Ensure active card matches non‑active
         }
     }
 

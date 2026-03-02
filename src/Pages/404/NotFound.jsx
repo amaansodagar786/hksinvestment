@@ -53,130 +53,130 @@ const NotFound = () => {
                         <svg className="perfect-pie" viewBox="0 0 300 300">
                             {/* Background glow - green tint */}
                             <circle cx="150" cy="150" r="120" fill="#e8f5e9" opacity="0.3" />
-                            
+
                             {/* Perfect circle segments - all green shades for profit */}
                             <motion.path
                                 d="M150,150 L150,40 A110,110 0 0,1 235,95 Z"
                                 fill="#2e7d32"
                                 initial={{ scale: 1 }}
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.02, 1],
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 4,
                                     repeat: Infinity,
                                     ease: "easeInOut"
                                 }}
                             />
-                            
+
                             <motion.path
                                 d="M150,150 L235,95 A110,110 0 0,1 260,150 Z"
                                 fill="#388e3c"
                                 initial={{ scale: 1 }}
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.02, 1],
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 4.2,
                                     repeat: Infinity,
                                     ease: "easeInOut",
                                     delay: 0.3
                                 }}
                             />
-                            
+
                             <motion.path
                                 d="M150,150 L260,150 A110,110 0 0,1 222.5,227.5 Z"
                                 fill="#43a047"
                                 initial={{ scale: 1 }}
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.02, 1],
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 3.8,
                                     repeat: Infinity,
                                     ease: "easeInOut",
                                     delay: 0.6
                                 }}
                             />
-                            
+
                             <motion.path
                                 d="M150,150 L222.5,227.5 A110,110 0 0,1 150,260 Z"
                                 fill="#4caf50"
                                 initial={{ scale: 1 }}
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.02, 1],
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 4.4,
                                     repeat: Infinity,
                                     ease: "easeInOut",
                                     delay: 0.9
                                 }}
                             />
-                            
+
                             <motion.path
                                 d="M150,150 L150,260 A110,110 0 0,1 77.5,227.5 Z"
                                 fill="#66bb6a"
                                 initial={{ scale: 1 }}
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.02, 1],
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 4.1,
                                     repeat: Infinity,
                                     ease: "easeInOut",
                                     delay: 1.2
                                 }}
                             />
-                            
+
                             <motion.path
                                 d="M150,150 L77.5,227.5 A110,110 0 0,1 40,150 Z"
                                 fill="#81c784"
                                 initial={{ scale: 1 }}
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.02, 1],
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 3.9,
                                     repeat: Infinity,
                                     ease: "easeInOut",
                                     delay: 1.5
                                 }}
                             />
-                            
+
                             <motion.path
                                 d="M150,150 L40,150 A110,110 0 0,1 77.5,72.5 Z"
                                 fill="#a5d6a7"
                                 initial={{ scale: 1 }}
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.02, 1],
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 4.3,
                                     repeat: Infinity,
                                     ease: "easeInOut",
                                     delay: 1.8
                                 }}
                             />
-                            
+
                             <motion.path
                                 d="M150,150 L77.5,72.5 A110,110 0 0,1 150,40 Z"
                                 fill="#c8e6c9"
                                 initial={{ scale: 1 }}
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.02, 1],
                                 }}
-                                transition={{ 
+                                transition={{
                                     duration: 4.5,
                                     repeat: Infinity,
                                     ease: "easeInOut",
                                     delay: 2.1
                                 }}
                             />
-                            
+
                             {/* Center hole - perfect circle */}
                             <circle cx="150" cy="150" r="45" fill="white" />
-                            
+
                             {/* "404" text in center - now in green */}
                             <text
                                 x="150"
@@ -189,7 +189,7 @@ const NotFound = () => {
                             >
                                 404
                             </text>
-                            
+
                             {/* Floating particles - green for profit */}
                             <motion.circle
                                 cx="210"
@@ -197,56 +197,56 @@ const NotFound = () => {
                                 r="5"
                                 fill="#2e7d32"
                                 initial={{ opacity: 0.6 }}
-                                animate={{ 
+                                animate={{
                                     y: [0, -20, 0],
                                     x: [0, 15, 0],
                                     opacity: [0.6, 1, 0.6]
                                 }}
                                 transition={{ duration: 3, repeat: Infinity }}
                             />
-                            
+
                             <motion.circle
                                 cx="240"
                                 cy="190"
                                 r="4"
                                 fill="#388e3c"
                                 initial={{ opacity: 0.4 }}
-                                animate={{ 
+                                animate={{
                                     y: [0, 25, 0],
                                     x: [0, -20, 0],
                                     opacity: [0.4, 0.9, 0.4]
                                 }}
                                 transition={{ duration: 4, repeat: Infinity, delay: 1 }}
                             />
-                            
+
                             <motion.circle
                                 cx="70"
                                 cy="230"
                                 r="5"
                                 fill="#43a047"
                                 initial={{ opacity: 0.5 }}
-                                animate={{ 
+                                animate={{
                                     y: [0, -25, 0],
                                     x: [0, -15, 0],
                                     opacity: [0.5, 1, 0.5]
                                 }}
                                 transition={{ duration: 3.5, repeat: Infinity, delay: 2 }}
                             />
-                            
+
                             <motion.circle
                                 cx="80"
                                 cy="50"
                                 r="4"
                                 fill="#4caf50"
                                 initial={{ opacity: 0.3 }}
-                                animate={{ 
+                                animate={{
                                     y: [0, 20, 0],
                                     x: [0, 20, 0],
                                     opacity: [0.3, 0.8, 0.3]
                                 }}
                                 transition={{ duration: 4.2, repeat: Infinity, delay: 3 }}
                             />
-                            
+
                             {/* Success indicators - small plus signs */}
                             <motion.text
                                 x="180"
@@ -260,7 +260,7 @@ const NotFound = () => {
                             >
                                 +
                             </motion.text>
-                            
+
                             <motion.text
                                 x="90"
                                 cy="180"
@@ -275,9 +275,9 @@ const NotFound = () => {
                                 +
                             </motion.text>
                         </svg>
-                        
+
                         {/* Percentage labels floating - now all positive */}
-                        <motion.div 
+                        <motion.div
                             className="floating-label profit"
                             style={{ top: '15%', left: '15%' }}
                             animate={{ y: [0, -15, 0] }}
@@ -285,8 +285,8 @@ const NotFound = () => {
                         >
                             +12.5%
                         </motion.div>
-                        
-                        <motion.div 
+
+                        <motion.div
                             className="floating-label profit"
                             style={{ top: '75%', right: '10%' }}
                             animate={{ y: [0, 15, 0] }}
@@ -294,8 +294,8 @@ const NotFound = () => {
                         >
                             +8.3%
                         </motion.div>
-                        
-                        <motion.div 
+
+                        <motion.div
                             className="floating-label profit"
                             style={{ bottom: '15%', left: '20%' }}
                             animate={{ y: [0, -12, 0] }}
@@ -303,8 +303,8 @@ const NotFound = () => {
                         >
                             +24.7%
                         </motion.div>
-                        
-                        <motion.div 
+
+                        <motion.div
                             className="floating-label profit"
                             style={{ top: '40%', right: '20%' }}
                             animate={{ y: [0, 10, 0] }}

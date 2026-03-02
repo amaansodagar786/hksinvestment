@@ -22,7 +22,7 @@ const Contact = () => {
   return (
     <>
       <ContactHero/>
-      <AppointmentSection/>
+      <AppointmentSection/> 
     </>
   )
 }

@@ -1,9 +1,13 @@
 import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useMediaQuery } from "react-responsive"; // ← added
 import "./CareerHero.scss";
 
-const CareerHero = ({ onJoinClick }) => {  // Add prop
+const CareerHero = ({ onJoinClick }) => {
+    // Check if mobile
+    const isMobile = useMediaQuery({ maxWidth: 768 });
+
     // Animation variants - SAME AS ORIGINAL
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -110,7 +114,7 @@ const CareerHero = ({ onJoinClick }) => {  // Add prop
                     >
                         Build your <br />
                         <motion.span 
-                            className="career-highlight"
+                            className={`career-highlight ${isMobile ? 'career-highlight-mobile' : ''}`}
                             variants={highlightVariants}
                             initial="initial"
                             animate="animate"
@@ -134,7 +138,7 @@ const CareerHero = ({ onJoinClick }) => {  // Add prop
                         initial="initial"
                         whileHover="hover"
                         whileTap="tap"
-                        onClick={handleJoinClick}  // Add click handler
+                        onClick={handleJoinClick}
                     >
                         <span className="career-hero-btn-fill"></span>
                         <span className="career-hero-btn-text">Join Us</span>

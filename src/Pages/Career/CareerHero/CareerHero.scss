@@ -24,6 +24,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 768px) {
+        height: auto;
+        padding: 80px 24px 60px;
+    }
 }
 
 .career-hero-content {
@@ -38,9 +43,21 @@
     font-weight: 800;
     line-height: 1.45;
     position: relative;
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 58px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 42px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 32px;
+    }
 }
 
-/* ===== HIGHLIGHTED WORD ===== */
+/* ===== HIGHLIGHTED WORD - DEFAULT (DESKTOP) ===== */
 .career-highlight {
     position: relative;
     padding: 2px 22px;
@@ -53,6 +70,25 @@
     background: rgba(122, 61, 184, 0.1);
     cursor: default;
     transition: all 0.3s ease;
+
+    @media (max-width: 768px) {
+        padding: 2px 12px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 2px 8px;
+    }
+}
+
+/* ===== MOBILE HIGHLIGHT - NO BG, NO BORDER ===== */
+.career-highlight-mobile {
+    @media (max-width: 768px) {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        color: #5e2690; 
+        box-shadow: none !important;
+    }
 }
 
 /* Dots - hidden by default */
@@ -72,23 +108,54 @@
 .career-highlight::before {
     top: -6px;
     left: 22px;
+
+    @media (max-width: 768px) {
+        left: 12px;
+    }
+
+    @media (max-width: 480px) {
+        left: 8px;
+    }
 }
 
 .career-highlight::after {
     bottom: -6px;
     right: 22px;
+
+    @media (max-width: 768px) {
+        right: 12px;
+    }
+
+    @media (max-width: 480px) {
+        right: 8px;
+    }
 }
 
-/* Show dots on hover */
+/* Hide dots on mobile for highlighted word */
+.career-highlight-mobile::before,
+.career-highlight-mobile::after {
+    @media (max-width: 768px) {
+        display: none !important;
+    }
+}
+
+/* Show dots on hover (desktop only) */
 .career-highlight:hover::before,
 .career-highlight:hover::after {
     opacity: 1;
 }
 
-/* Hover effect */
+/* Hover effect (desktop only) */
 .career-highlight:hover {
     background: rgba(122, 61, 184, 0.2);
     transform: translateY(-2px);
+}
+
+/* Disable hover transform on mobile for highlighted word */
+.career-highlight-mobile:hover {
+    @media (max-width: 768px) {
+        transform: none !important;
+    }
 }
 
 /* ===== SUBTITLE ===== */
@@ -97,6 +164,18 @@
     font-size: 22px;
     font-family: 'Content', serif;
     position: relative;
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
 }
 
 .career-hero-subtitle::after {
@@ -206,36 +285,6 @@
     }
 }
 
-@media (max-width: 768px) {
-    .career-hero-top {
-        height: auto;
-        padding: 80px 24px 60px;
-    }
-
-    .career-hero-title {
-        font-size: 42px;
-    }
-
-    .career-hero-subtitle {
-        font-size: 18px;
-    }
-}
-
-@media (max-width: 480px) {
-    .career-hero-top {
-        padding: 60px 20px 50px;
-    }
-
-    .career-hero-title {
-        font-size: 32px;
-    }
-
-    .career-hero-subtitle {
-        font-size: 16px;
-    }
-}
-
-/* ===== BUTTON RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .career-hero-btn {
         width: 170px;
@@ -251,6 +300,21 @@
     .career-hero-btn-fill {
         width: 42px;
         height: 42px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .career-hero-top {
+        height: auto;
+        padding: 80px 24px 60px;
+    }
+
+    .career-hero-title {
+        font-size: 42px;
+    }
+
+    .career-hero-subtitle {
         font-size: 18px;
     }
 }
@@ -275,6 +339,18 @@
 }
 
 @media (max-width: 480px) {
+    .career-hero-top {
+        padding: 60px 20px 50px;
+    }
+
+    .career-hero-title {
+        font-size: 32px;
+    }
+
+    .career-hero-subtitle {
+        font-size: 16px;
+    }
+
     .career-hero-btn {
         width: 110px;
         height: 44px;
@@ -302,7 +378,6 @@
         transition: none !important;
     }
 }
-
 
 .desktop-only {
     display: inline;

@@ -105,34 +105,44 @@ const ContactHero = () => {
                             variants={titleVariants}
                         >
                             {isMobile ? (
-                                // MOBILE VIEW - 3 lines
+                                // MOBILE VIEW - 3 lines with no bg/border on highlights
                                 <>
                                     One{" "}
                                     <motion.span
-                                        className="contact-highlight"
+                                        className="contact-highlight contact-highlight-mobile"
                                         variants={highlightVariants}
                                         initial="initial"
                                         animate="animate"
                                         whileHover="hover"
                                     >
-                                        decision 
-                                    </motion.span> that{" "}
-                                    
-                                    can change your{" "}
-                                    
+                                        decision
+                                    </motion.span>{" "}
+                                    that
+                                    <br />
+                                    can{" "}change
+                                    {/* <motion.span
+                                        className="contact-highlight contact-highlight-mobile"
+                                        variants={highlightVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        whileHover="hover"
+                                    >
+                                        change
+                                    </motion.span> */}
+                                    <br />
+                                    your{" "}
                                     <motion.span
-                                        className="contact-highlight"
+                                        className="contact-highlight contact-highlight-mobile"
                                         variants={highlightVariants}
                                         initial="initial"
                                         animate="animate"
                                         whileHover="hover"
                                     >
-                                        life.
+                                        life
                                     </motion.span>
-                                    
                                 </>
                             ) : (
-                                // DESKTOP VIEW - 1 line
+                                // DESKTOP VIEW - 1 line (UNCHANGED)
                                 <>
                                     One{" "}
                                     <motion.span
@@ -154,7 +164,6 @@ const ContactHero = () => {
                                     >
                                         life.
                                     </motion.span>
-                                    
                                 </>
                             )}
                         </motion.h1>

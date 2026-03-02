@@ -8,6 +8,7 @@
     position: relative;
     display: flex;
     justify-content: center;
+    overflow-x: hidden; /* ← prevents horizontal scroll on mobile */
 }
 
 /* =========================
@@ -476,8 +477,12 @@
         order: 1;
     }
 
+    /* FIX: Center feedback heading on mobile */
     .footer-col.feedback h4 {
-        text-align: center;
+        display: block;           /* ← makes it full width */
+        text-align: center;       /* ← centers text inside */
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .feedback-form {
@@ -497,7 +502,7 @@
 
     .footer-group-grid {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 15px;
     }
 
     .footer-col.brand {
@@ -548,7 +553,7 @@
         flex-direction: column;
         text-align: center;
         gap: 8px;
-        margin-top: 25px;
+        margin-top: 0px;
         padding-top: 15px;
         order: 3;
     }
@@ -563,12 +568,12 @@
     }
 
     .footer-bottom {
-        font-size: 32px;
+        font-size: 28px;
         white-space: normal;
         line-height: 1.2;
         margin-top: 30px;
         word-break: break-word;
-        padding: 0 10px;
+        padding: 0 0px;
         order: 4;
         animation: none !important;
         background: none !important;
@@ -617,7 +622,12 @@
     .footer-col.contact p,
     .footer-col.contact a {
         font-size: 13px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
+
+
+ 
 
     .footer-bottom {
         font-size: 24px;
@@ -715,13 +725,8 @@
     }
 }
 
-
-
 @media screen and (min-width: 1900px) and (max-width: 2600px) {
     .footer-container {
         max-width: 1700px;  /* Only this changes - increased from 1400px */
-        
     }
-    
-
 }
