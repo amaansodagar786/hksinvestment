@@ -203,7 +203,7 @@
     display: inline-flex;
     align-items: center;
     width: 195px;
-    height: 65px;
+    height: 60px;
     background: #5e2690;
     border: 2px solid #5e2690;
     border-radius: 999px;
@@ -219,10 +219,10 @@
 .pricing-hero-btn-fill {
     position: absolute;
     right: 3px;
-    top: 50%;
+    top: 50.5%;
     transform: translateY(-50%);
-    height: 57px;
-    width: 53px;
+    height: 53px;
+    width: 50px;
     background: #ffffff;
     border-radius: 999px;
     transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);

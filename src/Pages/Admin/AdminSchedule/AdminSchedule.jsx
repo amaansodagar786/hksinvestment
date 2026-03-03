@@ -106,8 +106,6 @@ const AdminSchedule = () => {
         }
     }, [selectedDate]);
 
-
-
     // Add this useEffect after your other useEffects
     useEffect(() => {
         if (showAddForm) {
@@ -133,9 +131,6 @@ const AdminSchedule = () => {
             }, 100);
         }
     }, [selectedDate, showAddForm]);
-
-
-
 
     // Fetch all schedules with filters
     const fetchAllSchedules = async () => {
@@ -363,14 +358,12 @@ const AdminSchedule = () => {
         setIsOff(schedule.isOff);
         setSelectedSlots(schedule.customSlots || []);
         setShowAddForm(true);
-        // document.querySelector('.schedule-form-section')?.scrollIntoView({ behavior: 'smooth' });
     };
 
     // Handle add new
     const handleAddNew = () => {
         handleClearForm();
         setShowAddForm(true);
-        // document.querySelector('.schedule-form-section')?.scrollIntoView({ behavior: 'smooth' });
     };
 
     // Clear form
@@ -471,14 +464,6 @@ const AdminSchedule = () => {
                 transition={{ duration: 0.5 }}
             >
                 <div className="schedule-header">
-                    {/* <motion.span
-                        className="schedule-pill"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        Admin Panel
-                    </motion.span> */}
                     <motion.h2
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -627,68 +612,72 @@ const AdminSchedule = () => {
                             <p>No schedules found</p>
                         </div>
                     ) : (
-                        <motion.div
-                            className={`schedules-${viewMode}`}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                        >
-                            {allSchedules.map((schedule) => (
-                                <motion.div
-                                    key={schedule.id}
-                                    className={`schedule-card ${schedule.isOff ? 'off-day' : ''} ${existingSchedule?.id === schedule.id ? 'active' : ''}`}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    whileHover={{ y: -5 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    <div className="schedule-card-header">
-                                        <span className="schedule-date">{formatShortDate(schedule.date)}</span>
-                                        {schedule.isOff ? (
-                                            <span className="off-badge">Day Off</span>
-                                        ) : (
-                                            <span className="slots-badge">{schedule.slotCount} slots</span>
-                                        )}
-                                    </div>
-
-                                    {!schedule.isOff && (
-                                        <div className="schedule-slots-preview">
-                                            {schedule.customSlots?.slice(0, 5).map((slot, idx) => (
-                                                <span key={idx} className="slot-pill">{slot}</span>
-                                            ))}
-                                            {schedule.customSlots?.length > 5 && (
-                                                <span className="more-badge">+{schedule.customSlots.length - 5}</span>
+                        /* NEW: Added scroll container div */
+                        <div className="schedules-container">
+                            <motion.div
+                                className={`schedules-${viewMode}`}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                            >
+                                {allSchedules.map((schedule) => (
+                                    <motion.div
+                                        key={schedule.id}
+                                        className={`schedule-card ${schedule.isOff ? 'off-day' : ''} ${existingSchedule?.id === schedule.id ? 'active' : ''}`}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        whileHover={{ y: -5 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <div className="schedule-card-header">
+                                            <span className="schedule-date">{formatShortDate(schedule.date)}</span>
+                                            {schedule.isOff ? (
+                                                <span className="off-badge">Day Off</span>
+                                            ) : (
+                                                <span className="slots-badge">{schedule.slotCount} slots</span>
                                             )}
                                         </div>
-                                    )}
 
-                                    <div className="schedule-card-footer">
-                                        <span className="schedule-status">
-                                            {schedule.isOff ? 'Closed' : 'Custom Schedule'}
-                                        </span>
-                                        <div className="schedule-card-actions">
-                                            <motion.button
-                                                className="edit-btn"
-                                                onClick={() => handleEditSchedule(schedule)}
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.9 }}
-                                                title="Edit schedule"
-                                            >
-                                                <FiEdit2 />
-                                            </motion.button>
-                                            <motion.button
-                                                className="delete-btn"
-                                                onClick={() => handleDeleteSchedule(schedule.date)}
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.9 }}
-                                                title="Delete schedule"
-                                            >
-                                                <FiTrash2 />
-                                            </motion.button>
+                                        {!schedule.isOff && (
+                                            <div className="schedule-slots-preview">
+                                                {schedule.customSlots?.slice(0, 5).map((slot, idx) => (
+                                                    <span key={idx} className="slot-pill">{slot}</span>
+                                                ))}
+                                                {schedule.customSlots?.length > 5 && (
+                                                    <span className="more-badge">+{schedule.customSlots.length - 5}</span>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        <div className="schedule-card-footer">
+                                            <span className="schedule-status">
+                                                {schedule.isOff ? 'Closed' : 'Custom Schedule'}
+                                            </span>
+                                            <div className="schedule-card-actions">
+                                                <motion.button
+                                                    className="edit-btn"
+                                                    onClick={() => handleEditSchedule(schedule)}
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                    title="Edit schedule"
+                                                >
+                                                    <FiEdit2 />
+                                                </motion.button>
+                                                <motion.button
+                                                    className="delete-btn"
+                                                    onClick={() => handleDeleteSchedule(schedule.date)}
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                    title="Delete schedule"
+                                                >
+                                                    <FiTrash2 />
+                                                </motion.button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </motion.div>
+                                    </motion.div>
+                                ))}
+                            </motion.div>
+                        </div>
+                        /* NEW: Scroll container ends here */
                     )}
                 </motion.div>
 

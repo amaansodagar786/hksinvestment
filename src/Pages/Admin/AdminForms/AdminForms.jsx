@@ -50,7 +50,7 @@ const AdminForms = () => {
     useEffect(() => {
         const token = localStorage.getItem('adminToken');
         if (!token) {
-            navigate('/admin/login');
+            navigate('/admin-portal/login');
         }
     }, [navigate]);
 
@@ -94,7 +94,7 @@ const AdminForms = () => {
 
             if (response.status === 401) {
                 localStorage.removeItem('adminToken');
-                navigate('/admin/login');
+                navigate('/admin-portal/login');
                 return;
             }
 
@@ -145,7 +145,7 @@ const AdminForms = () => {
 
             if (response.status === 401) {
                 localStorage.removeItem('adminToken');
-                navigate('/admin/login');
+                navigate('/admin-portal/login');
                 return;
             }
 

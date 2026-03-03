@@ -19,12 +19,16 @@ import {
     FiUser,
     FiMessageSquare,
     FiPieChart,
-    FiBarChart2
+    FiBarChart2,
+    FiActivity,
+    FiGitMerge
 } from 'react-icons/fi';
 import {
     PieChart, Pie, Cell,
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-    LineChart, Line
+    LineChart, Line, AreaChart, Area,
+    RadialBarChart, RadialBar,
+    ComposedChart, Sankey
 } from 'recharts';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,7 +36,7 @@ import * as XLSX from 'xlsx';
 import './Dashboard.scss';
 
 const Dashboard = () => {
-        const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -48,7 +52,10 @@ const Dashboard = () => {
         contacted: '#3b82f6',
         resolved: '#8b5cf6',
         reviewed: '#6366f1',
-        hired: '#059669'
+        hired: '#059669',
+        general: '#f97316',
+        support: '#06b6d4',
+        inquiry: '#a855f7'
     };
 
     // Fetch all stats on component mount
@@ -56,12 +63,10 @@ const Dashboard = () => {
         fetchDashboardStats();
     }, []);
 
-
-
     useEffect(() => {
         const token = localStorage.getItem('adminToken');
         if (!token) {
-            navigate('/admin/login');
+            navigate('/admin-portal/login');
         }
     }, [navigate]);
 
@@ -86,6 +91,7 @@ const Dashboard = () => {
 
             if (data.success) {
                 setStats(data.data);
+                console.log('Dashboard stats:', data.data);
             } else {
                 toast.error('Failed to load dashboard stats');
             }
@@ -137,7 +143,6 @@ const Dashboard = () => {
 
             if (data.success) {
                 toast.success('Status updated successfully!');
-                // Refresh data
                 fetchDashboardStats();
                 if (activeTab !== 'overview') {
                     fetchDetails(activeTab);
@@ -154,10 +159,8 @@ const Dashboard = () => {
     const exportToExcel = () => {
         try {
             if (activeTab === 'overview') {
-                // Create workbook with multiple sheets for Overview tab
                 const workbook = XLSX.utils.book_new();
 
-                // 1. Appointments Sheet
                 const appointmentsHeaders = ['Reference ID', 'Name', 'Email', 'Phone', 'Date', 'Time', 'Status'];
                 const appointmentsRows = (stats?.appointments?.recentData || []).map(item => [
                     item.referenceId || 'N/A',
@@ -171,22 +174,6 @@ const Dashboard = () => {
                 const appointmentsSheet = XLSX.utils.aoa_to_sheet([appointmentsHeaders, ...appointmentsRows]);
                 XLSX.utils.book_append_sheet(workbook, appointmentsSheet, 'Appointments');
 
-                {/* Commented out Contacts Sheet
-                // 2. Contacts Sheet
-                const contactsHeaders = ['Name', 'Email', 'Phone', 'Message', 'Status', 'Date'];
-                const contactsRows = (stats?.contacts?.recentData || []).map(item => [
-                    item.name || 'N/A',
-                    item.email || 'N/A',
-                    item.phone || 'N/A',
-                    item.message ? item.message.substring(0, 50) + '...' : 'N/A',
-                    item.status || 'N/A',
-                    item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
-                ]);
-                const contactsSheet = XLSX.utils.aoa_to_sheet([contactsHeaders, ...contactsRows]);
-                XLSX.utils.book_append_sheet(workbook, contactsSheet, 'Contacts');
-                */}
-
-                // 2. Careers Sheet (renumbered)
                 const careersHeaders = ['Name', 'Email', 'Phone', 'LLQP License', 'Status', 'Date'];
                 const careersRows = (stats?.careers?.recentData || []).map(item => [
                     `${item.firstName || ''} ${item.lastName || ''}`.trim() || 'N/A',
@@ -199,7 +186,6 @@ const Dashboard = () => {
                 const careersSheet = XLSX.utils.aoa_to_sheet([careersHeaders, ...careersRows]);
                 XLSX.utils.book_append_sheet(workbook, careersSheet, 'Careers');
 
-                // 3. Service Inquiries Sheet
                 const serviceHeaders = ['Name', 'Service', 'Email', 'Phone', 'Message', 'Status', 'Date'];
                 const serviceRows = (stats?.serviceInquiries?.recentData || []).map(item => [
                     item.name || 'N/A',
@@ -213,7 +199,6 @@ const Dashboard = () => {
                 const serviceSheet = XLSX.utils.aoa_to_sheet([serviceHeaders, ...serviceRows]);
                 XLSX.utils.book_append_sheet(workbook, serviceSheet, 'Service Inquiries');
 
-                // 4. General Inquiries Sheet
                 const generalHeaders = ['Name', 'Reason', 'Email', 'Phone', 'Message', 'Status', 'Date'];
                 const generalRows = (stats?.generalInquiries?.recentData || []).map(item => [
                     item.name || 'N/A',
@@ -227,12 +212,10 @@ const Dashboard = () => {
                 const generalSheet = XLSX.utils.aoa_to_sheet([generalHeaders, ...generalRows]);
                 XLSX.utils.book_append_sheet(workbook, generalSheet, 'General Inquiries');
 
-                // Download the workbook
                 const fileName = `all-data-${new Date().toISOString().split('T')[0]}.xlsx`;
                 XLSX.writeFile(workbook, fileName);
                 toast.success('All data exported successfully with multiple sheets!');
             } else {
-                // Export single sheet for other tabs
                 let headers = [];
                 let rows = [];
                 let sheetName = '';
@@ -251,21 +234,6 @@ const Dashboard = () => {
                             item.status || 'N/A'
                         ]);
                         break;
-
-                        {/* Commented out Contacts case
-                    case 'contacts':
-                        sheetName = 'Contacts';
-                        headers = ['Name', 'Email', 'Phone', 'Message', 'Status', 'Date'];
-                        rows = detailsData.map(item => [
-                            item.name || 'N/A',
-                            item.email || 'N/A',
-                            item.phone || 'N/A',
-                            item.message || 'N/A',
-                            item.status || 'N/A',
-                            item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'
-                        ]);
-                        break;
-                    */}
 
                     case 'careers':
                         sheetName = 'Careers';
@@ -312,12 +280,10 @@ const Dashboard = () => {
                         return;
                 }
 
-                // Create workbook with single sheet
                 const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
 
-                // Download file
                 const fileName = `${activeTab}-${new Date().toISOString().split('T')[0]}.xlsx`;
                 XLSX.writeFile(workbook, fileName);
                 toast.success(`${sheetName} data exported successfully!`);
@@ -326,6 +292,62 @@ const Dashboard = () => {
             console.error('Error exporting to Excel:', error);
             toast.error('Failed to export data');
         }
+    };
+
+    // Prepare data for charts - FIXED
+    const prepareAppointmentData = () => {
+        return [
+            { name: 'Pending', value: stats?.appointments?.byStatus?.pending || 0, color: COLORS.pending },
+            { name: 'Approved', value: stats?.appointments?.byStatus?.approved || 0, color: COLORS.approved },
+            { name: 'Rejected', value: stats?.appointments?.byStatus?.rejected || 0, color: COLORS.rejected }
+        ].filter(item => item.value > 0);
+    };
+
+    const prepareCareerData = () => {
+        // FIXED: Now showing 4 statuses: Pending, Contacted, Rejected, Hired
+        return [
+            { name: 'Pending', value: stats?.careers?.byStatus?.pending || 0, color: COLORS.pending },
+            { name: 'Contacted', value: stats?.careers?.byStatus?.contacted || 0, color: COLORS.contacted },
+            { name: 'Rejected', value: stats?.careers?.byStatus?.rejected || 0, color: COLORS.rejected },
+            { name: 'Hired', value: stats?.careers?.byStatus?.hired || 0, color: COLORS.hired }
+        ].filter(item => item.value > 0);
+    };
+
+    const prepareServiceData = () => {
+        // FIXED: Preparing for ComposedChart (different from appointments)
+        const data = [
+            { name: 'Pending', value: stats?.serviceInquiries?.byStatus?.pending || 0, color: COLORS.pending },
+            { name: 'Contacted', value: stats?.serviceInquiries?.byStatus?.contacted || 0, color: COLORS.contacted },
+            { name: 'Resolved', value: stats?.serviceInquiries?.byStatus?.resolved || 0, color: COLORS.resolved }
+        ].filter(item => item.value > 0);
+        
+        // Add percentage for labels
+        const total = data.reduce((sum, item) => sum + item.value, 0);
+        return data.map(item => ({
+            ...item,
+            percentage: total > 0 ? ((item.value / total) * 100).toFixed(0) : 0
+        }));
+    };
+
+    const prepareGeneralData = () => {
+        const reasons = stats?.generalInquiries?.byReason || [];
+        return reasons.map(reason => ({
+            name: reason._id,
+            pending: reason.pending,
+            contacted: reason.contacted,
+            resolved: reason.resolved,
+            total: reason.count
+        }));
+    };
+
+    // Find most requested reason - FIXED
+    const getMostRequestedReason = () => {
+        const reasons = stats?.generalInquiries?.byReason || [];
+        if (reasons.length === 0) return 'N/A';
+        
+        const mostRequested = reasons.reduce((max, item) => 
+            item.count > (max.count || 0) ? item : max, {});
+        return mostRequested._id || 'N/A';
     };
 
     if (loading) {
@@ -355,7 +377,6 @@ const Dashboard = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        {/* <span className="dashboard-pill">Admin Panel</span> */}
                         <h1>Dashboard <span>Overview</span></h1>
                         <p>Welcome back! Here's your complete overview.</p>
                     </motion.div>
@@ -404,29 +425,6 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </motion.div>
-
-                    {/* Commented out Contacts Card
-                    <motion.div
-                        className="stat-card contacts"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        whileHover={{ y: -5 }}
-                    >
-                        <div className="stat-icon">
-                            <FiMail />
-                        </div>
-                        <div className="stat-content">
-                            <h3>Contacts</h3>
-                            <div className="stat-numbers">
-                                <span className="total">{stats?.quickStats?.contacts?.total || 0}</span>
-                                <span className="badge pending">
-                                    {stats?.quickStats?.contacts?.pending || 0} pending
-                                </span>
-                            </div>
-                        </div>
-                    </motion.div>
-                    */}
 
                     <motion.div
                         className="stat-card careers"
@@ -508,15 +506,6 @@ const Dashboard = () => {
                     >
                         <FiCalendar /> Appointments
                     </motion.button>
-                    {/* Commented out Contacts Tab
-                    <motion.button
-                        className={`tab-btn ${activeTab === 'contacts' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('contacts')}
-                        whileHover={{ y: -2 }}
-                    >
-                        <FiMail /> Contacts
-                    </motion.button>
-                    */}
                     <motion.button
                         className={`tab-btn ${activeTab === 'careers' ? 'active' : ''}`}
                         onClick={() => setActiveTab('careers')}
@@ -551,210 +540,300 @@ const Dashboard = () => {
                         className="tab-content"
                     >
                         {activeTab === 'overview' && (
-                            <div className="overview-tab">
-                                {/* Appointments Analytics */}
-                                <div className="analytics-section">
-                                    <h2>📅 Appointments Analytics</h2>
-                                    <div className="analytics-grid">
-                                        <div className="analytics-card">
-                                            <h4>Total Appointments</h4>
-                                            <p className="big-number">{stats?.appointments?.total || 0}</p>
-                                        </div>
-                                        <div className="analytics-card">
-                                            <h4>Today</h4>
-                                            <p className="big-number">{stats?.appointments?.today || 0}</p>
-                                        </div>
-                                        <div className="analytics-card">
-                                            <h4>This Week</h4>
-                                            <p className="big-number">{stats?.appointments?.thisWeek || 0}</p>
-                                        </div>
-                                    </div>
-                                    <div className="status-breakdown">
-                                        <h4>Status Breakdown</h4>
-                                        <div className="status-bars">
-                                            <div className="status-bar">
-                                                <span>Pending</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill pending"
-                                                        style={{ width: `${(stats?.appointments?.byStatus?.pending / stats?.appointments?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.appointments?.byStatus?.pending || 0}</span>
+                            <div className="overview-tab-new">
+                                {/* 2x2 Grid Layout for Overview */}
+                                <div className="analytics-grid-2x2">
+                                    
+                                    {/* Card 1: Appointments - Doughnut Chart - FIXED legend visibility */}
+                                    <motion.div 
+                                        className="analytics-card-modern"
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: 0.1 }}
+                                        whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(122, 61, 184, 0.15)' }}
+                                    >
+                                        <div className="card-header">
+                                            <div className="header-left">
+                                                <FiCalendar className="card-icon" />
+                                                <h3>Appointments</h3>
                                             </div>
-                                            <div className="status-bar">
-                                                <span>Approved</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill approved"
-                                                        style={{ width: `${(stats?.appointments?.byStatus?.approved / stats?.appointments?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.appointments?.byStatus?.approved || 0}</span>
+                                            <span className="total-badge">{stats?.appointments?.total || 0}</span>
+                                        </div>
+                                        
+                                        <div className="card-stats-mini">
+                                            <div className="mini-stat">
+                                                <span className="label">Today</span>
+                                                <span className="value">{stats?.appointments?.today || 0}</span>
                                             </div>
-                                            <div className="status-bar">
-                                                <span>Rejected</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill rejected"
-                                                        style={{ width: `${(stats?.appointments?.byStatus?.rejected / stats?.appointments?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.appointments?.byStatus?.rejected || 0}</span>
+                                            <div className="mini-stat">
+                                                <span className="label">This Week</span>
+                                                <span className="value">{stats?.appointments?.thisWeek || 0}</span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                {/* Commented out Contact Forms Analytics
-                                <div className="analytics-section">
-                                    <h2>📞 Contact Forms Analytics</h2>
-                                    <div className="analytics-grid">
-                                        <div className="analytics-card">
-                                            <h4>Total Contacts</h4>
-                                            <p className="big-number">{stats?.contacts?.total || 0}</p>
+                                        <div className="chart-container">
+                                            <ResponsiveContainer width="100%" height={200}>
+                                                <PieChart>
+                                                    <Pie
+                                                        data={prepareAppointmentData()}
+                                                        cx="50%"
+                                                        cy="50%"
+                                                        innerRadius={60}
+                                                        outerRadius={80}
+                                                        paddingAngle={5}
+                                                        dataKey="value"
+                                                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                                        labelLine={true}
+                                                    >
+                                                        {prepareAppointmentData().map((entry, index) => (
+                                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                                        ))}
+                                                    </Pie>
+                                                    <Tooltip 
+                                                        contentStyle={{ 
+                                                            background: 'white', 
+                                                            border: '2px solid #efe8fb',
+                                                            borderRadius: '10px',
+                                                            fontFamily: 'Content, serif'
+                                                        }} 
+                                                    />
+                                                </PieChart>
+                                            </ResponsiveContainer>
                                         </div>
-                                    </div>
-                                    <div className="status-breakdown">
-                                        <h4>Status Breakdown</h4>
-                                        <div className="status-bars">
-                                            <div className="status-bar">
-                                                <span>Pending</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill pending"
-                                                        style={{ width: `${(stats?.contacts?.byStatus?.pending / stats?.contacts?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.contacts?.byStatus?.pending || 0}</span>
-                                            </div>
-                                            <div className="status-bar">
-                                                <span>Contacted</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill contacted"
-                                                        style={{ width: `${(stats?.contacts?.byStatus?.contacted / stats?.contacts?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.contacts?.byStatus?.contacted || 0}</span>
-                                            </div>
-                                            <div className="status-bar">
-                                                <span>Resolved</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill resolved"
-                                                        style={{ width: `${(stats?.contacts?.byStatus?.resolved / stats?.contacts?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.contacts?.byStatus?.resolved || 0}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                */}
 
-                                {/* Career Applications */}
-                                <div className="analytics-section">
-                                    <h2>💼 Career Applications</h2>
-                                    <div className="analytics-grid">
-                                        <div className="analytics-card">
-                                            <h4>Total Applications</h4>
-                                            <p className="big-number">{stats?.careers?.total || 0}</p>
-                                        </div>
-                                        <div className="analytics-card">
-                                            <h4>LLQP Holders</h4>
-                                            <p className="big-number">{stats?.careers?.llqpStats?.yes || 0}</p>
-                                        </div>
-                                        <div className="analytics-card">
-                                            <h4>Non-LLQP</h4>
-                                            <p className="big-number">{stats?.careers?.llqpStats?.no || 0}</p>
-                                        </div>
-                                    </div>
-                                    <div className="status-breakdown">
-                                        <h4>Status Breakdown</h4>
-                                        <div className="status-bars">
-                                            {Object.entries(stats?.careers?.byStatus || {}).map(([status, count]) => (
-                                                <div className="status-bar" key={status}>
-                                                    <span className="capitalize">{status}</span>
-                                                    <div className="bar">
-                                                        <div
-                                                            className={`fill ${status}`}
-                                                            style={{ width: `${(count / stats?.careers?.total * 100) || 0}%` }}
-                                                        />
-                                                    </div>
-                                                    <span>{count}</span>
+                                        <div className="status-legend">
+                                            {prepareAppointmentData().map((item, idx) => (
+                                                <div className="legend-item" key={idx}>
+                                                    <span className="color-dot" style={{ background: item.color }}></span>
+                                                    <span className="legend-label">{item.name}</span>
+                                                    <span className="legend-value">{item.value}</span>
                                                 </div>
                                             ))}
                                         </div>
-                                    </div>
-                                </div>
+                                    </motion.div>
 
-                                {/* Service Inquiries */}
-                                <div className="analytics-section">
-                                    <h2>📊 Service Inquiries</h2>
-                                    <div className="analytics-grid">
-                                        <div className="analytics-card">
-                                            <h4>Total Service Inquiries</h4>
-                                            <p className="big-number">{stats?.serviceInquiries?.total || 0}</p>
+                                    {/* Card 2: Careers - Bar Chart - FIXED with 4 bars */}
+                                    <motion.div 
+                                        className="analytics-card-modern"
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: 0.2 }}
+                                        whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(139, 92, 246, 0.15)' }}
+                                    >
+                                        <div className="card-header">
+                                            <div className="header-left">
+                                                <FiBriefcase className="card-icon" />
+                                                <h3>Careers</h3>
+                                            </div>
+                                            <span className="total-badge">{stats?.careers?.total || 0}</span>
                                         </div>
-                                    </div>
-                                    <div className="status-breakdown">
-                                        <h4>Status Breakdown</h4>
-                                        <div className="status-bars">
-                                            <div className="status-bar">
-                                                <span>Pending</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill pending"
-                                                        style={{ width: `${(stats?.serviceInquiries?.byStatus?.pending / stats?.serviceInquiries?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.serviceInquiries?.byStatus?.pending || 0}</span>
+
+                                        <div className="card-stats-mini">
+                                            <div className="mini-stat">
+                                                <span className="label">LLQP Holders</span>
+                                                <span className="value">{stats?.careers?.llqpStats?.yes || 0}</span>
                                             </div>
-                                            <div className="status-bar">
-                                                <span>Contacted</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill contacted"
-                                                        style={{ width: `${(stats?.serviceInquiries?.byStatus?.contacted / stats?.serviceInquiries?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.serviceInquiries?.byStatus?.contacted || 0}</span>
-                                            </div>
-                                            <div className="status-bar">
-                                                <span>Resolved</span>
-                                                <div className="bar">
-                                                    <div
-                                                        className="fill resolved"
-                                                        style={{ width: `${(stats?.serviceInquiries?.byStatus?.resolved / stats?.serviceInquiries?.total * 100) || 0}%` }}
-                                                    />
-                                                </div>
-                                                <span>{stats?.serviceInquiries?.byStatus?.resolved || 0}</span>
+                                            <div className="mini-stat">
+                                                <span className="label">Non-LLQP</span>
+                                                <span className="value">{stats?.careers?.llqpStats?.no || 0}</span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                {/* General Inquiries */}
-                                <div className="analytics-section">
-                                    <h2>📝 General Inquiries</h2>
-                                    <div className="reasons-grid">
-                                        {(stats?.generalInquiries?.byReason || []).map((item, index) => (
-                                            <div className="reason-card" key={index}>
-                                                <h4>{item._id}</h4>
-                                                <p className="total">{item.count}</p>
-                                                <div className="reason-stats">
-                                                    <span className="pending">{item.pending} pending</span>
-                                                    <span className="contacted">{item.contacted} contacted</span>
-                                                    <span className="resolved">{item.resolved} resolved</span>
+                                        <div className="chart-container">
+                                            <ResponsiveContainer width="100%" height={200}>
+                                                <BarChart
+                                                    data={prepareCareerData()}
+                                                    layout="vertical"
+                                                    margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
+                                                >
+                                                    <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                                                    <XAxis type="number" />
+                                                    <YAxis 
+                                                        type="category" 
+                                                        dataKey="name" 
+                                                        width={80} 
+                                                        tick={{ fontFamily: 'Content, serif', fontSize: 12 }} 
+                                                    />
+                                                    <Tooltip 
+                                                        contentStyle={{ 
+                                                            background: 'white', 
+                                                            border: '2px solid #efe8fb',
+                                                            borderRadius: '10px',
+                                                            fontFamily: 'Content, serif'
+                                                        }} 
+                                                    />
+                                                    <Bar dataKey="value" radius={[0, 10, 10, 0]}>
+                                                        {prepareCareerData().map((entry, index) => (
+                                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                                        ))}
+                                                    </Bar>
+                                                </BarChart>
+                                            </ResponsiveContainer>
+                                        </div>
+
+                                        <div className="status-legend">
+                                            {prepareCareerData().map((item, idx) => (
+                                                <div className="legend-item" key={idx}>
+                                                    <span className="color-dot" style={{ background: item.color }}></span>
+                                                    <span className="legend-label">{item.name}</span>
+                                                    <span className="legend-value">{item.value}</span>
                                                 </div>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+
+                                    {/* Card 3: Service Inquiries - Composed Chart (different from appointments) */}
+                                    <motion.div 
+                                        className="analytics-card-modern"
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: 0.3 }}
+                                        whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(245, 158, 11, 0.15)' }}
+                                    >
+                                        <div className="card-header">
+                                            <div className="header-left">
+                                                <FiTrendingUp className="card-icon" />
+                                                <h3>Service Inquiries</h3>
                                             </div>
-                                        ))}
-                                    </div>
+                                            <span className="total-badge">{stats?.serviceInquiries?.total || 0}</span>
+                                        </div>
+
+                                        <div className="card-stats-mini">
+                                            <div className="mini-stat">
+                                                <span className="label">Pending</span>
+                                                <span className="value pending">{stats?.serviceInquiries?.byStatus?.pending || 0}</span>
+                                            </div>
+                                            <div className="mini-stat">
+                                                <span className="label">Contacted</span>
+                                                <span className="value contacted">{stats?.serviceInquiries?.byStatus?.contacted || 0}</span>
+                                            </div>
+                                            <div className="mini-stat">
+                                                <span className="label">Resolved</span>
+                                                <span className="value resolved">{stats?.serviceInquiries?.byStatus?.resolved || 0}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="chart-container">
+                                            <ResponsiveContainer width="100%" height={200}>
+                                                <ComposedChart
+                                                    data={prepareServiceData()}
+                                                    margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                                                >
+                                                    <CartesianGrid stroke="#f5f5f5" />
+                                                    <XAxis dataKey="name" scale="band" />
+                                                    <YAxis />
+                                                    <Tooltip 
+                                                        contentStyle={{ 
+                                                            background: 'white', 
+                                                            border: '2px solid #efe8fb',
+                                                            borderRadius: '10px',
+                                                            fontFamily: 'Content, serif'
+                                                        }} 
+                                                    />
+                                                    <Legend />
+                                                    <Bar dataKey="value" barSize={30} fill={COLORS.contacted} radius={[10, 10, 0, 0]}>
+                                                        {prepareServiceData().map((entry, index) => (
+                                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                                        ))}
+                                                    </Bar>
+                                                    <Line type="monotone" dataKey="value" stroke="#ff7300" strokeWidth={2} />
+                                                </ComposedChart>
+                                            </ResponsiveContainer>
+                                        </div>
+
+                                        <div className="status-legend">
+                                            {prepareServiceData().map((item, idx) => (
+                                                <div className="legend-item" key={idx}>
+                                                    <span className="color-dot" style={{ background: item.color }}></span>
+                                                    <span className="legend-label">{item.name}</span>
+                                                    <span className="legend-value">{item.value}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+
+                                    {/* Card 4: General Inquiries - Grouped Bar Chart - FIXED most requested */}
+                                    <motion.div 
+                                        className="analytics-card-modern"
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: 0.4 }}
+                                        whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.15)' }}
+                                    >
+                                        <div className="card-header">
+                                            <div className="header-left">
+                                                <FiMessageSquare className="card-icon" />
+                                                <h3>General Inquiries</h3>
+                                            </div>
+                                            <span className="total-badge">{stats?.generalInquiries?.total || 0}</span>
+                                        </div>
+
+                                        <div className="card-stats-mini">
+                                            <div className="mini-stat">
+                                                <span className="label">Most Requested</span>
+                                                <span className="value">
+                                                    {getMostRequestedReason()}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="chart-container">
+                                            <ResponsiveContainer width="100%" height={180}>
+                                                <BarChart
+                                                    data={prepareGeneralData()}
+                                                    margin={{ top: 10, right: 10, left: 0, bottom: 40 }}
+                                                    layout="horizontal"
+                                                >
+                                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                                    <XAxis 
+                                                        dataKey="name" 
+                                                        tick={{ fontFamily: 'Content, serif', fontSize: 10 }} 
+                                                        angle={0} 
+                                                        textAnchor="end" 
+                                                        height={60}
+                                                    />
+                                                    <YAxis hide />
+                                                    <Tooltip 
+                                                        contentStyle={{ 
+                                                            background: 'white', 
+                                                            border: '2px solid #efe8fb',
+                                                            borderRadius: '10px',
+                                                            fontFamily: 'Content, serif'
+                                                        }} 
+                                                    />
+                                                    <Legend 
+                                                        wrapperStyle={{ fontFamily: 'Content, serif', fontSize: '10px' }}
+                                                    />
+                                                    <Bar dataKey="pending" name="Pending" stackId="a" fill={COLORS.pending} radius={[4, 4, 0, 0]} />
+                                                    <Bar dataKey="contacted" name="Contacted" stackId="a" fill={COLORS.contacted} radius={[4, 4, 0, 0]} />
+                                                    <Bar dataKey="resolved" name="Resolved" stackId="a" fill={COLORS.resolved} radius={[4, 4, 0, 0]} />
+                                                </BarChart>
+                                            </ResponsiveContainer>
+                                        </div>
+
+                                        <div className="status-legend">
+                                            <div className="legend-item">
+                                                <span className="color-dot" style={{ background: COLORS.pending }}></span>
+                                                <span className="legend-label">Pending</span>
+                                                <span className="legend-value">{stats?.generalInquiries?.byStatus?.pending || 0}</span>
+                                            </div>
+                                            <div className="legend-item">
+                                                <span className="color-dot" style={{ background: COLORS.contacted }}></span>
+                                                <span className="legend-label">Contacted</span>
+                                                <span className="legend-value">{stats?.generalInquiries?.byStatus?.contacted || 0}</span>
+                                            </div>
+                                            <div className="legend-item">
+                                                <span className="color-dot" style={{ background: COLORS.resolved }}></span>
+                                                <span className="legend-label">Resolved</span>
+                                                <span className="legend-value">{stats?.generalInquiries?.byStatus?.resolved || 0}</span>
+                                            </div>
+                                        </div>
+                                    </motion.div>
                                 </div>
                             </div>
                         )}
 
+                        {/* OTHER TABS - COMPLETELY UNCHANGED */}
                         {activeTab !== 'overview' && (
                             <div className="details-tab">
                                 {loadingDetails ? (
@@ -778,18 +857,6 @@ const Dashboard = () => {
                                                             <th>Actions</th>
                                                         </>
                                                     )}
-                                                    {/* Commented out Contacts tab headers
-                                                    {activeTab === 'contacts' && (
-                                                        <>
-                                                            <th>Name</th>
-                                                            <th>Email</th>
-                                                            <th>Phone</th>
-                                                            <th>Message</th>
-                                                            <th>Status</th>
-                                                            <th>Actions</th>
-                                                        </>
-                                                    )}
-                                                    */}
                                                     {activeTab === 'careers' && (
                                                         <>
                                                             <th>Name</th>
@@ -856,32 +923,6 @@ const Dashboard = () => {
                                                                 </td>
                                                             </>
                                                         )}
-                                                        {/* Commented out Contacts tab content
-                                                        {activeTab === 'contacts' && (
-                                                            <>
-                                                                <td>{item.name}</td>
-                                                                <td>{item.email}</td>
-                                                                <td>{item.phone}</td>
-                                                                <td>{item.message?.substring(0, 30)}...</td>
-                                                                <td>
-                                                                    <span className={`status-badge ${item.status}`}>
-                                                                        {item.status}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <select
-                                                                        value={item.status}
-                                                                        onChange={(e) => updateStatus('contact', item._id, e.target.value)}
-                                                                        className="status-select"
-                                                                    >
-                                                                        <option value="pending">Pending</option>
-                                                                        <option value="contacted">Contacted</option>
-                                                                        <option value="resolved">Resolved</option>
-                                                                    </select>
-                                                                </td>
-                                                            </>
-                                                        )}
-                                                        */}
                                                         {activeTab === 'careers' && (
                                                             <>
                                                                 <td>{item.firstName} {item.lastName}</td>

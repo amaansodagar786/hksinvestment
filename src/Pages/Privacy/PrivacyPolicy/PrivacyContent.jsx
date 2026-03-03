@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     FiMail,
@@ -13,9 +13,13 @@ import {
 } from "react-icons/fi";
 import { BsShieldFillCheck, BsBank2 } from "react-icons/bs";
 import { MdOutlineSell } from "react-icons/md";
+import GeneralInquiryModal from "../../Contact/GenralInquiry/GeneralInquiryModal"; // Import the modal
 import "./PrivacyContent.scss";
 
 const PrivacyContent = () => {
+    // State for modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     // Animation variants (matching your About/CareerForm theme)
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -98,17 +102,7 @@ const PrivacyContent = () => {
         }
     };
 
-    const iconVariants = {
-        hover: {
-            scale: 1.2,
-            color: "#5e2690",
-            rotate: 360,
-            transition: {
-                duration: 0.4,
-                ease: "easeInOut"
-            }
-        }
-    };
+    // Removed iconVariants as it's no longer needed for contact sections
 
     const decorVariants = {
         animate: {
@@ -271,12 +265,30 @@ const PrivacyContent = () => {
             link: "https://maps.google.com/?q=Halifax,NS,Canada"
         }
     ];
+    const newcontactInfo = [
+        // {
+        //     icon: <FiPhone />,
+        //     text: "+1 782-882-8102",
+        //     link: "tel:+17828828102"
+        // },
+        {
+            icon: <FiMail />,
+            text: "support@hksinvestment.com",
+            link: "mailto:support@hksinvestment.com"
+        },
+        {
+            icon: <FiMapPin />,
+            text: "Halifax, NS, Canada",
+            link: "https://maps.google.com/?q=Halifax,NS,Canada"
+        }
+    ];
+
+
+   
 
     return (
         <>
-            <div className="main-privacy">
-
-
+            <div className="main-privacy" id="privacy-content">
                 <motion.div
                     className="privacy-content-wrapper"
                     initial="hidden"
@@ -320,7 +332,7 @@ const PrivacyContent = () => {
                         </div>
                     </motion.div>
 
-                    {/* WHO WE ARE CARD */}
+                    {/* WHO WE ARE CARD - Updated: Removed icon hover animation */}
                     <motion.div
                         className="privacy-card"
                         variants={sectionVariants}
@@ -334,7 +346,7 @@ const PrivacyContent = () => {
                                 <strong>Company:</strong> HKS Investment<br />
                             </motion.p>
 
-                            {/* Contact items in career-form style */}
+                            {/* Contact items - Removed icon hover animation, only line hover effect remains */}
                             <div className="privacy-contact-items">
                                 {contactInfo.map((item, index) => (
                                     <motion.a
@@ -348,13 +360,9 @@ const PrivacyContent = () => {
                                         whileHover="hover"
                                     >
                                         <div className="privacy-contact-item">
-                                            <motion.div
-                                                className="privacy-contact-icon"
-                                                variants={iconVariants}
-                                                whileHover="hover"
-                                            >
+                                            <div className="privacy-contact-icon">
                                                 {item.icon}
-                                            </motion.div>
+                                            </div>
                                             <div className="privacy-contact-text">
                                                 {item.text}
                                             </div>
@@ -519,7 +527,7 @@ const PrivacyContent = () => {
                         </div>
                     </motion.div>
 
-                    {/* BI-WEEKLY PAYMENT PLANS */}
+                    {/* BI-WEEKLY PAYMENT PLANS - Updated with Stripe information */}
                     <motion.div
                         className="privacy-card"
                         variants={sectionVariants}
@@ -539,6 +547,9 @@ const PrivacyContent = () => {
                                 </motion.li>
                                 <motion.li variants={listItemVariants} custom={82} whileHover="hover">
                                     <span className="bullet-point">•</span> Investment allocation preferences
+                                </motion.li>
+                                <motion.li variants={listItemVariants} custom={83} whileHover="hover">
+                                    <span className="bullet-point">•</span> All the data of credit card for recurring payment is handled by the 3rd party company which known as Stripe.
                                 </motion.li>
                             </ul>
                         </div>
@@ -661,15 +672,21 @@ const PrivacyContent = () => {
                         </div>
                     </motion.div>
 
-                    {/* CONTACT SECTION - Like CareerForm contact section */}
+                    {/* CONTACT SECTION - Updated: "Questions?" is now clickable and purple */}
                     <motion.div
                         className="privacy-card privacy-contact-card"
                         variants={sectionVariants}
                         custom={12}
                     >
-                        <div className="privacy-card-content">
+                        <div className="privacy-card-content questions-section">
                             <motion.h3 variants={sectionVariants} custom={12.1}>
-                                Questions? Contact Us
+                                {/* Made "Questions?" clickable and purple */}
+                                <span
+                                    className="clickable-questions"
+                                    onClick={() => setIsModalOpen(true)}
+                                    style={{ cursor: 'pointer', color: '#7a3db8' }}
+                                >
+                                    Questions?</span>Contact Us
                             </motion.h3>
 
                             <motion.p variants={sectionVariants} custom={12.2}>
@@ -677,7 +694,7 @@ const PrivacyContent = () => {
                             </motion.p>
 
                             <div className="privacy-contact-items">
-                                {contactInfo.map((item, index) => (
+                                {newcontactInfo.map((item, index) => (
                                     <motion.a
                                         key={index}
                                         href={item.link}
@@ -689,13 +706,9 @@ const PrivacyContent = () => {
                                         whileHover="hover"
                                     >
                                         <div className="privacy-contact-item">
-                                            <motion.div
-                                                className="privacy-contact-icon"
-                                                variants={iconVariants}
-                                                whileHover="hover"
-                                            >
+                                            <div className="privacy-contact-icon">
                                                 {item.icon}
-                                            </motion.div>
+                                            </div>
                                             <div className="privacy-contact-text">
                                                 {item.text}
                                             </div>
@@ -716,9 +729,13 @@ const PrivacyContent = () => {
                         <p>By using our services, you acknowledge that you have read and understood this Privacy Policy.</p>
                     </motion.div>
                 </motion.div>
-
             </div>
 
+            {/* GENERAL INQUIRY MODAL */}
+            <GeneralInquiryModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </>
     );
 };

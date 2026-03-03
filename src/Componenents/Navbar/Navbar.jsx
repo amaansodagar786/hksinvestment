@@ -46,7 +46,7 @@ const Navbar = () => {
                 Career
               </NavLink>
                <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
-                Contact
+                Schedule
               </NavLink>
             </div>
 
@@ -99,7 +99,7 @@ const Navbar = () => {
             Career
           </NavLink>
           <NavLink to="/contact" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
-            Contact
+            Schedule
           </NavLink>
           
           {/* INQUIRY BUTTON - MOBILE */}

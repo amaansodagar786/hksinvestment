@@ -2,7 +2,6 @@
 
 .main-privacy {
     width: 100%;
-
     background: #f7f5fb;
 }
 
@@ -113,6 +112,12 @@
     display: flex;
     align-items: center;
     gap: 12px;
+} 
+
+
+.questions-section h3 
+{
+    gap: 5px;
 }
 
 .card-icon {
@@ -174,6 +179,7 @@
 .privacy-contact-item:hover {
     background: #efe8fb;
     border-color: #7a3db8;
+    transform: translateX(10px);
 }
 
 .privacy-contact-icon {
@@ -190,10 +196,11 @@
     transition: all 0.3s ease;
 }
 
+/* Removed icon hover animation - icon stays same on hover */
 .privacy-contact-item:hover .privacy-contact-icon {
-    background: #7a3db8;
-    color: #ffffff;
-    transform: scale(1.1);
+    background: #efe8fb;
+    color: #7a3db8;
+    transform: none;
 }
 
 .privacy-contact-text {
@@ -583,6 +590,7 @@
     .privacy-contact-item:hover {
         background: #f9f6ff !important;
         border-color: #e6dcf7 !important;
+        transform: none !important;
     }
 
     .privacy-contact-item:hover .privacy-contact-icon {

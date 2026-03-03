@@ -139,7 +139,7 @@ const AdminAuth = () => {
                 });
                 
                 // Redirect to admin dashboard
-                navigate('/admin/dashboard');
+                navigate('/admin-portal/dashboard');
             } else {
                 throw new Error(data.message || 'Operation failed');
             }

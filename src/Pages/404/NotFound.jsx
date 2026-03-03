@@ -32,7 +32,7 @@ const NotFound = () => {
 
                     <p>
                         The page you're trying to reach is no longer available or never
-                        existed. Even smart portfolios face dead ends — what matters is the
+                        existed. Even smart portfolios face dead ends - what matters is the
                         recovery.
                     </p>
 

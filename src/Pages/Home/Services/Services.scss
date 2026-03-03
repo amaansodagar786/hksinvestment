@@ -535,3 +535,38 @@
         max-width: 1700px;  /* Increased from 1400px to 1700px for ultra-wide screens */
     }
 }
+
+
+
+/* =========================
+   LARGE SCREENS (1800px - 2500px)
+========================= */
+@media screen and (min-width: 1800px) and (max-width: 2500px) {
+    .services-container {
+        max-width: 1700px;
+        padding: 40px 60px 40px 80px;
+        gap: 80px;  /* Increased gap pushes content right */
+    }
+    
+    /* Just push left content more to the right */
+    .services-left-content {
+        padding-left: 100px;  /* This makes it show more on right side */
+    }
+    
+    
+}
+
+/* Even larger screens */
+@media screen and (min-width: 2500px) {
+    .services-container {
+        max-width: 2000px;
+        padding: 40px 80px 40px 100px;
+        gap: 150px;
+    }
+    
+    .services-left-content {
+        padding-left: 100px;
+    }
+    
+   
+}

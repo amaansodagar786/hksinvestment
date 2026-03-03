@@ -741,3 +741,759 @@
         transform: rotate(360deg);
     }
 }
+
+
+
+
+// Add this to your existing Dashboard.scss file
+// This only adds styles for the new overview cards, everything else remains the same
+
+.overview-tab-new {
+    .analytics-grid-2x2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+
+        @media (max-width: 1200px) {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .analytics-card-modern {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            border: 2px solid #efe8fb;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            &:hover {
+                border-color: #7a3db8;
+            }
+
+            .card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .header-left {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+
+                    .card-icon {
+                        font-size: 24px;
+                        color: #7a3db8;
+                        background: #f3e8ff;
+                        padding: 10px;
+                        border-radius: 14px;
+                    }
+
+                    h3 {
+                        font-size: 18px;
+                        font-family: 'Heading', serif;
+                        color: #1a1a1a;
+                        margin: 0;
+                    }
+                }
+
+                .total-badge {
+                    background: #5e2690;
+                    color: white;
+                    padding: 6px 16px;
+                    border-radius: 30px;
+                    font-family: 'Heading', serif;
+                    font-size: 20px;
+                    font-weight: 600;
+                    box-shadow: 0 4px 15px rgba(94, 38, 144, 0.3);
+                }
+            }
+
+            .card-stats-mini {
+                display: flex;
+                gap: 20px;
+                padding: 12px 0;
+                border-bottom: 2px dashed #efe8fb;
+
+                .mini-stat {
+                    display: flex;
+                    flex-direction: column;
+
+                    .label {
+                        font-size: 12px;
+                        font-family: 'Content', serif;
+                        color: #666;
+                        margin-bottom: 4px;
+                    }
+
+                    .value {
+                        font-size: 20px;
+                        font-family: 'Heading', serif;
+                        color: #1a1a1a;
+
+                        &.pending {
+                            color: #f59e0b;
+                        }
+
+                        &.contacted {
+                            color: #3b82f6;
+                        }
+
+                        &.resolved {
+                            color: #8b5cf6;
+                        }
+                    }
+                }
+            }
+
+            .chart-container {
+                width: 100%;
+                height: 200px;
+                margin: 5px 0;
+
+                @media (max-width: 768px) {
+                    height: 180px;
+                }
+            }
+
+            .status-legend {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                padding-top: 10px;
+                border-top: 2px solid #f0e8ff;
+
+                .legend-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-family: 'Content', serif;
+                    font-size: 13px;
+
+                    .color-dot {
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 4px;
+                    }
+
+                    .legend-label {
+                        color: #666;
+                        text-transform: capitalize;
+                    }
+
+                    .legend-value {
+                        font-weight: 600;
+                        color: #1a1a1a;
+                        margin-left: 4px;
+                    }
+                }
+            }
+
+            // Individual card hover effects
+            &:nth-child(1):hover .card-icon {
+                background: #7a3db8;
+                color: white;
+            }
+
+            &:nth-child(2):hover .card-icon {
+                background: #8b5cf6;
+                color: white;
+            }
+
+            &:nth-child(3):hover .card-icon {
+                background: #f59e0b;
+                color: white;
+            }
+
+            &:nth-child(4):hover .card-icon {
+                background: #10b981;
+                color: white;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .overview-tab-new {
+        .analytics-grid-2x2 {
+            .analytics-card-modern {
+                padding: 20px;
+
+                .card-header {
+                    .header-left {
+                        h3 {
+                            font-size: 16px;
+                        }
+                    }
+
+                    .total-badge {
+                        font-size: 18px;
+                        padding: 4px 12px;
+                    }
+                }
+
+                .card-stats-mini {
+                    gap: 15px;
+
+                    .mini-stat {
+                        .value {
+                            font-size: 18px;
+                        }
+                    }
+                }
+
+                .status-legend {
+                    gap: 10px;
+
+                    .legend-item {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .overview-tab-new {
+        .analytics-grid-2x2 {
+            .analytics-card-modern {
+                .card-stats-mini {
+                    flex-wrap: wrap;
+                    gap: 10px;
+                }
+
+                .status-legend {
+                    .legend-item {
+                        width: calc(50% - 5px);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+// Add this to your existing Dashboard.scss file
+// This fixes legend visibility and chart spacing
+
+.overview-tab-new {
+    .analytics-grid-2x2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+
+        @media (max-width: 1200px) {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .analytics-card-modern {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            border: 2px solid #efe8fb;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            &:hover {
+                border-color: #7a3db8;
+            }
+
+            .card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .header-left {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+
+                    .card-icon {
+                        font-size: 24px;
+                        color: #7a3db8;
+                        background: #f3e8ff;
+                        padding: 10px;
+                        border-radius: 14px;
+                        transition: all 0.3s ease;
+                    }
+
+                    h3 {
+                        font-size: 18px;
+                        font-family: 'Heading', serif;
+                        color: #1a1a1a;
+                        margin: 0;
+                    }
+                }
+
+                .total-badge {
+                    background: #5e2690;
+                    color: white;
+                    padding: 6px 16px;
+                    border-radius: 30px;
+                    font-family: 'Heading', serif;
+                    font-size: 20px;
+                    font-weight: 600;
+                    box-shadow: 0 4px 15px rgba(94, 38, 144, 0.3);
+                }
+            }
+
+            .card-stats-mini {
+                display: flex;
+                gap: 20px;
+                padding: 12px 0;
+                border-bottom: 2px dashed #efe8fb;
+
+                .mini-stat {
+                    display: flex;
+                    flex-direction: column;
+
+                    .label {
+                        font-size: 12px;
+                        font-family: 'Content', serif;
+                        color: #666;
+                        margin-bottom: 4px;
+                    }
+
+                    .value {
+                        font-size: 20px;
+                        font-family: 'Heading', serif;
+                        color: #1a1a1a;
+
+                        &.pending {
+                            color: #f59e0b;
+                        }
+
+                        &.contacted {
+                            color: #3b82f6;
+                        }
+
+                        &.resolved {
+                            color: #8b5cf6;
+                        }
+                    }
+                }
+            }
+
+            .chart-container {
+                width: 100%;
+                height: 220px; // Increased height slightly
+                margin: 5px 0;
+
+                @media (max-width: 768px) {
+                    height: 200px;
+                }
+
+                .recharts-pie-label-text {
+                    font-size: 11px !important;
+                    font-family: 'Content', serif !important;
+                    fill: #333 !important;
+                }
+            }
+
+            .status-legend {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                padding: 15px 0 5px 0;
+                border-top: 2px solid #f0e8ff;
+                margin-top: 5px;
+
+                .legend-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-family: 'Content', serif;
+                    font-size: 13px;
+                    background: #f9f6ff;
+                    padding: 4px 10px;
+                    border-radius: 20px;
+
+                    .color-dot {
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 4px;
+                    }
+
+                    .legend-label {
+                        color: #666;
+                        text-transform: capitalize;
+                    }
+
+                    .legend-value {
+                        font-weight: 600;
+                        color: #1a1a1a;
+                        margin-left: 4px;
+                    }
+                }
+            }
+
+            // Individual card hover effects
+            &:nth-child(1):hover .card-icon {
+                background: #7a3db8;
+                color: white;
+            }
+
+            &:nth-child(2):hover .card-icon {
+                background: #8b5cf6;
+                color: white;
+            }
+
+            &:nth-child(3):hover .card-icon {
+                background: #f59e0b;
+                color: white;
+            }
+
+            &:nth-child(4):hover .card-icon {
+                background: #10b981;
+                color: white;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .overview-tab-new {
+        .analytics-grid-2x2 {
+            .analytics-card-modern {
+                padding: 20px;
+
+                .card-header {
+                    .header-left {
+                        h3 {
+                            font-size: 16px;
+                        }
+                    }
+
+                    .total-badge {
+                        font-size: 18px;
+                        padding: 4px 12px;
+                    }
+                }
+
+                .card-stats-mini {
+                    gap: 15px;
+
+                    .mini-stat {
+                        .value {
+                            font-size: 18px;
+                        }
+                    }
+                }
+
+                .status-legend {
+                    gap: 10px;
+
+                    .legend-item {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .overview-tab-new {
+        .analytics-grid-2x2 {
+            .analytics-card-modern {
+                .card-stats-mini {
+                    flex-wrap: wrap;
+                    gap: 10px;
+                }
+
+                .status-legend {
+                    .legend-item {
+                        width: calc(50% - 5px);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+// Add this to your existing Dashboard.scss file
+// This fixes the hidden text and all chart issues
+
+.overview-tab-new {
+    .analytics-grid-2x2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+
+        @media (max-width: 1200px) {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .analytics-card-modern {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            border: 2px solid #efe8fb;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            &:hover {
+                border-color: #7a3db8;
+                box-shadow: 0 10px 30px rgba(122, 61, 184, 0.1);
+            }
+
+            .card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .header-left {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+
+                    .card-icon {
+                        font-size: 24px;
+                        color: #7a3db8;
+                        background: #f3e8ff;
+                        padding: 10px;
+                        border-radius: 14px;
+                        transition: all 0.3s ease;
+                    }
+
+                    h3 {
+                        font-size: 18px;
+                        font-family: 'Heading', serif;
+                        color: #1a1a1a;
+                        margin: 0;
+                    }
+                }
+
+                .total-badge {
+                    background: #5e2690;
+                    color: white;
+                    padding: 6px 16px;
+                    border-radius: 30px;
+                    font-family: 'Heading', serif;
+                    font-size: 20px;
+                    font-weight: 600;
+                    box-shadow: 0 4px 15px rgba(94, 38, 144, 0.3);
+                }
+            }
+
+            .card-stats-mini {
+                display: flex;
+                gap: 20px;
+                padding: 12px 0;
+                border-bottom: 2px dashed #efe8fb;
+
+                .mini-stat {
+                    display: flex;
+                    flex-direction: column;
+
+                    .label {
+                        font-size: 12px;
+                        font-family: 'Content', serif;
+                        color: #666;
+                        margin-bottom: 4px;
+                    }
+
+                    .value {
+                        font-size: 20px;
+                        font-family: 'Heading', serif;
+                        color: #1a1a1a;
+
+                        &.pending {
+                            color: #f59e0b;
+                        }
+
+                        &.contacted {
+                            color: #3b82f6;
+                        }
+
+                        &.resolved {
+                            color: #8b5cf6;
+                        }
+                    }
+                }
+            }
+
+            .chart-container {
+                width: 100%;
+                height: 220px;
+                margin: 5px 0;
+
+                @media (max-width: 768px) {
+                    height: 200px;
+                }
+
+                // FIX: Make all chart labels visible
+                .recharts-pie-label-text {
+                    font-size: 11px !important;
+                    font-family: 'Content', serif !important;
+                    fill: #333 !important;
+                    font-weight: 500 !important;
+                    text-shadow: 0 0 3px white !important;
+                }
+
+                .recharts-pie-label-line {
+                    stroke: #999 !important;
+                    stroke-width: 1px !important;
+                }
+
+                .recharts-text {
+                    font-family: 'Content', serif;
+                    font-size: 12px;
+                }
+            }
+
+            .status-legend {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+                padding: 15px 0 5px 0;
+                border-top: 2px solid #f0e8ff;
+                margin-top: 5px;
+
+                .legend-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-family: 'Content', serif;
+                    font-size: 13px;
+                    background: #f9f6ff;
+                    padding: 6px 14px;
+                    border-radius: 30px;
+                    border: 1px solid #e6dcf7;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background: white;
+                        border-color: #7a3db8;
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 10px rgba(122, 61, 184, 0.1);
+                    }
+
+                    .color-dot {
+                        width: 14px;
+                        height: 14px;
+                        border-radius: 4px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+
+                    .legend-label {
+                        color: #444;
+                        text-transform: capitalize;
+                        font-weight: 500;
+                    }
+
+                    .legend-value {
+                        font-weight: 700;
+                        color: #1a1a1a;
+                        margin-left: 6px;
+                        background: white;
+                        padding: 2px 8px;
+                        border-radius: 20px;
+                        font-size: 12px;
+                        border: 1px solid #e6dcf7;
+                    }
+                }
+            }
+
+            // Individual card hover effects
+            &:nth-child(1):hover .card-icon {
+                background: #7a3db8;
+                color: white;
+            }
+
+            &:nth-child(2):hover .card-icon {
+                background: #8b5cf6;
+                color: white;
+            }
+
+            &:nth-child(3):hover .card-icon {
+                background: #f59e0b;
+                color: white;
+            }
+
+            &:nth-child(4):hover .card-icon {
+                background: #10b981;
+                color: white;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .overview-tab-new {
+        .analytics-grid-2x2 {
+            .analytics-card-modern {
+                padding: 20px;
+
+                .card-header {
+                    .header-left {
+                        h3 {
+                            font-size: 16px;
+                        }
+                    }
+
+                    .total-badge {
+                        font-size: 18px;
+                        padding: 4px 12px;
+                    }
+                }
+
+                .card-stats-mini {
+                    gap: 15px;
+
+                    .mini-stat {
+                        .value {
+                            font-size: 18px;
+                        }
+                    }
+                }
+
+                .status-legend {
+                    gap: 10px;
+
+                    .legend-item {
+                        font-size: 12px;
+                        padding: 4px 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .overview-tab-new {
+        .analytics-grid-2x2 {
+            .analytics-card-modern {
+                .card-stats-mini {
+                    flex-wrap: wrap;
+                    gap: 10px;
+                }
+
+                .status-legend {
+                    .legend-item {
+                        width: calc(50% - 5px);
+                    }
+                }
+
+                .chart-container {
+                    height: 180px;
+                }
+            }
+        }
+    }
+}

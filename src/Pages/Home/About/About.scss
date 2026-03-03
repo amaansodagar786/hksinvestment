@@ -753,6 +753,14 @@
     }
 
     .about-visual { 
-        justify-content: left;
+        justify-content: center;
     }
+
+
+    .about-content {
+    display: grid;
+    grid-template-columns: 0.8fr 1fr;
+    gap: 80px;
+    
+}
 }

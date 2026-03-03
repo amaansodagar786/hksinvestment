@@ -204,7 +204,7 @@
     display: inline-flex;
     align-items: center;
     width: 260px;
-    height: 56px;
+    height: 60px;
     background: #5e2690;
     border: 2px solid #5e2690;
     border-radius: 999px;
@@ -233,11 +233,11 @@
 
 .contact-hero-btn-fill {
     position: absolute;
-    right: 2px;
+    right: 3px;
     top: 50%;
     transform: translateY(-50%);
-    height: 49px;
-    width: 46px;
+    height: 53px;
+    width: 50px;
     background: #ffffff;
     border-radius: 999px;
     transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);

@@ -18,7 +18,7 @@ import './AdminSidebar.scss';
 const AdminSidebar = ({ collapsed, setCollapsed, mobileMenuOpen, setMobileMenuOpen, isMobile }) => {
     const handleLogout = () => {
         localStorage.removeItem('adminToken');
-        window.location.href = '/admin/login';
+        window.location.href = '/admin-portal/login';
     };
 
     const closeMobileMenu = () => setMobileMenuOpen(false);
@@ -50,23 +50,23 @@ const AdminSidebar = ({ collapsed, setCollapsed, mobileMenuOpen, setMobileMenuOp
                                 </button>
                             </div>
                             <nav className="sidebar-nav">
-                                <NavLink to="/admin/dashboard" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
+                                <NavLink to="/admin-portal/dashboard" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
                                     <FiHome className="nav-icon" />
                                     <span>Dashboard</span>
                                 </NavLink>
-                                <NavLink to="/admin/forms" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
+                                <NavLink to="/admin-portal/forms" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
                                     <FiMail className="nav-icon" />
                                     <span>Forms</span>
                                 </NavLink>
-                                <NavLink to="/admin/career" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
+                                <NavLink to="/admin-portal/career" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
                                     <FiBriefcase className="nav-icon" />
                                     <span>Career</span>
                                 </NavLink>
-                                <NavLink to="/admin/schedule" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
+                                <NavLink to="/admin-portal/schedule" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
                                     <FiClock className="nav-icon" />
                                     <span>Schedule</span>
                                 </NavLink>
-                                <NavLink to="/admin/appointments" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
+                                <NavLink to="/admin-portal/appointments" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={closeMobileMenu}>
                                     <FiCalendar className="nav-icon" />
                                     <span>Appointments</span>
                                 </NavLink>
@@ -99,23 +99,23 @@ const AdminSidebar = ({ collapsed, setCollapsed, mobileMenuOpen, setMobileMenuOp
                 </button>
             </div>
             <nav className="sidebar-nav">
-                <NavLink to="/admin/dashboard" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <NavLink to="/admin-portal/dashboard" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
                     <FiHome className="nav-icon" />
                     {!collapsed && <span>Dashboard</span>}
                 </NavLink>
-                <NavLink to="/admin/forms" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <NavLink to="/admin-portal/forms" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
                     <FiMail className="nav-icon" />
                     {!collapsed && <span>Forms</span>}
                 </NavLink>
-                <NavLink to="/admin/career" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <NavLink to="/admin-portal/career" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
                     <FiBriefcase className="nav-icon" />
                     {!collapsed && <span>Career</span>}
                 </NavLink>
-                <NavLink to="/admin/schedule" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <NavLink to="/admin-portal/schedule" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
                     <FiClock className="nav-icon" />
                     {!collapsed && <span>Schedule</span>}
                 </NavLink>
-                <NavLink to="/admin/appointments" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <NavLink to="/admin-portal/appointments" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
                     <FiCalendar className="nav-icon" />
                     {!collapsed && <span>Appointments</span>}
                 </NavLink>
