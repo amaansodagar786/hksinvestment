@@ -8,7 +8,7 @@
     background: #f7f5fb;
     // width: 100%;  
     overflow-x: hidden;
-    
+
 }
 
 .about-section {
@@ -193,7 +193,7 @@
 }
 
 .about-shield-svg {
-    transition: all 0.3s ease;  
+    transition: all 0.3s ease;
 
     @media (max-width: 768px) {
         display: none !important;
@@ -371,25 +371,51 @@
 
 /* =========================
    RESPONSIVE: TABLET (768px - 1024px)
+   MATCHING MOBILE STYLE - SHIELD ICON HIDDEN, BUTTON CENTERED
 ========================= */
 @media (max-width: 1024px) and (min-width: 769px) {
     .about-section {
         padding: 80px 40px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .about-content {
         grid-template-columns: 1fr;
         gap: 60px;
-        text-align: center;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Hide shield icon in tablet like mobile */
+    .about-shield-svg {
+        display: none !important;
     }
 
     .about-text {
-        text-align: center;
+        text-align: left;
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
     }
 
     .about-text p {
+        text-align: left;
+        font-size: 16px;
+        /* Match mobile font size */
+        line-height: 1.6;
+        /* Match mobile line height */
         text-align: justify;
-        text-align-last: center;
+        /* Match mobile text justify */
+        max-width: 100%;
+        word-wrap: break-word;
+    }
+
+    /* Remove icon wrapper styles since icon is hidden */
+    .about-icon-wrapper {
+        display: none;
+        /* Hide the wrapper since icon is hidden */
     }
 
     .circle-wrap {
@@ -398,35 +424,73 @@
         margin: 0 auto;
     }
 
+    /* Disable animations like mobile */
+    .circle-wrap::before,
+    .circle-wrap::after,
+    .circle-mid,
+    .circle-inner {
+        animation: none !important;
+    }
+
+    /* Adjust tag positions for tablet */
+    .tag {
+        padding: 4px 10px;
+        font-size: 12px;
+        transition: none !important;
+    }
+
     .shares {
-        left: -30px;
+        left: -20px;
+        top: 25%;
+    }
+
+    .sell {
+        top: -20px;
     }
 
     .yield {
-        left: -38px;
+        left: -28px;
+        bottom: 25%;
+    }
+
+    .trends {
+        bottom: -18px;
     }
 
     .finance {
-        right: -40px;
+        right: -30px;
+        top: 25%;
     }
 
     .invest {
-        right: -40px;
+        right: -30px;
+        bottom: 25%;
     }
 
     .about-header {
         margin-bottom: 60px;
+        padding: 0 20px;
     }
 
     .about-header h2 {
-        font-size: 36px;
+        font-size: 32px;
+        /* Slightly smaller for tablet */
+        line-height: 1.3;
     }
 
-    /* BUTTON - TABLET */
+    .about-pill {
+        padding: 5px 14px;
+        font-size: 14px;
+    }
+
+    /* BUTTON - TABLET - CENTERED like mobile */
     .about-btn {
         width: 170px;
         height: 52px;
-        margin: 0 auto;
+        margin: 20px auto 0 auto;
+        /* Changed to auto for centering */
+        display: flex;
+        /* Changed to flex for centering */
     }
 
     .about-btn-text {
@@ -474,7 +538,7 @@
     .about-content {
         grid-template-columns: 1fr;
         gap: 50px;
-        
+
     }
 
     .about-visual {
@@ -560,8 +624,10 @@
     .about-btn {
         width: 160px;
         height: 48px;
-        margin: 0 auto; /* ← CHANGED: Center the button */
-        display: flex;  /* ← CHANGED: Ensure flex for centering */
+        margin: 0 auto;
+        /* ← CHANGED: Center the button */
+        display: flex;
+        /* ← CHANGED: Ensure flex for centering */
     }
 
     .about-btn-text {
@@ -600,8 +666,10 @@
         padding-left: 0;
         padding-right: 0;
     }
+
     .about-section {
-        padding: 50px 16px;   /* symmetrical padding */
+        padding: 50px 16px;
+        /* symmetrical padding */
         max-width: 100%;
         box-sizing: border-box;
     }
@@ -669,8 +737,10 @@
     .about-btn {
         width: 140px;
         height: 44px;
-        margin: 0 auto; /* ← CHANGED: Center the button */
-        display: flex;  /* ← CHANGED: Ensure flex for centering */
+        margin: 0 auto;
+        /* ← CHANGED: Center the button */
+        display: flex;
+        /* ← CHANGED: Ensure flex for centering */
     }
 
     .about-btn-text {
@@ -749,18 +819,19 @@
 ========================= */
 @media screen and (min-width: 1900px) and (max-width: 2600px) {
     .about-section {
-        max-width: 1700px;  /* Increased from 1400px */
+        max-width: 1700px;
+        /* Increased from 1400px */
     }
 
-    .about-visual { 
+    .about-visual {
         justify-content: center;
     }
 
 
     .about-content {
-    display: grid;
-    grid-template-columns: 0.8fr 1fr;
-    gap: 80px;
-    
-}
+        display: grid;
+        grid-template-columns: 0.8fr 1fr;
+        gap: 80px;
+
+    }
 }

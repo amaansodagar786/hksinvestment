@@ -217,7 +217,7 @@
     margin-top: 28px;
 
     @media (max-width: 1024px) and (min-width: 769px) {
-        width: 190px;
+        width: 240px;
     }
 
     @media (max-width: 768px) {
@@ -340,5 +340,16 @@
 
     @media (max-width: 768px) {
         display: none;
+    }
+}
+
+
+.tabletbr
+{
+    display: none ;  
+
+
+     @media (max-width: 1024px) and (min-width: 769px) {
+       display: inline !important;
     }
 }

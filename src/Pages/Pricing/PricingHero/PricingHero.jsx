@@ -123,7 +123,7 @@ const PricingHero = ({ onViewPlansClick }) => {
                             pricing
                         </motion.span>{" "}
                        
-                        built for  <br />self traders
+                        built for  <span className="tabletbr"><br /></span>self traders
                     </motion.h1>
 
                     <motion.p

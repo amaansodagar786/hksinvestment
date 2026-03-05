@@ -119,7 +119,7 @@ const ContactHero = () => {
                                     </motion.span>{" "}
                                     that
                                     <br />
-                                    can{" "}change
+                                    can<span className="tabletbr"><br /></span>{" "}change
                                     {/* <motion.span
                                         className="contact-highlight contact-highlight-mobile"
                                         variants={highlightVariants}

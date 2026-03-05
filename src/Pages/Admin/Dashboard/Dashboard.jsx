@@ -394,7 +394,7 @@ const Dashboard = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            <FiDownload /> Export Excel
+                            <FiDownload /> Export
                         </motion.button>
                     </div>
                 </div>
