@@ -278,7 +278,7 @@ const Footer = () => {
                                 initial="initial"
                                 whileHover="hover"
                             >
-                                Your feedback is<span className="tablet-only"><br /></span> important for us.
+                                Your feedback is important for us.
                             </motion.h4>
 
                             <form className="feedback-form" onSubmit={handleSubmit}>
