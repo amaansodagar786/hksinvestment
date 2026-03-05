@@ -26,7 +26,7 @@ const AppointmentSection = () => {
     const [isLoadingSlots, setIsLoadingSlots] = useState(false);
     const [bookedSlots, setBookedSlots] = useState([]);
     const [availableSlots, setAvailableSlots] = useState([]);
-    const [allSlots, setAllSlots] = useState([]); // New state to store ALL slots with their status
+    const [allSlots, setAllSlots] = useState([]);
     const [isOff, setIsOff] = useState(false);
     const [scheduleType, setScheduleType] = useState('default');
     const [slotCount, setSlotCount] = useState(0);
@@ -41,6 +41,23 @@ const AppointmentSection = () => {
     };
 
     const todayDate = getTodayDate();
+
+    // ========== NEW: Get max selectable date based on half-month rule ==========
+    const getMaxDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1; // 1-12
+        const day = today.getDate();
+
+        if (day <= 15) {
+            // First half: max is 15th of current month
+            return `${year}-${String(month).padStart(2, '0')}-15`;
+        } else {
+            // Second half: max is last day of current month
+            const lastDay = new Date(year, month, 0).getDate(); // month is next month's 0 = last day of current
+            return `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+        }
+    };
 
     // Generate all possible default time slots (10 AM to 6 PM)
     const getAllDefaultTimeSlots = () => {
@@ -69,7 +86,7 @@ const AppointmentSection = () => {
     const fetchAvailableSlots = async (date) => {
         try {
             setIsLoadingSlots(true);
-            toast.dismiss(); // Dismiss any existing toasts
+            toast.dismiss();
 
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/appointments/slots/${date}`
@@ -95,23 +112,18 @@ const AppointmentSection = () => {
                 let combinedSlots = [];
 
                 if (data.data.isOff) {
-                    // If day is off, show all default slots as unavailable
                     combinedSlots = getAllDefaultTimeSlots().map(time => ({
                         time,
                         status: 'unavailable',
                         reason: 'day_off'
                     }));
                 } else if (data.data.scheduleType === 'custom' && data.data.customSlotCount > 0) {
-                    // For custom schedule, we need to know all custom slots
-                    // Since API doesn't send custom slots list, we'll use available + booked
-                    // This shows both available and booked custom slots
                     const allCustomSlots = [...new Set([...available, ...booked])].sort();
                     combinedSlots = allCustomSlots.map(time => ({
                         time,
                         status: booked.includes(time) ? 'booked' : 'available'
                     }));
                 } else {
-                    // Default schedule - show all slots from 10-18 with their status
                     combinedSlots = getAllDefaultTimeSlots().map(time => ({
                         time,
                         status: booked.includes(time) ? 'booked' :
@@ -119,11 +131,36 @@ const AppointmentSection = () => {
                     }));
                 }
 
-                setAllSlots(combinedSlots);
+                // ========== NEW: If selected date is today, mark past slots as unavailable ==========
+                let finalSlots = combinedSlots;
+                let finalAvailable = available;
+                let finalBooked = booked;
 
-                // Reset selected time if it's now booked or unavailable
+                if (date === todayDate) {
+                    const currentHour = new Date().getHours(); // 0-23
+
+                    finalSlots = combinedSlots.map(slot => {
+                        const slotHour = parseInt(slot.time.split(':')[0]);
+                        if (slotHour <= currentHour) {
+                            // Override status to 'unavailable' for past slots
+                            return { ...slot, status: 'unavailable' };
+                        }
+                        return slot;
+                    });
+
+                    // Recalculate booked and available based on updated statuses
+                    finalAvailable = finalSlots.filter(s => s.status === 'available').map(s => s.time);
+                    finalBooked = finalSlots.filter(s => s.status === 'booked').map(s => s.time);
+                }
+
+                setAllSlots(finalSlots);
+                setBookedSlots(finalBooked);
+                setAvailableSlots(finalAvailable);
+                setSlotCount(finalAvailable.length);
+
+                // Reset selected time if it's now unavailable
                 if (selectedTime) {
-                    if (booked.includes(selectedTime) || !available.includes(selectedTime)) {
+                    if (finalBooked.includes(selectedTime) || !finalAvailable.includes(selectedTime)) {
                         setSelectedTime(null);
                     }
                 }
@@ -146,7 +183,21 @@ const AppointmentSection = () => {
 
     // Handle date change
     const handleDateChange = (e) => {
-        setSelectedDate(e.target.value);
+        const newDate = e.target.value;
+        const min = getMinDate();
+        const max = getMaxDate();
+
+        // ========== NEW: Validate date range ==========
+        if (newDate && (newDate < min || newDate > max)) {
+            toast.dismiss();
+            toast.error(`Please select a date between ${min} and ${max}`, {
+                position: "top-right",
+                autoClose: 3000
+            });
+            setSelectedDate("");
+        } else {
+            setSelectedDate(newDate);
+        }
         setSelectedTime(null);
     };
 
@@ -226,10 +277,7 @@ const AppointmentSection = () => {
             }
 
             if (data.success) {
-                // Dismiss any existing toasts first
                 toast.dismiss();
-
-                // Show only ONE toast that auto-dismisses after 5 seconds
                 toast.success(
                     `Appointment request submitted! Reference: ${data.data.referenceId}. Awaiting approval.`,
                     {
@@ -443,6 +491,7 @@ const AppointmentSection = () => {
                                                         id="date"
                                                         name="date"
                                                         min={getMinDate()}
+                                                        max={getMaxDate()}
                                                         value={selectedDate}
                                                         onChange={handleDateChange}
                                                         className="form-input date-picker-input"

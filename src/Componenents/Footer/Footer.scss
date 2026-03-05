@@ -8,7 +8,8 @@
     position: relative;
     display: flex;
     justify-content: center;
-    overflow-x: hidden; /* ← prevents horizontal scroll on mobile */
+    overflow-x: hidden;
+    /* ← prevents horizontal scroll on mobile */
 }
 
 /* =========================
@@ -148,8 +149,8 @@
 }
 
 .feedback-btn:hover::before {
-    width: 300px;
-    height: 300px;
+    width: 330px;
+    height: 330px;
 }
 
 /* =========================
@@ -425,8 +426,7 @@
             rgba(255, 255, 255, 0.4) 25%,
             rgba(255, 255, 255, 0.6) 50%,
             rgba(255, 255, 255, 0.8) 75%,
-            rgba(255, 255, 255, 1) 100%
-        );
+            rgba(255, 255, 255, 1) 100%);
 
     background-size: 200% 100%;
     background-clip: text;
@@ -439,9 +439,11 @@
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
@@ -479,8 +481,10 @@
 
     /* FIX: Center feedback heading on mobile */
     .footer-col.feedback h4 {
-        display: block;           /* ← makes it full width */
-        text-align: center;       /* ← centers text inside */
+        display: block;
+        /* ← makes it full width */
+        text-align: center;
+        /* ← centers text inside */
         margin-left: auto;
         margin-right: auto;
     }
@@ -627,7 +631,7 @@
     }
 
 
- 
+
 
     .footer-bottom {
         font-size: 22px;
@@ -727,6 +731,18 @@
 
 @media screen and (min-width: 1900px) and (max-width: 2600px) {
     .footer-container {
-        max-width: 1700px;  /* Only this changes - increased from 1400px */
+        max-width: 1700px;
+    }
+
+    .copyright-row {
+
+        width: 82%;
+    }
+}
+@media screen and (min-width: 1701px) and (max-width: 1899px) {
+    
+    .copyright-row {
+
+        width: 85%;
     }
 }

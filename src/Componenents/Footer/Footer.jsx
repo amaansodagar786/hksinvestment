@@ -194,8 +194,11 @@ const Footer = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    // ========== UPDATED: Real API call for feedback submission with env variable ==========
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validation
         if (!formData.name.trim()) {
             toast.error("Please enter your name");
             return;
@@ -206,11 +209,48 @@ const Footer = () => {
         }
 
         setIsSubmitting(true);
-        setTimeout(() => {
-            toast.success("Thank you for your feedback! 🙏");
-            setFormData({ name: "", feedback: "" });
+
+        try {
+            // Make API call to your backend with env variable
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/feed/feedback`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formData.name.trim(),
+                    feedback: formData.feedback.trim()
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to submit feedback');
+            }
+
+            if (data.success) {
+                // Show success message
+                toast.success(data.message || "Thank you for your feedback! 🙏", {
+                    position: "top-right",
+                    autoClose: 4000
+                });
+
+                // Clear form
+                setFormData({ name: "", feedback: "" });
+            } else {
+                throw new Error(data.message || 'Failed to submit feedback');
+            }
+
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            toast.error(error.message || "Failed to submit feedback. Please try again.", {
+                position: "top-right",
+                autoClose: 4000
+            });
+        } finally {
             setIsSubmitting(false);
-        }, 1500);
+        }
     };
 
     const whatsappLink = "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%20have%20a%20question%20about%20your%20services.";
