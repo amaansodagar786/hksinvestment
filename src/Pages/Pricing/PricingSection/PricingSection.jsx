@@ -88,8 +88,8 @@ const PricingSection = () => {
                     <div className="card-inner">
                         <div className="card-header-box">
                             <h3>Swing & Option trading</h3>
-                            <p className="sub-line1">Complete investing & options program</p>
-                            <p className="sub-line2">Step-by-step training with live signals</p>
+                            <p className="sub-line1">• Complete investing & options program</p>
+                            <p className="sub-line2">• Step-by-step training with live signals</p>
                         </div>
                         <div className="card-body-box">
                             <div className="price">
@@ -131,8 +131,8 @@ const PricingSection = () => {
                     <div className="card-inner">
                         <div className="card-header-box">
                             <h3>Long term investment</h3>
-                            <p className="sub-line1">High-growth picks (10x–100x potential)</p>
-                            <p className="sub-line2">Receive real-time buy & sell alerts</p>
+                            <p className="sub-line1">• High-growth picks (10x–100x potential)</p>
+                            <p className="sub-line2">• Receive real-time buy & sell alerts</p>
                             <p className="note">Note: For Long-term investing only</p>
                         </div>
                         <div className="card-body-box">

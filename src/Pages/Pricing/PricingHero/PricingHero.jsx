@@ -1,12 +1,14 @@
 import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { useMediaQuery } from "react-responsive"; // ← added
+import { useMediaQuery } from "react-responsive";
 import "./PricingHero.scss";
 
 const PricingHero = ({ onViewPlansClick }) => {
-    // Check if mobile
+    // Check viewport sizes
     const isMobile = useMediaQuery({ maxWidth: 768 });
+    const isTablet = useMediaQuery({ minWidth: 769, maxWidth: 1200 });
+    const isDesktop = useMediaQuery({ minWidth: 1201 });
 
     // Animation variants - SAME AS ORIGINAL TOP SECTION
     const containerVariants = {
@@ -57,7 +59,7 @@ const PricingHero = ({ onViewPlansClick }) => {
         }
     };
 
-    // NEW: Animation for the highlighted word (pulse + glow)
+    // Animation for the highlighted word (pulse + glow)
     const highlightVariants = {
         initial: { 
             scale: 1,
@@ -112,25 +114,82 @@ const PricingHero = ({ onViewPlansClick }) => {
                         className="pricing-hero-title"
                         variants={titleVariants}
                     >
-                        Simple, transparent{" "}
-                        <motion.span 
-                            className={`pricing-highlight ${isMobile ? 'pricing-highlight-mobile' : ''}`}
-                            variants={highlightVariants}
-                            initial="initial"
-                            animate="animate"
-                            whileHover="hover"
-                        >
-                            pricing
-                        </motion.span>{" "}
-                       
-                        built for  <span className="tabletbr"><br /></span>self traders
+                        {isDesktop && (
+                            // DESKTOP VIEW - 1 line
+                            <>
+                                Simple, transparent{" "}
+                                <motion.span 
+                                    className="pricing-highlight"
+                                    variants={highlightVariants}
+                                    initial="initial"
+                                    animate="animate"
+                                    whileHover="hover"
+                                >
+                                    pricing
+                                </motion.span>{" "}
+                                built for self traders
+                            </>
+                        )}
+
+                        {isTablet && (
+                            // TABLET VIEW - 3 lines
+                            <>
+                                Simple, transparent<span className="tablet-br-1"><br /></span>{" "}
+                                <motion.span 
+                                    className="pricing-highlight"
+                                    variants={highlightVariants}
+                                    initial="initial"
+                                    animate="animate"
+                                    whileHover="hover"
+                                >
+                                    pricing
+                                </motion.span>{" "}
+                                built for<span className="tablet-br-2"><br /></span> self traders
+                            </>
+                        )}
+
+                        {isMobile && (
+                            // MOBILE VIEW - with mobile class for no bg/border
+                            <>
+                                Simple, transparent{" "}
+                                <motion.span 
+                                    className="pricing-highlight pricing-highlight-mobile"
+                                    variants={highlightVariants}
+                                    initial="initial"
+                                    animate="animate"
+                                    whileHover="hover"
+                                >
+                                    pricing
+                                </motion.span>{" "}
+                                built for<span className="mobile-br"><br /></span> self traders
+                            </>
+                        )}
                     </motion.h1>
 
                     <motion.p
                         className="pricing-hero-subtitle"
                         variants={itemVariants}
                     >
-                        Choose the perfect plan for your<span className="mobile-br"><br /></span> financial journey!<br className="desktop-only" /> No hidden fees.<span className="mobile-br"><br /></span> Cancel anytime.
+                        {isDesktop && (
+                            // DESKTOP - 1 line
+                            <>
+                                Choose the perfect plan for your financial journey! No hidden fees. Cancel anytime.
+                            </>
+                        )}
+
+                        {isTablet && (
+                            // TABLET - with tablet line breaks
+                            <>
+                                Choose the perfect plan for your<span className="tablet-br-3"><br /></span> financial journey! No hidden fees.<span className="tablet-br-4"><br /></span> Cancel anytime.
+                            </>
+                        )}
+
+                        {isMobile && (
+                            // MOBILE - with mobile line breaks
+                            <>
+                                Choose the perfect plan for your<span className="mobile-br"><br /></span> financial journey! No hidden fees.<span className="mobile-br"><br /></span> Cancel anytime.
+                            </>
+                        )}
                     </motion.p>
 
                     <motion.button

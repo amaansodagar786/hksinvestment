@@ -307,10 +307,6 @@
         height: 42px;
         font-size: 18px;
     }
-
-    .tabletbr {
-        display: none;
-    }
 }
 
 @media (max-width: 768px) {
@@ -391,54 +387,34 @@
     }
 }
 
-.desktop-only {
-    display: inline;
-
-    @media (max-width: 768px) {
-        display: none;
-    }
-}
-
-
-
-.mobile-br {
-    display: none;
-
-    @media (max-width: 480px) {
-        display: inline;
-    }
-}
-
-
-
 /* =========================
-   NEW TABLET MEDIA QUERY (800px - 1070px)
-   FOR PRICING HERO - MATCHING HERO SECTION PATTERN
+   TABLET MEDIA QUERY (800px - 1200px)
+   FOR PRICING HERO - 3 LINES HEADING
 ========================= */
 @media (min-width: 800px) and (max-width: 1200px) {
-    
+
     .pricing-hero-wrapper {
-        min-height: 60vh;
+        min-height: 75vh;
     }
-    
+
     /* ===== TOP HERO SECTION ===== */
     .pricing-hero-top {
-        height: 55vh;
+        height: 65vh;
         padding: 0 40px;
     }
 
     .pricing-hero-title {
-        font-size: 58px;  /* Keep existing tablet size */
+        font-size: 58px;
     }
 
     .pricing-hero-subtitle {
-        font-size: 20px;  /* Keep existing tablet size */
+        font-size: 20px;
     }
 
     /* ===== HERO BUTTON ===== */
     .pricing-hero-btn {
-        width: 170px;     /* Keep existing tablet width */
-        height: 55px;     /* CHANGED: From 52px to 55px */
+        width: 170px;
+        height: 55px;
     }
 
     .pricing-hero-btn-text {
@@ -461,7 +437,7 @@
 
     /* ===== HIGHLIGHT WORD STYLING ===== */
     .pricing-highlight {
-        padding: 2px 18px;  /* Slightly smaller for tablet */
+        padding: 2px 18px;
     }
 
     /* Dots positioning for tablet */
@@ -475,8 +451,37 @@
         right: 18px;
     }
 
-    /* Hide tablet br if needed */
-    .tabletbr {
+    /* SHOW tablet line breaks in tablet view */
+    .tablet-br-1,
+    .tablet-br-2,
+    .tablet-br-3,
+    .tablet-br-4 {
+        display: inline !important;
+    }
+}
+
+/* Default - hide all tablet line breaks on other screens */
+.tablet-br-1,
+.tablet-br-2,
+.tablet-br-3,
+.tablet-br-4 {
+    display: none;
+}
+
+/* Mobile line breaks - only show on mobile */
+.mobile-br {
+    display: none;
+
+    @media (max-width: 768px) {
+        display: inline;
+    }
+}
+
+/* Desktop-only elements */
+.desktop-only {
+    display: inline;
+
+    @media (max-width: 768px) {
         display: none;
     }
 }

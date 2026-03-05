@@ -7,8 +7,10 @@ import { useMediaQuery } from "react-responsive";
 import "./ContactHero.scss";
 
 const ContactHero = () => {
-    // Check if mobile
+    // Check viewport sizes
     const isMobile = useMediaQuery({ maxWidth: 768 });
+    const isTablet = useMediaQuery({ minWidth: 769, maxWidth: 1250 });
+    const isDesktop = useMediaQuery({ minWidth: 1251 });
 
     // Animation variants
     const containerVariants = {
@@ -46,9 +48,9 @@ const ContactHero = () => {
         }
     };
 
-    // Animation for the highlighted word - SAME AS CAREER
+    // Animation for the highlighted word
     const highlightVariants = {
-        initial: { 
+        initial: {
             scale: 1,
             boxShadow: "0 0 0 rgba(94, 38, 144, 0.4)"
         },
@@ -104,8 +106,8 @@ const ContactHero = () => {
                             className="contact-hero-title"
                             variants={titleVariants}
                         >
-                            {isMobile ? (
-                                // MOBILE VIEW - 3 lines with no bg/border on highlights
+                            {isMobile && (
+                                // MOBILE VIEW - 3 lines
                                 <>
                                     One{" "}
                                     <motion.span
@@ -119,16 +121,7 @@ const ContactHero = () => {
                                     </motion.span>{" "}
                                     that
                                     <br />
-                                    can<span className="tabletbr"><br /></span>{" "}change
-                                    {/* <motion.span
-                                        className="contact-highlight contact-highlight-mobile"
-                                        variants={highlightVariants}
-                                        initial="initial"
-                                        animate="animate"
-                                        whileHover="hover"
-                                    >
-                                        change
-                                    </motion.span> */}
+                                    can change
                                     <br />
                                     your{" "}
                                     <motion.span
@@ -141,8 +134,38 @@ const ContactHero = () => {
                                         life
                                     </motion.span>
                                 </>
-                            ) : (
-                                // DESKTOP VIEW - 1 line (UNCHANGED)
+                            )}
+
+                            {isTablet && (
+                                // TABLET VIEW - 2 lines
+                                <>
+                                    One{" "}
+                                    <motion.span
+                                        className="contact-highlight"
+                                        variants={highlightVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        whileHover="hover"
+                                    >
+                                        decision
+                                    </motion.span>{" "}
+                                    that can
+                                    <br />
+                                    change your{" "}
+                                    <motion.span
+                                        className="contact-highlight"
+                                        variants={highlightVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        whileHover="hover"
+                                    >
+                                        life.
+                                    </motion.span>
+                                </>
+                            )}
+
+                            {isDesktop && (
+                                // DESKTOP VIEW - 1 line
                                 <>
                                     One{" "}
                                     <motion.span
