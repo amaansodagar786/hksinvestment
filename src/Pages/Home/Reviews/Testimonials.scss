@@ -202,10 +202,10 @@
 .testimonial-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 30px rgba(122, 61, 184, 0.2);
-    border-radius: 20px; 
+    border-radius: 20px;
 
-     @media (max-width: 768px) {
-        box-shadow: none !important; 
+    @media (max-width: 768px) {
+        box-shadow: none !important;
         transform: translateY(0px);
     }
 }
@@ -306,8 +306,8 @@
 .testimonial-mobile-card {
     min-height: auto;
     height: auto !important;
-    
- }
+
+}
 
 .testimonial-slider-arrows {
     display: flex;
@@ -773,6 +773,139 @@
 ========================= */
 @media screen and (min-width: 1900px) and (max-width: 2600px) {
     .testimonial-section {
-        max-width: 1700px;  /* Increased from 1400px */
+        max-width: 1700px;
+        /* Increased from 1400px */
+    }
+}
+
+
+
+
+/* =========================
+   NEW TABLET MEDIA QUERY (800px - 1070px)
+   FOR TESTIMONIALS SECTION - EQUAL PADDING ON BOTH SIDES
+========================= */
+@media (min-width: 800px) and (max-width: 1070px) {
+    .testimonial-section {
+        max-width: 100%;
+        padding: 80px 40px;
+        /* Equal padding left and right - matching Services */
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    /* HEADER */
+    .testimonial-header {
+        margin-bottom: 30px;
+    }
+
+    .testimonial-header h2 {
+        font-size: 36px;
+        /* Keep existing tablet size */
+    }
+
+    .testimonial-pill {
+        font-size: 14px;
+        padding: 5px 16px;
+        margin-bottom: 12px;
+    }
+
+    /* ===== BUTTON - MATCHING SERVICES & HERO PATTERN ===== */
+    .testimonial-review-btn {
+        width: 190px;
+        height: 55px;
+        /* 55px height like hero sections */
+    }
+
+    .testimonial-review-btn-text {
+        font-size: 15px;
+        padding-left: 22px;
+    }
+
+    .testimonial-review-btn-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+        margin-right: 2px;
+    }
+
+    .testimonial-review-btn-fill {
+        right: 2px;
+        top: 49.7%;
+        height: 45px;
+        /* 45px like hero sections */
+        width: 45px;
+        /* 45px like hero sections */
+    }
+
+    /* DESKTOP CAROUSEL */
+    .testimonial-grid-three {
+        gap: 20px;
+        /* Reduced gap for tablet */
+        min-height: auto;
+        /* Remove fixed min-height */
+    }
+
+    .testimonial-card {
+        height: auto !important;
+        /* Auto height to show all content */
+        min-height: 240px;
+        /* Minimum height for consistency */
+        max-height: none;
+        /* Remove max-height restriction */
+        padding: 20px ;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .testimonial-card p {
+        font-size: 14px;
+        -webkit-line-clamp: unset;
+        /* Remove line clamp */
+        display: block;
+        /* Ensure full display */
+        overflow: visible;
+        /* Show all content */
+        text-overflow: clip;
+        /* No ellipsis */
+        line-height: 1.6;
+        margin-top: 12px;
+        flex: 0 1 auto;
+        /* Don't force stretching */
+    }
+
+    /* AVATAR */
+    .testimonial-avatar {
+        width: 38px;
+        height: 38px;
+    }
+
+    .testimonial-user strong {
+        font-size: 15px;
+    }
+
+    /* DESKTOP NAVIGATION ARROWS */
+    .testimonial-desktop-slider-arrows {
+        margin-top: 20px;
+        gap: 12px;
+    }
+
+    .testimonial-desktop-slider-arrows button {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Ensure container has equal padding */
+    .testimonial-section {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    /* Adjust for larger screens within this range */
+    @media (min-width: 900px) {
+        .testimonial-section {
+            padding-left: 50px;
+            padding-right: 50px;
+        }
     }
 }

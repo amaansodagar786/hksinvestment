@@ -15,7 +15,7 @@ import "./Testimonials.scss";
 const reviews = [
     {
         name: "David R. 1",
-        text: "We've scaled from 5 to 50 employees using this financial platform. The automation eliminated busywork and helped us focus on growth. Highly recommended for any business looking to streamline their financial operations."
+        text: "We've scaled from 5 to 50 employees using this financial platform. The automation eliminated busywork and helped us focus on growth. Highly recommended for any business."
     },
     {
         name: "Rebecca H.2",

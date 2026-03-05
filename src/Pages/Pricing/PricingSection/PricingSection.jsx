@@ -71,6 +71,7 @@ const PricingSection = () => {
                             variants={itemVariants}
                         >
                             Simple, transparent pricing with no hidden fees.
+                            <span className="tablet-br"> </span>
                             Pick the plan that fits your trading style.
                         </motion.p>
                     </div>

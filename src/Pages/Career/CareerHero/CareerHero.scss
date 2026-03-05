@@ -86,7 +86,7 @@
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
-        color: #5e2690; 
+        color: #5e2690;
         box-shadow: none !important;
     }
 }
@@ -371,6 +371,7 @@
 
 /* ===== REDUCE MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
+
     .career-hero-btn,
     .career-highlight,
     .career-hero-subtitle {
@@ -381,8 +382,84 @@
 
 .desktop-only {
     display: inline;
-    
+
     @media (max-width: 768px) {
         display: none;
+    }
+}
+
+
+
+
+/* =========================
+   NEW TABLET MEDIA QUERY (800px - 1070px)
+   FOR CAREER HERO - MATCHING EXACT PATTERN
+========================= */
+@media (min-width: 800px) and (max-width: 1070px) {
+
+    .career-hero-wrapper {
+        min-height: 60vh;
+    }
+
+    /* ===== TOP HERO SECTION ===== */
+    .career-hero-top {
+        height: 55vh;
+        padding: 0 40px;
+    }
+
+    .career-hero-title {
+        font-size: 58px;
+        /* Keep existing tablet size */
+    }
+
+    .career-hero-subtitle {
+        font-size: 20px;
+        /* Keep existing tablet size */
+    }
+
+    /* ===== HERO BUTTON ===== */
+    .career-hero-btn {
+        width: 140px;
+        /* Keep existing tablet width */
+        height: 55px;
+        /* CHANGED: From 52px to 55px */
+    }
+
+    .career-hero-btn-text {
+        font-size: 15px;
+        padding-left: 22px;
+    }
+
+    .career-hero-btn-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+
+    /* UPDATED button fill values - exactly as specified */
+    .career-hero-btn-fill {
+        right: 3px;
+        top: 49.7%;
+        height: 45px;
+        /* From 42px to 45px */
+        width: 45px;
+        /* From 42px to 45px */
+    }
+
+    /* ===== HIGHLIGHT WORD STYLING ===== */
+    .career-highlight {
+        padding: 2px 18px;
+        /* Slightly smaller for tablet */
+    }
+
+    /* Dots positioning for tablet */
+    .career-highlight::before {
+        top: -6px;
+        left: 18px;
+    }
+
+    .career-highlight::after {
+        bottom: -6px;
+        right: 18px;
     }
 }

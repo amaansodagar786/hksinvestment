@@ -413,3 +413,71 @@
         display: none;
     }
 }
+
+
+
+/* =========================
+   NEW TABLET MEDIA QUERY (800px - 1070px)
+   FOR PRIVACY HERO - MATCHING EXACT PATTERN
+========================= */
+@media (min-width: 800px) and (max-width: 1070px) {
+    
+    .privacy-hero-wrapper {
+        min-height: 60vh;
+    }
+    
+    /* ===== TOP HERO SECTION ===== */
+    .privacy-hero-top {
+        height: 55vh;
+        padding: 0 40px;
+    }
+
+    .privacy-hero-title {
+        font-size: 58px;  /* Keep existing tablet size */
+    }
+
+    .privacy-hero-subtitle {
+        font-size: 20px;  /* Keep existing tablet size */
+    }
+
+    /* ===== HERO BUTTON ===== */
+    .privacy-hero-btn {
+        width: 210px;     /* Keep existing tablet width from your 1024px query */
+        height: 55px;     /* CHANGED: To match pattern */
+    }
+
+    .privacy-hero-btn-text {
+        font-size: 16px;  /* Keep existing tablet size */
+        padding-left: 22px;
+    }
+
+    .privacy-hero-btn-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+
+    /* UPDATED button fill values - exactly as specified */
+    .privacy-hero-btn-fill {
+        right: 2px;       /* Keep original right value */
+        top: 49.7%;
+        height: 45px;     /* From existing to 45px */
+        width: 45px;      /* From existing to 45px */
+    }
+
+    /* ===== HIGHLIGHT WORD STYLING ===== */
+    .privacy-highlight {
+        padding: 2px 18px;  /* Slightly smaller for tablet */
+    }
+
+    /* Dots positioning for tablet */
+    .privacy-highlight::before {
+        top: -6px;
+        left: 18px;
+    }
+
+    .privacy-highlight::after {
+        bottom: -6px;
+        right: 18px;
+    }
+}

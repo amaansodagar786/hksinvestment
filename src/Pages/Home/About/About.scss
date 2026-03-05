@@ -373,7 +373,7 @@
    RESPONSIVE: TABLET (768px - 1024px)
    MATCHING MOBILE STYLE - SHIELD ICON HIDDEN, BUTTON CENTERED
 ========================= */
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (min-width: 800px) and (max-width: 1070px) {
     .about-section {
         padding: 80px 40px;
         width: 100%;

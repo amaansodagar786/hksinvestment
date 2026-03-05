@@ -735,6 +735,7 @@ const PrivacyContent = () => {
             <GeneralInquiryModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
+                source="privacy-questions"
             />
         </>
     );

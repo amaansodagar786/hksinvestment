@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./GeneralInquiryModal.scss";
 
-const GeneralInquiryModal = ({ isOpen, onClose }) => {
+const GeneralInquiryModal = ({ isOpen, onClose, source = "default" }) => {
     const API_URL = import.meta.env.VITE_API_URL;
 
     // Validation schema
@@ -125,9 +125,15 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                             <FiX />
                         </button>
 
-                        <h3 className="inquiry-modal-title">General Inquiry</h3>
-                        <p className="inquiry-modal-subtitle">Fill out the form below and our team will get back to you within 24 hours.</p>
-
+                        <h3 className="inquiry-modal-title">
+                            {source === 'privacy-questions' ? 'Any Questions?' : 'General Inquiry'}
+                        </h3>
+                        <p className="inquiry-modal-subtitle">
+                            {source === 'privacy-questions'
+                                ? 'Have questions about your privacy? Fill out the form below and our team will get back to you within 24 hours.'
+                                : 'Fill out the form below and our team will get back to you within 24 hours.'
+                            }
+                        </p>
                         <Formik
                             initialValues={{
                                 name: '',
@@ -250,7 +256,7 @@ const GeneralInquiryModal = ({ isOpen, onClose }) => {
                                         )}
                                     </motion.button>
 
-                                   
+
                                 </Form>
                             )}
                         </Formik>

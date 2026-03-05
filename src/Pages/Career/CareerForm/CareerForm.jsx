@@ -1,4 +1,3 @@
-// CareerForm.jsx (UPDATED with real API)
 import React from "react";
 import { motion } from "framer-motion";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -70,32 +69,14 @@ const CareerForm = () => {
     };
 
     const buttonVariants = {
-        initial: {
-            background: "#5e2690",
-            color: "#fff"
-        },
-        hover: {
-            background: "#fff",
-            color: "#5e2690",
-            border: "2px solid #5e2690",
-            scale: 1.05,
-            transition: {
-                duration: 0.3,
-                ease: "easeInOut"
-            }
-        },
-        tap: {
-            scale: 0.98,
-            transition: {
-                duration: 0.1
-            }
-        }
+        initial: { scale: 1 },
+        hover: { scale: 1.05 },
+        tap: { scale: 0.98 }
     };
 
     const arrowVariants = {
         hover: {
             rotate: 45,
-            scale: 1.1,
             transition: {
                 duration: 0.3,
                 ease: "easeInOut"
@@ -427,10 +408,10 @@ const CareerForm = () => {
                                             <ErrorMessage name="llqpLicense" component="div" className="error-message" />
                                         </div>
 
-                                        {/* SUBMIT BUTTON */}
+                                        {/* SUBMIT BUTTON - UPDATED TO MATCH APPOINTMENT BUTTON */}
                                         <motion.button
                                             type="submit"
-                                            className={`submit-btn ${isSubmitting ? 'submitting' : ''}`}
+                                            className={`career-submit-btn ${isSubmitting ? 'submitting' : ''}`}
                                             variants={buttonVariants}
                                             initial="initial"
                                             whileHover={isSubmitting ? {} : "hover"}
@@ -451,8 +432,6 @@ const CareerForm = () => {
                                                 </>
                                             )}
                                         </motion.button>
-
-
                                     </Form>
                                 )}
                             </Formik>

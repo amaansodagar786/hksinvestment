@@ -183,9 +183,9 @@ const Footer = () => {
 
     const guideItems = [
         { name: "Home", path: "/" },
-        { name: "Contact", path: "/contact" },
         { name: "Pricing", path: "/pricing" },
-        { name: "Career", path: "/career" },
+         { name: "Career", path: "/career" },
+        { name: "Schedule", path: "/contact" },
         { name: "Privacy Policy", path: "/privacypolicy" }
     ];
 
@@ -278,7 +278,7 @@ const Footer = () => {
                                 initial="initial"
                                 whileHover="hover"
                             >
-                                Your feedback is important for us.
+                                Your feedback is<span className="tablet-only"><br /></span> important for us.
                             </motion.h4>
 
                             <form className="feedback-form" onSubmit={handleSubmit}>
@@ -499,7 +499,7 @@ const Footer = () => {
                                 variants={copyrightVariants}
                             >
                                 <span className="copyright-brand">
-                                    Copyright © 2025 hksinvestment, All Rights Reserved.
+                                    Copyright © 2025 hksinvestment,<span className="tablet-only"><br /></span> All Rights Reserved.
                                 </span>
                                 <motion.span
                                     className="developer-text"
@@ -507,7 +507,7 @@ const Footer = () => {
                                     initial="initial"
                                     whileHover="hover"
                                 >
-                                    Design and Developed by{" "}
+                                    Design and Developed by<span className="tablet-only"><br /></span>
                                     <a
                                         href="https://techorses.com"
                                         target="_blank"

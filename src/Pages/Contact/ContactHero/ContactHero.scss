@@ -90,7 +90,8 @@
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
-        color: #5e2690; /* keep the purple color */
+        color: #5e2690;
+        /* keep the purple color */
         box-shadow: none !important;
     }
 }
@@ -344,12 +345,92 @@
 }
 
 
-.tabletbr
-{
-    display: none ;  
+.tabletbr {
+    display: none;
 
 
-     @media (max-width: 1024px) and (min-width: 769px) {
-       display: inline !important;
+    @media (max-width: 1024px) and (min-width: 769px) {
+        display: inline !important;
+    }
+}
+
+
+
+/* =========================
+   NEW TABLET MEDIA QUERY (800px - 1070px)
+   FOR CONTACT HERO - MATCHING EXACT PATTERN
+========================= */
+@media (min-width: 800px) and (max-width: 1070px) {
+
+    .contact-hero-wrapper {
+        min-height: 60vh;
+    }
+
+    /* ===== TOP HERO SECTION ===== */
+    .contact-hero-top {
+        height: 55vh;
+        padding: 0 40px;
+    }
+
+    .contact-hero-title {
+        font-size: 58px;
+        /* Keep existing tablet size */
+    }
+
+    .contact-hero-subtitle {
+        font-size: 20px;
+        /* Keep existing tablet size */
+    }
+
+    /* ===== HERO BUTTON ===== */
+    .contact-hero-btn {
+        width: 240px;
+        /* Keep existing tablet width */
+        height: 55px;
+        /* CHANGED: To match pattern */
+    }
+
+    .contact-hero-btn-text {
+        font-size: 16px;
+        /* Keep existing tablet size */
+        padding-left: 22px;
+    }
+
+    .contact-hero-btn-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+
+    /* UPDATED button fill values - exactly as specified */
+    .contact-hero-btn-fill {
+        right: 3px;
+        top: 49.7%;
+        height: 45px;
+        /* From existing to 45px */
+        width: 45px;
+        /* From existing to 45px */
+    }
+
+    /* ===== HIGHLIGHT WORD STYLING ===== */
+    .contact-highlight {
+        padding: 2px 18px;
+        /* Slightly smaller for tablet */
+    }
+
+    /* Dots positioning for tablet */
+    .contact-highlight::before {
+        top: -6px;
+        left: 18px;
+    }
+
+    .contact-highlight::after {
+        bottom: -6px;
+        right: 18px;
+    }
+
+    /* Tablet br handling */
+    .tabletbr {
+        display: inline !important;
     }
 }

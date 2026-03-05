@@ -408,3 +408,75 @@
         display: inline;
     }
 }
+
+
+
+/* =========================
+   NEW TABLET MEDIA QUERY (800px - 1070px)
+   FOR PRICING HERO - MATCHING HERO SECTION PATTERN
+========================= */
+@media (min-width: 800px) and (max-width: 1070px) {
+    
+    .pricing-hero-wrapper {
+        min-height: 60vh;
+    }
+    
+    /* ===== TOP HERO SECTION ===== */
+    .pricing-hero-top {
+        height: 55vh;
+        padding: 0 40px;
+    }
+
+    .pricing-hero-title {
+        font-size: 58px;  /* Keep existing tablet size */
+    }
+
+    .pricing-hero-subtitle {
+        font-size: 20px;  /* Keep existing tablet size */
+    }
+
+    /* ===== HERO BUTTON ===== */
+    .pricing-hero-btn {
+        width: 170px;     /* Keep existing tablet width */
+        height: 55px;     /* CHANGED: From 52px to 55px */
+    }
+
+    .pricing-hero-btn-text {
+        font-size: 15px;
+        padding-left: 22px;
+    }
+
+    .pricing-hero-btn-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+
+    .pricing-hero-btn-fill {
+        right: 3px;
+        top: 49.7%;
+        height: 45px;
+        width: 45px;
+    }
+
+    /* ===== HIGHLIGHT WORD STYLING ===== */
+    .pricing-highlight {
+        padding: 2px 18px;  /* Slightly smaller for tablet */
+    }
+
+    /* Dots positioning for tablet */
+    .pricing-highlight::before {
+        top: -6px;
+        left: 18px;
+    }
+
+    .pricing-highlight::after {
+        bottom: -6px;
+        right: 18px;
+    }
+
+    /* Hide tablet br if needed */
+    .tabletbr {
+        display: none;
+    }
+}
