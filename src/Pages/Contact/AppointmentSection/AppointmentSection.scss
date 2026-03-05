@@ -841,3 +841,220 @@
     max-height: 300px;
   }
 }
+
+
+
+
+
+/* =========================
+   TABLET RESPONSIVE (768px - 1024px)
+========================= */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .appointment-section {
+    padding: 70px 30px;
+  }
+
+  .appointment-content {
+    flex-direction: column; /* Stack vertically */
+    gap: 40px;
+    max-width: 700px; /* Limit width for better readability */
+    margin: 0 auto;
+  }
+
+  /* Both sections take full width */
+  .appointment-form-section,
+  .appointment-time-section {
+    width: 100%;
+    flex: 0 0 auto; /* Reset fixed widths */
+    padding: 32px;
+    box-sizing: border-box;
+  }
+
+  /* Adjust header for tablet */
+  .appointment-header {
+    margin-bottom: 50px;
+    padding: 0 20px;
+  }
+
+  .appointment-header h2 {
+    font-size: 36px;
+  }
+
+  .appointment-header p {
+    font-size: 17px;
+    padding: 0 20px;
+  }
+
+  /* Time slots grid - better spacing for tablet */
+  .time-slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .time-slot {
+    min-height: 90px;
+    padding: 16px;
+  }
+
+  .time-range .time {
+    font-size: 16px;
+  }
+
+  /* Ensure form inputs take full width */
+  .appointment-form {
+    width: 100%;
+  }
+
+  .form-input,
+  .date-input-container input[type="date"] {
+    width: 100%;
+  }
+
+  /* Selected date display adjustments */
+  .selected-date-display {
+    padding: 14px;
+  }
+
+  /* Selected time display adjustments */
+  .selected-time-display {
+    margin-bottom: 28px;
+  }
+
+  /* Submit button full width */
+  .appointment-submit-btn {
+    padding: 14px 16px 14px 28px;
+    font-size: 17px;
+  }
+
+  /* Scrollable grid height adjustment */
+  .time-slots-grid.scrollable {
+    max-height: 380px;
+  }
+
+  /* Form header adjustments */
+  .form-header {
+    margin-bottom: 28px;
+  }
+
+  .form-header-content h3 {
+    font-size: 20px;
+  }
+}
+
+/* =========================
+   SMALL TABLET / LARGE MOBILE (up to 768px)
+   - Already have this, but ensure it's optimized
+========================= */
+@media (max-width: 768px) {
+  .appointment-section {
+    padding: 60px 20px;
+  }
+
+  .appointment-content {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .appointment-form-section,
+  .appointment-time-section {
+    width: 100%; /* Changed from 88% to 100% */
+    flex: 0 0 auto;
+    padding: 28px;
+    box-sizing: border-box;
+  }
+
+  .appointment-header h2 {
+    font-size: 28px;
+  }
+
+  .time-slots-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Add these for better mobile experience */
+  .form-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .form-header-icon {
+    margin: 0 auto;
+  }
+
+  .selected-date-display {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .selected-time-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .time-icon {
+    margin: 0 auto;
+  }
+}
+
+/* =========================
+   EXTRA SMALL MOBILE (up to 480px)
+========================= */
+@media (max-width: 480px) {
+  .appointment-section {
+    padding: 40px 16px;
+  }
+
+  .appointment-form-section,
+  .appointment-time-section {
+    padding: 20px 16px;
+  }
+
+  .appointment-header h2 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .appointment-header p {
+    font-size: 15px;
+    padding: 0 10px;
+  }
+
+  .form-header-content h3 {
+    font-size: 18px;
+  }
+
+  .form-header-content p {
+    font-size: 13px;
+  }
+
+  .time-slots-header h3 {
+    font-size: 18px;
+  }
+
+  .time-slot {
+    min-height: 80px;
+    padding: 12px;
+  }
+
+  .time-range .time {
+    font-size: 14px;
+  }
+
+  .time-slot-status {
+    font-size: 12px;
+  }
+
+  .appointment-submit-btn {
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+
+  .appointment-submit-btn span {
+    width: 32px;
+    height: 32px;
+  }
+}
