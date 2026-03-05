@@ -45,17 +45,18 @@ const Dashboard = () => {
     const [detailsData, setDetailsData] = useState([]);
     const [loadingDetails, setLoadingDetails] = useState(false);
 
+    // NEW COLOR PALETTE
     const COLORS = {
-        pending: '#f59e0b',
-        approved: '#10b981',
-        rejected: '#ef4444',
-        contacted: '#3b82f6',
-        resolved: '#8b5cf6',
-        reviewed: '#6366f1',
-        hired: '#059669',
-        general: '#f97316',
-        support: '#06b6d4',
-        inquiry: '#a855f7'
+        pending: '#e0652b',      // orange
+        approved: '#e28c33',     // light orange
+        rejected: '#edba40',     // yellow
+        contacted: '#e28c33',    // same as approved
+        resolved: '#767ae6',     // purple
+        reviewed: '#e28c33',     // same as approved
+        hired: '#767ae6',        // purple
+        general: '#e28c33',
+        support: '#e0652b',
+        inquiry: '#767ae6'
     };
 
     // Fetch all stats on component mount
@@ -294,7 +295,7 @@ const Dashboard = () => {
         }
     };
 
-    // Prepare data for charts - FIXED
+    // Prepare data for charts
     const prepareAppointmentData = () => {
         return [
             { name: 'Pending', value: stats?.appointments?.byStatus?.pending || 0, color: COLORS.pending },
@@ -304,7 +305,7 @@ const Dashboard = () => {
     };
 
     const prepareCareerData = () => {
-        // FIXED: Now showing 4 statuses: Pending, Contacted, Rejected, Hired
+        // 4 statuses: Pending, Contacted, Rejected, Hired
         return [
             { name: 'Pending', value: stats?.careers?.byStatus?.pending || 0, color: COLORS.pending },
             { name: 'Contacted', value: stats?.careers?.byStatus?.contacted || 0, color: COLORS.contacted },
@@ -314,14 +315,12 @@ const Dashboard = () => {
     };
 
     const prepareServiceData = () => {
-        // FIXED: Preparing for ComposedChart (different from appointments)
         const data = [
             { name: 'Pending', value: stats?.serviceInquiries?.byStatus?.pending || 0, color: COLORS.pending },
             { name: 'Contacted', value: stats?.serviceInquiries?.byStatus?.contacted || 0, color: COLORS.contacted },
             { name: 'Resolved', value: stats?.serviceInquiries?.byStatus?.resolved || 0, color: COLORS.resolved }
         ].filter(item => item.value > 0);
         
-        // Add percentage for labels
         const total = data.reduce((sum, item) => sum + item.value, 0);
         return data.map(item => ({
             ...item,
@@ -340,7 +339,7 @@ const Dashboard = () => {
         }));
     };
 
-    // Find most requested reason - FIXED
+    // Find most requested reason
     const getMostRequestedReason = () => {
         const reasons = stats?.generalInquiries?.byReason || [];
         if (reasons.length === 0) return 'N/A';
@@ -544,12 +543,13 @@ const Dashboard = () => {
                                 {/* 2x2 Grid Layout for Overview */}
                                 <div className="analytics-grid-2x2">
                                     
-                                    {/* Card 1: Appointments - Doughnut Chart - FIXED legend visibility */}
+                                    {/* Card 1: Appointments - Doughnut Chart */}
                                     <motion.div 
                                         className="analytics-card-modern"
                                         initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 0.1 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.5 }}
                                         whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(122, 61, 184, 0.15)' }}
                                     >
                                         <div className="card-header">
@@ -572,7 +572,7 @@ const Dashboard = () => {
                                         </div>
 
                                         <div className="chart-container">
-                                            <ResponsiveContainer width="100%" height={200}>
+                                            <ResponsiveContainer width="100%" height={220}>
                                                 <PieChart>
                                                     <Pie
                                                         data={prepareAppointmentData()}
@@ -612,12 +612,13 @@ const Dashboard = () => {
                                         </div>
                                     </motion.div>
 
-                                    {/* Card 2: Careers - Bar Chart - FIXED with 4 bars */}
+                                    {/* Card 2: Careers - Bar Chart with 4 statuses */}
                                     <motion.div 
                                         className="analytics-card-modern"
                                         initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 0.2 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.5 }}
                                         whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(139, 92, 246, 0.15)' }}
                                     >
                                         <div className="card-header">
@@ -682,12 +683,13 @@ const Dashboard = () => {
                                         </div>
                                     </motion.div>
 
-                                    {/* Card 3: Service Inquiries - Composed Chart (different from appointments) */}
+                                    {/* Card 3: Service Inquiries - Composed Chart */}
                                     <motion.div 
                                         className="analytics-card-modern"
                                         initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 0.3 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.5 }}
                                         whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(245, 158, 11, 0.15)' }}
                                     >
                                         <div className="card-header">
@@ -752,12 +754,13 @@ const Dashboard = () => {
                                         </div>
                                     </motion.div>
 
-                                    {/* Card 4: General Inquiries - Grouped Bar Chart - FIXED most requested */}
+                                    {/* Card 4: General Inquiries - Grouped Bar Chart */}
                                     <motion.div 
                                         className="analytics-card-modern"
                                         initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 0.4 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.5 }}
                                         whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.15)' }}
                                     >
                                         <div className="card-header">
@@ -778,10 +781,10 @@ const Dashboard = () => {
                                         </div>
 
                                         <div className="chart-container">
-                                            <ResponsiveContainer width="100%" height={180}>
+                                            <ResponsiveContainer width="100%" height={200}>
                                                 <BarChart
                                                     data={prepareGeneralData()}
-                                                    margin={{ top: 10, right: 10, left: 0, bottom: 40 }}
+                                                    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
                                                     layout="horizontal"
                                                 >
                                                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -790,7 +793,7 @@ const Dashboard = () => {
                                                         tick={{ fontFamily: 'Content, serif', fontSize: 10 }} 
                                                         angle={0} 
                                                         textAnchor="end" 
-                                                        height={60}
+                                                        // height={60}
                                                     />
                                                     <YAxis hide />
                                                     <Tooltip 

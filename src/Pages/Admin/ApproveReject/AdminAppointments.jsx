@@ -67,6 +67,15 @@ const AdminAppointments = () => {
         return localStorage.getItem('adminToken');
     };
 
+
+    // Returns YYYY-MM-DD using the browser's LOCAL timezone
+    const formatLocalDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
     // Debounced search
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -92,10 +101,10 @@ const AdminAppointments = () => {
                 url += `&search=${filters.search}`;
             }
             if (dateFilter.from) {
-                url += `&fromDate=${dateFilter.from}`;
+                url += `&startDate=${dateFilter.from}`;
             }
             if (dateFilter.to) {
-                url += `&toDate=${dateFilter.to}`;
+                url += `&endDate=${dateFilter.to}`;
             }
 
             const response = await fetch(url, {
@@ -232,10 +241,9 @@ const AdminAppointments = () => {
         setShowDetailsModal(true);
     };
 
-    // Quick filter handlers
     const handleQuickFilter = (type) => {
         const today = new Date();
-        const fromDate = today.toISOString().split('T')[0];
+        const fromDate = formatLocalDate(today);   // ✅ local date
 
         switch (type) {
             case 'today':
@@ -247,7 +255,7 @@ const AdminAppointments = () => {
                 weekLater.setDate(today.getDate() + 7);
                 setDateFilter({
                     from: fromDate,
-                    to: weekLater.toISOString().split('T')[0]
+                    to: formatLocalDate(weekLater)  // ✅ local date
                 });
                 setActiveFilter('week');
                 break;
@@ -256,7 +264,7 @@ const AdminAppointments = () => {
                 monthLater.setMonth(today.getMonth() + 1);
                 setDateFilter({
                     from: fromDate,
-                    to: monthLater.toISOString().split('T')[0]
+                    to: formatLocalDate(monthLater)  // ✅ local date
                 });
                 setActiveFilter('month');
                 break;

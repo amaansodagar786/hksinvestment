@@ -47,38 +47,46 @@ const AdminSchedule = () => {
     });
     const [activeFilter, setActiveFilter] = useState('all');
 
-    // Get today's date in YYYY-MM-DD format
-    const getTodayDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
+
+
+    // Returns YYYY-MM-DD using the browser's LOCAL timezone (works in Canada!)
+    const formatLocalDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
 
-    // Get date range for this week
+    const getTodayDate = () => {
+        return formatLocalDate(new Date());
+    };
+
     const getThisWeekRange = () => {
         const today = new Date();
-        const start = new Date(today);
-        start.setDate(today.getDate() - today.getDay());
-        const end = new Date(today);
-        end.setDate(today.getDate() + (6 - today.getDay()));
+        const day = today.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+
+        // Days to subtract to get Monday (Canada week starts Monday)
+        const diffToMonday = day === 0 ? -6 : 1 - day; // if Sunday, go back 6 days; else go back (day-1) days
+        const monday = new Date(today);
+        monday.setDate(today.getDate() + diffToMonday);
+
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
 
         return {
-            startDate: start.toISOString().split('T')[0],
-            endDate: end.toISOString().split('T')[0]
+            startDate: formatLocalDate(monday),
+            endDate: formatLocalDate(sunday)
         };
     };
 
-    // Get date range for this month
     const getThisMonthRange = () => {
         const today = new Date();
-        const start = new Date(today.getFullYear(), today.getMonth(), 1);
-        const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0); // day 0 = last day of previous month
 
         return {
-            startDate: start.toISOString().split('T')[0],
-            endDate: end.toISOString().split('T')[0]
+            startDate: formatLocalDate(firstDay),
+            endDate: formatLocalDate(lastDay)
         };
     };
 
@@ -132,28 +140,25 @@ const AdminSchedule = () => {
         }
     }, [selectedDate, showAddForm]);
 
-    // Fetch all schedules with filters
-    const fetchAllSchedules = async () => {
+    const fetchAllSchedules = async (filterType = activeFilter, dates = dateFilter) => {
         try {
             setIsLoadingSchedules(true);
             const token = getToken();
 
             let url = `${import.meta.env.VITE_API_URL}/admin/schedule`;
 
-            if (activeFilter === 'custom' && dateFilter.startDate && dateFilter.endDate) {
-                url += `?startDate=${dateFilter.startDate}&endDate=${dateFilter.endDate}`;
-            } else if (activeFilter === 'week') {
+            if (filterType === 'custom' && dates.startDate && dates.endDate) {
+                url += `?startDate=${dates.startDate}&endDate=${dates.endDate}`;
+            } else if (filterType === 'week') {
                 const weekRange = getThisWeekRange();
                 url += `?startDate=${weekRange.startDate}&endDate=${weekRange.endDate}`;
-            } else if (activeFilter === 'month') {
+            } else if (filterType === 'month') {
                 const monthRange = getThisMonthRange();
                 url += `?startDate=${monthRange.startDate}&endDate=${monthRange.endDate}`;
             }
 
             const response = await fetch(url, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
 
@@ -374,25 +379,24 @@ const AdminSchedule = () => {
         setExistingSchedule(null);
     };
 
-    // Handle filter change
     const handleFilterChange = (filterType) => {
         setActiveFilter(filterType);
         if (filterType === 'custom') {
             setShowFilters(true);
         } else {
             setShowFilters(false);
-            setTimeout(() => fetchAllSchedules(), 100);
+            // Pass the filterType directly – no stale closure
+            fetchAllSchedules(filterType);
         }
     };
 
-    // Apply custom filter
     const handleApplyCustomFilter = () => {
         if (!dateFilter.startDate || !dateFilter.endDate) {
             toast.error('Please select both start and end dates');
             return;
         }
         setActiveFilter('custom');
-        fetchAllSchedules();
+        fetchAllSchedules('custom', dateFilter); // Pass current dateFilter
     };
 
     // Reset filters
