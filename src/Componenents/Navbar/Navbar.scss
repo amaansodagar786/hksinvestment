@@ -14,8 +14,6 @@ $gray: #6c757d;
 $transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-
-
 // =========================
 // DESKTOP NAVBAR
 // =========================
@@ -28,8 +26,8 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     justify-content: center;
     z-index: 1000;
 
-    // Hide desktop navbar in tablet and mobile
-    @media (max-width: 1070px) {
+    // Hide desktop navbar in tablet and mobile - UPDATED to 1200px
+    @media (max-width: 1200px) {
         display: none;
     }
 }
@@ -50,7 +48,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         box-shadow: 0 12px 40px rgba($purple-secondary, 0.15);
     }
 
-    @media (min-width: 1071px) and (max-width: 1200px) {
+    @media (min-width: 1201px) and (max-width: 1400px) {
         width: 85%;
         padding: 0 24px;
     }
@@ -59,10 +57,18 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 // =========================
 // RIGHT SIDE CONTAINER
 // ========================= 
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
 
+    @media (min-width: 1201px) and (max-width: 1400px) {
+        gap: 24px;
+    }
+}
 
 // =========================
-// DESKTOP LOGO STYLES - COMPLETELY MISSING!
+// DESKTOP LOGO STYLES
 // =========================
 .logo {
     a {
@@ -94,16 +100,6 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         &:hover::after {
             width: 100%;
         }
-    }
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-
-    @media (min-width: 1071px) and (max-width: 1200px) {
-        gap: 24px;
     }
 }
 
@@ -166,7 +162,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
     }
 
-    @media (min-width: 1071px) and (max-width: 1200px) {
+    @media (min-width: 1201px) and (max-width: 1400px) {
         gap: 24px;
 
         a {
@@ -217,7 +213,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         transform: translateY(0);
     }
 
-    @media (min-width: 1071px) and (max-width: 1200px) {
+    @media (min-width: 1201px) and (max-width: 1400px) {
         padding: 6px 16px;
         font-size: 15px;
 
@@ -238,8 +234,8 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     right: 0;
     z-index: 1000;
 
-    // Show for both tablet (800px to 1070px) and mobile (below 800px)
-    @media (max-width: 1070px) {
+    // Show for tablet (800px to 1200px) and mobile (below 800px) - UPDATED to 1200px
+    @media (max-width: 1200px) {
         display: block;
     }
 }
@@ -253,8 +249,8 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     padding: 0;
     position: relative;
     z-index: 1002;
-    background: transparent; // NO BACKGROUND
-    box-shadow: none; // NO SHADOW
+    background: transparent;
+    box-shadow: none;
     height: auto;
 }
 
@@ -277,7 +273,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
     }
 
-    // Tablet logo size
+    // Tablet logo size - UPDATED to 1200px
     @media (min-width: 800px) and (max-width: 1200px) {
         a {
             font-size: 24px;
@@ -299,7 +295,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     height: 48px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     transition: $transition;
-    position: fixed; // FIXED for both
+    position: fixed;
     top: 20px;
     right: 5%;
     z-index: 1003;
@@ -309,9 +305,9 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         transform: scale(1.05);
     }
 
-    // Tablet hamburger
+    // Tablet hamburger - UPDATED to 1200px
     @media (min-width: 800px) and (max-width: 1200px) {
-        width: 52px; // Slightly bigger for tablet if you want
+        width: 52px;
         height: 52px;
         top: 20px;
         right: 5%;
@@ -332,8 +328,9 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     height: 2em;
     transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
 
+    // Tablet SVG - UPDATED to 1200px
     @media (min-width: 800px) and (max-width: 1200px) {
-        height: 2.2em; // Bigger icon for tablet
+        height: 2.2em;
     }
 
     @media (max-width: 480px) {
@@ -434,7 +431,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
     }
 
-    // Tablet menu adjustments
+    // Tablet menu adjustments - UPDATED to 1200px
     @media (min-width: 800px) and (max-width: 1200px) {
         width: 50%;
         max-width: 400px;
@@ -502,7 +499,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         transform: translateY(0);
     }
 
-    // Tablet inquiry button
+    // Tablet inquiry button - UPDATED to 1200px
     @media (min-width: 800px) and (max-width: 1200px) {
         width: 80%;
         padding: 12px 24px;
@@ -552,7 +549,7 @@ $bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         opacity: 0.7;
     }
 
-    // Tablet privacy link
+    // Tablet privacy link - UPDATED to 1200px
     @media (min-width: 800px) and (max-width: 1200px) {
         font-size: 14px !important;
 

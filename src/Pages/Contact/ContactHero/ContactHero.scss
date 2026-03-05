@@ -348,10 +348,6 @@
 .tabletbr {
     display: none;
 
-
-    @media (max-width: 1024px) and (min-width: 769px) {
-        display: inline !important;
-    }
 }
 
 
@@ -360,7 +356,7 @@
    NEW TABLET MEDIA QUERY (800px - 1070px)
    FOR CONTACT HERO - MATCHING EXACT PATTERN
 ========================= */
-@media (min-width: 800px) and (max-width: 1200px) {
+@media (min-width: 800px) and (max-width: 1250px) {
 
     .contact-hero-wrapper {
         min-height: 60vh;
@@ -432,5 +428,6 @@
     /* Tablet br handling */
     .tabletbr {
         display: inline !important;
+        display: block !important;
     }
 }
