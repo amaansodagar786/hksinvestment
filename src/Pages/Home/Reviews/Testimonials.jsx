@@ -11,39 +11,38 @@ import "react-toastify/dist/ReactToastify.css";
 import "swiper/css";
 import "./Testimonials.scss";
 
-// Reviews array
 const reviews = [
     {
-        name: "David R. 1",
-        text: "We've scaled from 5 to 50 employees using this financial platform. The automation eliminated busywork and helped us focus on growth. Highly recommended for any business."
+        name: "Rajesh M.",
+        text: "Been with them for 10 months now. Portfolio growing steady at 12-14% returns. Their SIP recommendations actually work better than my previous advisor. The market research team really understands Indian markets."
     },
     {
-        name: "Rebecca H.2",
-        text: "The client portal is a game-changer for managing investments. Pricing flexibility could be better for individuals, but overall the service is excellent for serious investors."
+        name: "Priya K.",
+        text: "Was skeptical at first but friend recommended. Saved almost 2 lakhs in taxes through their planning. They explain everything in simple terms - no confusing jargon. Worth every penny."
     },
     {
-        name: "Carlos M.3",
-        text: "Great analytics and insights that helped us make better investment decisions. Occasional downtime during peak usage, but customer support is always responsive and helpful."
+        name: "Vikram S.",
+        text: "Finally found a balanced financial advisor. Not too conservative or aggressive. At 48, I finally have clear retirement strategy. Tax optimization advice alone covered our annual vacation expenses."
     },
     {
-        name: "Akash P.4",
-        text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities."
+        name: "Ananya R.",
+        text: "Knew nothing about investing. Started with basic SIP and grew from 5L to 7.6L in 18 months. Advisor calls monthly to check progress. Really feels like they care about your long-term goals."
     },
     {
-        name: "Thomas W.5",
-        text: "Just amazing! Transformed how we manage our family finances. The interface is intuitive and the reporting features save us hours every month."
+        name: "Suresh P.",
+        text: "Managing own investments for years but switched after cousin recommended. Their market research gives real edge over retail investors. Helped stay disciplined during 2024 market drops - paid off massively."
     },
     {
-        name: "Lisa G.6",
-        text: "Compliant, user-friendly, and supported by an excellent success team. They helped us set up our retirement portfolio and we've seen steady growth ever since."
+        name: "Michael C.",
+        text: "Bank wealth management fees were killing returns. Switched 8 months ago and difference is huge. RRSP setup way more tax-efficient. Support responds within hours whenever I have questions."
     },
     {
-        name: "Emma T.7",
-        text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits."
+        name: "Sarah M.",
+        text: "I'm pretty hands-off with investing. Their wealth management handles everything - rebalancing, tax, monitoring. Consistent 11-13% returns. Way better than my old roboadvisor."
     },
     {
-        name: "Amaan S.8",
-        text: "Solid security features and consistent performance. Integration was challenging at first but definitely worth it for the long-term benefits and financial tracking capabilities."
+        name: "James P.",
+        text: "Self-employed retirement planning is tough. They helped structure RRSP strategy and even found corporate investment options I never knew existed. Portfolio grown 15% in a year. Transparent fees too."
     }
 ];
 
