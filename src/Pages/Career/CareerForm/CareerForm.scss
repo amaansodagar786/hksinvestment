@@ -395,7 +395,7 @@
   opacity: 1;
 }
 
-.career-submit-btn.submitting span {
+.career-submit-btn.submitting .spinner-wrap {
   background: #fff !important;
   color: #5e2690 !important;
   width: 40px;
@@ -911,4 +911,30 @@
   .career-submit-btn:hover::after {
     left: -100% !important;
   }
+}
+
+.career-submit-btn .submit-text {
+  flex: 1;
+  text-align: left;
+}
+
+.career-submit-btn .spinner-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.career-submit-btn .submit-text {
+  flex: 1;
+  text-align: left;
+  background: transparent !important;
+  border-radius: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  color: #fff;
 }

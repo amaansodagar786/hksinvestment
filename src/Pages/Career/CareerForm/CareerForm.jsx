@@ -420,8 +420,10 @@ const CareerForm = () => {
                                         >
                                             {isSubmitting ? (
                                                 <>
-                                                    <span>Submitting...</span>
-                                                    <div className="spinner"></div>
+                                                    <span className="submit-text">Submitting...</span>
+                                                    <span className="spinner-wrap">
+                                                        <div className="spinner"></div>
+                                                    </span>
                                                 </>
                                             ) : (
                                                 <>

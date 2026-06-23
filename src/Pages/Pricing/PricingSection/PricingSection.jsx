@@ -41,6 +41,15 @@ const PricingSection = () => {
         })
     };
 
+    // ✅ Handle button clicks - opens in new tab
+    const handleSwingClick = () => {
+        window.open("https://whop.com/hk-s-investment/swing-option-trading-65/", "_blank");
+    };
+
+    const handleLongTermClick = () => {
+        window.open("https://whop.com/hk-s-investment/long-term-investment-b8/", "_blank");
+    };
+
     return (
         <motion.section
             className="pricing-section"
@@ -93,8 +102,9 @@ const PricingSection = () => {
                         </div>
                         <div className="card-body-box">
                             <div className="price">
-                                <span className="amount">CAD 24.99</span>
-                                <span className="duration">/bi-weekly</span>
+                                <span className="amount">USD 39.99</span>
+                                {/* <span className="duration">/bi-weekly</span> */}
+                                <span className="duration">/month</span>
                             </div>
                             <ul>
                                 <li className="yes">Portfolio management</li>
@@ -113,6 +123,7 @@ const PricingSection = () => {
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
+                                onClick={handleSwingClick}  // ✅ Added onClick
                             >
                                 Get Started
                             </motion.button>
@@ -137,8 +148,9 @@ const PricingSection = () => {
                         </div>
                         <div className="card-body-box">
                             <div className="price">
-                                <span className="amount">CAD 07.99</span>
-                                <span className="duration">/bi-weekly</span>
+                                <span className="amount">USD 19.99</span>
+                                {/* <span className="duration">/bi-weekly</span> */}
+                                <span className="duration">/month</span>
                             </div>
                             <ul>
                                 <li className="yes">Portfolio management</li>
@@ -157,6 +169,7 @@ const PricingSection = () => {
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
+                                onClick={handleLongTermClick}  // ✅ Added onClick
                             >
                                 Get Started
                             </motion.button>
