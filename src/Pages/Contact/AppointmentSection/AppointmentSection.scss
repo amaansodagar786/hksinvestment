@@ -203,10 +203,12 @@
   font-family: 'Content', serif;
 }
 
-/* DATE PICKER */
 .date-input-container {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;             // NEW — crop kar dega agar phir bhi bahar nikla
+  border-radius: 12px;          // input ka radius match karna zaroori hai
 }
 
 .date-input-container .date-input-icon {
@@ -222,6 +224,8 @@
 
 .date-input-container input[type="date"] {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;                 // NEW
   padding: 14px 16px 14px 48px;
   border: 2px solid #e6dcf7;
   border-radius: 12px;
@@ -232,6 +236,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-sizing: border-box;
+  -webkit-appearance: none;     // NEW — iOS native chrome hatao
+  appearance: none;             // NEW
 }
 
 .date-input-container input[type="date"]:hover {
@@ -256,7 +262,8 @@
   position: absolute;
   right: 0;
   top: 0;
-  width: auto;
+   width: 100%;      // auto se 100% kiya
+  height: 100%;
   opacity: 0;
 }
 
