@@ -29,7 +29,7 @@ const AdminAuth = () => {
             ...prev,
             [name]: value
         }));
-        
+
         // Clear error for this field
         if (errors[name]) {
             setErrors(prev => ({
@@ -50,7 +50,7 @@ const AdminAuth = () => {
             } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
                 newErrors.email = 'Invalid email format';
             }
-            
+
             if (!formData.password.trim()) {
                 newErrors.password = 'Password is required';
             } else if (formData.password.length < 6) {
@@ -63,19 +63,19 @@ const AdminAuth = () => {
             } else if (formData.username.length < 3) {
                 newErrors.username = 'Username must be at least 3 characters';
             }
-            
+
             if (!formData.email.trim()) {
                 newErrors.email = 'Email is required';
             } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
                 newErrors.email = 'Invalid email format';
             }
-            
+
             if (!formData.password.trim()) {
                 newErrors.password = 'Password is required';
             } else if (formData.password.length < 6) {
                 newErrors.password = 'Password must be at least 6 characters';
             }
-            
+
             if (!formData.confirmPassword.trim()) {
                 newErrors.confirmPassword = 'Please confirm your password';
             } else if (formData.password !== formData.confirmPassword) {
@@ -90,7 +90,7 @@ const AdminAuth = () => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             return;
         }
@@ -100,12 +100,12 @@ const AdminAuth = () => {
 
         try {
             const endpoint = isLogin ? '/admin/login' : '/admin/register';
-            const payload = isLogin 
+            const payload = isLogin
                 ? { email: formData.email, password: formData.password }
-                : { 
-                    username: formData.username, 
-                    email: formData.email, 
-                    password: formData.password 
+                : {
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password
                 };
 
             const response = await fetch(`${API_URL}${endpoint}`, {
@@ -126,7 +126,7 @@ const AdminAuth = () => {
                 // Save token to localStorage
                 localStorage.setItem('adminToken', data.data.token);
                 localStorage.setItem('adminData', JSON.stringify(data.data.admin));
-                
+
                 // Show success toast
                 toast.success(isLogin ? 'Login successful!' : 'Registration successful!', {
                     position: "top-right",
@@ -137,7 +137,7 @@ const AdminAuth = () => {
                     draggable: true,
                     theme: "light",
                 });
-                
+
                 // Redirect to admin dashboard
                 navigate('/admin-portal/dashboard');
             } else {
@@ -214,7 +214,7 @@ const AdminAuth = () => {
             <ToastContainer />
             <div className="admin-auth-wrapper">
                 {/* Left side - Info */}
-                <motion.div 
+                <motion.div
                     className="auth-left"
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -224,11 +224,11 @@ const AdminAuth = () => {
                         <div className="logo-container">
                             <h1>HKS Investment</h1>
                         </div>
-                        
+
                         <div className="info-section">
                             <h3>Administrator Access</h3>
                             <p>
-                                {isLogin 
+                                {isLogin
                                     ? 'Sign in to manage your investment platform.'
                                     : 'Create an admin account to access the management portal.'
                                 }
@@ -250,7 +250,7 @@ const AdminAuth = () => {
                 </motion.div>
 
                 {/* Right side - Form */}
-                <motion.div 
+                <motion.div
                     className="auth-right"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -258,7 +258,7 @@ const AdminAuth = () => {
                 >
                     <div className="auth-form-container">
                         {/* Toggle Buttons */}
-                        <div className="auth-toggle">
+                       {/* <div className="auth-toggle">
                             <button
                                 className={`toggle-btn ${isLogin ? 'active' : ''}`}
                                 onClick={() => setIsLogin(true)}
@@ -271,14 +271,14 @@ const AdminAuth = () => {
                             >
                                 Register
                             </button>
-                        </div>
+                        </div> */}
 
                         {/* Form Title */}
                         <h2 className="form-title">
                             {isLogin ? 'Welcome Back' : 'Create Admin Account'}
                         </h2>
                         <p className="form-subtitle">
-                            {isLogin 
+                            {isLogin
                                 ? 'Please enter your credentials'
                                 : 'Fill in the details to create an account'
                             }
@@ -429,8 +429,8 @@ const AdminAuth = () => {
 
                             {/* Back to Home */}
                             <div className="back-home">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     className="back-btn"
                                     onClick={() => navigate('/')}
                                 >
