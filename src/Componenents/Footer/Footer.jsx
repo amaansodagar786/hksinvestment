@@ -3,7 +3,7 @@ import {
     FiInstagram,
     FiSend
 } from "react-icons/fi";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { motion } from "framer-motion";
@@ -184,7 +184,7 @@ const Footer = () => {
     const guideItems = [
         { name: "Home", path: "/" },
         { name: "Pricing", path: "/pricing" },
-         { name: "Career", path: "/career" },
+        { name: "Career", path: "/career" },
         { name: "Schedule", path: "/contact" },
         { name: "Privacy Policy", path: "/privacypolicy" }
     ];
@@ -200,11 +200,23 @@ const Footer = () => {
 
         // Validation
         if (!formData.name.trim()) {
-            toast.error("Please enter your name");
+            toast.error("Please enter your name", {
+                position: "top-right",
+                autoClose: 4000,
+                closeOnClick: true,
+                draggable: true,
+                pauseOnHover: true
+            });
             return;
         }
         if (!formData.feedback.trim()) {
-            toast.error("Please enter your feedback");
+            toast.error("Please enter your feedback", {
+                position: "top-right",
+                autoClose: 4000,
+                closeOnClick: true,
+                draggable: true,
+                pauseOnHover: true
+            });
             return;
         }
 
@@ -233,7 +245,10 @@ const Footer = () => {
                 // Show success message
                 toast.success(data.message || "Thank you for your feedback! 🙏", {
                     position: "top-right",
-                    autoClose: 4000
+                    autoClose: 4000,
+                    closeOnClick: true,
+                    draggable: true,
+                    pauseOnHover: true
                 });
 
                 // Clear form
@@ -246,19 +261,36 @@ const Footer = () => {
             console.error('Error submitting feedback:', error);
             toast.error(error.message || "Failed to submit feedback. Please try again.", {
                 position: "top-right",
-                autoClose: 4000
+                autoClose: 4000,
+                closeOnClick: true,
+                draggable: true,
+                pauseOnHover: true
             });
         } finally {
             setIsSubmitting(false);
         }
     };
 
+    // Updated social links
     const whatsappLink = "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%20have%20a%20question%20about%20your%20services.";
-    const instagramLink = "https://www.instagram.com/hksinvestment/";
+    const instagramLink = "https://www.instagram.com/hks.investment/";
+    const youtubeLink = "https://www.youtube.com/@hks.investment";
 
     return (
         <>
-            <ToastContainer position="top-right" autoClose={4000} theme="dark" />
+            {/* UPDATED: ToastContainer with proper settings */}
+            <ToastContainer
+                position="top-right"
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
             <motion.footer
                 className="footer"
                 initial="hidden"
@@ -386,6 +418,18 @@ const Footer = () => {
                                         >
                                             <FiInstagram />
                                         </motion.a>
+
+                                        {/* NEW: YouTube Icon */}
+                                        <motion.a
+                                            href={youtubeLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            variants={socialIconVariants}
+                                            initial="initial"
+                                            whileHover="hover"
+                                        >
+                                            <FaYoutube />
+                                        </motion.a>
                                     </div>
                                 </motion.div>
 
@@ -458,7 +502,7 @@ const Footer = () => {
                                         whileHover="hover"
                                         transition={{ delay: 0.1 }}
                                     >
-                                        <a href="mailto:support@hksinvestment.com">
+                                        <a href="mailto:inquiry@hksinvestment.com">
                                             <motion.span
                                                 variants={contactIconVariants}
                                                 initial="initial"
@@ -466,7 +510,7 @@ const Footer = () => {
                                             >
                                                 <MdEmail />
                                             </motion.span>
-                                            support@hksinvestment.com
+                                            inquiry@hksinvestment.com
                                         </a>
                                     </motion.p>
 
@@ -507,7 +551,7 @@ const Footer = () => {
                                     initial="initial"
                                     whileHover="hover"
                                 >
-                                    Design and Developed by<span className="tablet-only"><br /></span>
+                                    Design and Developed by <span className="tablet-only"><br /></span>
                                     <a
                                         href="https://techorses.com"
                                         target="_blank"

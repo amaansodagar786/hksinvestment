@@ -13,11 +13,11 @@ import {
     FiUser,
     FiCheckCircle,
 } from "react-icons/fi";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp, FaYoutube } from "react-icons/fa";
 import "./CareerForm.scss";
 
 const CareerForm = () => {
-    const API_URL = import.meta.env.VITE_API_URL || 'https://hksinvenstmentbackend.onrender.com/api';
+    const API_URL = import.meta.env.VITE_API_URL;
 
     // Animation variants - EXACT SAME as ContactSection
     const containerVariants = {
@@ -127,7 +127,13 @@ const CareerForm = () => {
             if (!response.ok) {
                 // Handle 429 cooldown error (1 week)
                 if (response.status === 429) {
-                    toast.warning(data.message || 'Please wait 7 days between applications');
+                    toast.warning(data.message || 'Please wait 7 days between applications', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        closeOnClick: true,
+                        draggable: true,
+                        pauseOnHover: true
+                    });
                     return;
                 }
                 throw new Error(data.message || 'Failed to submit application');
@@ -137,26 +143,42 @@ const CareerForm = () => {
                 toast.success('Application submitted successfully! Our HR team will review your application.', {
                     position: "top-right",
                     autoClose: 5000,
+                    closeOnClick: true,
+                    draggable: true,
+                    pauseOnHover: true
                 });
                 resetForm();
             } else {
-                toast.error(data.message || 'Submission failed');
+                toast.error(data.message || 'Submission failed', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    closeOnClick: true,
+                    draggable: true,
+                    pauseOnHover: true
+                });
             }
         } catch (error) {
             console.error('Error submitting application:', error);
-            toast.error(error.message || 'Something went wrong. Please try again.');
+            toast.error(error.message || 'Something went wrong. Please try again.', {
+                position: "top-right",
+                autoClose: 5000,
+                closeOnClick: true,
+                draggable: true,
+                pauseOnHover: true
+            });
         } finally {
             setSubmitting(false);
         }
     };
 
-    // Social icons
+    // Social icons - Updated with correct links
     const socialIcons = [
-        { Icon: FiInstagram, label: "Instagram", url: "https://instagram.com/hksinvestment" },
-        { Icon: FaWhatsapp, label: "WhatsApp", url: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities" }
+        { Icon: FiInstagram, label: "Instagram", url: "https://www.instagram.com/hks.investment/" },
+        { Icon: FaWhatsapp, label: "WhatsApp", url: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities" },
+        { Icon: FaYoutube, label: "YouTube", url: "https://www.youtube.com/@hks.investment" }
     ];
 
-    // Contact info
+    // Contact info - Updated email to inquiry@hksinvestment.com
     const contactInfo = [
         {
             icon: <FaWhatsapp />,
@@ -166,9 +188,9 @@ const CareerForm = () => {
         },
         {
             icon: <FiMail />,
-            text: "support@hksinvestment.com",
+            text: "inquiry@hksinvestment.com",  // ← UPDATED: Changed from support@ to inquiry@
             type: "email",
-            link: "mailto:support@hksinvestment.com"
+            link: "mailto:inquiry@hksinvestment.com"  // ← UPDATED
         },
         {
             icon: <FiMapPin />,
@@ -188,7 +210,18 @@ const CareerForm = () => {
 
     return (
         <>
-            <ToastContainer />
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
             <motion.section
                 className="career-form-section"
                 initial="hidden"
@@ -281,7 +314,7 @@ const CareerForm = () => {
                                 ))}
                             </div>
 
-                            {/* SOCIAL ICONS */}
+                            {/* SOCIAL ICONS - UPDATED with YouTube */}
                             <motion.div
                                 className="career-socials"
                                 initial={{ opacity: 0 }}

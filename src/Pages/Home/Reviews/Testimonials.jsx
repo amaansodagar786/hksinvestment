@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { FiArrowRight, FiX } from "react-icons/fi";  // Add FiX here
+import { FiArrowRight, FiX } from "react-icons/fi";
 import { FaArrowLeft, FaArrowRight as FaArrowRightIcon } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -46,7 +46,7 @@ const reviews = [
     }
 ];
 
-// Modal Component - UPDATED TO MATCH CTA STYLE
+// Modal Component - UPDATED with API integration
 const ReviewModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
@@ -85,13 +85,55 @@ const ReviewModal = ({ isOpen, onClose }) => {
                         if (!values.review) errors.review = "Review is required";
                         return errors;
                     }}
-                    onSubmit={(values, { setSubmitting, resetForm }) => {
-                        setTimeout(() => {
-                            toast.success("Review submitted successfully! Thank you for your feedback.");
+                    onSubmit={async (values, { setSubmitting, resetForm }) => {
+                        try {
+                            // Make API call to backend
+                            const response = await fetch(`${import.meta.env.VITE_API_URL}/review`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    name: values.name.trim(),
+                                    number: values.number.trim(),
+                                    review: values.review.trim()
+                                })
+                            });
+
+                            const data = await response.json();
+
+                            if (!response.ok) {
+                                throw new Error(data.message || 'Failed to submit review');
+                            }
+
+                            if (data.success) {
+                                toast.success(data.message || "Thank you for your review! 🙏", {
+                                    position: "top-right",
+                                    autoClose: 4000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true
+                                });
+                                resetForm();
+                                onClose();
+                            } else {
+                                throw new Error(data.message || 'Failed to submit review');
+                            }
+
+                        } catch (error) {
+                            console.error('Error submitting review:', error);
+                            toast.error(error.message || "Failed to submit review. Please try again.", {
+                                position: "top-right",
+                                autoClose: 4000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true
+                            });
+                        } finally {
                             setSubmitting(false);
-                            resetForm();
-                            onClose();
-                        }, 500);
+                        }
                     }}
                 >
                     {({ isSubmitting, errors, touched }) => (
@@ -469,7 +511,19 @@ const Testimonials = () => {
                 {isModalOpen && <ReviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
             </AnimatePresence>
 
-            <ToastContainer position="top-right" autoClose={3000} />
+            {/* UPDATED: ToastContainer with closeOnClick and proper settings */}
+            <ToastContainer 
+                position="top-right" 
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </>
     );
 };
