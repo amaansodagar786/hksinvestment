@@ -200,7 +200,7 @@ const CTA = () => {
             onClick={handleButtonClick}
           >
             <span className="cta-btn-fill"></span>
-            <span className="cta-btn-text">Free Consultation</span>
+            <span className="cta-btn-text">Book a Free Consultation</span>
             <span className="cta-btn-arrow">
               <FiArrowRight />
             </span>

@@ -49,7 +49,7 @@ const FinancialAnalysis = () => {
                         {/* Body Box - Like pricing card body */}
                         <div className="analysis-body-box">
                             <div className="price">
-                                <span className="amount">$30</span>
+                                <span className="amount">30USD</span>
                                 <span className="duration">/person</span>
                             </div>
 

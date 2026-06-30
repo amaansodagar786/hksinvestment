@@ -39,15 +39,17 @@ const Navbar = () => {
               <NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>
                 Home
               </NavLink>
-              <NavLink to="/pricing" className={({ isActive }) => isActive ? "active" : ""}>
-                Pricing
+              <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
+                Schedule
               </NavLink>
               <NavLink to="/career" className={({ isActive }) => isActive ? "active" : ""}>
                 Career
               </NavLink>
-              <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
-                Schedule
+              <NavLink to="/pricing" className={({ isActive }) => isActive ? "active" : ""}>
+                Pricing
               </NavLink>
+
+
             </div>
 
             {/* INQUIRY BUTTON - DESKTOP */}
@@ -90,15 +92,17 @@ const Navbar = () => {
           <NavLink to="/" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
             Home
           </NavLink>
-          <NavLink to="/pricing" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
-            Pricing
+          <NavLink to="/contact" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
+            Schedule
           </NavLink>
           <NavLink to="/career" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
             Career
           </NavLink>
-          <NavLink to="/contact" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
-            Schedule
+          <NavLink to="/pricing" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
+            Pricing
           </NavLink>
+
+
 
           {/* INQUIRY BUTTON - MOBILE */}
           <button className="mobile-inquiry-btn" onClick={openInquiryModal}>

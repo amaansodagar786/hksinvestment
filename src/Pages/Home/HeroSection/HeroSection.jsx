@@ -178,7 +178,7 @@ const HeroSection = () => {
                         onClick={handleConsultationClick} // ADDED
                     >
                         <span className="hero-btn-fill"></span>
-                        <span className="hero-btn-text">Free Consultation</span>
+                        <span className="hero-btn-text">Book a Free Consultation</span>
                         <span className="hero-btn-arrow">
                             <FiArrowRight />
                         </span>

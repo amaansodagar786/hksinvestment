@@ -543,7 +543,7 @@ const Footer = () => {
                                 variants={copyrightVariants}
                             >
                                 <span className="copyright-brand">
-                                    Copyright © 2025 hksinvestment,<span className="tablet-only"><br /></span> All Rights Reserved.
+                                    Copyright © 2025 HKS Investment Consulting,<span className="tablet-only"><br /></span> All Rights Reserved.
                                 </span>
                                 <motion.span
                                     className="developer-text"

@@ -115,7 +115,7 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    width: 260px;
+    width: 320px;
     height: 60px;
     background: #5e2690;
     border: 2px solid #5e2690;
@@ -802,7 +802,7 @@
 
 @media (max-width: 480px) {
     .hero-btn {
-        width: 170px;
+        width: 215px;
         height: 44px;
     }
 
@@ -875,7 +875,7 @@
 
     /* ===== HERO BUTTON ===== */
     .hero-btn {
-        width: 210px;
+        width: 270px;
         /* Keep existing tablet width */
         height: 55px;
         /* CHANGED: From 52px to 55px */

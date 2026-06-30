@@ -15,7 +15,8 @@ import {
     FiXCircle,
     FiLoader,
     FiEdit3,
-    FiAlertCircle
+    FiAlertCircle,
+    FiInfo
 } from "react-icons/fi";
 import "./AppointmentSection.scss";
 
@@ -42,21 +43,14 @@ const AppointmentSection = () => {
 
     const todayDate = getTodayDate();
 
-    // ========== NEW: Get max selectable date based on half-month rule ==========
+    // ========== NEW: Get max selectable date - Next 15 days from today ==========
     const getMaxDate = () => {
         const today = new Date();
+        today.setDate(today.getDate() + 14); // +14 because today is day 1 (total 15 days)
         const year = today.getFullYear();
-        const month = today.getMonth() + 1; // 1-12
-        const day = today.getDate();
-
-        if (day <= 15) {
-            // First half: max is 15th of current month
-            return `${year}-${String(month).padStart(2, '0')}-15`;
-        } else {
-            // Second half: max is last day of current month
-            const lastDay = new Date(year, month, 0).getDate(); // month is next month's 0 = last day of current
-            return `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
-        }
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     // Generate all possible default time slots (10 AM to 6 PM)
@@ -131,7 +125,7 @@ const AppointmentSection = () => {
                     }));
                 }
 
-                // ========== NEW: If selected date is today, mark past slots as unavailable ==========
+                // ========== If selected date is today, mark past slots as unavailable ==========
                 let finalSlots = combinedSlots;
                 let finalAvailable = available;
                 let finalBooked = booked;
@@ -187,10 +181,10 @@ const AppointmentSection = () => {
         const min = getMinDate();
         const max = getMaxDate();
 
-        // ========== NEW: Validate date range ==========
+        // ========== NEW: Validate date range - Next 15 days ==========
         if (newDate && (newDate < min || newDate > max)) {
             toast.dismiss();
-            toast.error(`Please select a date between ${min} and ${max}`, {
+            toast.error(`Please select a date within the next 15 days (${min} to ${max})`, {
                 position: "top-right",
                 autoClose: 3000
             });
@@ -279,7 +273,7 @@ const AppointmentSection = () => {
             if (data.success) {
                 toast.dismiss();
                 toast.success(
-                    `Appointment request submitted! Reference: ${data.data.referenceId}. Awaiting approval.`,
+                    `Thank you! We'll review your request and update you shortly.`,
                     {
                         position: "top-right",
                         autoClose: 5000,
@@ -500,6 +494,20 @@ const AppointmentSection = () => {
                                                 </div>
                                             </div>
                                             {!selectedDate && <div className="error-message">Please select a date</div>}
+                                        </div>
+
+                                        {/* ========== NEW: 15 DAYS NOTE ========== */}
+                                        <div className="booking-note">
+                                            <div className="booking-note-icon">
+                                                <FiInfo />
+                                            </div>
+                                            <div className="booking-note-content">
+                                                <p className="booking-note-title">Booking Information</p>
+                                                <p className="booking-note-text">
+                                                    Bookings are available for the next 15 calendar days (including today).
+                                                    For dates beyond this period, please check back tomorrow.
+                                                </p>
+                                            </div>
                                         </div>
 
                                         {selectedDate && (

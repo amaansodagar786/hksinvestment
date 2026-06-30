@@ -45,19 +45,27 @@ const Dashboard = () => {
     const [detailsData, setDetailsData] = useState([]);
     const [loadingDetails, setLoadingDetails] = useState(false);
 
-    // NEW COLOR PALETTE
+    // NEW COLOR PALETTE - COMPLETELY DIFFERENT COLORS
     const COLORS = {
-        pending: '#e0652b',      // orange
-        approved: '#e28c33',     // light orange
-        rejected: '#edba40',     // yellow
-        contacted: '#e28c33',    // same as approved
-        resolved: '#767ae6',     // purple
-        reviewed: '#e28c33',     // same as approved
-        hired: '#767ae6',        // purple
-        general: '#e28c33',
-        support: '#e0652b',
-        inquiry: '#767ae6'
-    };
+        // APPOINTMENTS (3 different colors)
+        pending: '#f39c12',      // GOLDEN YELLOW 🟡
+        approved: '#2ecc71',     // EMERALD GREEN 🟢
+        rejected: '#e74c3c',     // RED 🔴
+
+        // CAREERS (4 different colors)
+        contacted: '#3498db',    // BRIGHT BLUE 🔵
+        hired: '#2ecc71',        // EMERALD GREEN 🟢
+
+        // SERVICE INQUIRIES (3 different colors)
+        resolved: '#8e44ad',     // DEEP PURPLE 🟣
+
+        // GENERAL INQUIRIES (reuse colors)
+        reviewed: '#3498db',     // BRIGHT BLUE 🔵
+        general: '#f39c12',      // GOLDEN YELLOW 🟡
+        support: '#e74c3c',      // RED 🔴
+        inquiry: '#8e44ad'       // DEEP PURPLE 🟣
+    }
+
 
     // Fetch all stats on component mount
     useEffect(() => {
@@ -320,7 +328,7 @@ const Dashboard = () => {
             { name: 'Contacted', value: stats?.serviceInquiries?.byStatus?.contacted || 0, color: COLORS.contacted },
             { name: 'Resolved', value: stats?.serviceInquiries?.byStatus?.resolved || 0, color: COLORS.resolved }
         ].filter(item => item.value > 0);
-        
+
         const total = data.reduce((sum, item) => sum + item.value, 0);
         return data.map(item => ({
             ...item,
@@ -343,8 +351,8 @@ const Dashboard = () => {
     const getMostRequestedReason = () => {
         const reasons = stats?.generalInquiries?.byReason || [];
         if (reasons.length === 0) return 'N/A';
-        
-        const mostRequested = reasons.reduce((max, item) => 
+
+        const mostRequested = reasons.reduce((max, item) =>
             item.count > (max.count || 0) ? item : max, {});
         return mostRequested._id || 'N/A';
     };
@@ -542,9 +550,9 @@ const Dashboard = () => {
                             <div className="overview-tab-new">
                                 {/* 2x2 Grid Layout for Overview */}
                                 <div className="analytics-grid-2x2">
-                                    
+
                                     {/* Card 1: Appointments - Doughnut Chart */}
-                                    <motion.div 
+                                    <motion.div
                                         className="analytics-card-modern"
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         whileInView={{ opacity: 1, scale: 1 }}
@@ -559,7 +567,7 @@ const Dashboard = () => {
                                             </div>
                                             <span className="total-badge">{stats?.appointments?.total || 0}</span>
                                         </div>
-                                        
+
                                         <div className="card-stats-mini">
                                             <div className="mini-stat">
                                                 <span className="label">Today</span>
@@ -589,13 +597,13 @@ const Dashboard = () => {
                                                             <Cell key={`cell-${index}`} fill={entry.color} />
                                                         ))}
                                                     </Pie>
-                                                    <Tooltip 
-                                                        contentStyle={{ 
-                                                            background: 'white', 
+                                                    <Tooltip
+                                                        contentStyle={{
+                                                            background: 'white',
                                                             border: '2px solid #efe8fb',
                                                             borderRadius: '10px',
                                                             fontFamily: 'Content, serif'
-                                                        }} 
+                                                        }}
                                                     />
                                                 </PieChart>
                                             </ResponsiveContainer>
@@ -613,7 +621,7 @@ const Dashboard = () => {
                                     </motion.div>
 
                                     {/* Card 2: Careers - Bar Chart with 4 statuses */}
-                                    <motion.div 
+                                    <motion.div
                                         className="analytics-card-modern"
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         whileInView={{ opacity: 1, scale: 1 }}
@@ -649,19 +657,19 @@ const Dashboard = () => {
                                                 >
                                                     <CartesianGrid strokeDasharray="3 3" horizontal={false} />
                                                     <XAxis type="number" />
-                                                    <YAxis 
-                                                        type="category" 
-                                                        dataKey="name" 
-                                                        width={80} 
-                                                        tick={{ fontFamily: 'Content, serif', fontSize: 12 }} 
+                                                    <YAxis
+                                                        type="category"
+                                                        dataKey="name"
+                                                        width={80}
+                                                        tick={{ fontFamily: 'Content, serif', fontSize: 12 }}
                                                     />
-                                                    <Tooltip 
-                                                        contentStyle={{ 
-                                                            background: 'white', 
+                                                    <Tooltip
+                                                        contentStyle={{
+                                                            background: 'white',
                                                             border: '2px solid #efe8fb',
                                                             borderRadius: '10px',
                                                             fontFamily: 'Content, serif'
-                                                        }} 
+                                                        }}
                                                     />
                                                     <Bar dataKey="value" radius={[0, 10, 10, 0]}>
                                                         {prepareCareerData().map((entry, index) => (
@@ -684,7 +692,7 @@ const Dashboard = () => {
                                     </motion.div>
 
                                     {/* Card 3: Service Inquiries - Composed Chart */}
-                                    <motion.div 
+                                    <motion.div
                                         className="analytics-card-modern"
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         whileInView={{ opacity: 1, scale: 1 }}
@@ -724,13 +732,13 @@ const Dashboard = () => {
                                                     <CartesianGrid stroke="#f5f5f5" />
                                                     <XAxis dataKey="name" scale="band" />
                                                     <YAxis />
-                                                    <Tooltip 
-                                                        contentStyle={{ 
-                                                            background: 'white', 
+                                                    <Tooltip
+                                                        contentStyle={{
+                                                            background: 'white',
                                                             border: '2px solid #efe8fb',
                                                             borderRadius: '10px',
                                                             fontFamily: 'Content, serif'
-                                                        }} 
+                                                        }}
                                                     />
                                                     <Legend />
                                                     <Bar dataKey="value" barSize={30} fill={COLORS.contacted} radius={[10, 10, 0, 0]}>
@@ -755,7 +763,7 @@ const Dashboard = () => {
                                     </motion.div>
 
                                     {/* Card 4: General Inquiries - Grouped Bar Chart */}
-                                    <motion.div 
+                                    <motion.div
                                         className="analytics-card-modern"
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         whileInView={{ opacity: 1, scale: 1 }}
@@ -788,23 +796,23 @@ const Dashboard = () => {
                                                     layout="horizontal"
                                                 >
                                                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                                    <XAxis 
-                                                        dataKey="name" 
-                                                        tick={{ fontFamily: 'Content, serif', fontSize: 10 }} 
-                                                        angle={0} 
-                                                        textAnchor="end" 
-                                                        // height={60}
+                                                    <XAxis
+                                                        dataKey="name"
+                                                        tick={{ fontFamily: 'Content, serif', fontSize: 10 }}
+                                                        angle={0}
+                                                        textAnchor="end"
+                                                    // height={60}
                                                     />
                                                     <YAxis hide />
-                                                    <Tooltip 
-                                                        contentStyle={{ 
-                                                            background: 'white', 
+                                                    <Tooltip
+                                                        contentStyle={{
+                                                            background: 'white',
                                                             border: '2px solid #efe8fb',
                                                             borderRadius: '10px',
                                                             fontFamily: 'Content, serif'
-                                                        }} 
+                                                        }}
                                                     />
-                                                    <Legend 
+                                                    <Legend
                                                         wrapperStyle={{ fontFamily: 'Content, serif', fontSize: '10px' }}
                                                     />
                                                     <Bar dataKey="pending" name="Pending" stackId="a" fill={COLORS.pending} radius={[4, 4, 0, 0]} />

@@ -207,8 +207,8 @@
   position: relative;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;             // NEW — crop kar dega agar phir bhi bahar nikla
-  border-radius: 12px;          // input ka radius match karna zaroori hai
+  overflow: hidden; // NEW — crop kar dega agar phir bhi bahar nikla
+  border-radius: 12px; // input ka radius match karna zaroori hai
 }
 
 .date-input-container .date-input-icon {
@@ -225,7 +225,7 @@
 .date-input-container input[type="date"] {
   width: 100%;
   max-width: 100%;
-  min-width: 0;                 // NEW
+  min-width: 0; // NEW
   padding: 14px 16px 14px 48px;
   border: 2px solid #e6dcf7;
   border-radius: 12px;
@@ -236,8 +236,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  -webkit-appearance: none;     // NEW — iOS native chrome hatao
-  appearance: none;             // NEW
+  -webkit-appearance: none; // NEW — iOS native chrome hatao
+  appearance: none; // NEW
 }
 
 .date-input-container input[type="date"]:hover {
@@ -262,7 +262,7 @@
   position: absolute;
   right: 0;
   top: 0;
-   width: 100%;      // auto se 100% kiya
+  width: 100%; // auto se 100% kiya
   height: 100%;
   opacity: 0;
 }
@@ -1309,5 +1309,148 @@
   .appointment-form-section,
   .appointment-time-section {
     width: 100%;
+  }
+}
+
+/* =========================
+   BOOKING NOTE - NEW
+========================= */
+.booking-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #f0f7ff;
+  border: 2px solid #b8d4ff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e8f0fe;
+    border-color: #7a3db8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(122, 61, 184, 0.1);
+  }
+}
+
+.booking-note-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #7a3db8;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #e8dff5;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+
+  .booking-note:hover & {
+    background: #d4c4f0;
+    transform: scale(1.05);
+  }
+
+  svg {
+    font-size: 18px;
+  }
+}
+
+.booking-note-content {
+  flex: 1;
+}
+
+.booking-note-title {
+  font-size: 15px;
+  font-family: 'SubHeading', serif;
+  color: #1a1a1a;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.booking-note-text {
+  font-size: 14px;
+  font-family: 'Content', serif;
+  color: #555;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Responsive for booking note */
+@media (max-width: 768px) {
+  .booking-note {
+    padding: 14px 16px;
+    gap: 12px;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .booking-note-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    margin-top: 0;
+  }
+
+  .booking-note-icon svg {
+    font-size: 16px;
+  }
+
+  .booking-note-title {
+    font-size: 14px;
+  }
+
+  .booking-note-text {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-note {
+    padding: 12px 14px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .booking-note-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+  }
+
+  .booking-note-icon svg {
+    font-size: 14px;
+  }
+
+  .booking-note-title {
+    font-size: 13px;
+  }
+
+  .booking-note-text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+/* Reduced motion for booking note */
+@media (prefers-reduced-motion: reduce) {
+  .booking-note {
+    transition: none !important;
+  }
+
+  .booking-note:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .booking-note-icon {
+    transition: none !important;
+  }
+
+  .booking-note:hover .booking-note-icon {
+    transform: none !important;
   }
 }
