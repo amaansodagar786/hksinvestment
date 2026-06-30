@@ -183,9 +183,9 @@ const Footer = () => {
 
     const guideItems = [
         { name: "Home", path: "/" },
-        { name: "Pricing", path: "/pricing" },
-        { name: "Career", path: "/career" },
         { name: "Schedule", path: "/contact" },
+        { name: "Career", path: "/career" },
+        { name: "Pricing", path: "/pricing" },
         { name: "Privacy Policy", path: "/privacypolicy" }
     ];
 
