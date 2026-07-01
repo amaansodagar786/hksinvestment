@@ -14,11 +14,11 @@ import "./Testimonials.scss";
 const reviews = [
     {
         name: "Rajesh M.",
-        text: "Been with them for 10 months now. Portfolio growing steady at 12-14% returns. Their SIP recommendations actually work better than my previous advisor. The market research team really understands Indian markets."
+        text: "Been with them for 10 months now. Portfolio growing steady at 12-14% returns. Their SIP recommendations actually work better than my previous advisor. The market research team really understands US markets."
     },
     {
         name: "Priya K.",
-        text: "Was skeptical at first but friend recommended. Saved almost 2 lakhs in taxes through their planning. They explain everything in simple terms - no confusing jargon. Worth every penny."
+        text: "Was skeptical at first but friend recommended. Saved almost $2,000 in taxes through their planning. They explain everything in simple terms - no confusing jargon. Worth every penny."
     },
     {
         name: "Vikram S.",
@@ -26,7 +26,7 @@ const reviews = [
     },
     {
         name: "Ananya R.",
-        text: "Knew nothing about investing. Started with basic SIP and grew from 5L to 7.6L in 18 months. Advisor calls monthly to check progress. Really feels like they care about your long-term goals."
+        text: "Knew nothing about investing. Started with basic SIP and grew from $50K to $76K in 18 months. Advisor calls monthly to check progress. Really feels like they care about your long-term goals."
     },
     {
         name: "Suresh P.",
@@ -34,7 +34,7 @@ const reviews = [
     },
     {
         name: "Michael C.",
-        text: "Bank wealth management fees were killing returns. Switched 8 months ago and difference is huge. RRSP setup way more tax-efficient. Support responds within hours whenever I have questions."
+        text: "Bank wealth management fees were killing returns. Switched 8 months ago and difference is huge. 401(k) rollover setup way more tax-efficient. Support responds within hours whenever I have questions."
     },
     {
         name: "Sarah M.",
@@ -42,7 +42,7 @@ const reviews = [
     },
     {
         name: "James P.",
-        text: "Self-employed retirement planning is tough. They helped structure RRSP strategy and even found corporate investment options I never knew existed. Portfolio grown 15% in a year. Transparent fees too."
+        text: "Self-employed retirement planning is tough. They helped structure 401(k) strategy and even found corporate investment options I never knew existed. Portfolio grown 15% in a year. Transparent fees too."
     }
 ];
 
@@ -512,8 +512,8 @@ const Testimonials = () => {
             </AnimatePresence>
 
             {/* UPDATED: ToastContainer with closeOnClick and proper settings */}
-            <ToastContainer 
-                position="top-right" 
+            <ToastContainer
+                position="top-right"
                 autoClose={4000}
                 hideProgressBar={false}
                 newestOnTop={false}
