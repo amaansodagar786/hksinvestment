@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
@@ -16,9 +16,13 @@ import {
     FiLoader,
     FiEdit3,
     FiAlertCircle,
-    FiInfo
+    FiInfo,
+    FiSearch,
+    FiX
 } from "react-icons/fi";
 import "./AppointmentSection.scss";
+// ===== IMPORT COUNTRY CODES =====
+import { countryCodes, defaultCountry, getCountryByCode } from "../../../Componenents/countryCodes/countryCodes";
 
 const AppointmentSection = () => {
     const [selectedDate, setSelectedDate] = useState("");
@@ -31,6 +35,12 @@ const AppointmentSection = () => {
     const [isOff, setIsOff] = useState(false);
     const [scheduleType, setScheduleType] = useState('default');
     const [slotCount, setSlotCount] = useState(0);
+    const [selectedCountry, setSelectedCountry] = useState(defaultCountry.code);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [statusMessage, setStatusMessage] = useState(null);
+    const [statusType, setStatusType] = useState(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     // Get today's date in YYYY-MM-DD format
     const getTodayDate = () => {
@@ -43,10 +53,10 @@ const AppointmentSection = () => {
 
     const todayDate = getTodayDate();
 
-    // ========== NEW: Get max selectable date - Next 15 days from today ==========
+    // Get max selectable date - Next 15 days from today
     const getMaxDate = () => {
         const today = new Date();
-        today.setDate(today.getDate() + 14); // +14 because today is day 1 (total 15 days)
+        today.setDate(today.getDate() + 14);
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
@@ -76,6 +86,18 @@ const AppointmentSection = () => {
         }
     }, [selectedDate]);
 
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isDropdownOpen && !event.target.closest('.country-dropdown')) {
+                setIsDropdownOpen(false);
+                setSearchTerm("");
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isDropdownOpen]);
+
     // Fetch available slots from API
     const fetchAvailableSlots = async (date) => {
         try {
@@ -102,7 +124,6 @@ const AppointmentSection = () => {
                 setScheduleType(data.data.scheduleType || 'default');
                 setSlotCount(available.length || 0);
 
-                // Create combined slots array with all slots and their status
                 let combinedSlots = [];
 
                 if (data.data.isOff) {
@@ -125,24 +146,21 @@ const AppointmentSection = () => {
                     }));
                 }
 
-                // ========== If selected date is today, mark past slots as unavailable ==========
                 let finalSlots = combinedSlots;
                 let finalAvailable = available;
                 let finalBooked = booked;
 
                 if (date === todayDate) {
-                    const currentHour = new Date().getHours(); // 0-23
+                    const currentHour = new Date().getHours();
 
                     finalSlots = combinedSlots.map(slot => {
                         const slotHour = parseInt(slot.time.split(':')[0]);
                         if (slotHour <= currentHour) {
-                            // Override status to 'unavailable' for past slots
                             return { ...slot, status: 'unavailable' };
                         }
                         return slot;
                     });
 
-                    // Recalculate booked and available based on updated statuses
                     finalAvailable = finalSlots.filter(s => s.status === 'available').map(s => s.time);
                     finalBooked = finalSlots.filter(s => s.status === 'booked').map(s => s.time);
                 }
@@ -152,7 +170,6 @@ const AppointmentSection = () => {
                 setAvailableSlots(finalAvailable);
                 setSlotCount(finalAvailable.length);
 
-                // Reset selected time if it's now unavailable
                 if (selectedTime) {
                     if (finalBooked.includes(selectedTime) || !finalAvailable.includes(selectedTime)) {
                         setSelectedTime(null);
@@ -181,7 +198,6 @@ const AppointmentSection = () => {
         const min = getMinDate();
         const max = getMaxDate();
 
-        // ========== NEW: Validate date range - Next 15 days ==========
         if (newDate && (newDate < min || newDate > max)) {
             toast.dismiss();
             toast.error(`Please select a date within the next 15 days (${min} to ${max})`, {
@@ -193,6 +209,8 @@ const AppointmentSection = () => {
             setSelectedDate(newDate);
         }
         setSelectedTime(null);
+        setStatusMessage(null);
+        setStatusType(null);
     };
 
     // Handle time slot selection
@@ -201,6 +219,26 @@ const AppointmentSection = () => {
         if (slot && slot.status === 'available') {
             setSelectedTime(time);
         }
+    };
+
+    // Function to set status message and auto-hide after 7 seconds
+    const showStatusMessage = (message, type) => {
+        setStatusMessage(message);
+        setStatusType(type);
+
+        if (window.statusTimeout) {
+            clearTimeout(window.statusTimeout);
+        }
+
+        window.statusTimeout = setTimeout(() => {
+            setStatusMessage(null);
+            setStatusType(null);
+        }, 7000);
+    };
+
+    // Get full phone number with country code
+    const getFullPhoneNumber = () => {
+        return selectedCountry + phoneNumber;
     };
 
     // Form validation schema
@@ -212,9 +250,12 @@ const AppointmentSection = () => {
             .email("Invalid email address")
             .required("Email is required"),
         phone: Yup.string()
-            .matches(/^[0-9\-\+ ]+$/, "Invalid phone number")
             .required("Phone number is required")
-            .min(8, "Phone number must be at least 8 digits")
+            .test('is-valid-phone', 'Please enter exactly 10 digits', function (value) {
+                if (!value) return false;
+                const digitsOnly = value.replace(/\D/g, '');
+                return digitsOnly.length === 10;
+            })
     });
 
     // Initial form values
@@ -225,7 +266,7 @@ const AppointmentSection = () => {
     };
 
     // Handle form submission with API call
-    const handleSubmit = async (values, { resetForm }) => {
+    const handleSubmit = async (values, { resetForm, setFieldError }) => {
         if (!selectedDate) {
             toast.error("Please select a date", {
                 position: "top-right",
@@ -242,11 +283,19 @@ const AppointmentSection = () => {
             return;
         }
 
+        // Phone validation - ensure it has exactly 10 digits
+        const phoneDigits = phoneNumber.replace(/\D/g, '');
+        if (phoneDigits.length !== 10) {
+            setFieldError('phone', 'Phone number must be exactly 10 digits');
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
             const appointmentData = {
                 ...values,
+                phone: getFullPhoneNumber(),
                 date: selectedDate,
                 time: selectedTime,
                 reason: "Financial Consultation",
@@ -285,12 +334,21 @@ const AppointmentSection = () => {
                     }
                 );
 
+                showStatusMessage(
+                    "Thank you! We'll review your request and update you shortly.",
+                    'success'
+                );
+
                 resetForm();
+                setPhoneNumber("");
+                setSelectedCountry(defaultCountry.code);
                 setSelectedDate("");
                 setSelectedTime(null);
                 setBookedSlots([]);
                 setAvailableSlots([]);
                 setAllSlots([]);
+                // Note: status message is intentionally left showing here — it
+                // auto-hides itself after 7s via the timeout inside showStatusMessage.
             } else {
                 throw new Error(data.message || 'Booking failed');
             }
@@ -300,6 +358,11 @@ const AppointmentSection = () => {
                 position: "top-right",
                 autoClose: 5000
             });
+
+            showStatusMessage(
+                error.message || 'Failed to book appointment. Please try again.',
+                'error'
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -321,7 +384,6 @@ const AppointmentSection = () => {
         return todayDate;
     };
 
-    // Get time range string from time slot
     const getTimeRange = (time) => {
         const hour = parseInt(time.split(':')[0]);
         const nextHour = hour + 1;
@@ -329,7 +391,6 @@ const AppointmentSection = () => {
         return `${time} - ${nextHourStr}`;
     };
 
-    // Get slot status display info
     const getSlotStatusInfo = (status) => {
         switch (status) {
             case 'booked':
@@ -359,7 +420,6 @@ const AppointmentSection = () => {
         }
     };
 
-    // Get display message based on schedule type
     const getScheduleMessage = () => {
         if (isOff) {
             return "No appointments available on this date";
@@ -370,6 +430,18 @@ const AppointmentSection = () => {
             return `${availableCount} available, ${bookedCount} booked`;
         }
         return "Select a 1-hour time slot (10:00 AM - 6:00 PM)";
+    };
+
+    // Filter countries based on search
+    const filteredCountries = countryCodes.filter(country =>
+        country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        country.code.includes(searchTerm)
+    );
+
+    // Get selected country display
+    const getSelectedCountryDisplay = () => {
+        const country = countryCodes.find(c => c.code === selectedCountry);
+        return country || defaultCountry;
     };
 
     return (
@@ -429,7 +501,7 @@ const AppointmentSection = () => {
                                 validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
                             >
-                                {({ errors, touched }) => (
+                                {({ errors, touched, setFieldValue, setFieldError }) => (
                                     <Form className="appointment-form">
                                         <div className="form-group">
                                             <label htmlFor="name">
@@ -459,18 +531,95 @@ const AppointmentSection = () => {
                                             <ErrorMessage name="email" component="div" className="error-message" />
                                         </div>
 
-                                        <div className="form-group">
+                                        {/* Phone with Manual Country Code Dropdown */}
+                                        <div className="form-group phone-group">
                                             <label htmlFor="phone">
                                                 <FiPhone /> Phone Number *
                                             </label>
-                                            <Field
-                                                type="tel"
-                                                id="phone"
-                                                name="phone"
-                                                placeholder="Enter your phone number"
-                                                className={`form-input ${errors.phone && touched.phone ? 'error' : ''}`}
-                                            />
+                                            <div className="phone-input-wrapper">
+                                                {/* Country Code Dropdown */}
+                                                <div className="country-dropdown">
+                                                    <button
+                                                        type="button"
+                                                        className="country-select-btn"
+                                                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                                        aria-label="Select country code"
+                                                    >
+                                                        <span className="country-flag">
+                                                            {getSelectedCountryDisplay().flag}
+                                                        </span>
+                                                        <span className="country-code">
+                                                            {getSelectedCountryDisplay().code}
+                                                        </span>
+                                                        <span className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}>
+                                                            ▾
+                                                        </span>
+                                                    </button>
+
+                                                    {isDropdownOpen && (
+                                                        <div className="country-dropdown-menu">
+                                                            <div className="country-search">
+                                                                <FiSearch className="search-icon" />
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="Search country..."
+                                                                    value={searchTerm}
+                                                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    autoFocus
+                                                                />
+                                                            </div>
+                                                            <div className="country-list">
+                                                                {filteredCountries.map((country, index) => (
+                                                                    <button
+                                                                        key={index}
+                                                                        type="button"
+                                                                        className={`country-item ${selectedCountry === country.code ? 'active' : ''}`}
+                                                                        onClick={() => {
+                                                                            setSelectedCountry(country.code);
+                                                                            setIsDropdownOpen(false);
+                                                                            setSearchTerm("");
+                                                                        }}
+                                                                    >
+                                                                        <span className="country-flag">{country.flag}</span>
+                                                                        <span className="country-name">{country.name}</span>
+                                                                        <span className="country-code">{country.code}</span>
+                                                                    </button>
+                                                                ))}
+                                                                {filteredCountries.length === 0 && (
+                                                                    <div className="no-results">No countries found</div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Phone Number Input */}
+                                                <input
+                                                    type="tel"
+                                                    id="phone"
+                                                    name="phone"
+                                                    placeholder="Enter 10-digit phone number"
+                                                    value={phoneNumber}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value.replace(/\D/g, '');
+                                                        if (value.length <= 10) {
+                                                            setPhoneNumber(value);
+                                                            setFieldValue('phone', value);
+                                                            if (errors.phone && touched.phone) {
+                                                                setFieldError('phone', undefined);
+                                                            }
+                                                        }
+                                                    }}
+                                                    className={`phone-number-input ${errors.phone && touched.phone ? 'error' : ''}`}
+                                                />
+                                            </div>
                                             <ErrorMessage name="phone" component="div" className="error-message" />
+                                            {phoneNumber.length > 0 && phoneNumber.length !== 10 && (
+                                                <div className="phone-hint">
+                                                    <FiAlertCircle /> Phone number must be exactly 10 digits (current: {phoneNumber.length})
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className="form-group">
@@ -496,7 +645,6 @@ const AppointmentSection = () => {
                                             {!selectedDate && <div className="error-message">Please select a date</div>}
                                         </div>
 
-                                        {/* ========== NEW: 15 DAYS NOTE ========== */}
                                         <div className="booking-note">
                                             <div className="booking-note-icon">
                                                 <FiInfo />
@@ -562,7 +710,7 @@ const AppointmentSection = () => {
                                 )}
                             </div>
 
-                            {/* Time Slots Grid - Shows ALL slots with their status */}
+                            {/* Time Slots Grid */}
                             {!isLoadingSlots && selectedDate && allSlots.length > 0 && (
                                 <div className={`time-slots-grid ${allSlots.length > 8 ? 'scrollable' : ''}`}>
                                     {allSlots.map((slot, index) => {
@@ -672,6 +820,53 @@ const AppointmentSection = () => {
                                 )}
                                 <span><FiArrowRight /></span>
                             </motion.button>
+
+                            {/* Status Message Below Submit Button */}
+                            <AnimatePresence>
+                                {statusMessage && (
+                                    <motion.div
+                                        className={`status-message ${statusType}`}
+                                        initial={{ opacity: 0, y: 16, scale: 0.97 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                                        transition={{ duration: 0.3, ease: "easeOut" }}
+                                    >
+                                        <div className="status-message-content">
+                                            <motion.div
+                                                className="status-icon"
+                                                initial={{ scale: 0, rotate: -30 }}
+                                                animate={{ scale: 1, rotate: 0 }}
+                                                transition={{ type: "spring", stiffness: 320, damping: 16, delay: 0.1 }}
+                                            >
+                                                {statusType === 'success' ? <FiCheckCircle /> : <FiXCircle />}
+                                            </motion.div>
+                                            <div className="status-text-wrap">
+                                                <p className="status-title">
+                                                    {statusType === 'success' ? 'Appointment Requested!' : 'Something Went Wrong'}
+                                                </p>
+                                                <p className="status-text">{statusMessage}</p>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="status-close-btn"
+                                                onClick={() => {
+                                                    setStatusMessage(null);
+                                                    setStatusType(null);
+                                                }}
+                                                aria-label="Dismiss message"
+                                            >
+                                                <FiX />
+                                            </button>
+                                        </div>
+                                        <motion.div
+                                            className="status-progress-bar"
+                                            initial={{ width: "100%" }}
+                                            animate={{ width: "0%" }}
+                                            transition={{ duration: 7, ease: "linear" }}
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
                     </motion.div>
                 </div>

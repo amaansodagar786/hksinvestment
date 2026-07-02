@@ -100,9 +100,7 @@
   box-shadow: 0 10px 40px rgba(122, 61, 184, 0.1);
   border: 2px solid #efe8fb;
   width: 500px;
-  /* FIXED WIDTH */
   flex: 0 0 500px;
-  /* Don't grow, don't shrink, fixed at 500px */
 }
 
 .appointment-form-container {
@@ -203,12 +201,13 @@
   font-family: 'Content', serif;
 }
 
+/* Date Input */
 .date-input-container {
   position: relative;
   width: 100%;
   max-width: 100%;
-  overflow: hidden; // NEW — crop kar dega agar phir bhi bahar nikla
-  border-radius: 12px; // input ka radius match karna zaroori hai
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .date-input-container .date-input-icon {
@@ -225,7 +224,7 @@
 .date-input-container input[type="date"] {
   width: 100%;
   max-width: 100%;
-  min-width: 0; // NEW
+  min-width: 0;
   padding: 14px 16px 14px 48px;
   border: 2px solid #e6dcf7;
   border-radius: 12px;
@@ -236,8 +235,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  -webkit-appearance: none; // NEW — iOS native chrome hatao
-  appearance: none; // NEW
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .date-input-container input[type="date"]:hover {
@@ -251,7 +250,6 @@
   box-shadow: 0 0 0 3px rgba(122, 61, 184, 0.1);
 }
 
-/* Hide default calendar icon */
 .date-input-container input[type="date"]::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
@@ -262,7 +260,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  width: 100%; // auto se 100% kiya
+  width: 100%;
   height: 100%;
   opacity: 0;
 }
@@ -303,9 +301,7 @@
   box-shadow: 0 10px 40px rgba(122, 61, 184, 0.1);
   border: 2px solid #efe8fb;
   width: 500px;
-  /* FIXED WIDTH */
   flex: 0 0 500px;
-  /* Don't grow, don't shrink, fixed at 640px */
 }
 
 .time-slots-container {
@@ -328,7 +324,6 @@
 
   @media (max-width: 480px) {
     font-size: 18px;
-
   }
 }
 
@@ -343,7 +338,6 @@
 
   @media (max-width: 480px) {
     font-size: 14px;
-
   }
 }
 
@@ -531,7 +525,6 @@
 
   @media (max-width: 480px) {
     font-size: 15px;
-
   }
 }
 
@@ -578,6 +571,161 @@
 .appointment-submit-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* ===== STATUS MESSAGE BELOW SUBMIT BUTTON ===== */
+.status-message {
+  position: relative;
+  margin-top: 60px;
+  padding: 18px 44px 18px 18px;
+  border-radius: 18px;
+  overflow: hidden; // clips the accent bar + progress bar to the rounded corners
+  backdrop-filter: blur(2px);
+
+  .status-message-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  // Colored left accent strip
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+  }
+
+  .status-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 23px;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+
+  .status-text-wrap {
+    flex: 1;
+    padding-top: 1px;
+    min-width: 0;
+  }
+
+  .status-title {
+    font-size: 16px;
+    font-family: 'SubHeading', serif;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    text-align: center;
+  }
+
+  .status-text {
+    font-size: 14.5px;
+    font-family: 'Content', serif;
+    margin: 0;
+    line-height: 1.55;
+    text-align: center !important;
+  }
+
+  .status-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.55);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.1);
+    }
+  }
+
+  // Auto-dismiss progress bar animated from JS (width 100% -> 0% over 7s)
+  .status-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+  }
+
+  /* ===== SUCCESS VARIANT ===== */
+  &.success {
+    background: linear-gradient(135deg, #eafff2 0%, #e6f7e6 100%);
+    border: 1px solid rgba(46, 204, 113, 0.35);
+    box-shadow: 0 10px 28px rgba(46, 204, 113, 0.16);
+
+    &::before {
+      background: #2ecc71;
+    }
+
+    .status-icon {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+    }
+
+    .status-title {
+      color: #1e8449;
+    }
+
+    .status-text {
+      color: #2d6a4f;
+    }
+
+    .status-close-btn {
+      color: #27ae60;
+    }
+
+    .status-progress-bar {
+      background: linear-gradient(90deg, #2ecc71, #27ae60);
+    }
+  }
+
+  /* ===== ERROR VARIANT ===== */
+  &.error {
+    background: linear-gradient(135deg, #fff2f2 0%, #ffe6e6 100%);
+    border: 1px solid rgba(231, 76, 60, 0.35);
+    box-shadow: 0 10px 28px rgba(231, 76, 60, 0.16);
+
+    &::before {
+      background: #e74c3c;
+    }
+
+    .status-icon {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+
+    .status-title {
+      color: #a93226;
+    }
+
+    .status-text {
+      color: #922b21;
+    }
+
+    .status-close-btn {
+      color: #c0392b;
+    }
+
+    .status-progress-bar {
+      background: linear-gradient(90deg, #e74c3c, #c0392b);
+    }
+  }
 }
 
 /* Loading indicators */
@@ -632,7 +780,8 @@
   .appointment-submit-btn,
   .selected-date-display,
   .selected-time-display,
-  .time-slot-indicator {
+  .time-slot-indicator,
+  .status-message {
     animation: none !important;
     transition: none !important;
   }
@@ -702,6 +851,36 @@
   .time-slots-grid {
     grid-template-columns: 1fr;
   }
+
+  // Status message mobile
+  .status-message {
+    padding: 16px 38px 16px 16px;
+
+    .status-message-content {
+      gap: 12px;
+    }
+
+    .status-icon {
+      width: 36px;
+      height: 36px;
+      font-size: 19px;
+    }
+
+    .status-title {
+      font-size: 15px;
+    }
+
+    .status-text {
+      font-size: 13.5px;
+    }
+
+    .status-close-btn {
+      width: 24px;
+      height: 24px;
+      top: 12px;
+      right: 12px;
+    }
+  }
 }
 
 @media (max-width: 480px) {
@@ -734,9 +913,38 @@
     width: 36px;
     height: 36px;
   }
+
+  // Status message extra small
+  .status-message {
+    padding: 13px 34px 13px 13px;
+
+    .status-message-content {
+      gap: 10px;
+    }
+
+    .status-icon {
+      width: 32px;
+      height: 32px;
+      font-size: 17px;
+    }
+
+    .status-title {
+      font-size: 14px;
+    }
+
+    .status-text {
+      font-size: 12.5px;
+    }
+
+    .status-close-btn {
+      width: 22px;
+      height: 22px;
+      top: 10px;
+      right: 10px;
+      font-size: 13px;
+    }
+  }
 }
-
-
 
 .appointment-submit-btn span svg {
   transition: transform 0.3s ease;
@@ -746,19 +954,14 @@
   transform: rotate(45deg);
 }
 
-
-
 /* =========================
-   SCROLLABLE TIME SLOTS - ADD THIS AT THE BOTTOM
+   SCROLLABLE TIME SLOTS
 ========================= */
-
-/* Scrollable time slots grid */
 .time-slots-grid.scrollable {
   max-height: 400px;
   overflow-y: auto;
   padding-right: 10px;
 
-  /* Custom scrollbar */
   &::-webkit-scrollbar {
     width: 3.5px;
   }
@@ -826,7 +1029,7 @@
   }
 }
 
-/* Time range display - update existing style */
+/* Time range display */
 .time-range .time {
   font-size: 16px;
   font-weight: 500;
@@ -849,10 +1052,6 @@
   }
 }
 
-
-
-
-
 /* =========================
    TABLET RESPONSIVE (768px - 1024px)
 ========================= */
@@ -863,24 +1062,19 @@
 
   .appointment-content {
     flex-direction: column;
-    /* Stack vertically */
     gap: 40px;
     max-width: 700px;
-    /* Limit width for better readability */
     margin: 0 auto;
   }
 
-  /* Both sections take full width */
   .appointment-form-section,
   .appointment-time-section {
     width: 100%;
     flex: 0 0 auto;
-    /* Reset fixed widths */
     padding: 32px;
     box-sizing: border-box;
   }
 
-  /* Adjust header for tablet */
   .appointment-header {
     margin-bottom: 50px;
     padding: 0 20px;
@@ -895,7 +1089,6 @@
     padding: 0 20px;
   }
 
-  /* Time slots grid - better spacing for tablet */
   .time-slots-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
@@ -911,7 +1104,6 @@
     font-size: 16px;
   }
 
-  /* Ensure form inputs take full width */
   .appointment-form {
     width: 100%;
   }
@@ -921,28 +1113,23 @@
     width: 100%;
   }
 
-  /* Selected date display adjustments */
   .selected-date-display {
     padding: 14px;
   }
 
-  /* Selected time display adjustments */
   .selected-time-display {
     margin-bottom: 28px;
   }
 
-  /* Submit button full width */
   .appointment-submit-btn {
     padding: 14px 16px 14px 28px;
     font-size: 17px;
   }
 
-  /* Scrollable grid height adjustment */
   .time-slots-grid.scrollable {
     max-height: 380px;
   }
 
-  /* Form header adjustments */
   .form-header {
     margin-bottom: 28px;
   }
@@ -950,11 +1137,23 @@
   .form-header-content h3 {
     font-size: 20px;
   }
+
+  // Status message tablet
+  .status-message {
+    padding: 16px 40px 16px 18px;
+
+    .status-title {
+      font-size: 15.5px;
+    }
+
+    .status-text {
+      font-size: 15px;
+    }
+  }
 }
 
 /* =========================
    SMALL TABLET / LARGE MOBILE (up to 768px)
-   - Already have this, but ensure it's optimized
 ========================= */
 @media (max-width: 768px) {
   .appointment-section {
@@ -969,7 +1168,6 @@
   .appointment-form-section,
   .appointment-time-section {
     width: 100%;
-    /* Changed from 88% to 100% */
     flex: 0 0 auto;
     padding: 28px;
     box-sizing: border-box;
@@ -984,7 +1182,6 @@
     gap: 12px;
   }
 
-  /* Add these for better mobile experience */
   .form-header {
     flex-direction: column;
     text-align: center;
@@ -1008,6 +1205,31 @@
 
   .time-icon {
     margin: 0 auto;
+  }
+
+  // Status message mobile
+  .status-message {
+    margin-top: 16px;
+    padding: 15px 38px 15px 16px;
+
+    .status-message-content {
+      gap: 12px;
+    }
+
+    .status-title {
+      font-size: 15px;
+    }
+
+    .status-text {
+      font-size: 13.5px;
+    }
+
+    .status-close-btn {
+      width: 24px;
+      height: 24px;
+      top: 12px;
+      right: 12px;
+    }
   }
 }
 
@@ -1068,13 +1290,42 @@
     width: 32px;
     height: 32px;
   }
+
+  // Status message extra small
+  .status-message {
+    padding: 13px 34px 13px 13px;
+    margin-top: 14px;
+
+    .status-message-content {
+      gap: 10px;
+    }
+
+    .status-icon {
+      width: 30px;
+      height: 30px;
+      font-size: 15px;
+    }
+
+    .status-title {
+      font-size: 14px;
+    }
+
+    .status-text {
+      font-size: 12.5px;
+    }
+
+    .status-close-btn {
+      width: 22px;
+      height: 22px;
+      top: 10px;
+      right: 10px;
+      font-size: 13px;
+    }
+  }
 }
-
-
 
 /* =========================
    NEW TABLET MEDIA QUERY (800px - 1070px)
-   FOR APPOINTMENT SECTION - BOTH CARDS IN COLUMN VIEW
 ========================= */
 @media (min-width: 800px) and (max-width: 1200px) {
   .appointment-section {
@@ -1083,15 +1334,12 @@
 
   .appointment-content {
     flex-direction: column;
-    /* Stack cards vertically */
     gap: 40px;
     max-width: 700px;
-    /* Limit width for better readability */
     margin: 0 auto;
     width: 100%;
   }
 
-  /* HEADER */
   .appointment-header {
     margin-bottom: 50px;
     padding: 0 20px;
@@ -1110,22 +1358,17 @@
     margin-bottom: 12px;
   }
 
-  /* BOTH CARDS - FULL WIDTH */
   .appointment-form-section,
   .appointment-time-section {
     width: 100%;
     flex: 0 0 auto;
-    /* Reset fixed widths */
     padding: 35px;
     box-sizing: border-box;
     margin: 0;
-    /* Remove any margin */
   }
 
-  /* LEFT CARD - FORM */
   .appointment-form-section {
     order: 1;
-    /* First card */
   }
 
   .form-header {
@@ -1146,7 +1389,6 @@
     font-size: 22px;
   }
 
-  /* Form inputs */
   .appointment-form {
     gap: 20px;
   }
@@ -1175,7 +1417,6 @@
     padding-left: 45px;
   }
 
-  /* Selected date display */
   .selected-date-display {
     padding: 14px;
     margin-top: 14px;
@@ -1189,10 +1430,8 @@
     font-size: 15px;
   }
 
-  /* RIGHT CARD - TIME SLOTS */
   .appointment-time-section {
     order: 2;
-    /* Second card */
   }
 
   .time-slots-header {
@@ -1212,7 +1451,6 @@
     font-size: 15px;
   }
 
-  /* Time slots grid */
   .time-slots-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
@@ -1233,7 +1471,6 @@
     font-size: 13px;
   }
 
-  /* Selected time display */
   .selected-time-display {
     padding: 18px;
     margin-bottom: 28px;
@@ -1257,7 +1494,6 @@
     font-size: 13px;
   }
 
-  /* Submit button */
   .appointment-submit-btn {
     padding: 14px 16px 14px 28px;
     font-size: 17px;
@@ -1268,25 +1504,21 @@
     height: 40px;
   }
 
-  /* Scrollable grid */
   .time-slots-grid.scrollable {
     max-height: 380px;
   }
 
-  /* Loading states */
   .loading-slots {
     font-size: 14px;
     margin-top: 8px;
   }
 
-  /* Off message */
   .off-message {
     padding: 10px 14px;
     font-size: 14px;
     margin-top: 12px;
   }
 
-  /* No slots message */
   .no-slots-message {
     padding: 30px 20px;
 
@@ -1299,21 +1531,51 @@
     }
   }
 
-  /* Error messages */
   .error-message {
     font-size: 13px;
     margin-top: 4px;
   }
 
-  /* Remove any fixed width constraints */
   .appointment-form-section,
   .appointment-time-section {
     width: 100%;
   }
+
+  // Phone input tablet
+  .phone-input-wrapper {
+    .country-select-btn {
+      padding: 10px 8px 10px 14px;
+      min-width: 80px;
+    }
+
+    .phone-number-input {
+      padding: 12px 14px;
+      font-size: 15px;
+    }
+  }
+
+  // Status message tablet
+  .status-message {
+    padding: 16px 40px 16px 18px;
+
+    .status-icon {
+      width: 38px;
+      height: 38px;
+      font-size: 21px;
+    }
+
+    .status-title {
+      font-size: 15.5px;
+    }
+
+    .status-text {
+      font-size: 15px;
+    }
+  }
 }
 
 /* =========================
-   BOOKING NOTE - NEW
+   BOOKING NOTE
 ========================= */
 .booking-note {
   display: flex;
@@ -1452,5 +1714,377 @@
 
   .booking-note:hover .booking-note-icon {
     transform: none !important;
+  }
+}
+
+/* ===== PHONE WITH MANUAL COUNTRY DROPDOWN ===== */
+.phone-group {
+  position: relative;
+}
+
+.phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative; // FIX: this is now the positioning anchor for the dropdown menu,
+  // instead of the small country-select button
+  border: 2px solid #e6dcf7;
+  border-radius: 12px;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  // FIX: removed `overflow: hidden` — it was clipping the country list, so typing
+  // a search term never visually showed any results even though they were rendering.
+
+  &:focus-within {
+    border-color: #7a3db8;
+    box-shadow: 0 0 0 3px rgba(122, 61, 184, 0.1);
+  }
+
+  &.error {
+    border-color: #e74c3c;
+  }
+
+  // Country Dropdown Button
+  .country-dropdown {
+    // FIX: no longer `position: relative` here — the dropdown menu now anchors
+    // to .phone-input-wrapper above, so it can span the FULL field width
+    // instead of a fixed 300-360px box hanging off the small button.
+    flex-shrink: 0;
+
+    .country-select-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px 14px 16px;
+      background: transparent;
+      border: none;
+      border-right: 2px solid #e6dcf7;
+      cursor: pointer;
+      font-size: 16px;
+      font-family: 'Content', serif;
+      color: #333;
+      transition: all 0.3s ease;
+      min-width: 90px;
+      height: 100%;
+
+      &:hover {
+        background: #f9f6ff;
+      }
+
+      .country-flag {
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      .country-code {
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .dropdown-arrow {
+        font-size: 12px;
+        color: #7a3db8;
+        transition: transform 0.3s ease;
+        margin-left: 2px;
+
+        &.open {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    // Dropdown Menu
+    .country-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 100%; // FIX: matches the full phone field width now, not a narrow fixed box
+      background: #ffffff;
+      border: 2px solid #e6dcf7;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      overflow: hidden;
+      box-sizing: border-box;
+
+      .country-search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-bottom: 1px solid #e6dcf7;
+
+        .search-icon {
+          color: #999;
+          font-size: 16px;
+          flex-shrink: 0;
+        }
+
+        input {
+          width: 100%;
+          padding: 8px 0;
+          border: none;
+          outline: none;
+          font-size: 14px;
+          font-family: 'Content', serif;
+          background: transparent;
+
+          &::placeholder {
+            color: #999;
+          }
+        }
+      }
+
+      .country-list {
+        max-height: 260px;
+        overflow-y: auto;
+        padding: 4px 0;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: #f5f5f5;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #7a3db8;
+          border-radius: 4px;
+        }
+
+        .country-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 16px;
+          width: 100%;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          font-size: 14px;
+          font-family: 'Content', serif;
+          color: #333;
+          transition: all 0.2s ease;
+          text-align: left;
+
+          &:hover {
+            background: #f9f6ff;
+          }
+
+          &.active {
+            background: #efe8fb;
+            color: #5e2690;
+          }
+
+          .country-flag {
+            font-size: 20px;
+            flex-shrink: 0;
+          }
+
+          .country-name {
+            flex: 1;
+          }
+
+          .country-code {
+            color: #7a3db8;
+            font-weight: 600;
+            font-size: 13px;
+          }
+        }
+
+        .no-results {
+          padding: 20px;
+          text-align: center;
+          color: #999;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  // Phone Number Input
+  .phone-number-input {
+    flex: 1;
+    padding: 14px 16px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-family: 'Content', serif;
+    color: #333;
+    background: transparent;
+    min-width: 0;
+
+    &::placeholder {
+      color: #999;
+    }
+
+    &.error {
+      color: #e74c3c;
+    }
+  }
+}
+
+// Phone hint
+.phone-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #f39c12;
+  font-size: 13px;
+  font-family: 'Content', serif;
+  margin-top: 6px;
+
+  svg {
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+}
+
+// Mobile responsive - SAME ROW for country code + phone
+@media (max-width: 768px) {
+  .phone-input-wrapper {
+    flex-wrap: nowrap; // ✅ Keep in same row
+    border-radius: 10px;
+    border: 2px solid #e6dcf7;
+    background: #ffffff;
+
+    .country-dropdown {
+      flex: 0 0 auto; // ✅ Don't grow, keep size
+      width: auto; // ✅ Auto width based on content
+      position: relative;
+
+      .country-select-btn {
+        width: auto; // ✅ Auto width
+        padding: 12px 10px 12px 14px;
+        border-right: 2px solid #e6dcf7;
+        border-bottom: none; // ✅ Remove bottom border
+        justify-content: center;
+        min-height: 48px;
+        white-space: nowrap; // ✅ Keep text in one line
+
+        .country-flag {
+          font-size: 20px;
+        }
+
+        .country-code {
+          font-size: 14px;
+        }
+
+        .dropdown-arrow {
+          font-size: 11px;
+        }
+      }
+
+      // On mobile the list opens as a centered modal
+      .country-dropdown-menu {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: auto;
+        min-width: 90%;
+        max-width: 400px;
+        max-height: 80vh;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+        .country-list {
+          max-height: 60vh;
+        }
+      }
+    }
+
+    .phone-number-input {
+      flex: 1; // ✅ Take remaining space
+      padding: 12px 14px;
+      font-size: 15px;
+      width: auto; // ✅ Auto width
+      min-width: 0; // ✅ Allow shrinking
+      border: none;
+      outline: none;
+      background: transparent;
+    }
+  }
+}
+
+
+
+@media (max-width: 480px) {
+  .phone-input-wrapper {
+    flex-wrap: nowrap; // ✅ Keep in same row
+    border-radius: 8px;
+    border: 2px solid #e6dcf7;
+    background: #ffffff;
+
+    .country-dropdown {
+      flex: 0 0 auto; // ✅ Don't grow
+      width: auto; // ✅ Auto width
+
+      .country-select-btn {
+        width: auto; // ✅ Auto width
+        padding: 10px 8px 10px 12px;
+        min-height: 44px;
+        font-size: 14px;
+        border-right: 2px solid #e6dcf7;
+        border-bottom: none; // ✅ Remove bottom border
+        white-space: nowrap; // ✅ Keep in one line
+
+        .country-flag {
+          font-size: 18px;
+        }
+
+        .country-code {
+          font-size: 13px;
+        }
+
+        .dropdown-arrow {
+          font-size: 10px;
+        }
+      }
+
+      .country-dropdown-menu {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: auto;
+        min-width: 90%;
+        max-width: 400px;
+        max-height: 80vh;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+        .country-search {
+          padding: 8px 12px;
+
+          input {
+            font-size: 13px;
+          }
+        }
+
+        .country-list {
+          .country-item {
+            padding: 8px 12px;
+            font-size: 13px;
+
+            .country-flag {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+
+    .phone-number-input {
+      flex: 1; // ✅ Take remaining space
+      padding: 10px 12px;
+      font-size: 14px;
+      width: auto; // ✅ Auto width
+      min-width: 0; // ✅ Allow shrinking
+      border: none;
+      outline: none;
+      background: transparent;
+    }
   }
 }
