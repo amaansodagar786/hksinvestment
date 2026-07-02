@@ -256,8 +256,8 @@ const PrivacyContent = () => {
         },
         {
             icon: <FiMail />,
-            text: "support@hksinvestment.com",
-            link: "mailto:support@hksinvestment.com"
+            text: "inquiry@hksinvestment.com",
+            link: "mailto:inquiry@hksinvestment.com"
         },
         {
             icon: <FiMapPin />,
@@ -273,8 +273,8 @@ const PrivacyContent = () => {
         // },
         {
             icon: <FiMail />,
-            text: "support@hksinvestment.com",
-            link: "mailto:support@hksinvestment.com"
+            text: "inquiry@hksinvestment.com",
+            link: "mailto:inquiry@hksinvestment.com"
         },
         {
             icon: <FiMapPin />,
@@ -639,7 +639,7 @@ const PrivacyContent = () => {
 
                             <motion.p variants={sectionVariants} custom={10.2}>
                                 To exercise any of these rights, please contact our Privacy Officer at{' '}
-                                <a href="mailto:support@hksinvestment.com" className="privacy-link">support@hksinvestment.com</a>.
+                                <a href="mailto:inquiry@hksinvestment.com" className="privacy-link">inquiry@hksinvestment.com</a>.
                             </motion.p>
                         </div>
                     </motion.div>
