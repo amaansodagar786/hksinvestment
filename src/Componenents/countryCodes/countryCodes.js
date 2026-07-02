@@ -47,7 +47,6 @@ export const countryCodes = [
     { code: "+977", name: "Nepal", flag: "🇳🇵" },
     { code: "+971", name: "UAE", flag: "🇦🇪" },
     { code: "+966", name: "Saudi Arabia", flag: "🇸🇦" },
-    { code: "+972", name: "Israel", flag: "🇮🇱" },
     { code: "+964", name: "Iraq", flag: "🇮🇶" },
     { code: "+98", name: "Iran", flag: "🇮🇷" },
     { code: "+90", name: "Turkey", flag: "🇹🇷" },
@@ -86,7 +85,7 @@ export const countryCodes = [
     { code: "+53", name: "Cuba", flag: "🇨🇺" },
     { code: "+809", name: "Dominican Republic", flag: "🇩🇴" },
     { code: "+876", name: "Jamaica", flag: "🇯🇲" },
-    { code: "+1", name: "Puerto Rico", flag: "🇵🇷" },
+
 ];
 
 // Get default country (US)

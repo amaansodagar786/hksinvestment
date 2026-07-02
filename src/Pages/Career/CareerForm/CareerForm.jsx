@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -12,14 +12,50 @@ import {
     FiArrowRight,
     FiUser,
     FiCheckCircle,
+    FiSearch,
+    FiX,
+    FiAlertCircle
 } from "react-icons/fi";
 import { FaWhatsapp, FaYoutube } from "react-icons/fa";
 import "./CareerForm.scss";
 
+// ===== IMPORT COUNTRY CODES =====
+import { countryCodes, defaultCountry } from "../../../Componenents/countryCodes/countryCodes";
+
 const CareerForm = () => {
     const API_URL = import.meta.env.VITE_API_URL;
 
-    // Animation variants - EXACT SAME as ContactSection
+    // ----- COUNTRY CODE STATES -----
+    const [selectedCountry, setSelectedCountry] = useState(defaultCountry.code);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isDropdownOpen && !event.target.closest('.country-dropdown')) {
+                setIsDropdownOpen(false);
+                setSearchTerm("");
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isDropdownOpen]);
+
+    // Filter countries based on search
+    const filteredCountries = countryCodes.filter(country =>
+        country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        country.code.includes(searchTerm)
+    );
+
+    // Get selected country display
+    const getSelectedCountryDisplay = () => {
+        const country = countryCodes.find(c => c.code === selectedCountry);
+        return country || defaultCountry;
+    };
+
+    // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -84,7 +120,7 @@ const CareerForm = () => {
         }
     };
 
-    // Form validation schema
+    // Form validation schema (Strict 10 digit requirement)
     const validationSchema = Yup.object({
         firstName: Yup.string()
             .required("First name is required")
@@ -96,8 +132,12 @@ const CareerForm = () => {
             .email("Invalid email address")
             .required("Email is required"),
         phone: Yup.string()
-            .matches(/^[0-9+\-\s()]*$/, "Invalid phone number")
-            .required("Phone number is required"),
+            .required("Phone number is required")
+            .test('is-valid-phone', 'Please enter exactly 10 digits', function (value) {
+                if (!value) return false;
+                const digitsOnly = value.replace(/\D/g, '');
+                return digitsOnly.length === 10;
+            }),
         llqpLicense: Yup.string()
             .required("Please select an option")
     });
@@ -112,27 +152,37 @@ const CareerForm = () => {
     };
 
     // Handle form submission
-    const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+    const handleSubmit = async (values, { resetForm, setSubmitting, setFieldError }) => {
+        // Phone validation sanity check
+        const phoneDigits = phoneNumber.replace(/\D/g, '');
+        if (phoneDigits.length !== 10) {
+            setFieldError('phone', 'Phone number must be exactly 10 digits');
+            setSubmitting(false);
+            return;
+        }
+
         try {
+            // Merge form values with country code prefix
+            const dynamicSubmissionData = {
+                ...values,
+                phone: selectedCountry + phoneNumber
+            };
+
             const response = await fetch(`${API_URL}/career/apply`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values)
+                body: JSON.stringify(dynamicSubmissionData)
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                // Handle 429 cooldown error (1 week)
                 if (response.status === 429) {
                     toast.warning(data.message || 'Please wait 7 days between applications', {
                         position: "top-right",
                         autoClose: 5000,
-                        closeOnClick: true,
-                        draggable: true,
-                        pauseOnHover: true
                     });
                     return;
                 }
@@ -143,18 +193,14 @@ const CareerForm = () => {
                 toast.success('Application submitted successfully! Our HR team will review your application.', {
                     position: "top-right",
                     autoClose: 5000,
-                    closeOnClick: true,
-                    draggable: true,
-                    pauseOnHover: true
                 });
                 resetForm();
+                setPhoneNumber("");
+                setSelectedCountry(defaultCountry.code);
             } else {
                 toast.error(data.message || 'Submission failed', {
                     position: "top-right",
                     autoClose: 5000,
-                    closeOnClick: true,
-                    draggable: true,
-                    pauseOnHover: true
                 });
             }
         } catch (error) {
@@ -162,23 +208,20 @@ const CareerForm = () => {
             toast.error(error.message || 'Something went wrong. Please try again.', {
                 position: "top-right",
                 autoClose: 5000,
-                closeOnClick: true,
-                draggable: true,
-                pauseOnHover: true
             });
         } finally {
             setSubmitting(false);
         }
     };
 
-    // Social icons - Updated with correct links
+    // Social icons
     const socialIcons = [
         { Icon: FiInstagram, label: "Instagram", url: "https://www.instagram.com/hks.investment/" },
         { Icon: FaWhatsapp, label: "WhatsApp", url: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities" },
         { Icon: FaYoutube, label: "YouTube", url: "https://www.youtube.com/@hks.investment" }
     ];
 
-    // Contact info - Updated email to inquiry@hksinvestment.com
+    // Contact info
     const contactInfo = [
         {
             icon: <FaWhatsapp />,
@@ -188,9 +231,9 @@ const CareerForm = () => {
         },
         {
             icon: <FiMail />,
-            text: "inquiry@hksinvestment.com",  // ← UPDATED: Changed from support@ to inquiry@
+            text: "inquiry@hksinvestment.com",
             type: "email",
-            link: "mailto:inquiry@hksinvestment.com"  // ← UPDATED
+            link: "mailto:inquiry@hksinvestment.com"
         },
         {
             icon: <FiMapPin />,
@@ -230,30 +273,20 @@ const CareerForm = () => {
                 variants={containerVariants}
             >
                 <div className="career-form-header">
-                    <motion.span
-                        className="career-pill"
-                        variants={itemVariants}
-                    >
+                    <motion.span className="career-pill" variants={itemVariants}>
                         Join Our Team
                     </motion.span>
-                    <motion.h2
-                        variants={itemVariants}
-                    >
+                    <motion.h2 variants={itemVariants}>
                         Ready to build your <span>future</span> with us?
                     </motion.h2>
-                    <motion.p
-                        variants={itemVariants}
-                    >
+                    <motion.p variants={itemVariants}>
                         Your help is important for us.
                     </motion.p>
                 </div>
 
                 <div className="career-content">
                     {/* LEFT SIDE - CONTACT INFO */}
-                    <motion.div
-                        className="career-info"
-                        variants={itemVariants}
-                    >
+                    <motion.div className="career-info" variants={itemVariants}>
                         <div className="career-info-content">
                             <motion.h3
                                 initial={{ opacity: 0, y: 20 }}
@@ -291,7 +324,7 @@ const CareerForm = () => {
                                     <motion.a
                                         key={index}
                                         href={item.link}
-                                        target={item.type === 'address' ? '_blank' : '_blank'}
+                                        target="_blank"
                                         rel="noopener noreferrer"
                                         className="career-item-link"
                                         style={{ textDecoration: 'none' }}
@@ -314,7 +347,7 @@ const CareerForm = () => {
                                 ))}
                             </div>
 
-                            {/* SOCIAL ICONS - UPDATED with YouTube */}
+                            {/* SOCIAL ICONS */}
                             <motion.div
                                 className="career-socials"
                                 initial={{ opacity: 0 }}
@@ -346,17 +379,14 @@ const CareerForm = () => {
                     </motion.div>
 
                     {/* RIGHT SIDE - FORM */}
-                    <motion.div
-                        className="career-form-wrapper"
-                        variants={itemVariants}
-                    >
+                    <motion.div className="career-form-wrapper" variants={itemVariants}>
                         <div className="career-form-container">
                             <Formik
                                 initialValues={initialValues}
                                 validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
                             >
-                                {({ isSubmitting, errors, touched }) => (
+                                {({ isSubmitting, errors, touched, setFieldValue, setFieldError }) => (
                                     <Form className="career-form">
                                         {/* FIRST NAME & LAST NAME ROW */}
                                         <div className="form-row">
@@ -368,7 +398,7 @@ const CareerForm = () => {
                                                     type="text"
                                                     id="firstName"
                                                     name="firstName"
-                                                    placeholder="Enter your first name"
+                                                    placeholder="Enter first name"
                                                     className={`form-input ${errors.firstName && touched.firstName ? 'error' : ''}`}
                                                     disabled={isSubmitting}
                                                 />
@@ -383,7 +413,7 @@ const CareerForm = () => {
                                                     type="text"
                                                     id="lastName"
                                                     name="lastName"
-                                                    placeholder="Enter your last name"
+                                                    placeholder="Enter last name"
                                                     className={`form-input ${errors.lastName && touched.lastName ? 'error' : ''}`}
                                                     disabled={isSubmitting}
                                                 />
@@ -407,20 +437,98 @@ const CareerForm = () => {
                                             <ErrorMessage name="email" component="div" className="error-message" />
                                         </div>
 
-                                        {/* PHONE FIELD */}
-                                        <div className="form-group">
+                                        {/* PHONE FIELD WITH COUNTRY DROP DOWN MODULE */}
+                                        <div className="form-group phone-group">
                                             <label htmlFor="phone">
                                                 <FiPhone /> Phone Number *
                                             </label>
-                                            <Field
-                                                type="tel"
-                                                id="phone"
-                                                name="phone"
-                                                placeholder="Enter your phone number"
-                                                className={`form-input ${errors.phone && touched.phone ? 'error' : ''}`}
-                                                disabled={isSubmitting}
-                                            />
+                                            <div className={`phone-input-wrapper ${errors.phone && touched.phone ? 'error' : ''}`}>
+
+                                                {/* Country Code Selection Interface */}
+                                                <div className="country-dropdown">
+                                                    <button
+                                                        type="button"
+                                                        className="country-select-btn"
+                                                        onClick={() => !isSubmitting && setIsDropdownOpen(!isDropdownOpen)}
+                                                        aria-label="Select country code"
+                                                        disabled={isSubmitting}
+                                                    >
+                                                        <span className="country-flag">
+                                                            {getSelectedCountryDisplay().flag}
+                                                        </span>
+                                                        <span className="country-code">
+                                                            {getSelectedCountryDisplay().code}
+                                                        </span>
+                                                        <span className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}>
+                                                            ▾
+                                                        </span>
+                                                    </button>
+
+                                                    {isDropdownOpen && (
+                                                        <div className="country-dropdown-menu">
+                                                            <div className="country-search">
+                                                                <FiSearch className="search-icon" />
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="Search country..."
+                                                                    value={searchTerm}
+                                                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    autoFocus
+                                                                />
+                                                            </div>
+                                                            <div className="country-list">
+                                                                {filteredCountries.map((country, index) => (
+                                                                    <button
+                                                                        key={index}
+                                                                        type="button"
+                                                                        className={`country-item ${selectedCountry === country.code ? 'active' : ''}`}
+                                                                        onClick={() => {
+                                                                            setSelectedCountry(country.code);
+                                                                            setIsDropdownOpen(false);
+                                                                            setSearchTerm("");
+                                                                        }}
+                                                                    >
+                                                                        <span className="country-flag">{country.flag}</span>
+                                                                        <span className="country-name">{country.name}</span>
+                                                                        <span className="country-code">{country.code}</span>
+                                                                    </button>
+                                                                ))}
+                                                                {filteredCountries.length === 0 && (
+                                                                    <div className="no-results">No countries found</div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Numerical Input Handling Field */}
+                                                <input
+                                                    type="tel"
+                                                    id="phone"
+                                                    name="phone"
+                                                    placeholder="Enter 10-digit number"
+                                                    value={phoneNumber}
+                                                    disabled={isSubmitting}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value.replace(/\D/g, '');
+                                                        if (value.length <= 10) {
+                                                            setPhoneNumber(value);
+                                                            setFieldValue('phone', value);
+                                                            if (errors.phone && touched.phone) {
+                                                                setFieldError('phone', undefined);
+                                                            }
+                                                        }
+                                                    }}
+                                                    className="phone-number-input"
+                                                />
+                                            </div>
                                             <ErrorMessage name="phone" component="div" className="error-message" />
+                                            {phoneNumber.length > 0 && phoneNumber.length !== 10 && (
+                                                <div className="phone-hint">
+                                                    <FiAlertCircle /> Phone number must be exactly 10 digits (current: {phoneNumber.length})
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* LLQP LICENSE RADIO */}
@@ -441,7 +549,7 @@ const CareerForm = () => {
                                             <ErrorMessage name="llqpLicense" component="div" className="error-message" />
                                         </div>
 
-                                        {/* SUBMIT BUTTON - UPDATED TO MATCH APPOINTMENT BUTTON */}
+                                        {/* SUBMIT BUTTON CONTAINER */}
                                         <motion.button
                                             type="submit"
                                             className={`career-submit-btn ${isSubmitting ? 'submitting' : ''}`}
