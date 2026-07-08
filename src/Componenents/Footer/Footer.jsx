@@ -3,7 +3,11 @@ import {
     FiInstagram,
     FiSend
 } from "react-icons/fi";
-import { FaWhatsapp, FaYoutube } from "react-icons/fa";
+import {
+    TbBrandWhatsapp,
+    TbBrandYoutube,
+    TbBrandDiscord
+} from "react-icons/tb";
 import { MdEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { motion } from "framer-motion";
@@ -194,7 +198,7 @@ const Footer = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // ========== UPDATED: Real API call for feedback submission with env variable ==========
+    // ========== Real API call for feedback submission with env variable ==========
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -271,14 +275,15 @@ const Footer = () => {
         }
     };
 
-    // Updated social links
+    // Social links
     const whatsappLink = "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%20have%20a%20question%20about%20your%20services.";
     const instagramLink = "https://www.instagram.com/hks.investment/";
     const youtubeLink = "https://www.youtube.com/@hks.investment";
+    // TODO: replace with your real Discord invite link
+    const discordLink = "https://discord.com/invite/yourinvite";
 
     return (
         <>
-            {/* UPDATED: ToastContainer with proper settings */}
             <ToastContainer
                 position="top-right"
                 autoClose={4000}
@@ -405,7 +410,7 @@ const Footer = () => {
                                             initial="initial"
                                             whileHover="hover"
                                         >
-                                            <FaWhatsapp />
+                                            <TbBrandWhatsapp />
                                         </motion.a>
 
                                         <motion.a
@@ -419,7 +424,6 @@ const Footer = () => {
                                             <FiInstagram />
                                         </motion.a>
 
-                                        {/* NEW: YouTube Icon */}
                                         <motion.a
                                             href={youtubeLink}
                                             target="_blank"
@@ -428,7 +432,19 @@ const Footer = () => {
                                             initial="initial"
                                             whileHover="hover"
                                         >
-                                            <FaYoutube />
+                                            <TbBrandYoutube />
+                                        </motion.a>
+
+                                        {/* NEW: Discord Icon */}
+                                        <motion.a
+                                            href={discordLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            variants={socialIconVariants}
+                                            initial="initial"
+                                            whileHover="hover"
+                                        >
+                                            <TbBrandDiscord />
                                         </motion.a>
                                     </div>
                                 </motion.div>
@@ -471,7 +487,7 @@ const Footer = () => {
                                     </ul>
                                 </motion.div>
 
-                                {/* COLUMN 4: CONTACT */}
+                                {/* COLUMN 4: CONTACT (WhatsApp number removed, icon stays in socials) */}
                                 <motion.div
                                     className="footer-col contact"
                                     variants={columnVariants}
@@ -479,28 +495,6 @@ const Footer = () => {
                                     <motion.p
                                         variants={contactItemVariants}
                                         whileHover="hover"
-                                    >
-                                        <a
-                                            href={whatsappLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="whatsapp-link"
-                                        >
-                                            <motion.span
-                                                variants={contactIconVariants}
-                                                initial="initial"
-                                                whileHover="hover"
-                                            >
-                                                <FaWhatsapp />
-                                            </motion.span>
-                                            +1 782-882-8102
-                                        </a>
-                                    </motion.p>
-
-                                    <motion.p
-                                        variants={contactItemVariants}
-                                        whileHover="hover"
-                                        transition={{ delay: 0.1 }}
                                     >
                                         <a href="mailto:inquiry@hksinvestment.com">
                                             <motion.span
@@ -517,7 +511,7 @@ const Footer = () => {
                                     <motion.p
                                         variants={contactItemVariants}
                                         whileHover="hover"
-                                        transition={{ delay: 0.2 }}
+                                        transition={{ delay: 0.1 }}
                                     >
                                         <a
                                             href="https://maps.google.com/?q=Halifax,NS,Canada"
@@ -543,7 +537,10 @@ const Footer = () => {
                                 variants={copyrightVariants}
                             >
                                 <span className="copyright-brand">
-                                    Copyright © 2025 HKS Investment Consulting,<span className="tablet-only"><br /></span> All Rights Reserved.
+                                    Copyright © 2025 HKS Investment Consulting,
+                                    <span className="tablet-only"><br /></span>
+                                    <span className="mobile-only"><br /></span>
+                                    {" "}All Rights Reserved.
                                 </span>
                                 <motion.span
                                     className="developer-text"

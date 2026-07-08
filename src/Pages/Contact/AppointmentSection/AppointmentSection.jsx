@@ -429,7 +429,7 @@ const AppointmentSection = () => {
             const bookedCount = allSlots.filter(s => s.status === 'booked').length;
             return `${availableCount} available, ${bookedCount} booked`;
         }
-        return "Select a 1-hour time slot (10:00 AM - 6:00 PM)";
+        return "All the time slots alloted in ADT or AST time zone.";
     };
 
     // Filter countries based on search

@@ -16,7 +16,11 @@ import {
     FiX,
     FiAlertCircle
 } from "react-icons/fi";
-import { FaWhatsapp, FaYoutube } from "react-icons/fa";
+import {
+    TbBrandWhatsapp,
+    TbBrandYoutube,
+    TbBrandDiscord
+} from "react-icons/tb";
 import "./CareerForm.scss";
 
 // ===== IMPORT COUNTRY CODES =====
@@ -214,17 +218,20 @@ const CareerForm = () => {
         }
     };
 
-    // Social icons
+    // Social icons — Instagram (Feather, outlined) + WhatsApp/YouTube/Discord (Tabler, outlined) for a consistent stroke style
     const socialIcons = [
+        { Icon: TbBrandWhatsapp, label: "WhatsApp", url: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities" },
+
         { Icon: FiInstagram, label: "Instagram", url: "https://www.instagram.com/hks.investment/" },
-        { Icon: FaWhatsapp, label: "WhatsApp", url: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities" },
-        { Icon: FaYoutube, label: "YouTube", url: "https://www.youtube.com/@hks.investment" }
+        { Icon: TbBrandYoutube, label: "YouTube", url: "https://www.youtube.com/@hks.investment" },
+        // TODO: replace with your real Discord invite link
+        { Icon: TbBrandDiscord, label: "Discord", url: "https://discord.com/invite/yourinvite" }
     ];
 
     // Contact info
     const contactInfo = [
         {
-            icon: <FaWhatsapp />,
+            icon: <TbBrandWhatsapp />,
             text: "+1 782-882-8102",
             type: "whatsapp",
             link: "https://wa.me/17828828102?text=Hello%20HKS%20Investment%2C%20I%27m%20interested%20in%20career%20opportunities"

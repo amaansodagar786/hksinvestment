@@ -769,7 +769,7 @@
 
   .career-content {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 70px;
   }
 
   .career-info,
@@ -889,11 +889,11 @@
 
 @media (max-width: 480px) {
   .career-content {
-    gap: 40px !important;
+    gap: 70px !important;
   }
 
   .career-form-section {
-    padding: 50px 16px 50px 16px;
+    padding: 50px 16px 80px 16px;
   }
 
   .career-form-header h2 {

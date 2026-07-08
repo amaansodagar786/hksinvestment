@@ -171,7 +171,7 @@
     transition: color 0.3s ease;
 }
 
-/* SOCIALS - KEEP EXACTLY AS IS */
+/* SOCIALS - outlined icon style (Tabler icons: WhatsApp / YouTube / Discord, Feather: Instagram) */
 .socials {
     display: flex;
     gap: 16px;
@@ -191,6 +191,8 @@
     font-size: 20px;
     color: #d9ccf3;
     transition: color 0.3s ease;
+    stroke-width: 1.75;
+    /* keeps Tabler icons visually consistent with the outlined look */
 }
 
 /* =========================
@@ -290,7 +292,7 @@
 }
 
 /* =========================
-   COLUMN 4: CONTACT - WITH WHATSAPP
+   COLUMN 4: CONTACT (email + location only — WhatsApp number removed)
 ========================= */
 .footer-col.contact p {
     display: flex;
@@ -347,15 +349,6 @@
     filter: drop-shadow(0 0 5px rgba(217, 204, 243, 0.5));
 }
 
-/* WhatsApp specific styling */
-.whatsapp-link svg {
-    color: #25D366;
-}
-
-.footer-col.contact p:hover .whatsapp-link svg {
-    color: #ffffff;
-}
-
 /* =========================
    COPYRIGHT ROW
 ========================= */
@@ -382,29 +375,21 @@
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+/* Techorses: bold + underline by default */
 .developer-text strong {
-    color: #d9ccf3;
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
     position: relative;
     display: inline-block;
+    font-size: 14px;
+    letter-spacing: 0.5px;
     transition: all 0.3s ease;
 }
 
-.developer-text strong::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: #d9ccf3;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.developer-text:hover strong::after {
-    transform: scaleX(1);
-    transform-origin: left;
+.developer-text:hover strong {
+    color: #ffffff;
 }
 
 /* =========================
@@ -447,6 +432,15 @@
     100% {
         background-position: 0% 50%;
     }
+}
+
+/* =========================
+   MOBILE / TABLET LINE-BREAK HELPERS
+   (mobile-only used for 2-line copyright on phones,
+   tablet-only used for other breakpoints)
+========================= */
+.mobile-only {
+    display: none;
 }
 
 /* =========================
@@ -565,6 +559,11 @@
     .copyright-brand,
     .developer-text {
         text-align: center;
+    }
+
+    /* Force 2-line copyright on mobile */
+    .mobile-only {
+        display: inline;
     }
 
     .developer-text {
@@ -712,7 +711,6 @@
     .feedback-textarea,
     .footer-col.feedback h4::after,
     .footer-col ul li::before,
-    .developer-text strong::after,
     .footer-col.contact a::after {
         animation: none !important;
         transition: none !important;
@@ -763,7 +761,7 @@
     .footer-col.feedback h4 {
         display: block;
         text-align: left;
-        
+
         width: fit-content;
         white-space: normal;
         line-height: 1.4;
@@ -896,7 +894,8 @@
 }
 
 /* Hide tablet-only breaks in desktop and mobile */
-@media (min-width: 1071px), (max-width: 799px) {
+@media (min-width: 1071px),
+(max-width: 799px) {
     .tablet-only {
         display: none;
     }
