@@ -45,9 +45,9 @@ const Navbar = () => {
               <NavLink to="/career" className={({ isActive }) => isActive ? "active" : ""}>
                 Career
               </NavLink>
-              <NavLink to="/pricing" className={({ isActive }) => isActive ? "active" : ""}>
+              {/* <NavLink to="/pricing" className={({ isActive }) => isActive ? "active" : ""}>
                 Pricing
-              </NavLink>
+              </NavLink> */}
 
 
             </div>
@@ -98,9 +98,9 @@ const Navbar = () => {
           <NavLink to="/career" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
             Career
           </NavLink>
-          <NavLink to="/pricing" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
+          {/* <NavLink to="/pricing" onClick={closeMenu} className={({ isActive }) => isActive ? "active" : ""}>
             Pricing
-          </NavLink>
+          </NavLink> */}
 
 
 
